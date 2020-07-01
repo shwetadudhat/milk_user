@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@mipmap/ic_avatar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="@font/roboto_condensed_regular"
+                android:id="@+id/tvSecondName"
+                style="@style/txt_666_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ramlic"
+                android:textColor="@color/bg_swipe_item_left" />
+
+            <TextView
+                android:fontFamily="@font/roboto_condensed_regular"
+                style="@style/txt_666_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=".0."
+                android:visibility="gone" />
+
+            <TextView
+                android:fontFamily="@font/roboto_condensed_regular"
+                android:id="@+id/tvSecondContent"
+                style="@style/txt_666_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="You inspired me!" />
+
+            <TextView
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:id="@+id/tvReplyTo"
+                style="@style/txt_000_16"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="*Buys watercolours*" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:fontFamily="@font/roboto_condensed_regular"
+                        style="@style/txt_666_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="1 day ago" />
+
+                    <TextView
+                        android:fontFamily="@font/roboto_condensed_regular"
+                        android:id="@+id/tvSecondReply"
+                        style="@style/txt_333_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Reply" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSecondComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:fontFamily="@font/roboto_condensed_regular"
+                        style="@style/txt_666_18"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="Enter your comments"
+                        android:padding="5dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite_border_black_24dp"
+                android:tint="@color/col_666" />
+
+            <TextView
+                android:fontFamily="@font/roboto_condensed_regular"
+                style="@style/txt_666_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
