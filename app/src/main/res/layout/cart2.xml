@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/home_add">
+
+        <ImageView
+            android:id="@+id/ivproImage"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/_15sdp"
+            android:scaleType="fitXY"
+            android:src="@drawable/milk" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_toRightOf="@id/ivproImage"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:id="@+id/tvproName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="Amul Malai Paneer (1 kg)"
+                android:textColor="@color/title_clr"
+                android:textSize="@dimen/_13sdp" />
+
+            <TextView
+                android:fontFamily="@font/ubuntu_bold"
+                android:id="@+id/tvProPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="Rs450"
+                android:textColor="@color/main_clr"
+                android:textSize="@dimen/_14sdp" />
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:background="@drawable/bg_greencart"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvQtyDec"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sdp"
+                        />
+
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:id="@+id/tvQty"
+                        android:gravity="center"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/white"
+                        android:text="0"
+                        android:layout_weight="0.4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/tvQtyInc"
+
+                        android:gravity="center"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/white"
+                        android:text="+"
+                        android:layout_weight="0.3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:id="@+id/tvqtyUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:text="per day" />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

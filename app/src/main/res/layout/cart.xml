@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/home_product_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/milk"
+            android:layout_margin="@dimen/_15sdp"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/image_cart"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"/>
+
+        <ImageView
+            android:tint="@color/small_title_clr"
+            android:layout_margin="@dimen/_7sdp"
+            android:src="@drawable/ic_noun_delete"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:id="@+id/ivDeleteCart"/>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/image_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginRight="@dimen/_27sdp"
+                android:fontFamily="@font/ubuntu_medium"
+                android:textSize="@dimen/_12sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:textColor="@color/title_clr"
+                android:text="Amul Malai Paneer (1 kg)"
+                android:id="@+id/text_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_bold"
+                android:textSize="@dimen/_14sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:textColor="@color/main_clr"
+                android:text="Rs450"
+                android:id="@+id/price_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:background="@drawable/bg_greencart"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/minus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.3"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_16sdp"
+                        />
+
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:id="@+id/one"
+                        android:gravity="center"
+                        android:textSize="@dimen/_16sdp"
+                        android:textColor="@color/white"
+                        android:text="0"
+                        android:layout_weight="0.4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/plus1"
+                        android:gravity="center"
+                        android:textSize="@dimen/_16sdp"
+                        android:textColor="@color/white"
+                        android:text="+"
+                        android:layout_weight="0.3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:id="@+id/linear_cart"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_cart"
+                android:layout_width="80dp"
+                android:padding="10dp"
+                android:layout_height="80dp"
+                android:src="@drawable/fruits"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amul"
+
+                        android:id="@+id/text_cart"
+                        android:textSize="15dp"/>
+
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/unit_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 litre"
+                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/price_cart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rs54.0"
+                        android:layout_marginRight="40dp"
+                        android:textSize="15sp"
+                       />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/minus"
+                            android:src="@drawable/minus"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:layout_marginLeft="20dp"
+                            android:id="@+id/one"
+                            android:layout_toRightOf="@+id/minus"
+                            android:textSize="20dp"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:id="@+id/plus1"
+                            android:layout_height="30dp"
+                            android:layout_toRightOf="@+id/one"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/plus"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linear_cart"
+        android:background="@color/grey"
+        android:layout_marginTop="5dp"/>-->
+
+</RelativeLayout>

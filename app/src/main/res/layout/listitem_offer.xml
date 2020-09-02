@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <LinearLayout
+      android:background="@drawable/home_product_border"
+      android:layout_margin="@dimen/_10sdp"
+      android:layout_weight="1"
+      android:orientation="horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/_100sdp">
+
+      <ImageView
+          android:id="@+id/ivDisc"
+          android:paddingLeft="@dimen/_13sdp"
+          android:paddingRight="@dimen/_13sdp"
+          android:tint="@color/skip_clr"
+          android:src="@drawable/ic_discount"
+          android:backgroundTint="@color/product_borderclr"
+          android:background="@drawable/bg_offer"
+          android:layout_weight="0.2"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"/>
+
+      <RelativeLayout
+          android:layout_margin="@dimen/_5sdp"
+          android:orientation="vertical"
+          android:layout_weight="0.8"
+          android:layout_width="0dp"
+          android:layout_height="match_parent">
+
+          <TextView
+              android:fontFamily="@font/ubuntu_regular"
+              android:id="@+id/offerName"
+              android:text="bfujkbvfskjbvkjdhbvjdfvbhjbfhdvbhvjfbhdsvbhv"
+              android:textSize="@dimen/_12sdp"
+              android:textColor="@color/title_clr"
+              android:maxLines="2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:fontFamily="@font/ubuntu_regular"
+              android:layout_marginTop="@dimen/_3sdp"
+              android:layout_below="@id/offerName"
+              android:id="@+id/offerDesc"
+              android:text="bfujkbvfskjbvkjdhbvjdfvbhjbf"
+              android:textSize="@dimen/_10sdp"
+              android:textColor="@color/small_title_clr"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:fontFamily="@font/ubuntu_regular"
+              android:id="@+id/offerExpire"
+              android:layout_below="@id/offerDesc"
+              android:layout_alignParentBottom="true"
+              android:text="Expire on :20/9/2020"
+              android:textSize="@dimen/_10sdp"
+              android:textColor="@color/small_title_clr"
+              android:gravity="right|bottom"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+
+      </RelativeLayout>
+
+
+  </LinearLayout>
+
+
+</LinearLayout>

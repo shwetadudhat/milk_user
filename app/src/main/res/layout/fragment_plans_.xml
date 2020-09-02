@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:id="@+id/relative"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_bottom"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp">
+
+
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:id="@+id/llAddSubscrption"
+                android:background="@drawable/bg_fb"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:textStyle="bold"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="+ADD NEW SUBSCRIPTIONS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_above="@id/rl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+           <!-- <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">-->
+
+                <LinearLayout
+                    android:background="@color/bg_clr"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:background="@color/bg_clr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:nestedScrollingEnabled="true"
+                                android:layout_marginBottom="@dimen/_15sdp"
+                                tools:itemCount="1"
+                                tools:listitem="@layout/listitem_showsubscrip"
+                                android:layout_width="match_parent"
+                                android:id="@+id/Recycler_showSubscrip"
+                                android:layout_height="wrap_content">
+
+
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
+
+                     <RelativeLayout
+                         android:visibility="visible"
+                         android:id="@+id/container_null1"
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                         <TextView
+                             android:layout_centerHorizontal="true"
+                             android:layout_centerVertical="true"
+                             android:textSize="@dimen/_16sdp"
+                             android:textStyle="bold"
+                             android:textColor="@color/black"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="No data Found"/>
+
+                     </RelativeLayout>
+
+
+
+                </LinearLayout>
+
+            <!--</androidx.core.widget.NestedScrollView>-->
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</LinearLayout>

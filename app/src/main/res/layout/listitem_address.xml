@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/bg_clr"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:background="@drawable/home_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_15sdp">
+
+        <LinearLayout
+            android:weightSum="2"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:gravity="center|left"
+                android:layout_weight="1.4"
+                android:textColor="@color/title_clr"
+                android:textSize="@dimen/_14sdp"
+                android:text="Delivery Address"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+
+
+            <LinearLayout
+                android:id="@+id/llEdit"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ivAdrEdit"
+                    android:padding="@dimen/_5sdp"
+                    android:tint="@color/skip_clr"
+                    android:src="@drawable/ic_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDel"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ivAdrDel"
+                    android:padding="@dimen/_5sdp"
+                    android:tint="@color/skip_clr"
+                    android:src="@drawable/ic_noun_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/llSelect"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:layout_centerInParent="true"
+                    android:id="@+id/ChkSElect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/dottdline_clr"/>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_regular"
+                android:id="@+id/adrName"
+                android:textColor="@color/wallettxt_clr"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp"
+                android:text="Mr. king"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:lineSpacingMultiplier="1.2"
+                android:textColor="@color/small_title_clr"
+                android:fontFamily="@font/ubuntu_regular"
+                android:id="@+id/adr"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="Address"
+                android:maxLines="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_regular"
+                android:id="@+id/adrNmbr"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/wallettxt_clr"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="9999999999"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

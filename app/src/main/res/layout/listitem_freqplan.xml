@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:fontFamily="@font/ubuntu_medium"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/Freq"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/bg_button"
+        android:text="Every Day"
+        android:textAllCaps="false"
+        android:textColor="@color/main_clr"
+        android:textSize="@dimen/_10sdp" />
+
+</LinearLayout>

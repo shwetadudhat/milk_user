@@ -8,7 +8,7 @@
     android:padding="10dp">
 
     <TextView
-        android:fontFamily="@font/roboto_condensed_regular"
+        android:fontFamily="@font/ubuntu_medium"
         android:id="@+id/tvSpinnerTitle"
         style="@style/txt_333_16"
         android:layout_width="0dp"
@@ -17,9 +17,8 @@
         android:gravity="left|center_vertical"
         android:text="@string/app_name" />
 
-    <com.rey.material.widget.CheckBox
+    <CheckBox
         android:id="@+id/chkSpinnetItem"
-        style="@style/LightCheckBoxDrawable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="false"

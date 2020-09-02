@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "109718041590",
+    "firebase_url": "https://milk-delight.firebaseio.com",
+    "project_id": "milk-delight",
+    "storage_bucket": "milk-delight.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109718041590:android:97210c33fdf872dc390dd7",
+        "android_client_info": {
+          "package_name": "com.milkdelightuser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109718041590-rn33894o490er9l1m9gms4ni55qa1bdi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQNK9WqmV5b5CKHfUaB0rnf2yvl9pwreo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109718041590-rn33894o490er9l1m9gms4ni55qa1bdi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

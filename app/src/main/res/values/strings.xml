@@ -1,120 +1,116 @@
 <resources>
-    <string name="app_name">VAAPGLKNS JAVA</string>
+    <string name="app_name">Milk Delight User</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="rozer_pay">rzp_test_OjqPWNjTS6DCNH</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_drawer">drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <string name="login_text">Login to your account</string>
+    <string name="login_signup_txt">Don\'t have an account?</string>
+    <string name="login_signup_txt1">Already have an account?</string>
+    <string name="Sign_up">SignUp</string>
+    <string name="forgot_pass">Forgot Password ?</string>
+
+    <string name="signup_txt">Sign up for your account</string>
+    <string name="Login_txt">Login</string>
+
     <string name="connection_title">No Internet connection</string>
+    <string name="no_internet_connection_with_emoji">No internet connection 🤔</string>
     <string name="connection_not_available">It seems that you are not connected to the Internet. Kindly check your network settings.</string>
     <string name="location_title">Location Service disabled</string>
     <string name="location_msg">Please enable location service. Location is mandatory to use this application.</string>
+    <string name="something_went_wrong_warning_message">Something went wrong please try after few minutes!</string>
     <string name="btn_enable">Enable</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="btn_settings">Settings</string>
-    <string name="connected">Connected&#8230;</string>
-    <string name="retrying">Retrying&#8230; %s</string>
-    <string name="btn_ok">OK</string>
-    <string name="hint_email">Email Address</string>
-    <string name="hint_password">Password</string>
-    <string name="btn_login">Login</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="create_account">Create Account</string>
-    <string name="or">OR</string>
-    <string name="skip_login">Skip Login</string>
-    <string name="btn_signup">Sign up</string>
-    <string name="hint_firstname">First Name</string>
-    <string name="hint_lastname">Last Name</string>
-    <string name="hint_company">Company Name</string>
-    <string name="hint_business">Business Type</string>
-    <string name="hint_country">Country</string>
-    <string name="btn_swt_seller">SWITCH TO SELLER MODE</string>
-    <string name="btn_swt_buyer">SWITCH TO BUYER MODE</string>
-    <string name="lab_shape">Shape</string>
-    <string name="lab_size">Size</string>
-    <string name="lab_color">Color</string>
-    <string name="hint_intensity">Intensity</string>
-    <string name="hint_overtone">Overtone</string>
-    <string name="hint_color">Color</string>
-    <string name="color_white">White</string>
-    <string name="color_fancy">Fancy</string>
 
-    <string name="err_email">Enter email address</string>
-    <string name="err_email_invalid">Invalid email address</string>
-    <string name="err_password">Enter password</string>
-    <string name="err_conf_password">Confirm password</string>
-    <string name="err_password_limit">Password must be at least 5 characters long</string>
-    <string name="err_password_match">Password does not match</string>
-    <string name="failed">Failed</string>
-    <string name="hint_username">Username</string>
-    <string name="hint_clarity">Clarity</string>
-    <string name="hint_cut">Cut</string>
-    <string name="hint_polish">Polish</string>
-    <string name="hint_symmetry">Symmetry</string>
-    <string name="hint_lab">Lab</string>
-    <string name="exit_msg">Press Back twice to exit</string>
-    <string name="err_user_name">Enter User Name</string>
-    <string name="err_lastname">Enter LastName</string>
-    <string name="err_company_name">Enter Company Name</string>
-    <string name="err_refer_id">Enter Reference Id</string>
-    <string name="err_busine_type">Select business type</string>
-    <string name="err_country">Select Country</string>
-    <string name="err_mobile">Enter Your Mobile Number</string>
-    <string name="menu_sign_out">Sign out</string>
-    <string name="hint_search_company">Search By Company</string>
-    <string name="hint_fluorescence">Fluorescence</string>
-    <string name="rap">Rap ($)</string>
-    <string name="target_price">Target Price ($)</string>
-    <string name="discount">Discount %</string>
-    <string name="per_carat">$/Crt</string>
-    <string name="total_price">Total Price ($)</string>
-    <string name="color_">Color :</string>
-    <string name="head_total">Total</string>
-    <string name="loading">Loading...</string>
-    <string name="head_total_crt">Total Crt</string>
-    <string name="head_avg_crt">Avg Rap $/Crt</string>
-    <string name="head_avg_price_crt">Avg $/Crt</string>
-    <string name="head_total_price">Total $</string>
+
     <string name="menu_home">Home</string>
-    <string name="logout_title">Logout</string>
-    <string name="logout_msg">Are you sure want to logout?</string>
-    <string name="btn_yes">Yes</string>
-    <string name="btn_no">No</string>
-    <string name="dt_shape">Shape</string>
-    <string name="dt_table">Table (%)</string>
-    <string name="dash">-</string>
-    <string name="menu_myconnection">My Connections</string>
-    <string name="btn_delete">Delete</string>
-    <string name="hint_search">Search</string>
-    <string name="hint_group">Group</string>
-    <string name="title_contacts">Contacts</string>
-    <string name="head_selected">Selected</string>
-    <string name="removed">Removed</string>
-    <string name="menu_contact_req">Contact Requests</string>
-    <string name="tab_req_pending">Pending</string>
-    <string name="tab_req_sent">Sent</string>
-    <string name="tab_req_blocked">Blocked</string>
-    <string name="btn_accept">Accept</string>
-    <string name="btn_block">Block</string>
-    <string name="btn_reject">Reject</string>
-    <string name="btn_search_stock">Search Stock</string>
-    <string name="done">Done</string>
-    <string name="are_sure">Are you sure?</string>
-    <string name="confirm">Confirm</string>
-    <string name="btn_send_request">Send Request</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
-    <string name="sign_up_now"><u>SignUp Now!</u></string>
-    <string name="already_have_an_account">Already have an account?</string>
-    <string name="sign_in_now"><u>Sign In</u></string>
-    <string name="default_notification_channel_id">8888</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 
-    <!--FOR GET TIME AGO LIKE TWITTER-->
-    <string name="seconds_ago">%1$d seconds ago</string>
-    <string name="min_ago">%1$d minute ago</string>
-    <string name="mins_ago">%1$d minutes ago</string>requl
-    <string name="hour_ago">%1$d hour ago</string>
-    <string name="new_hours_ago">%1$d hours ago</string>
-    <string name="day_ago">%1$d day ago</string>
-    <string name="new_days_ago">%1$d days ago</string>
+    <string-array name="filter_type">
+        <item>ASC</item>
+        <item>DESC</item>
+    </string-array>
+
+
+    <string name="current_date">June, 2016</string>
+    <string name="add_event">ADD CALENDAR EVENT</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thu">THU</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="last_date">30</string>
+
+
+    <string name="google_api_realsekey">AIzaSyBQ-YSVmQS8h0Pv3hs_YwLZ65ifZqZ23X0</string>
+
+    <string name="breakfast">Breakfast</string>
+    <string name="title_activity_story">story</string>
+    <string name="verify_sign_up"><![CDATA[Verify & SIGN UP]]></string>
+    <string name="verify_proceed"><![CDATA[Verify & PROCEED]]></string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="enter_otp_send_to">Enter OTP send to</string>
+    <string name="don_t_reeive_the_otp">Don\'t receive the OTP ?</string>
+    <string name="resend_otp">RESEND OTP</string>
+    <string name="submit">submit</string>
+    <string name="skip">SKIP</string>
+    <string name="if_you_have_any_refer_code_enter_here">If you Have Any Refer Code Enter Here</string>
+    <string name="enter_refer_code">Enter Refer Code</string>
+    <string name="welcome_to_milkdelight">Welcome To MilkDelight</string>
+    <string name="in_publishing_and_graphic_design_loren_ipsum_is_a_placeholder_text_commonly">In publishing and graphic design,\n Loren ipsum is a placeholder text commonly.</string>
+    <string name="login1">Login.</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="send_otp">SEND OTP</string>
+    <string name="enter_email_id_phone_number">Enter Email Id/Phone Number</string>
+    <string name="reset_password">Reset Password?</string>
+    <string name="generate_a_new_password">Generate a New Password</string>
+    <string name="enter_pass">Enter Password</string>
+    <string name="re_enter_password">Re-enter Password</string>
+    <!-- <string name="facebook_app_id">YOUR_APP_ID_HERE</string>
+    <string name="fb_login_protocol_scheme"></string>-->
+    <string name="facebook_app_id">3216950248399613</string>
+    <string name="fb_login_protocol_scheme">fb3216950248399613</string>
+   <!-- <string name="facebook_app_id">840454623078672</string>&lt;!&ndash;1133063383728858&ndash;&gt;
+    <string name="fb_login_protocol_scheme">fb840454623078672</string>-->
+
+
+    <string name="razorpay_api_key">rzp_test_8lOd2pwZBKb1ug</string>
+    <string name="razorpay_key_secret">DsIKNHSZStzSIjTAR7UhJhap</string>
+
+
+    <string name="subscription">Subscription</string>
+    <string name="wallet">Wallet</string>
+    <string name="cart">Cart</string>
+    <string name="log_out">LOG OUT</string>
+    <string name="change_password12"><u>Change Password?</u></string>
+    <string name="txt_pause">Your Order is Pause on this day</string>
+    <string name="txt_pending">Your Order is Pending</string>
+    <string name="txt_delivered">Your Order is Successfully Delivered</string>
+    <string name="search">search here</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="order">Your Order</string>
+    <string name="invite_text">Invite Your Friend and get\n<b> ₹.38 </b> in your wallet</string>
+    <string name="invite_txtt">"Invite Your Friend and get\n"</string>
+    <string name="invite_wallet_txt">" in your wallet"</string>
+    <string name="invitation_extended_title" > Refer and Earn</string>
+    <string name="invitation_subject">"please use this refer link to earn "</string>
+
+
 </resources>

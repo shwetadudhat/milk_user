@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Activity.Addresslist">
+
+
+    <LinearLayout
+        android:id="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/topbar1" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_above="@id/btnAddNew"
+        android:layout_below="@id/llTool"
+        android:id="@+id/recycler_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:itemCount="1"
+        tools:listitem="@layout/listitem_address"/>
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:fontFamily="@font/ubuntu_bold"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnAddNew"
+        android:textSize="@dimen/_16sdp"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/white"
+        android:text="ADD NEW ADDRESS"
+        android:layout_margin="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bluebtn"/>
+
+
+
+
+
+
+
+</RelativeLayout>

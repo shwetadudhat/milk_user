@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/main_clr"
+    android:minHeight="?attr/actionBarSize"
+    android:orientation="horizontal"
+    app:contentInsetStart="0dp"
+    app:layout_collapseMode="pin"
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+            android:layout_weight="0.3"
+            android:tint="@color/white"
+            android:id="@+id/ivBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"/>
+
+        <TextView
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center|left"
+            android:layout_weight="1.3"
+            android:id="@+id/title"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/white"
+            android:text="app name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_6sdp"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivNotify"
+                android:src="@drawable/ic_notifications_black_24dp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:padding="@dimen/_3sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="gone"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"
+                android:id="@+id/ivFilter"
+                android:src="@drawable/ic_noun_funnel"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.Toolbar>

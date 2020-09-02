@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:background="@drawable/home_add"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/title_clr"
+                android:fontFamily="@font/ubuntu_medium"
+                android:id="@+id/AboutQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="How to subscribe a product?"
+                android:padding="@dimen/_10sdp"/>
+
+            <View
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_marginRight="@dimen/_1sdp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/bg_clr"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:textColor="@color/small_title_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:layout_below="@+id/AboutQuestion"
+            android:id="@+id/AboutAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
+            android:text="Till what time can you  canplace the order everyday?"
+            android:padding="@dimen/_10sdp"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>

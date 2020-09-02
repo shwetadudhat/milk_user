@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0092FF</color>
+    <color name="colorPrimaryDark">#0092FF</color>
+   <!-- <color name="colorAccent">#FF4081</color>-->
+
+
+
+    <color name="btn_green">#36C936</color>
+    <color name="text_border">#D9D9D9</color>
+    <color name="text_color">#474747</color>
+    <color name="forgot_txt">#363636</color>
+    <color name="main_clr">#0092FF</color>
+    <color name="txt_clr">#B7B7B7</color>
+    <color name="borderclr">#DDDDDD</color>
+    <color name="product_borderclr">#A4D8FF</color>
+    <color name="product_desc">#8B8989</color>
+    <color name="title_clr">#2A2A2A</color>
+    <color name="signup_clr">#82C9FF</color>
+    <color name="small_title_clr">#B1B1B1</color>
+    <color name="bg_clr">#E5F4FF</color>
+    <color name="fb_clr">#19AFFF</color>
+    <color name="or_clr">#AFAAAA</color>
+    <color name="google_clr">#F44336</color>
+    <color name="black_translucent">#9C000000</color>
+    <color name="rating">#FDC818</color>
+    <color name="pending">#F9CE47</color>
+    <color name="pause">#FE4F5F</color>
+    <color name="delivered">#14CE3E</color>
+    <color name="skip_clr">#0059A1</color>
+
+    <color name="active_dot">#bd0847</color>
+    <color name="inactive_dot">#C1C1C1</color>
+
+
+
+    <color name="black">#000000</color>
+    <color name="dark_black">#111111</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#C0C0C0</color>
+    <color name="red">#FE4F5F</color>
+    <color name="blue">#0000FF</color>
+    <color name="green">#67B748</color>
+    <color name="greenlight">#4CAF61</color>
+    <color name="star_clr">#D2D2D2</color>
+    <color name="dottdline_clr">#EDEDED</color>
+    <color name="wallettxt_clr">#3B3B3B</color>
+    <color name="wallettxt_clr1">#BEBEBE</color>
+
+
+    <color name="colorBlack">#2C2B2B</color>
+    <color name="normalgreen">#08CE7F</color>
+    <color name="skyblue">#2496C8</color>
+    <color name="lightred">#E95F60</color>
+    <color name="greendark">#00BABF</color>
+    <color name="themeblue">#00BABF</color>
+    <color name="end">#B5ECF1</color>
+    <color name="start">#05ABAF</color>
+    <color name="bottomcolor">#6475E2</color>
+    <color name="searchcolor">#33CAD8</color>
+    <color name="black_66">#66000000</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="gray_light_">#999999</color>
+    <color name="dialog_bg">#f2f1ef</color>
+    <color name="gray_light">#d0d0d0</color>
+    <color name="list_devider">#e6e6e6</color>
+    <color name="list_selector">#AAa7a7a7</color>
+    <color name="gray_light__">#eeeeee</color>
+</resources>

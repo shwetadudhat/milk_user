@@ -1,4 +1,4 @@
-package com.vaapglkns;
+package com.milkdelightuser;
 
 import org.junit.Test;
 

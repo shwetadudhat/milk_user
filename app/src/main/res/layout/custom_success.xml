@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/_10sdp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llDialog"
+        android:paddingTop="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_30sdp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:tint="@color/red"
+            android:src="@drawable/ic_noun_close_1"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:fontFamily="@font/ubuntu_bold"
+            android:id="@+id/tvStts"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_22sdp"
+            android:textColor="@color/red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment Fail"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_marginRight="@dimen/_14sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:paddingTop="@dimen/_15sdp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:id="@+id/tvTransId"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/title_clr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transaction id : 9999999999"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_marginRight="@dimen/_14sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:lineSpacingMultiplier="1.3"
+            android:paddingTop="@dimen/_10sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/tvTransDesc"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/product_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment Fail from the user please try again letter"
+            android:gravity="center"/>
+
+
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
+
+

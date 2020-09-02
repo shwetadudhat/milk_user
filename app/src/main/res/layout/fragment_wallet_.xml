@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.milkdelightuser.Fragments.Wallet_Fragment">
+
+
+    <LinearLayout
+        android:weightSum="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/bg_clr">
+
+            <LinearLayout
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_15sdp"
+                android:paddingLeft="@dimen/_55sdp"
+                android:paddingRight="@dimen/_55sdp"
+                android:background="@drawable/home_add"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:id="@+id/wallet_price"
+                    android:textSize="@dimen/_22sdp"
+                    android:textColor="@color/main_clr"
+                    android:text="Rs. 0"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:text="Total Balance"
+                    android:textColor="@color/grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:textColor="@color/skip_clr"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingRight="@dimen/_20sdp"
+                android:textSize="@dimen/_10sdp"
+                android:layout_alignParentRight="true"
+                android:text="View All Transaction"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvViewTransaction"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_weight="7"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center|left"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp"
+                    android:text="Price Details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:paddingTop="@dimen/_3sdp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:id="@+id/tvDesc"
+                    android:layout_below="@id/tvFreq"
+                    android:gravity="center|left"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_10sdp"
+                    android:text=" We suggest an average of Rs. 4100"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+                <EditText
+                    android:textColor="@color/main_clr"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/bg_grey"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_12sdp"
+                    android:id="@+id/amount_edit"
+                    android:inputType="number"
+                    android:hint="Enter Amount" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:weightSum="4">
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_button"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main_clr"
+                        android:textSize="@dimen/_10sdp"
+                        android:id="@+id/price100"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:text="+100"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1" />
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main_clr"
+                        android:textSize="@dimen/_10sdp"
+                        android:id="@+id/price1000"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:text="+1000"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button"/>
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main_clr"
+                        android:textSize="@dimen/_10sdp"
+                        android:id="@+id/price2000"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:text="+2000"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/bg_button"/>
+
+                    <Button
+                        style="?android:attr/borderlessButtonStyle"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textAllCaps="false"
+                        android:textColor="@color/main_clr"
+                        android:textSize="@dimen/_10sdp"
+                        android:id="@+id/price3000"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:text="+3000"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/bg_button"/>
+
+
+                </LinearLayout>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textSize="11dp"
+
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/add_money"
+                        android:layout_width="200dp"
+                        android:layout_height="30dp"
+                        android:text="Add Money"
+
+                        android:textAllCaps="false"
+                        android:textSize="12dp"
+                        android:visibility="gone"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center"
+                        android:background="@drawable/add_home"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:visibility="gone"
+
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:text="OR"
+                        />
+
+                    <LinearLayout
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_40sdp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/llRenewSubscrption"
+                        android:background="@drawable/bg_fb"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:padding="@dimen/_8sdp"
+                            android:textSize="@dimen/_16sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:text="+ADD MONEY"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnAddMoney"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

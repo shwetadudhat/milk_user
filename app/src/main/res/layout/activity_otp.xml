@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+  >
+    <include layout="@layout/topbar"/>
+
+
+    <LinearLayout
+        android:background="@color/main_clr"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2">
+
+        <RelativeLayout
+            android:background="@drawable/cardcorner_xml"
+            android:layout_weight="1.6"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <ImageView
+                android:id="@+id/ivOtp"
+                android:src="@drawable/ic_otp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"/>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:id="@+id/tv_otp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/main_clr"
+                android:gravity="center"
+                android:layout_below="@id/ivOtp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/otp_verification"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_5sdp"
+                android:weightSum="2"
+                android:id="@+id/ll_otpnmbr"
+                android:layout_below="@id/tv_otp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/txt_clr"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_weight="1.1"
+                    android:id="@+id/login_signup_txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:text="@string/enter_otp_send_to"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:id="@+id/tvNmbr"
+                    android:textSize="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="0.9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="9999999999"
+                    android:textColor="@color/colorBlack" />
+
+
+            </LinearLayout>
+
+
+            <com.milkdelightuser.utils.CustomPinview
+                android:paddingRight="@dimen/_30sdp"
+                android:paddingLeft="@dimen/_30sdp"
+                android:id="@+id/otp_view"
+                android:layout_below="@id/ll_otpnmbr"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:cursorVisible="false"
+                app:forceKeyboard="false"
+                app:hint=""
+                app:inputType="number"
+                app:password="false"
+                app:pinBackground="@drawable/bg_otp_box"
+                app:pinHeight="@dimen/_40sdp"
+                app:pinWidth="@dimen/_40sdp"/>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:paddingRight="@dimen/_30sdp"
+                android:paddingLeft="@dimen/_30sdp"
+                android:id="@+id/ll_Otp"
+                android:layout_below="@id/ll_otpnmbr"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_22sdp"
+                    />
+
+                <EditText
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_22sdp"
+                    />
+
+                <EditText
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_22sdp"
+                   />
+
+                <EditText
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_22sdp"
+                    />
+
+              <!--  <EditText
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_22sdp"
+                    />
+
+                <EditText
+                    android:gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:id="@+id/edOTP6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_22sdp"
+                    />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/_35sdp"
+                android:weightSum="2"
+                android:id="@+id/ll_resend"
+                android:layout_below="@id/otp_view"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/txt_clr"
+                    android:textSize="@dimen/_12sdp"
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_weight="1.2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:text="@string/don_t_reeive_the_otp"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textSize="@dimen/_13sdp"
+                    android:id="@+id/tvResendOtp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="0.8"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/resend_otp"
+                    android:textColor="@color/main_clr" />
+
+
+            </LinearLayout>
+
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <Button
+                android:fontFamily="@font/ubuntu_bold"
+                android:id="@+id/btn_verify"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_16sdp"
+                android:textColor="@color/main_clr"
+                android:text="@string/verify_sign_up"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_login"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+   <!-- <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+
+        />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/white"
+            android:padding="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Number"
+                android:textSize="15dp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter OTP to continue"
+                android:textSize="15dp"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_login"
+                android:layout_marginTop="20dp"
+                android:hint="000000"
+                android:inputType="phone"/>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/continue_button"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:textColor="@color/grey"
+
+                android:text="SUBMIT"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="You will receive OTP in 0:28"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>-->
+
+</LinearLayout>

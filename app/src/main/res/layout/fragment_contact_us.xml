@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_30sdp"
+        android:id="@+id/cardNmbr"
+        android:elevation="@dimen/_10sdp"
+        android:layout_margin="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_65sdp">
+
+        <LinearLayout
+            android:background="@drawable/bg_bordershadow"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:tint="@color/main_clr"
+                android:src="@drawable/ic_phone1"
+                android:padding="@dimen/_12sdp"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/small_title_clr"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:padding="@dimen/_10sdp"
+                android:layout_weight="0.8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:text="Phone Number"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textColor="@color/product_desc"
+                    android:id="@+id/tvConNmbr"
+                    android:text="+91 9999999999"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:background="@color/text_border" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_weight="0.2"
+            android:textStyle="italic"
+            android:textColor="@color/or_clr"
+            android:fontFamily="@font/ubuntu_medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="OR" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:background="@color/text_border" />
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="@dimen/_5sdp"
+        android:id="@+id/cardEmail"
+        android:elevation="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_30sdp"
+        android:layout_margin="@dimen/_20sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_65sdp">
+
+        <LinearLayout
+            android:background="@drawable/bg_bordershadow"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:tint="@color/main_clr"
+                android:src="@drawable/ic_mail1"
+                android:padding="@dimen/_15sdp"
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <View
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/small_title_clr"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:padding="@dimen/_10sdp"
+                android:layout_weight="0.8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:text="Email Id"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+                <TextView
+                    android:textColor="@color/product_desc"
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:id="@+id/tvConEmail"
+                    android:text="abc@gmail.com"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:background="@color/text_border" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_weight="0.2"
+            android:textStyle="italic"
+            android:textColor="@color/or_clr"
+            android:fontFamily="@font/ubuntu_medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="OR" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:background="@color/text_border" />
+
+    </LinearLayout>
+
+        <TextView
+            android:fontFamily="@font/ubuntu_medium"
+            android:layout_margin="@dimen/_20sdp"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/title_clr"
+            android:text="Write a Message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <EditText
+        android:fontFamily="@font/ubuntu_medium"
+        android:id="@+id/edConMsg"
+        android:background="@drawable/bg_grey"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/product_desc"
+        android:gravity="top"
+        android:hint="Enter Message Here..."
+        android:padding="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_90sdp"/>
+
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:fontFamily="@font/ubuntu_bold"
+        android:padding="@dimen/_10sdp"
+        android:id="@+id/btnConSend"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/bg_bluebtn"
+        android:layout_margin="@dimen/_20sdp"
+        android:textSize="@dimen/_16sdp"
+        android:textColor="@color/white"
+        android:text="SEND"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</LinearLayout>

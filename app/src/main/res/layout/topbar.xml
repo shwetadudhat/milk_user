@@ -1,19 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/primary"
+    android:background="@color/white"
     android:minHeight="?attr/actionBarSize"
     android:orientation="horizontal"
     app:contentInsetStart="0dp"
     app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
-    app:theme="@style/Toolbar">
+    >
+    <!--<ImageView
+        android:id="@+id/ivBack"
+        android:background="@drawable/ic_back"
+        android:layout_width="@dimen/_34sdp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_7sdp"/>-->
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+            android:layout_weight="0.3"
+            android:id="@+id/ivBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_7sdp"/>
+
+        <TextView
+            android:fontFamily="@font/ubuntu_medium"
+            android:gravity="center|left"
+            android:layout_weight="1.5"
+            android:id="@+id/title"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/white"
+            android:text="app name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_margin="@dimen/_6sdp"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:backgroundTint="@color/white"
+                android:id="@+id/ivNotify"
+                android:src="@drawable/ic_notifications_black_24dp"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--<FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,54 +77,60 @@
             android:layout_gravity="center"
             android:gravity="center">
 
-            <TextView
-                android:fontFamily="@font/roboto_condensed_bold"
+            &lt;!&ndash;<com.vaapglkns.View.DTextView
                 android:id="@+id/tvTitleText"
-                style="@style/txt_fff_18"
+                android:textSize="@dimen/_14sdp"
                 android:layout_width="wrap_content"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="@string/app_name" />
+                android:text="@string/app_name"
+                app:textFontFace="BOLD" />&ndash;&gt;
         </LinearLayout>
 
         <ImageView
             android:id="@+id/ivMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@null"
-            android:padding="10dp"
+            android:focusable="true"
+            android:tint="@color/black"
+            android:padding="@dimen/_7sdp"
             android:src="@drawable/ic_menu"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded" />
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             android:contentDescription="@null"
-            android:padding="10dp"
+            android:focusable="true"
+            android:padding="@dimen/_7sdp"
             android:src="@drawable/ic_arrow_back_24dp"
-            android:visibility="gone" />
-    </FrameLayout>
-    <!--<ImageView-->
-    <!--android:id="@+id/img_more"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical|end"-->
-    <!--android:contentDescription="@null"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@mipmap/ic_menu"-->
-    <!--android:visibility="visible" />-->
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded" />
 
-    <!--<ImageView-->
-    <!--android:id="@+id/img_search"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical|right"-->
-    <!--android:contentDescription="@null"-->
-    <!--android:padding="10dp"-->
-    <!--android:src="@drawable/btn_search" />-->
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="@null"
+            android:focusable="true"
+            android:padding="@dimen/_9sdp"
+            android:src="@drawable/ic_share"
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded" />
+    </FrameLayout>-->
 </androidx.appcompat.widget.Toolbar>

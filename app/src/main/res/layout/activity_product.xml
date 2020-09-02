@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/lim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/reltive_main"
+        android:orientation="vertical">
+
+        <include layout="@layout/topbar2"/>
+
+        <androidx.core.widget.NestedScrollView
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_180sdp">
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/view_pager_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_180sdp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="0dp" />
+
+                    <com.milkdelightuser.utils.CirclePageIndicator
+                        android:visibility="gone"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/indicator_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/bg_indicator"
+                        android:gravity="bottom|center_horizontal"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:paddingLeft="@dimen/_14sdp"
+                        android:paddingRight="@dimen/_12sdp"
+                        app:centered="true"
+                        app:fillColor="@color/main_clr"
+                        app:pageColor="@color/white"
+                        app:snap="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_margin="@dimen/_15sdp"
+                    android:id="@+id/relm1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textColor="@color/title_clr"
+                        android:textSize="@dimen/_14sdp"
+                        android:text="Amul Desi milk(500 ml)"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/itemName"/>
+
+                   <!-- <TextView
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_below="@id/itemName"
+                        android:textColor="@color/main_clr"
+                        android:textSize="@dimen/_18sdp"
+                        android:text="Rs.38"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/itemPrice"/>-->
+
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_below="@id/itemName"
+                        android:id="@+id/rlPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_bold"
+                            android:layout_gravity="top"
+                            android:gravity="top"
+                            android:textColor="@color/main_clr"
+                            android:text="35 rs"
+                            android:textSize="@dimen/_16sdp"
+                            android:id="@+id/itemPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:layout_toRightOf="@id/itemPrice"
+                            android:gravity="top"
+                            android:layout_gravity="top"
+                            android:visibility="gone"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:textColor="@color/small_title_clr"
+                            android:text="35 rs"
+                            android:textSize="@dimen/_12sdp"
+                            android:id="@+id/tvMrp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_below="@id/rlPrice"
+                        android:id="@+id/rlRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp">
+
+                        <!--style="?android:attr/ratingBarStyleSmall"-->
+                        <RatingBar
+                            android:stepSize="0.1"
+                            android:layout_centerVertical="true"
+                            android:theme="@style/RatingBar"
+                            android:id="@+id/rating"
+                            android:numStars="5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:text="rate"
+                            android:id="@+id/tvRate"
+                            android:layout_toRightOf="@id/rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cardQty"
+                        android:background="@drawable/bg_greencart"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_below="@id/rlRate"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:weightSum="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/tvQtyDec"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_7sdp"
+
+                                android:gravity="right|center"
+                                android:textSize="@dimen/_20sdp"
+                                android:textColor="@color/white"
+                                android:text="-"
+                                android:layout_weight="0.2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"/>
+
+
+                            <TextView
+                                android:fontFamily="@font/ubuntu_medium"
+                                android:id="@+id/tvQty"
+
+                                android:gravity="center"
+                                android:textSize="@dimen/_20sdp"
+                                android:textColor="@color/white"
+                                android:text="0"
+                                android:layout_weight="0.6"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"/>
+
+                            <TextView
+                                android:id="@+id/tvQtyInc"
+                                android:layout_marginRight="@dimen/_7sdp"
+
+                                android:gravity="left"
+                                android:textSize="@dimen/_20sdp"
+                                android:textColor="@color/white"
+                                android:text="+"
+                                android:layout_weight="0.2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:lineSpacingMultiplier="1.3"
+                        android:textColor="@color/product_desc"
+                        android:textSize="@dimen/_10sdp"
+                        android:fontFamily="@font/ubuntu_regular"
+                        android:text="this is item cow milk for selling best cow milk lorem ipsum code here given to the display text  descrption in this feild without relying on meningful content"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_below="@id/cardQty"
+                        android:id="@+id/tvProDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/lltype"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_below="@id/tvProDesc"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:weightSum="1"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/small_title_clr"
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_weight="0.4"
+                            android:text="Type"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+                        <TextView
+                            android:textColor="@color/text_color"
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textSize="@dimen/_12sdp"
+                            android:text="amul desi milk"
+                            android:layout_weight="0.6"
+                            android:layout_below="@id/cardQty"
+                            android:id="@+id/tvItemType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_below="@id/lltype"
+                        android:id="@+id/v"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/borderclr"/>
+
+                    <LinearLayout
+                        android:id="@+id/llFat"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_below="@id/v"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/small_title_clr"
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_weight="0.4"
+                            android:text="Fat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12sdp"
+                            android:text="100 Gm"
+                            android:layout_weight="0.6"
+                            android:id="@+id/tvItemFat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/v1"
+                        android:layout_below="@id/llFat"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/borderclr"/>
+
+                    <LinearLayout
+                        android:id="@+id/llWeight"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_below="@id/v1"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textColor="@color/small_title_clr"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_weight="0.4"
+                            android:text="Weight"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12sdp"
+                            android:text="500 ml"
+                            android:layout_weight="0.6"
+                            android:layout_below="@id/cardQty"
+                            android:id="@+id/tvItemWeight"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/v2"
+                        android:layout_below="@id/llWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/borderclr"/>
+
+                    <LinearLayout
+                        android:id="@+id/llMilktype"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_below="@id/v2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:weightSum="1"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textSize="@dimen/_12sdp"
+                            android:layout_weight="0.4"
+                            android:text="Milk Type"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/small_title_clr"
+                            />
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/_12sdp"
+                            android:text="cow milk"
+                            android:layout_weight="0.6"
+                            android:id="@+id/tvItemMilkType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/v3"
+                        android:layout_below="@id/llMilktype"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/borderclr"/>
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_below="@id/v3"
+                        android:textColor="@color/title_clr"
+                        android:textSize="@dimen/_16sdp"
+                        android:text="All Reviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/allReview"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:nestedScrollingEnabled="true"
+                        android:visibility="visible"
+                        android:id="@+id/recycler_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/allReview"/>
+
+                    <LinearLayout
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:paddingLeft="@dimen/_50sdp"
+                        android:paddingRight="@dimen/_50sdp"
+                        android:layout_below="@id/recycler_review"
+                        android:id="@+id/addReview"
+                        android:background="@drawable/bg_fb"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_bold"
+
+                            android:padding="@dimen/_8sdp"
+                            android:textSize="@dimen/_15sdp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:text="ADD REVIEW"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:id="@+id/reltive_main"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@drawable/shadow_top"/>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:weightSum="2"
+            android:id="@+id/ll_social_integration"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_schedule"
+                android:background="@drawable/home_add"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/main_clr"
+                    android:text="SCHEDULE"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_cart"
+                android:background="@drawable/bg_fb"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_bold"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="GO TO CART"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

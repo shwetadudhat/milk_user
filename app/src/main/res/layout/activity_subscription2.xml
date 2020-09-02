@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_clr"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/topbar2"/>
+
+   <!-- <androidx.core.widget.NestedScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">-->
+
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rl_bottommm"
+                android:layout_alignParentBottom="true"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+               <!-- <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:paddingLeft="@dimen/_45sdp"
+                    android:paddingRight="@dimen/_45sdp"
+                    android:id="@+id/llBuySubscrption"
+                    android:background="@drawable/bg_fb"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:id="@+id/tvSub"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_15sdp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white"
+                        android:text="BUY SUBSCRIPTIONS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>-->
+
+                <RelativeLayout
+                    android:id="@+id/rl_bottomview"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <View
+                        android:background="@drawable/shadow_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_2sdp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_bottom"
+                            android:layout_margin="@dimen/_10sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:visibility="visible"
+                                android:id="@+id/llOrder"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:id="@+id/ll_addmore"
+                                    android:background="@drawable/home_add"
+                                    android:layout_marginRight="@dimen/_1sdp"
+                                    android:layout_weight="0.85"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:fontFamily="@font/ubuntu_bold"
+                                        android:padding="@dimen/_10sdp"
+                                        android:textSize="@dimen/_14sdp"
+                                        android:gravity="center"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/main_clr"
+                                        android:text="ADD MORE"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        />
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/llBuySubscrption"
+                                    android:background="@drawable/bg_fb"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_weight="1.15"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:fontFamily="@font/ubuntu_bold"
+                                        android:padding="@dimen/_10sdp"
+                                        android:textSize="@dimen/_14sdp"
+                                        android:gravity="center"
+                                        android:layout_gravity="center"
+                                        android:textColor="@color/white"
+                                        android:text="BUY SUBSCRIPTION"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/llPayNow"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <Button
+                                    android:fontFamily="@font/ubuntu_bold"
+                                    android:id="@+id/btnPaynow"
+                                    android:textSize="@dimen/_16sdp"
+                                    android:textColor="@color/white"
+                                    android:text="PAY NOW (RS. 1,157)"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_bluebtn"/>
+
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_topp"
+                android:layout_above="@+id/rl_bottommm"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.core.widget.NestedScrollView
+                    android:scrollbars="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:nestedScrollingEnabled="true"
+                            android:id="@+id/recycler_cartitem"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/cart3" />
+
+
+                        <RelativeLayout
+                            android:padding="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_15sdp"
+                            android:background="@drawable/home_add"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:fontFamily="@font/ubuntu_medium"
+                                android:id="@+id/tvPlan"
+                                android:gravity="center|left"
+                                android:textColor="@color/title_clr"
+                                android:textSize="@dimen/_14sdp"
+                                android:text="Select Plans"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <TextView
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:fontFamily="@font/ubuntu_regular"
+                                android:id="@+id/tvPlanDesc"
+                                android:layout_below="@id/tvPlan"
+                                android:gravity="center|left"
+                                android:textColor="@color/small_title_clr"
+                                android:textSize="@dimen/_10sdp"
+                                android:text="Please Select Your Plan Date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                            <LinearLayout
+                                android:layout_below="@id/tvPlanDesc"
+                                android:weightSum="3"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_40sdp">
+
+                                <Button
+                                    style="?android:attr/borderlessButtonStyle"
+                                    android:fontFamily="@font/ubuntu_medium"
+                                    android:textAllCaps="false"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:id="@+id/plan1"
+                                    android:textColor="@color/main_clr"
+                                    android:text="15 DAYS"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/bg_button"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"/>
+
+                                <Button
+                                    style="?android:attr/borderlessButtonStyle"
+                                    android:fontFamily="@font/ubuntu_medium"
+                                    android:textAllCaps="false"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:id="@+id/plan2"
+                                    android:textColor="@color/main_clr"
+                                    android:text="30 DAYS"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/bg_button"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"/>
+
+                                <Button
+                                    style="?android:attr/borderlessButtonStyle"
+                                    android:fontFamily="@font/ubuntu_medium"
+                                    android:textAllCaps="false"
+                                    android:textSize="@dimen/_10sdp"
+                                    android:id="@+id/customPlan"
+                                    android:textColor="@color/main_clr"
+                                    android:text="custom date"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:background="@drawable/bg_button"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"/>
+
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:background="@drawable/home_product_border"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:background="@drawable/home_product_border"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:weightSum="2"
+                                    android:paddingLeft="@dimen/_10sdp"
+                                    android:paddingRight="@dimen/_10sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_40sdp">
+
+                                    <TextView
+                                        android:fontFamily="@font/ubuntu_medium"
+                                        android:gravity="center|left"
+                                        android:layout_weight="1.8"
+                                        android:textColor="@color/title_clr"
+                                        android:textSize="@dimen/_14sdp"
+                                        android:text="Delivery Address"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"/>
+
+
+                                    <LinearLayout
+                                        android:id="@+id/llEdit"
+                                        android:layout_weight="0.2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent">
+
+                                        <ImageView
+                                            android:id="@+id/ivAdrEdit"
+                                            android:padding="@dimen/_5sdp"
+                                            android:tint="@color/main_clr"
+                                            android:src="@drawable/ic_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            />
+
+                                    </LinearLayout>
+
+
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_1sdp"
+                                    android:background="@color/dottdline_clr"/>
+
+                                <LinearLayout
+                                    android:id="@+id/adrsss"
+                                    android:layout_margin="@dimen/_10sdp"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:fontFamily="@font/ubuntu_regular"
+                                        android:id="@+id/adrName"
+                                        android:textColor="@color/wallettxt_clr"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:textSize="@dimen/_12sdp"
+                                        android:text="Mr. king"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+
+                                    <TextView
+                                        android:lineSpacingMultiplier="1.2"
+                                        android:fontFamily="@font/ubuntu_regular"
+                                        android:id="@+id/adr"
+                                        android:textColor="@color/small_title_clr"
+                                        android:textSize="@dimen/_12sdp"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:text="Address jdsgcbjhd jbsdvjbvj jdvgkbsvb  jkdvkbj jdvbjkcdb bdvjskb jbdsvjkkbd"
+                                        android:maxLines="3"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                    <TextView
+                                        android:fontFamily="@font/ubuntu_regular"
+                                        android:id="@+id/adrNmbr"
+                                        android:textSize="@dimen/_12sdp"
+                                        android:textColor="@color/wallettxt_clr"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:text="9999999999"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlCoupon"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/llCoupon"
+                                android:padding="@dimen/_5sdp"
+                                android:background="@drawable/home_product_border"
+                                android:weightSum="2"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+
+                                <LinearLayout
+                                    android:layout_weight="0.3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_35sdp">
+
+                                    <ImageView
+                                        android:padding="@dimen/_6sdp"
+                                        android:layout_weight="0.3"
+                                        android:layout_width="0dp"
+                                        android:src="@drawable/ic_coupon"
+                                        android:tint="@color/skip_clr"
+                                        android:layout_height="@dimen/_35sdp"/>
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:fontFamily="@font/ubuntu_medium"
+                                    android:textColor="@color/skip_clr"
+                                    android:gravity="center|left"
+                                    android:text="Apply Coupon Code"
+                                    android:layout_weight="1.4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_35sdp"/>
+
+                                <ImageView
+                                    android:padding="@dimen/_4sdp"
+                                    android:tint="@color/skip_clr"
+                                    android:src="@drawable/ic_right_back"
+                                    android:layout_weight="0.3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="@dimen/_35sdp"/>
+
+
+
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlChk"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:background="@drawable/home_add"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:orientation="horizontal"
+                                    android:paddingLeft="@dimen/_10sdp"
+                                    android:paddingRight="@dimen/_10sdp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <CheckBox
+                                        android:fontFamily="@font/ubuntu_medium"
+                                        android:id="@+id/ChkWallet"
+                                        android:padding="@dimen/_5sdp"
+                                        android:gravity="center|left"
+                                        android:layout_weight="1.8"
+                                        android:textColor="@color/wallettxt_clr"
+                                        android:textSize="@dimen/_14sdp"
+                                        android:layout_width="wrap_content"
+                                        android:text="Milk Delight Balance"
+                                        android:layout_height="wrap_content"/>
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+
+                                        android:layout_gravity="top"
+                                        android:fontFamily="@font/ubuntu_regular"
+                                        android:layout_marginLeft="@dimen/_45sdp"
+                                        android:id="@+id/balance"
+                                        android:textColor="@color/wallettxt_clr1"
+                                        android:layout_marginBottom="@dimen/_5sdp"
+                                        android:textSize="@dimen/_10sdp"
+                                        android:text="your balance is"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+
+                </androidx.core.widget.NestedScrollView>
+
+
+
+            </LinearLayout>
+
+            <View
+                android:background="@drawable/shadow_top"
+                android:layout_below="@+id/ll_topp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_above="@+id/rl_bottommm"/>
+
+
+        </RelativeLayout>
+
+
+
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+
+
+
+</LinearLayout>

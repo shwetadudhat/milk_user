@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+   >
+
+    <androidx.core.widget.NestedScrollView
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:id="@+id/image_profile"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/logo_1" />
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:text="Mr. KIng"
+                    android:textColor="@color/title_clr"
+                    android:textSize="@dimen/_16sdp" />
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:id="@+id/userNmbr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="9999999999"
+                    android:textColor="@color/product_desc"
+                    android:textSize="@dimen/_10sdp" />
+
+
+                <LinearLayout
+                    android:background="@drawable/home_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_15sdp">
+
+                    <RelativeLayout
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:textColor="@color/title_clr"
+                            android:textSize="@dimen/_14sdp"
+                            android:layout_centerVertical="true"
+                            android:text="User Details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                        <ImageView
+                            android:visibility="visible"
+                            android:id="@+id/ibProEdit"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/main_clr"
+                            android:src="@drawable/ic_edit"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentRight="true"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/ibProSave"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/main_clr"
+                            android:src="@drawable/ic_save"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentRight="true"/>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:background="@color/dottdline_clr"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/txt_clr"
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                        <EditText
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:text="Mr. King"
+                            android:textColor="@color/title_clr"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:id="@+id/edProName"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_grey"
+                            android:inputType="text"
+                            android:padding="@dimen/_8sdp"
+                            android:textSize="@dimen/_12sdp"
+
+                            />
+
+                        <TextView
+                            android:textColor="@color/txt_clr"
+
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Phone Number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                        <EditText
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:text="99999999999"
+                            android:textColor="@color/title_clr"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:id="@+id/edProNmbr"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_grey"
+                            android:inputType="number"
+                            android:padding="@dimen/_8sdp"
+                            android:textSize="@dimen/_12sdp"
+
+                            />
+
+
+                        <TextView
+                            android:textColor="@color/txt_clr"
+
+                            android:fontFamily="@font/ubuntu_regular"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:paddingLeft="@dimen/_10sdp"
+                            android:text="Email Id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                        <EditText
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:text="abc@gmail.com"
+                            android:textColor="@color/title_clr"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:id="@+id/edProEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_grey"
+                            android:inputType="textEmailAddress"
+                            android:padding="@dimen/_8sdp"
+                            android:textSize="@dimen/_12sdp"/>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlProAddress"
+                    android:background="@drawable/bg_skip"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp">
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textColor="@color/title_clr"
+                        android:textSize="@dimen/_14sdp"
+                        android:layout_centerVertical="true"
+                        android:text="Your Address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/ivAddressList"
+                        android:layout_centerVertical="true"
+                        android:tint="@color/skip_clr"
+                        android:src="@drawable/ic_right_back"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentRight="true"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:id="@+id/tvChangePass"
+                    android:textColor="@color/main_clr"
+                    android:textSize="@dimen/_12sdp"
+                    android:gravity="center"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:text="@string/change_password12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/_8sdp"
+    android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llCat"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <ImageView
+                    android:background="@drawable/bg_cat"
+                    android:id="@+id/image_appcat"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/_15sdp"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/milk12" />
+
+
+                <TextView
+
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:layout_gravity="center"
+                    android:id="@+id/text_appcat"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:textColor="@color/title_clr"
+                    android:text="Breakfast"
+                    android:textSize="@dimen/_12sdp" />
+
+
+        </LinearLayout>
+
+
+
+
+</LinearLayout>

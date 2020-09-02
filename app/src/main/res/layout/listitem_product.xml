@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_5sdp"
+
+        android:id="@+id/llitem"
+        android:background="@drawable/home_product_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:padding="@dimen/_10sdp"
+            android:id="@+id/ivProd"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_110sdp"/>
+
+        <TextView
+            android:paddingRight="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:textColor="@color/title_clr"
+            android:text="1 ltr milk"
+            android:textSize="@dimen/_12sdp"
+            android:id="@+id/tvProName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvProPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:fontFamily="@font/ubuntu_bold"
+                android:gravity="top"
+                android:paddingLeft="@dimen/_10sdp"
+                android:text="35 rs"
+                android:textColor="@color/main_clr"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:fontFamily="@font/ubuntu_regular"
+                android:paddingTop="@dimen/_3sdp"
+                android:layout_toRightOf="@id/tvProPrice"
+                android:gravity="top"
+                android:layout_gravity="top"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/small_title_clr"
+                android:text="35 rs"
+                android:textSize="@dimen/_8sdp"
+                android:id="@+id/tvOldPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp">
+
+            <!--style="?android:attr/ratingBarStyleSmall"-->
+            <RatingBar
+                android:paddingLeft="@dimen/_10sdp"
+                android:layout_centerVertical="true"
+                android:theme="@style/RatingBar"
+                android:id="@+id/rating"
+                android:numStars="5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:gravity="center|left"
+                android:textColor="@color/small_title_clr"
+                android:text="rate"
+                android:id="@+id/tvRate"
+                android:textSize="@dimen/_8sdp"
+                android:layout_toRightOf="@id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                />
+        </RelativeLayout>
+
+
+        <Button
+            android:layout_marginBottom="@dimen/_10sdp"
+            style="?android:attr/borderlessButtonStyle"
+            android:fontFamily="@font/ubuntu_medium"
+            android:id="@+id/btnAdd"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_green"
+            android:layout_gravity="center"
+            android:text="+ADD"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_18sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_20sdp"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

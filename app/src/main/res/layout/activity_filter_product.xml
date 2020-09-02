@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activity.FilterProduct">
+
+
+
+    <TextView
+        android:fontFamily="@font/ubuntu_bold"
+        android:layout_margin="@dimen/_15sdp"
+        android:text="Filter"
+        android:id="@+id/txtFilter"
+        android:textColor="@color/title_clr"
+        android:textSize="@dimen/_22sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:src="@drawable/ic_noun_close_2"
+        android:tint="@color/txt_clr"
+        android:scaleType="fitXY" />
+
+
+    <TextView
+        android:fontFamily="@font/ubuntu_medium"
+        android:id="@+id/sortby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtFilter"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:text="Sort By"
+        android:textColor="@color/title_clr"
+        android:textSize="@dimen/_15sdp"
+       />
+
+    <com.weiwangcn.betterspinner.library.BetterSpinner
+        android:fontFamily="@font/ubuntu_regular"
+        android:background="@drawable/bg_grey"
+        android:textColor="@color/txt_clr"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:hint="Select Sort Type"
+        android:layout_below="@id/sortby"
+        android:id="@+id/edSortType"
+        android:drawableTint="@color/txt_clr"
+        android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        android:fontFamily="@font/ubuntu_medium"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:id="@+id/ProductSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edSortType"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:text="Product Size"
+        android:textColor="@color/title_clr"
+        android:textSize="@dimen/_15sdp"
+         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_below="@id/ProductSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_prosize"/>
+
+
+
+
+    <LinearLayout
+        android:layout_margin="@dimen/_18sdp"
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_clear"
+            android:background="@drawable/home_add"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_bold"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_16sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/main_clr"
+                android:text="CLEAR"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_apply"
+            android:background="@drawable/bg_fb"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_bold"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_16sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:text="APPLY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <!--<LinearLayout
+            android:background="@drawable/bg_google"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_google_plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>-->
+
+
+    </LinearLayout>
+
+</RelativeLayout>

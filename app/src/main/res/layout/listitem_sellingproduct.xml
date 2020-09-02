@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/llMain"
+        android:padding="@dimen/_7sdp"
+        android:background="@drawable/home_product_border"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivProd"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_110sdp"/>
+
+        <TextView
+            android:maxLines="3"
+            android:fontFamily="@font/ubuntu_medium"
+            android:textColor="@color/black"
+            android:text="1 ltr milk"
+            android:textSize="@dimen/_13sdp"
+            android:id="@+id/tvProName"
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_45sdp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/ubuntu_bold"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:textColor="@color/main_clr"
+                android:text="35 rs"
+                android:textSize="@dimen/_14sdp"
+                android:id="@+id/tvProPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/ubuntu_regular"
+                android:paddingTop="@dimen/_3sdp"
+                android:layout_toRightOf="@id/tvProPrice"
+                android:gravity="top"
+                android:layout_gravity="top"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textColor="@color/grey"
+                android:text="35 rs"
+                android:textSize="@dimen/_8sdp"
+                android:id="@+id/tvOldPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+
+        <!--<TextView
+            android:textColor="@color/main_clr"
+            android:text="35 rs"
+            android:textSize="@dimen/_12sdp"
+            android:id="@+id/tvProPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>-->
+
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:fontFamily="@font/ubuntu_medium"
+            android:id="@+id/btnAdd"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_green"
+            android:layout_gravity="center"
+            android:text="+ADD"
+            android:layout_marginLeft="@dimen/_4sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_23sdp"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+   >
+
+    <include layout="@layout/toolbar_delstts"/>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <devs.mulham.horizontalcalendar.HorizontalCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_clr"
+            app:textColorSelected="@color/white"
+            app:selectorColor="#00000000"
+            />
+
+
+       <!-- <devs.mulham.horizontalcalendar.HorizontalCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_clr"
+            app:textColorSelected="@color/white"
+            app:selectorColor="#00000000"
+           />-->
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/_20sdp"
+            android:orientation="vertical"
+            android:background="@drawable/home_product_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/small_title_clr"
+                    android:text="Subscription :"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/subs"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/subs"
+                    android:textColor="@color/title_clr"
+                    android:text=" Daily"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/substatus_show"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/milk"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/image_plan"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"/>
+
+
+                <LinearLayout
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    android:layout_toRightOf="@id/image_plan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:fontFamily="@font/ubuntu_medium"
+                            android:layout_alignParentLeft="true"
+                            android:textSize="@dimen/_13sdp"
+                            android:paddingRight="@dimen/_10sdp"
+                            android:textColor="@color/title_clr"
+                            android:text="Amul Malai Paneer (1 kg)"
+                            android:id="@+id/text_plan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+
+                    </RelativeLayout>
+
+
+
+                    <TextView
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:textSize="@dimen/_14sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:textColor="@color/main_clr"
+                        android:text="Rs450"
+                        android:id="@+id/price_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textSize="@dimen/_12sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:textColor="@color/small_title_clr"
+                        android:text="QTY : 2"
+                        android:id="@+id/qty_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textSize="@dimen/_12sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:textColor="@color/small_title_clr"
+                        android:text="1 Lit .ltrs"
+                        android:id="@+id/unit_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/main_clr"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="-5dp"
+                android:id="@+id/llOrdrStts"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/pending"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:drawableTint="@color/white"
+                    android:drawableLeft="@drawable/clock"
+                    android:text="Your order is pending"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:id="@+id/tvOrderStatus"/>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_margin="@dimen/_20sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:id="@+id/llRenewSubscrption"
+                android:background="@drawable/bg_fb"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="RENEW YOUR SUBSCRIPTION"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.milkdelightuser.Activity.Address_add">
+
+    <LinearLayout
+        android:id="@+id/llTool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/topbar1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/llTool"
+        android:layout_above="@id/btnAdrsSave"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingRight="@dimen/_15sdp"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:fontFamily="@font/ubuntu_regular"
+            android:background="@drawable/bg_grey"
+            android:textColor="@color/main_clr"
+            android:id="@+id/edName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+
+            android:hint="Enter Name"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+        <EditText
+            android:textColor="@color/main_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/edHouse"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_grey"
+            android:hint="House No,Building Name"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+        <EditText
+            android:textColor="@color/main_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/edArea"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_grey"
+            android:hint="Road Name,Area ,Colony"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:textColor="@color/main_clr"
+                android:fontFamily="@font/ubuntu_regular"
+                android:hint="state"
+                android:layout_weight="1"
+                android:id="@+id/SpiState"
+                android:drawableTint="@color/grey"
+                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_grey"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp" />
+
+
+            <TextView
+                android:textColor="@color/main_clr"
+                android:fontFamily="@font/ubuntu_regular"
+                android:hint="City"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:id="@+id/SpiCity"
+                android:drawableTint="@color/grey"
+                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_grey"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp"
+                />
+
+        </LinearLayout>
+
+        <EditText
+            android:textColor="@color/main_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/edLandmark"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_grey"
+            android:hint="Landmark"
+            android:inputType="text"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+        <EditText
+            android:textColor="@color/main_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/edNumber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_grey"
+            android:hint="Phone Number"
+            android:inputType="number"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+
+        <EditText
+            android:textColor="@color/main_clr"
+            android:fontFamily="@font/ubuntu_regular"
+            android:id="@+id/edPincode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_grey"
+            android:hint="Picode"
+            android:inputType="number"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_12sdp" />
+
+
+
+    </LinearLayout>
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnAdrsSave"
+        android:textSize="@dimen/_16sdp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:textColor="@color/white"
+        android:padding="@dimen/_3sdp"
+        android:text="SAVE"
+        android:layout_margin="@dimen/_15sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bluebtn"/>
+
+
+
+
+</RelativeLayout>
