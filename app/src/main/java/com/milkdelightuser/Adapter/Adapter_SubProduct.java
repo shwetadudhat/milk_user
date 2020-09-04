@@ -2,6 +2,7 @@ package com.milkdelightuser.Adapter;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,16 +14,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Model.PlanSelected_model;
 import com.milkdelightuser.Model.Plan_model;
 import com.milkdelightuser.Model.StartDate_Model;
+import com.milkdelightuser.Model.SubscriptioAddProduct_model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
 
+import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +42,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.SUB_DATA;
+
 
 public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.holder> {
 
@@ -44,6 +54,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     List<Plan_model> planModelList;
     ArrayList<PlanSelected_model> planSelectedModelArrayList;
     ArrayList<StartDate_Model> stardateList;
+    ArrayList<SubscriptioAddProduct_model> subProductList;
+    ClickPosition clickPosition;
 
     RecyclerView recycler_frq;
     Adapter_FreqPlan adapterFreqPlan;
@@ -55,6 +67,9 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
    Session_management session_management;
    String user_id,planSkipDay;
     int plan_idd;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
 
 
     private EventListener mEventListener;
@@ -68,6 +83,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         this.planModelList=planModelList;
         planSelectedModelArrayList=new ArrayList<>();
         stardateList=new ArrayList<>();
+        subProductList=new ArrayList<>();
 
         session_management=new Session_management(context);
         user_id = session_management.getUserDetails().get(BaseURL.KEY_ID);
@@ -86,6 +102,12 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         final HashMap<String, String> map = list.get(i);
         dbcart = new DatabaseHandler(context);
+
+        sharedPreferences = context.getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(SUB_DATA, "");
 
         Log.e("productimage",map.get("product_image"));
         Glide.with(context)
@@ -211,14 +233,34 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         StartDate_Model startDate_model=new StartDate_Model();
         startDate_model.setProdcut_id(map.get("product_id"));
-        startDate_model.setStart_date(tardetDate);
+
         startDate_model.setProduct_qty(map.get("qty"));
 //        startDate_model.setProduct_price(dbcart.getTotalAmountById(map.get("product_id")));
 
         stardateList.add(startDate_model);
         Log.e("stardateList",stardateList.toString());
 
-        holder.freqDate.setText(tardetDate12);
+        if (!json.isEmpty()) {
+            Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
+            subProductList= gson.fromJson(json, type);
+            Log.e("subProductList_frompref",subProductList.toString());
+            for (int k=0;k<subProductList.size();k++){
+                if (map.get("product_name").equals(subProductList.get(k).getProduct_name())){
+                    Log.e("startdateeee",subProductList.get(k).getStart_date());
+                    try {
+                        holder.freqDate.setText(Global.getDateConvert(subProductList.get(k).getStart_date(),"yyyy-MM-dd","dd MMM yyyy"));
+                        startDate_model.setStart_date(Global.getDateConvert(subProductList.get(k).getStart_date(),"yyyy-MM-dd","dd-MM-yyyy"));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }else{
+            holder.freqDate.setText(tardetDate12);
+            startDate_model.setStart_date(tardetDate);
+        }
+
         holder.freqDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -246,14 +288,10 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                                 startDate_model.setProdcut_id(map.get("product_id"));
                                 startDate_model.setStart_date(tardetDate);
                                 startDate_model.setProduct_qty(map.get("qty"));
-//                                startDate_model.setProduct_price(dbcart.getTotalAmountById(map.get("product_id")));
 
                                 if (stardateList.size()>0){
                                     for (int j=0;j<stardateList.size();j++){
                                         if (stardateList.get(j).getProdcut_id().equals(map.get("product_id"))){
-                                            Log.e("iffff","ifff");
-                                            //  planSelectedModelArrayList.add(planSelected_model);
-                                            Log.e("j", String.valueOf(j));
                                             stardateList.remove(j);
                                         }
                                     }
@@ -276,24 +314,44 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             }
         });
 
-
-
-
-
-
-
-        adapterFreqPlan = new Adapter_FreqPlan(context, planModelList);
+        adapterFreqPlan = new Adapter_FreqPlan(context, planModelList,i);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler_frq.setLayoutManager(gridLayoutManager);
         recycler_frq.setAdapter(adapterFreqPlan);
-        adapterFreqPlan.setSelectedItem(-1);
+
+        if (!json.isEmpty()) {
+            Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
+            subProductList= gson.fromJson(json, type);
+            for (int k=0;k<subProductList.size();k++){
+                if (map.get("product_name").equals(subProductList.get(k).getProduct_name())){
+
+                  //  if (map.get("product_name").equals(subProductList.get(k).getProduct_name())) {
+                        Log.e("plannnnnnidddd", subProductList.get(k).getPlan_id());
+
+                        Log.e("iiiiiiiiiiiiiii", String.valueOf(i));
+                        Log.e("kkkkkkkkkk", String.valueOf(k));
+//                        adapterFreqPlan.setSelectedItem(Integer.parseInt(subProductList.get(k).getPlan_id()));
+                        adapterFreqPlan.setSelectedItem1(i,Integer.parseInt(subProductList.get(k).getPlan_id()));
+
+
+                }
+            }
+
+        }else{
+            adapterFreqPlan.setSelectedItem(-1);
+        }
+
 
         adapterFreqPlan.setEventListener(new Adapter_FreqPlan.EventListener() {
             @Override
             public void onItemViewClicked(int position, int planId) {
 
+            }
+
+            @Override
+            public void onItemViewClicked1(int position, int planId, int position1) {
                 plan_idd=planId;
                 planId = planModelList.get(position).getId();
                 planSkipDay = planModelList.get(position).getSkipDays();
@@ -313,20 +371,25 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
                 if (planSelectedModelArrayList.size()>0){
                     for (int j=0;j<planSelectedModelArrayList.size();j++){
-                         if (planSelectedModelArrayList.get(j).getProduct_id().equals(map.get("product_id"))){
+                        if (planSelectedModelArrayList.get(j).getProduct_id().equals(map.get("product_id"))){
 
-                             planSelectedModelArrayList.remove(j);
-                         }
+                            planSelectedModelArrayList.remove(j);
+                        }
                     }
                     planSelectedModelArrayList.add(planSelected_model);
                 }else{
                     planSelectedModelArrayList.add(planSelected_model);
                 }
 
+                String modelClass = new Gson().toJson(planSelected_model);
+
                 Log.e("planSelectList",planSelectedModelArrayList.toString());
                 if (mEventListener != null)
                     mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
+
             }
+
+
         });
 
     }
@@ -380,5 +443,9 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
     public  void setEventListener(EventListener eventListener) {
         mEventListener = eventListener;
+    }
+
+    public interface ClickPosition {
+        public void getPosition(int position);
     }
 }

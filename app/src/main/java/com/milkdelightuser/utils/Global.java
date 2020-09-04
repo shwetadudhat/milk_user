@@ -48,6 +48,8 @@ public class Global {
     public static final String MY_REFER_PREFS_NAME = "ReferPref";
     public static final String NOTIFICATION_DATA = "jsonarray";
     public static final String GST_DATA = "jsonObject";
+    public static final String MY_SUBSCRIPTION_PREFS_NAME = "mySubscriptionlistPref";
+    public static final String SUB_DATA = "subList";
 
     public static boolean isNumeric(String nmbr){
         if (TextUtils.isEmpty(nmbr)) {

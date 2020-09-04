@@ -4,6 +4,16 @@ public class Recharge_Model {
 
     String wallet_recharge_history_id,user_id,amount,transaction_id,amount_status,pay_type,pay_mode,recharge_status,date_of_recharge,created_at,updated_at;
 
+    public boolean isIsshow() {
+        return isshow;
+    }
+
+    public void setIsshow(boolean isshow) {
+        this.isshow = isshow;
+    }
+
+    boolean isshow;
+
     public String getTransaction_id() {
         return transaction_id;
     }

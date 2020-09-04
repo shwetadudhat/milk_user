@@ -1,5 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@drawable/home_add"
+        android:layout_margin="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/ll_question1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:textColor="@color/title_clr"
+                android:fontFamily="@font/ubuntu_medium"
+                android:id="@+id/question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_14sdp"
+                android:text="How to subscribe a product?"
+                android:padding="@dimen/_10sdp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                />
+
+            <ImageView
+                android:tint="@color/title_clr"
+                android:id="@+id/ivDwn"
+                android:src="@drawable/ic_arrow1"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/_10sdp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_answer1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/product_borderclr"/>
+
+            <TextView
+                android:textColor="@color/small_title_clr"
+                android:fontFamily="@font/ubuntu_regular"
+                android:visibility="visible"
+                android:layout_below="@+id/question"
+                android:id="@+id/answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12sdp"
+                android:text="Till what time can you  canplace the order everyday?"
+                android:padding="@dimen/_10sdp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -8,14 +88,13 @@
     <RelativeLayout
         android:layout_margin="@dimen/_10sdp"
         android:layout_width="match_parent"
-        android:background="@color/white"
+        android:background="@drawable/home_add"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:textColor="@color/title_clr"
             android:fontFamily="@font/ubuntu_medium"
-            android:background="@drawable/home_add"
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,9 +116,8 @@
         <TextView
             android:textColor="@color/small_title_clr"
             android:fontFamily="@font/ubuntu_regular"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_below="@+id/question"
-            android:background="@drawable/home_add"
             android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,4 +128,4 @@
 
 
     </RelativeLayout>
-</LinearLayout>
+</LinearLayout>-->

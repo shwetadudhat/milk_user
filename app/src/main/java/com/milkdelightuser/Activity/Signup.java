@@ -57,7 +57,7 @@ import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
-import com.milkdelightuser.utils.VolleyMultipartRequest;
+import com.milkdelightuser.utils.CustomVolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -345,7 +345,7 @@ public class Signup extends BaseActivity {
 
     private void social_sign_up(String txt_name, String txt_email, String txt_providerId, String txt_providerType, Bitmap bitmap) {
 
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST,BaseURL.social_login, new Response.Listener<NetworkResponse>() {
+        CustomVolleyMultipartRequest multipartRequest = new CustomVolleyMultipartRequest(Request.Method.POST,BaseURL.social_login, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
@@ -429,7 +429,7 @@ public class Signup extends BaseActivity {
                 Map<String, DataPart> params = new HashMap<>();
 
             //    params.put("avatar", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), mAvatarImage.getDrawable()), "image/jpeg"));
-                params.put("profile_url", new VolleyMultipartRequest.DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(bitmap)));
+                params.put("profile_url", new CustomVolleyMultipartRequest.DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(bitmap)));
 
                 return params;
             }

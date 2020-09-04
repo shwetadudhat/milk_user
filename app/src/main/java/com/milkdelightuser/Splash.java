@@ -1,4 +1,4 @@
-package com.milkdelightuser.Activity;
+package com.milkdelightuser;
 
 import android.Manifest;
 import android.content.Intent;
@@ -15,7 +15,8 @@ import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 import com.google.android.material.snackbar.Snackbar;
-import com.milkdelightuser.R;
+import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.referFriend;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.Session_management;
 

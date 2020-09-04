@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.milkdelightuser.Activity.subscription;
 import com.milkdelightuser.Model.Plan_model;
 import com.milkdelightuser.R;
 
@@ -21,7 +22,16 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
     private List<Plan_model> planModelList;
    public static int  row_index=-1;
     private EventListener mEventListener;
+    /*Adapter_SubProduct.ClickPosition clickPosition;*/
+    int position;
 
+
+    public Adapter_FreqPlan(Context context, List<Plan_model> planModelList,int position /*Adapter_SubProduct.ClickPosition clickPosition*/) {
+        this.context = context;
+        this.planModelList = planModelList;
+       // this.clickPosition = clickPosition;
+        this.position = position;
+    }
 
     public Adapter_FreqPlan(Context context, List<Plan_model> planModelList) {
         this.context = context;
@@ -33,6 +43,11 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
     }
     public void setSelectedItem(int selectedItem) {
         row_index = selectedItem;
+    }
+
+    public void setSelectedItem1(int position,int selectedItem) {
+        row_index = selectedItem;
+        this.position=position;
     }
 
 
@@ -64,9 +79,10 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
             public void onClick(View view) {
                 row_index=i;
                 holder.Freq.setSelected(true);
+        //        clickPosition.getPosition(i);
 
                 if (mEventListener != null) {
-                    mEventListener.onItemViewClicked(i, planModelList.get(i).getId());
+                    mEventListener.onItemViewClicked1(i, planModelList.get(i).getId(),position);
                 }
                 notifyDataSetChanged();
 
@@ -107,6 +123,7 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
 
     public interface EventListener {
         void onItemViewClicked(int position, int planId);
+        void onItemViewClicked1(int position, int planId,int position1);
     }
 
     public EventListener getEventListener() {

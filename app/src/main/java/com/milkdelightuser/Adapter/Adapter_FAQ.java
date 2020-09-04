@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.milkdelightuser.Model.Faq_Model;
@@ -42,7 +43,14 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.holder> {
         holder.question.setText(faq_modelList.get(i).getQuestion());
         holder.answer.setText(faq_modelList.get(i).getAnswer());
 
-        holder.ivDwn.setTag("");
+      //  holder.ivDwn.setTag("");
+
+        holder.ll_question1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.ivDwn.callOnClick();
+            }
+        });
 
         holder.ivDwn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +61,7 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.holder> {
                     anim.setDuration(time);
                     anim.start();
                     holder.ivDwn.setTag("");
-                    holder.answer.setVisibility(View.GONE);
+                    holder.ll_answer1.setVisibility(View.GONE);
 
 
                 }  else {
@@ -61,7 +69,7 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.holder> {
                     anim.setDuration(time);
                     anim.start();
                     holder.ivDwn.setTag(180+"");
-                    holder.answer.setVisibility(View.VISIBLE);
+                    holder.ll_answer1.setVisibility(View.VISIBLE);
 
                 }
 
@@ -80,11 +88,14 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.holder> {
 
         TextView question , answer;
         ImageView ivDwn;
+        LinearLayout ll_answer1,ll_question1;
 
         public holder(@NonNull View itemView) {
             super(itemView);
 
+            ll_question1 =itemView.findViewById(R.id.ll_question1);
             question =itemView.findViewById(R.id.question);
+            ll_answer1 = itemView.findViewById(R.id.ll_answer1);
             answer = itemView.findViewById(R.id.answer);
             ivDwn = itemView.findViewById(R.id.ivDwn);
 

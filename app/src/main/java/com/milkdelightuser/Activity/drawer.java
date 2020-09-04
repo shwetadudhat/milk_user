@@ -60,11 +60,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class drawer extends BaseActivity implements PaymentResultListener {
+public class drawer extends BaseActivity implements PaymentResultListener, FragmentManager.OnBackStackChangedListener {
 
     Session_management session_management;
     String user_id,user_name,user_nmbr,user_email,user_image;
@@ -176,7 +177,7 @@ public class drawer extends BaseActivity implements PaymentResultListener {
                 row_index=1;
                 drawer1.closeDrawer(GravityCompat.START);
                 getSupportActionBar().setTitle("My Profile");
-                MyProfile();
+                MyProfile(1);
                 adapterMenu1.setSelectedItem(row_index);
                 adapterMenu1.notifyDataSetChanged();
             }
@@ -223,11 +224,12 @@ public class drawer extends BaseActivity implements PaymentResultListener {
        //
         if( notification!= null)
         {
-            OpenMainFragment(new Notification_Fragment());
+            OpenMainFragment(new Notification_Fragment(), -1);
         }else{
             selectedItem(0);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
+            transaction.addToBackStack(String.valueOf(0));
             transaction.commit();
 
         }
@@ -238,60 +240,50 @@ public class drawer extends BaseActivity implements PaymentResultListener {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void selectedItem(int i) {
         if (i==0){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Milk Delight");
-            Home();
+            Home(0);
         }else if (i==1){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("My Profile");
-            MyProfile();
+            MyProfile(1);
         }else if (i==2){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("My Order");
-            MyOrder();
+            MyOrder(2);
 
         }else if (i==3){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Offer");
-            offer();
+            offer(3);
 
         }else if (i==4){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Subscription");
-            Subscription();
+            Subscription(4);
 
         }else if (i==5){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Shop By Category");
-            ShopByCat();
+            ShopByCat(5);
 
         }else if (i==6){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Rate Our App");
-            rate();
+            rate(6);
 
         }else if (i==7){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Contact us");
-            contact();
+            contact(7);
 
         }else if (i==8){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("Refer a Friend");
-            referFriend();
+            referFriend(8);
 
         }else if (i==9){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("About us");
-            about();
+            about(9);
 
         }else if (i==10){
-            drawer1.closeDrawer(GravityCompat.START);
             getSupportActionBar().setTitle("FAQ");
-            faq();
+            faq(10);
 
         }
 
+        drawer1.closeDrawer(GravityCompat.START);
         adapterMenu1.setSelectedItem(i);
         adapterMenu1.notifyDataSetChanged();
 
@@ -354,7 +346,7 @@ public class drawer extends BaseActivity implements PaymentResultListener {
         {
             case R.id.action_notification:
                 getSupportActionBar().setTitle("Notification");
-                OpenMainFragment(new Notification_Fragment());
+                OpenMainFragment(new Notification_Fragment(), -1);
                 break;
         }
         return true;
@@ -364,44 +356,44 @@ public class drawer extends BaseActivity implements PaymentResultListener {
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void Home(){
+    public void Home(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
-       // transaction.addToBackStack(null);
+        transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
        // OpenMainFragment(new MainContainer_Fragment("Home"));
     }
 
-    public void MyProfile(){
-        OpenMainFragment(new Profile_Fragment());
+    public void MyProfile(int i){
+        OpenMainFragment(new Profile_Fragment(),i);
     }
 
-    public void MyOrder(){
+    public void MyOrder(int i){
 
-        OpenMainFragment(new MyOrder_Fragment());
+        OpenMainFragment(new MyOrder_Fragment(),i);
     }
-    public void offer(){
-        OpenMainFragment(new Offer_Fragment());
+    public void offer(int i){
+        OpenMainFragment(new Offer_Fragment(),i);
 
     }
-    public void Subscription(){
+    public void Subscription(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Subscription"));
-      //  transaction.addToBackStack(null);
+        transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
       //  OpenMainFragment(new MainContainer_Fragment("Subscription"));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void ShopByCat(){
+    public void ShopByCat(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new MainContainer_Fragment("ShopByCat"));
-        //  transaction.addToBackStack(null);
+        transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
       //  OpenMainFragment(new MainContainer_Fragment("ShopByCat"));
     }
 
-    public void rate() {
+    public void rate(int i) {
         Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
@@ -416,17 +408,17 @@ public class drawer extends BaseActivity implements PaymentResultListener {
 
     }
 
-    public void contact(){
-        OpenMainFragment(new Contact_Fragment());
+    public void contact(int i){
+        OpenMainFragment(new Contact_Fragment(),i);
     }
-    public void referFriend(){
-        OpenMainFragment(new ReferNEarn_Fragment());
+    public void referFriend(int i){
+        OpenMainFragment(new ReferNEarn_Fragment(),i);
     }
-    public void about(){
-        OpenMainFragment(new About_Fragment());
+    public void about(int i){
+        OpenMainFragment(new About_Fragment(),i);
     }
-    public void faq(){
-        OpenMainFragment(new Faq_Fragment());
+    public void faq(int i){
+        OpenMainFragment(new Faq_Fragment(),i);
     }
 
     public void LogOut(String user_id, String token){
@@ -480,11 +472,14 @@ public class drawer extends BaseActivity implements PaymentResultListener {
         return this.getSupportFragmentManager().findFragmentById(R.id.mainFrame);
     }
 
-    private void OpenMainFragment(Fragment target_frag) {
+    private void OpenMainFragment(Fragment target_frag, int i) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        getSupportFragmentManager().addOnBackStackChangedListener(drawer.this);
         transaction.replace(R.id.mainFrame, target_frag);
-        transaction.addToBackStack(null);
+        Log.e("fragmentTagiiii",String.valueOf(i));
+        transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
+
     }
 
 
@@ -553,4 +548,47 @@ public class drawer extends BaseActivity implements PaymentResultListener {
         Log.e("navigationView","onResume");
     }
 
+    @Override
+    public void onBackStackChanged() {
+
+        String fragmentTag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        Log.e("taggg",fragmentTag);
+        adapterMenu1.setSelectedItem(Integer.parseInt(fragmentTag));
+        adapterMenu1.notifyDataSetChanged();
+
+        if (Integer.parseInt(fragmentTag)==0){
+            getSupportActionBar().setTitle("Milk Delight");
+
+        }else if (Integer.parseInt(fragmentTag)==1){
+            getSupportActionBar().setTitle("My Profile");
+
+        }else if (Integer.parseInt(fragmentTag)==2){
+            getSupportActionBar().setTitle("My Order");
+
+        }else if (Integer.parseInt(fragmentTag)==3){
+            getSupportActionBar().setTitle("Offer");
+
+        }else if (Integer.parseInt(fragmentTag)==4){
+            getSupportActionBar().setTitle("Subscription");
+
+        }else if (Integer.parseInt(fragmentTag)==5){
+            getSupportActionBar().setTitle("Shop By Category");
+
+        }else if (Integer.parseInt(fragmentTag)==6){
+            getSupportActionBar().setTitle("Rate Our App");
+
+        }else if (Integer.parseInt(fragmentTag)==7){
+            getSupportActionBar().setTitle("Contact us");
+
+        }else if (Integer.parseInt(fragmentTag)==8){
+            getSupportActionBar().setTitle("Refer a Friend");
+
+        }else if (Integer.parseInt(fragmentTag)==9){
+            getSupportActionBar().setTitle("About us");
+
+        }else if (Integer.parseInt(fragmentTag)==10){
+            getSupportActionBar().setTitle("FAQ");
+
+        }
+    }
 }

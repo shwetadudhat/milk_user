@@ -37,7 +37,7 @@ import com.milkdelightuser.utils.ConnectivityReceiver;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
-import com.milkdelightuser.utils.VolleyMultipartRequest;
+import com.milkdelightuser.utils.CustomVolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -475,7 +475,7 @@ public class Profile_Fragment extends BaseFragment {
     }
 
     private void uploadImage(Bitmap photo) {
-        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST,BaseURL.upload_profile, new Response.Listener<NetworkResponse>() {
+        CustomVolleyMultipartRequest multipartRequest = new CustomVolleyMultipartRequest(Request.Method.POST,BaseURL.upload_profile, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 String resultResponse = new String(response.data);
@@ -536,7 +536,7 @@ public class Profile_Fragment extends BaseFragment {
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
 
-                params.put("user_profile", new VolleyMultipartRequest.DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(photo)));
+                params.put("user_profile", new CustomVolleyMultipartRequest.DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(photo)));
 
                 return params;
             }

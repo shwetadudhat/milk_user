@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.milkdelightuser.Adapter.Adapter_SubProduct;
 import com.milkdelightuser.Model.EndDate_Model;
 import com.milkdelightuser.Model.PlanSelected_model;
@@ -50,6 +52,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,6 +70,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.milkdelightuser.utils.Global.MY_FREQ_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
+
+import static com.milkdelightuser.utils.Global.SUB_DATA;
 
 public class subscription2 extends BaseActivity implements  PaymentResultListener {
 
@@ -80,8 +86,8 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
     LinearLayout adrsss;
 
     /*view1*/
-    int qty=0;
     RecyclerView recycler_cartitem;
+    Adapter_SubProduct adapter;
     /*view2*/
     DatePickerDialog picker;
     List<Plan_model> planModelList;
@@ -92,6 +98,8 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
     SharedPreferences planPref;
 
     SharedPreferences.Editor planprefEdit;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
 
     /*view4*/
     LinearLayout llEdit;
@@ -115,8 +123,7 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
     SharedPreferences.Editor editor;
     boolean isLocked;
     String planData;
-    SharedPreferences GstPref;
-    String gstData;
+
 
     double razorAmount,totalProductAmout,totalProductPrice,wallet,walletAmount,total_price=0;
 
@@ -147,62 +154,27 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_subscription2);
+        setContent();
+        getUserData();
+        setArrayList();
 
         //razor pay
         Checkout.preload(getActivity());
 
-
-        toolbar=findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
-        toolTitle=findViewById(R.id.title);
         toolTitle.setText("Add Subscriptions"/*proname*/);
-        adrsss=findViewById(R.id.adrsss);
-
-
-        rlChk=findViewById(R.id.rlChk);
-        rlCoupon=findViewById(R.id.rlCoupon);
-
         db = new DatabaseHandler(getActivity());
-        /*GstPref = this.getActivity().getSharedPreferences(MY_GST_PREFS_NAME, MODE_PRIVATE);
-        gstData = GstPref.getString(GST_DATA, null);
-        if (gstData != null) {
-            Log.e("gstData",gstData);
-            try {
-                JSONObject jsonObject=new JSONObject(gstData);
-                gst= Double.parseDouble(jsonObject.getString("gst"))/100;
-                sgst= Double.parseDouble(jsonObject.getString("sgst"))/100;
-
-                Log.e("gsttt",String.valueOf(gst));
-
-//                tax=gst+sgst;
-//                Log.e("total_tax",String.valueOf(total_tax));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }*/
-        planModelList=new ArrayList<>();
-        planSelectedModelArrayList=new ArrayList<>();
-        endDateModelArrayList=new ArrayList<>();
-        subProductList=new ArrayList<>();
-
+        map = db.getCartAll();
 
         Date c = Calendar.getInstance().getTime();
-
-
         SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String tardetDate12 = df.format(c);
-
         Log.e("tardetDate",tardetDate12);
 
         SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         tardetDate = df1.format(c);
 
-        balance=findViewById(R.id.balance);
-        ChkWallet=findViewById(R.id.ChkWallet);
 
-
-        ivBack=findViewById(R.id.ivBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,9 +182,8 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
             }
         });
 
-        ivNotify=findViewById(R.id.ivNotify);
-        ivNotify.setVisibility(View.VISIBLE);
 
+        ivNotify.setVisibility(View.VISIBLE);
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -222,21 +193,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
             }
         });
 
-        session_management=new Session_management(getApplicationContext());
-        user_id = session_management.getUserDetails().get(BaseURL.KEY_ID);
-        user_name = session_management.getUserDetails().get(BaseURL.KEY_NAME);
-        user_nmbr = session_management.getUserDetails().get(BaseURL.KEY_MOBILE);
-        user_email = session_management.getUserDetails().get(BaseURL.KEY_EMAIL);
-
-
         planPref = getSharedPreferences("plannn", 0);
         planprefEdit=planPref.edit();
         planprefEdit.clear().apply();
-
         product_id=getIntent().getStringExtra("product_id");
-
-        map = db.getCartAll();
-
 
 
         if (ConnectivityReceiver.isConnected()) {
@@ -246,6 +206,7 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 getAddressData(user_id);
                 showTotalCredit(user_id);
                 getPlanadata();
+                selectPlan();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -254,24 +215,17 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
 
         pref = this.getActivity().getSharedPreferences(MY_FREQ_PREFS_NAME, MODE_PRIVATE);
 
+        sharedPreferences = this.getActivity().getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
 
-        Log.e("planModelList222",planModelList.toString());
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(SUB_DATA, "");
+        if (!json.isEmpty()) {
+            Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
+            subProductList= gson.fromJson(json, type);
+            Log.e("subProductList_frompref",subProductList.toString());
 
-
-
-        plan1=findViewById(R.id.plan1);
-        plan2=findViewById(R.id.plan2);
-        customPlan=findViewById(R.id.customPlan);
-
-        llEdit=findViewById(R.id.llEdit);
-        ivAdrEdit=findViewById(R.id.ivAdrEdit);
-        adrName=findViewById(R.id.adrName);
-        adr=findViewById(R.id.adr);
-        adrNmbr=findViewById(R.id.adrNmbr);
-
-        llBuySubscrption=findViewById(R.id.llBuySubscrption);
-        ll_addmore=findViewById(R.id.ll_addmore);
-        //  llBuySubscrption.setEnabled(false);
+        }
 
         rlCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -332,6 +286,13 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
         ll_addmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(subProductList.size()>0){
+                    Log.e("subproductList_addmore",subProductList.toString());
+                    Gson gson = new Gson();
+                    String json = gson.toJson(subProductList);
+                    myEdit.putString(SUB_DATA, json);
+                    myEdit.commit();
+                }
                 Intent intent=new Intent(subscription2.this, ProductListing.class);
                 intent.putExtra("seeAll","bestProduct");
                 startActivity(intent);
@@ -384,19 +345,58 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
         });
 
 
-        selectPlan();
+    }
+
+    private void setArrayList() {
+        planModelList=new ArrayList<>();
+        planSelectedModelArrayList=new ArrayList<>();
+        endDateModelArrayList=new ArrayList<>();
+        subProductList=new ArrayList<>();
+    }
+
+    private void setContent() {
+        toolbar=findViewById(R.id.toolbar);
+        toolTitle=findViewById(R.id.title);
+        ivBack=findViewById(R.id.ivBack);
+        ivNotify=findViewById(R.id.ivNotify);
+
+        recycler_cartitem=findViewById(R.id.recycler_cartitem);
+        adrsss=findViewById(R.id.adrsss);
+
+        rlChk=findViewById(R.id.rlChk);
+        rlCoupon=findViewById(R.id.rlCoupon);
+
+        balance=findViewById(R.id.balance);
+        ChkWallet=findViewById(R.id.ChkWallet);
+
+        plan1=findViewById(R.id.plan1);
+        plan2=findViewById(R.id.plan2);
+        customPlan=findViewById(R.id.customPlan);
+
+        llEdit=findViewById(R.id.llEdit);
+        ivAdrEdit=findViewById(R.id.ivAdrEdit);
+        adrName=findViewById(R.id.adrName);
+        adr=findViewById(R.id.adr);
+        adrNmbr=findViewById(R.id.adrNmbr);
+
+        llBuySubscrption=findViewById(R.id.llBuySubscrption);
+        ll_addmore=findViewById(R.id.ll_addmore);
+
 
 
     }
 
+    private void getUserData(){
+        session_management=new Session_management(getApplicationContext());
+        user_id = session_management.getUserDetails().get(BaseURL.KEY_ID);
+        user_name = session_management.getUserDetails().get(BaseURL.KEY_NAME);
+        user_nmbr = session_management.getUserDetails().get(BaseURL.KEY_MOBILE);
+        user_email = session_management.getUserDetails().get(BaseURL.KEY_EMAIL);
+
+    }
 
 
     public void getDateData(int targetDate){
-
-      //  endDateModelArrayList.clear();
-      //  totalAmout=Integer.parseInt(db.getCartItemQty(product_id))*Integer.parseInt(db.getCartItemPrice(product_id));
-
-
 
         for (int i = 0; i < stardateList1.size(); i++) {
             tardetDate=stardateList1.get(i).getStart_date();
@@ -510,10 +510,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
 
                             Log.e("planModelList123", String.valueOf(planModelList));
 
-                            recycler_cartitem=findViewById(R.id.recycler_cartitem);
+
                             recycler_cartitem.setLayoutManager(new LinearLayoutManager(subscription2.this));
 
-                            Adapter_SubProduct adapter = new Adapter_SubProduct(subscription2.this, map,planModelList);
+                            adapter = new Adapter_SubProduct(subscription2.this, map,planModelList);
                             recycler_cartitem.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -752,8 +752,6 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 customPlan.setTag("unselected"+subs_id);
                 plan2.setTag("unselected"+subs_id);
                 plan1.setTag("selected"+subs_id);
-
-
 
                 if (plan1.getTag().equals("selected"+subs_id)){
                     planprefEdit.putBoolean("locked", true).commit();
@@ -1199,7 +1197,9 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
             ivIcon.setColorFilter(ContextCompat.getColor(subscription2.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
 
-            db.removeItemFromCart(product_id);
+           // db.removeItemFromCart(product_id);
+
+            db.clearCart();
 
 
 

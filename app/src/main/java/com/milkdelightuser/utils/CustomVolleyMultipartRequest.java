@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class VolleyMultipartRequest extends Request<NetworkResponse> {
+public class CustomVolleyMultipartRequest extends Request<NetworkResponse> {
 
     private final String twoHyphens = "--";
     private final String lineEnd = "\r\n";
@@ -26,9 +26,9 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
     private Map<String, String> mHeaders;
 
 
-    public VolleyMultipartRequest(int method, String url,
-                                  Response.Listener<NetworkResponse> listener,
-                                  Response.ErrorListener errorListener) {
+    public CustomVolleyMultipartRequest(int method, String url,
+                                        Response.Listener<NetworkResponse> listener,
+                                        Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mListener = listener;
         this.mErrorListener = errorListener;

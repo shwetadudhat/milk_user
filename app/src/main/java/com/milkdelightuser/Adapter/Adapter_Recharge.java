@@ -28,10 +28,40 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
     List<Recharge_Model> recharge_models;
     Context context;
 
-    Date enddate=null ;
+  /*  Date enddate=null ;*/
+  Date enddate = null, CurrentDate = null;
+    String currentdate = "", olddate;
+
+
 
     public Adapter_Recharge(List<Recharge_Model> recharge_models) {
         this.recharge_models = recharge_models;
+
+        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy");
+        DateFormat targetFormat2 = new SimpleDateFormat("HH:mm a");
+        Calendar c = Calendar.getInstance();
+
+        enddate = c.getTime();
+
+        Recharge_Model recharge_model;
+
+
+        for (int i = 0; i < recharge_models.size(); i++) {
+            recharge_model = recharge_models.get(i);
+            Date startDte = null;
+            try {
+                startDte = originalFormat.parse(recharge_model.getCreated_at());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            olddate = targetFormat.format(startDte);
+
+            if (daysBetween(startDte, enddate) > 0 && !currentdate.equals(olddate)) {
+                currentdate = olddate;
+                recharge_model.setIsshow(true);
+            }
+        }
     }
 
     @NonNull
@@ -51,12 +81,49 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
         DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy");
         DateFormat targetFormat2 = new SimpleDateFormat("HH:mm a");
+        Calendar c = Calendar.getInstance();
 
         Date startDte = null;
-        String formattedDate=null;
-        String formattedDate1=null;
+        String formattedDate = null;
+        String formattedDate1 = null;
+        String olddate;
 
         try {
+            startDte = originalFormat.parse(rechargeModel.getCreated_at());
+            olddate = targetFormat.format(startDte);
+            enddate = c.getTime();
+           /* if (enddate != null) {
+                if (daysBetween(startDte, enddate) > 0 && !currentdate.equals(olddate)) {
+                    currentdate = olddate;
+                    holder.tvDate.setVisibility(View.VISIBLE);
+                } else {
+                    holder.tvDate.setVisibility(View.GONE);
+                }
+
+            } else {
+                holder.tvDate.setVisibility(View.VISIBLE);
+
+            }*/
+
+            if (rechargeModel.isIsshow()) {
+                holder.tvDate.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvDate.setVisibility(View.GONE);
+            }
+//            enddate = originalFormat.parse(rechargeModel.getCreated_at());
+
+            formattedDate = targetFormat.format(startDte);
+            formattedDate1 = targetFormat2.format(startDte);
+
+            Log.e("formattedDate", formattedDate);
+            Log.e("formattedDate123", formattedDate1);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+       /* try {
             startDte = originalFormat.parse(rechargeModel.getCreated_at());
             if (enddate!=null){
                 if (daysBetween(startDte,enddate)>0){
@@ -80,9 +147,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
 
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-
-
+        }*/
 
 
         holder.tvDate.setText(formattedDate);
@@ -96,6 +161,8 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
             holder.tvPrice.setText("-"+ MainActivity.currency_sign +rechargeModel.getAmount());
             holder.tvPrice.setTextColor(context.getResources().getColor(R.color.red));
         }
+
+        holder.setIsRecyclable(false);
 
 
     }

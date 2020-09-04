@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.milkdelightuser.Adapter.Adapter_FreqPlan;
+import com.milkdelightuser.Adapter.Adapter_SubProduct;
 import com.milkdelightuser.Model.Plan_model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
@@ -447,6 +448,7 @@ public class subscription1 extends BaseActivity implements  PaymentResultListene
                             }
 
                             Log.e("planModelList123", String.valueOf(planModelList));
+                            Adapter_SubProduct.ClickPosition clickPosition = null;
                             adapterFreqPlan=new Adapter_FreqPlan(subscription1.this,planModelList);
 
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
@@ -462,6 +464,11 @@ public class subscription1 extends BaseActivity implements  PaymentResultListene
                                     planId=planModelList.get(i).getId();
                                     planSkipDay=planModelList.get(i).getSkipDays();
                                     Log.e("id123", String.valueOf(planId));
+
+                                }
+
+                                @Override
+                                public void onItemViewClicked1(int position, int planId, int position1) {
 
                                 }
                             });
