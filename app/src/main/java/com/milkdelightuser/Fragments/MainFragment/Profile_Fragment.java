@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -53,6 +54,7 @@ import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 
 /**
@@ -216,7 +218,7 @@ public class Profile_Fragment extends BaseFragment {
                         showDialog("");
                         EditProfile(u_id,profName,profNmbr,profEmail);
                     } else {
-                        Global.isInternetConnected(getContext());
+                        Global.showInternetConnectionDialog(getContext());
 
                     }
 
@@ -315,7 +317,7 @@ public class Profile_Fragment extends BaseFragment {
                                 showDialog("");
                                 changePass( u_id,txtOldPass,txtNewPass,txtRePass,alertDialog);
                             } else {
-                                Global.isInternetConnected(getContext());
+                                Global.showInternetConnectionDialog(getContext());
 
                             }
                         }
@@ -404,6 +406,10 @@ public class Profile_Fragment extends BaseFragment {
                 Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
 
@@ -447,6 +453,10 @@ public class Profile_Fragment extends BaseFragment {
               //  Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
     }
@@ -468,7 +478,7 @@ public class Profile_Fragment extends BaseFragment {
                 showDialog("");
                 uploadImage(photo);
             } else {
-                Global.isInternetConnected(getContext());
+                Global.showInternetConnectionDialog(getContext());
             }
         }
 
@@ -541,7 +551,10 @@ public class Profile_Fragment extends BaseFragment {
                 return params;
             }
         };
-
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(multipartRequest);
     }

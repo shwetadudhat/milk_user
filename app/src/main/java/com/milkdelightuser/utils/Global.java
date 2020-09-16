@@ -45,7 +45,6 @@ public class Global {
     public static final String FREQ_ID = "freq_id";
     public static final String MY_NOTIFICATION_PREFS_NAME = "notificationPref";
     public static final String MY_GST_PREFS_NAME = "GSTPref";
-    public static final String MY_REFER_PREFS_NAME = "ReferPref";
     public static final String NOTIFICATION_DATA = "jsonarray";
     public static final String GST_DATA = "jsonObject";
     public static final String MY_SUBSCRIPTION_PREFS_NAME = "mySubscriptionlistPref";
@@ -114,6 +113,7 @@ public class Global {
 
         return outcome;
     }
+
 
     public static int getDeviceWidth(Context context) {
         try {
@@ -193,11 +193,13 @@ public class Global {
              File mediaStorageDir;
             if (isSDcardMounted()) {
                 mediaStorageDir =new File(FOLDER_RIDEINN_PATH);
+                Log.e("iffff","ifffff");
             } else {
                 mediaStorageDir =new File(
                         Environment.getRootDirectory(),
                         FOLDER_NAME
                 );
+                Log.e("elseee","elseee");
             }
 
             // This location works best if you want the created images to be
@@ -212,9 +214,10 @@ public class Global {
                 }
             }
             // Create a media file name
-            File mediaFile =new File(mediaStorageDir.getPath() + File.separator +new Date().getTime() + ".jpg");
+            File mediaFile =new File(mediaStorageDir.getAbsolutePath() + File.separator +new Date().getTime() + ".jpg");
             Log.e ("mediaFile",mediaFile.toString());
             mediaFile.createNewFile();
+            Log.e ("mediaFile123",mediaFile.toString());
             return mediaFile;
         } catch ( Exception e) {
             return null;
@@ -223,7 +226,8 @@ public class Global {
 
     public static Boolean isSDcardMounted() {
         String state = Environment.getExternalStorageState();
-        return state == Environment.MEDIA_MOUNTED && state != Environment.MEDIA_MOUNTED_READ_ONLY;
+        Log.e("state",state);
+        return state.equals(Environment.MEDIA_MOUNTED) && !state.equals(Environment.MEDIA_MOUNTED_READ_ONLY);
     }
 
     public static String FOLDER_RIDEINN_PATH = (Environment
@@ -263,7 +267,7 @@ public class Global {
     }
 
     //region FOR SHOW INTERNET CONNECTION DIALOG
-    private void showInternetConnectionDialog(Context context) {
+    public static void showInternetConnectionDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle(context.getResources().getString(R.string.no_internet_connection_with_emoji))
                 .setMessage(context.getResources().getString(R.string.connection_not_available))

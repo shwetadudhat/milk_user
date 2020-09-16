@@ -5,7 +5,7 @@
 
     <!--android:requestLegacyExternalStorage="true"-->
     <application
-
+        tools:node="merge"
         android:name=".utils.AppController"
         android:allowBackup="false"
         android:icon="@mipmap/ic_logo"
@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:allowBackup">
 
         <activity android:name=".Activity.MyOrderDetail"></activity>
@@ -160,6 +161,13 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="@string/razorpay_api_key" />
+
+        <activity android:name=".CashFreeActivity"/>
+
+        <!--Only add it if you need Auto OTP reading feature is enabled-->
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -190,6 +198,17 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
     </application>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -197,5 +216,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

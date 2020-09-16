@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,6 +26,8 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 
 public class Adapter_Complain extends RecyclerView.Adapter<Adapter_Complain.holder> {
@@ -119,6 +122,11 @@ holder.textcomplain.setOnClickListener(new View.OnClickListener() {
              //   Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
             }
         });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
     }

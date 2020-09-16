@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -69,6 +70,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.MY_FREQ_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
 
@@ -211,6 +213,8 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }else{
+            Global.showInternetConnectionDialog(getApplicationContext());
         }
 
         pref = this.getActivity().getSharedPreferences(MY_FREQ_PREFS_NAME, MODE_PRIVATE);
@@ -305,10 +309,59 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
             @Override
             public void onClick(View view) {
 
+                dbmap = db.getCartAll();
+
+
                 isLocked=  planPref.getBoolean("locked",false);
                 planData=planPref.getString("plan","");
 
                 Log.e("planId",planId+"\nplandata"+planData);
+
+
+                if (dbmap.size() > 0) {
+                    passArray = new JSONArray();
+                    for (int i = 0; i < map.size(); i++) {
+                        HashMap<String, String> map1 = map.get(i);
+
+                        if(dbmap.size()==planSelectedModelArrayList.size()  && planData.equals(" ")){
+                            if (isInternetConnected()) {
+                                try {
+                                    if (Addrid==null){
+                                        llEdit.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent intent=new Intent(subscription2.this,Addresslist.class);
+                                                startActivityForResult(intent,0);
+                                            }
+                                        });
+                                        Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        showDialog("");
+                                        Log.e("totalAmount","totalAmount");
+                                        AddSubscription();
+                                    }
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }else{
+                            Toast.makeText(subscription2.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                }
+
+
+
+             /*   if (planSelectedModelArrayList.size()>0){
+                    for(int i=0;i<planSelectedModelArrayList.size();i++){
+                        Log.e("planidddd",planSelectedModelArrayList.get(i).getPlan_id());
+                        planId= Integer.parseInt(planSelectedModelArrayList.get(i).getPlan_id());
+
+                    }
+                }
 
                 if (planId!=0 && !planData.equals("")){
                     Log.e("iff","ifff");
@@ -337,7 +390,7 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 }else{
                     Log.e("else","elseee");
                     Toast.makeText(subscription2.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
 
 
@@ -614,6 +667,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -675,6 +732,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 //  Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
     }
@@ -741,10 +802,32 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
 
     private void selectPlan(){
+
+        isLocked=  planPref.getBoolean("locked",false);
+        planData=planPref.getString("plan","");
+
+        Log.e("planId12else",planId+"\nplandata12333else"+planData);
+
+
+       /* if (planData!=null){
+            if (planData.equals("plan1")){
+                //getDateData(15);
+                plan1.callOnClick();
+            }else if (planData.equals("plan2")){
+                plan2.callOnClick();
+                //  getDateData(30);
+            }else if (planData.equals("customplan")){
+                customPlan.callOnClick();
+            }
+        }*/
 
         plan1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1300,6 +1383,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
 
@@ -1488,6 +1575,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
     }
@@ -1565,6 +1656,10 @@ public class subscription2 extends BaseActivity implements  PaymentResultListene
                 // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
 

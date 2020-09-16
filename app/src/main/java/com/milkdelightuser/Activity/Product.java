@@ -22,6 +22,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -56,6 +57,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 /*import com.viewpagerindicator.CirclePageIndicator;*/
 
@@ -435,6 +438,10 @@ public class Product extends BaseActivity {
               //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
 
@@ -567,6 +574,10 @@ public class Product extends BaseActivity {
                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
     }
@@ -640,6 +651,10 @@ public class Product extends BaseActivity {
              //   Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
     }

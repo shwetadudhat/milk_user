@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.milkdelightuser.Activity.ProductListing;
@@ -60,6 +62,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.GST_DATA;
 import static com.milkdelightuser.utils.Global.MY_GST_PREFS_NAME;
 
@@ -158,7 +161,7 @@ public class Home_Fragment1 extends BaseFragment  {
             LoadHomeData();
             getGSTCharge();
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
 
         }
 
@@ -234,6 +237,10 @@ public class Home_Fragment1 extends BaseFragment  {
 
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
 
     }
@@ -308,6 +315,10 @@ public class Home_Fragment1 extends BaseFragment  {
 
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -572,6 +583,12 @@ public class Home_Fragment1 extends BaseFragment  {
         videoview.start();*/
 
         videoview.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
+
+        Uri video = Uri.parse(link);
+    //    videoview.setVideoURI(video);
+
+
+        Log.e("linkkkkkk",link);
      //   videoview.setVideoPath(link);
         ivYouTube.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -584,6 +601,8 @@ public class Home_Fragment1 extends BaseFragment  {
                     ivYouTube.setVisibility(View.GONE);
                     isPlaying1=true;
                 }
+
+
             }
         });
 
@@ -600,6 +619,8 @@ public class Home_Fragment1 extends BaseFragment  {
                 videoview.stopPlayback();
                 ivYouTube.setVisibility(View.VISIBLE);
                 isPlaying1=false;
+                Uri video = Uri.parse(link);
+               // videoview.setVideoURI(video);
               //  videoview.setVideoPath(link);
                 videoview.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
             }

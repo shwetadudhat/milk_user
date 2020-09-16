@@ -237,8 +237,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         startDate_model.setProduct_qty(map.get("qty"));
 //        startDate_model.setProduct_price(dbcart.getTotalAmountById(map.get("product_id")));
 
-        stardateList.add(startDate_model);
-        Log.e("stardateList",stardateList.toString());
+
 
         if (!json.isEmpty()) {
             Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
@@ -260,6 +259,9 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             holder.freqDate.setText(tardetDate12);
             startDate_model.setStart_date(tardetDate);
         }
+
+        stardateList.add(startDate_model);
+        Log.e("stardateList123",stardateList.toString());
 
         holder.freqDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -314,6 +316,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             }
         });
 
+
+
         adapterFreqPlan = new Adapter_FreqPlan(context, planModelList,i);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
@@ -327,16 +331,24 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             for (int k=0;k<subProductList.size();k++){
                 if (map.get("product_name").equals(subProductList.get(k).getProduct_name())){
 
-                  //  if (map.get("product_name").equals(subProductList.get(k).getProduct_name())) {
                         Log.e("plannnnnnidddd", subProductList.get(k).getPlan_id());
+                        //  Log.e("plannnnnnidddd11111", subProductList.get(i).getPlan_id());
+                        Log.e("proname", subProductList.get(k).getProduct_name());
+                        Log.e("proname11111", map.get("product_name"));
 
-                        Log.e("iiiiiiiiiiiiiii", String.valueOf(i));
-                        Log.e("kkkkkkkkkk", String.valueOf(k));
-//                        adapterFreqPlan.setSelectedItem(Integer.parseInt(subProductList.get(k).getPlan_id()));
-                        adapterFreqPlan.setSelectedItem1(i,Integer.parseInt(subProductList.get(k).getPlan_id()));
+                        if (subProductList.get(k).getPlan_id().equals("1")){
+                            adapterFreqPlan.setSelectedItem(0);
+                        }else if (subProductList.get(k).getPlan_id().equals("2")){
+                            adapterFreqPlan.setSelectedItem(1);
+                        }if (subProductList.get(k).getPlan_id().equals("3")){
+                            adapterFreqPlan.setSelectedItem(2);
+                        }if (subProductList.get(k).getPlan_id().equals("4")){
+                            adapterFreqPlan.setSelectedItem(3);
+                        }
 
-
-                }
+                }/*else{
+                    adapterFreqPlan.setSelectedItem(-1);
+                }*/
             }
 
         }else{

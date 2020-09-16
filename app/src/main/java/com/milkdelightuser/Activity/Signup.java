@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -72,6 +73,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 public class Signup extends BaseActivity {
 
@@ -339,6 +342,10 @@ public class Signup extends BaseActivity {
               //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
 
@@ -435,6 +442,10 @@ public class Signup extends BaseActivity {
             }
         };
 
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
         AppController.getInstance().addToRequestQueue(multipartRequest);
@@ -563,6 +574,14 @@ public class Signup extends BaseActivity {
                 Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                        File file = Global.getOutputMediaFile();
+                        Log.e("filllleee",file.toString());
+                        Global.saveBitmap(bitmap, file);
+
+                       // Log.e("Fillllleee",file.toString());
+                        social_sign_up1(GoogleName,GoogleEmail,GoogleId,"google",file);
+
+                     //   userSignUp("$firstName $lastName", Global.getPref(getActivity(), StaticDataUtility.sMOBILE_NUMBER, "")!!, email, thirdPartyId, file)
                         try {
                             File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
                             if (!mydir.exists()) {
@@ -600,6 +619,107 @@ public class Signup extends BaseActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(this.getLocalClassName(), "signInResult:failed code=" + e.getStatusCode());
         }
+    }
+
+    private void social_sign_up1(String txt_name, String txt_email, String txt_providerId, String txt_providerType,File file) {
+        CustomVolleyMultipartRequest multipartRequest = new CustomVolleyMultipartRequest(Request.Method.POST,BaseURL.social_login, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+
+
+                Log.e("resultRespones",resultResponse);
+                dismissDialog();
+                Log.e("social_login", response.toString());
+
+                try {
+                    JSONObject jsonObject=new JSONObject(String.valueOf(resultResponse));
+
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+                    Log.e("status",status);
+
+                    if (status.contains("1")) {
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        String user_id = jsonObject1.getString("user_id");
+                        String user_name = jsonObject1.getString("user_name");
+                        String user_email = jsonObject1.getString("user_email");
+                        String user_image = jsonObject1.getString("user_image");
+                        String user_phone = jsonObject1.getString("user_phone");
+                        String user_refer_code = jsonObject1.getString("user_refer_code");
+                        String profile_url = jsonObject1.getString("profile_url");
+                        String wallet_credits = jsonObject1.getString("wallet_credits");
+                        String otp=jsonObject1.getString("otp");
+                        // String user_pincode=jsonObject1.getString("otp");
+                        //  String user_pincode="";
+
+
+                        Session_management session_management = new Session_management(Signup.this);
+                        session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);
+
+                        Intent intent = new Intent(Signup.this, drawer.class);
+                        startActivity(intent);
+                        finishAffinity();
+
+
+                        Toast.makeText(getApplicationContext(),""+message, Toast.LENGTH_SHORT).show();
+                    } else if (status.contains("0")){
+                        dismissDialog();
+                        Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+             /*   try {
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+                // parse success output
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.e("errrrrr",error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_name", txt_name);
+                params.put("user_email", txt_email);
+                params.put("provider_id", txt_providerId);
+                params.put("provider_type", txt_providerType);
+                params.put("device_id", token);
+                params.put("refer_code", referCode);
+                //  params.put("profile_url", profile_url);
+
+                return params;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                //    params.put("avatar", new DataPart("file_avatar.jpg", AppHelper.getFileDataFromDrawable(getBaseContext(), mAvatarImage.getDrawable()), "image/jpeg"));
+             //   params.put("profile_url", new CustomVolleyMultipartRequest.DataPart("file_cover.jpg", AppHelper.getFileDataFromDrawable(bitmap)));
+
+                return params;
+            }
+        };
+
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        AppController.getInstance().addToRequestQueue(multipartRequest);
+
     }
 
 

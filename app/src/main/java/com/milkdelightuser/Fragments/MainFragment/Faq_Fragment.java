@@ -82,7 +82,7 @@ public class Faq_Fragment extends BaseFragment {
             faq();
             privacyPolicy();
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
 
         }
 

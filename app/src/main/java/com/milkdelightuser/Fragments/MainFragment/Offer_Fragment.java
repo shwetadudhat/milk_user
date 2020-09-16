@@ -68,7 +68,7 @@ public class Offer_Fragment extends BaseFragment {
             showDialog("");
             myOffer();
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
 
         }
 

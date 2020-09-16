@@ -118,7 +118,7 @@ public class Wallet_Fragment extends BaseFragment {
             showDialog("");
             showTotalCredit(user_id);
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
         }
 
         btnAddMoney.setOnClickListener(new View.OnClickListener() {

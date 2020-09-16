@@ -96,10 +96,14 @@ dependencies {
     //for circle imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+
+    //for cashfree payment gateway
+    implementation 'com.cashfree.pg:android-sdk:1.5.1'
+
     //for material
     implementation 'com.google.android.material:material:1.0.0'
     //for recyclerview
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
 
     //for location
@@ -115,4 +119,13 @@ dependencies {
     implementation 'com.github.frhnfrq:PinView:1.0'
     implementation 'com.github.GoodieBag:Pinview:v1.4'
     implementation project(path: ':horizontalcalendar')
+
+    //doPayment - If OTP Auto read enabled (default)
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.3.0'
+
+    //doGPayPayment  - Also add the google maven repository as shown in the consecutive step
+    /*implementation files ("libs/google-pay-client-api-1.0.0.aar")
+    implementation 'com.google.android.gms:play-services-tasks:15.0.1'*/
 }

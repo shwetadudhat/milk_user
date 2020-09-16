@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -60,6 +61,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.MY_NOTIFICATION_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.NOTIFICATION_DATA;
 
@@ -131,7 +133,7 @@ public class Subscription_Fragment extends BaseFragment {
             showDialog("");
             showsubscrip(user_id);
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
 
         }
 
@@ -251,6 +253,10 @@ public class Subscription_Fragment extends BaseFragment {
                 // Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
@@ -326,7 +332,7 @@ public class Subscription_Fragment extends BaseFragment {
                             showDialog("");
                             resume_orders(subs_id,start_date,Skip_day);
                         } else {
-                            Global.isInternetConnected(getContext());
+                            Global.showInternetConnectionDialog(getContext());
 
                         }
 
@@ -477,7 +483,7 @@ public class Subscription_Fragment extends BaseFragment {
                                     Log.e("end_date",end_date);
                                     pause(subs_id,start_date,end_date,delivery_date, dialog);
                                 } else {
-                                    Global.isInternetConnected(getContext());
+                                    Global.showInternetConnectionDialog(getContext());
 
                                 }
 
@@ -501,7 +507,7 @@ public class Subscription_Fragment extends BaseFragment {
                         showDialog("");
                         delete(i,showsubscrip_model.getSubs_id());
                     } else {
-                        Global.isInternetConnected(getContext());
+                        Global.showInternetConnectionDialog(getContext());
 
                     }
 
@@ -628,6 +634,10 @@ public class Subscription_Fragment extends BaseFragment {
                   //  Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
                 }
             });
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
         }
@@ -676,6 +686,10 @@ public class Subscription_Fragment extends BaseFragment {
                  //   Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
                 }
             });
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
         }
@@ -728,6 +742,11 @@ public class Subscription_Fragment extends BaseFragment {
                  //   Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
                 }
             });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
         }

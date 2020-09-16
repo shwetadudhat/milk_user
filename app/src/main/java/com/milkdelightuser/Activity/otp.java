@@ -85,10 +85,10 @@ public class otp extends BaseActivity {
 
         customPinview.setPinViewEventListener((pinview, fromUser) -> Toast.makeText(com.milkdelightuser.Activity.otp.this, pinview.getValue(), Toast.LENGTH_SHORT).show());
 
-        edOTP1.addTextChangedListener(new GenericTextWatcher(edOTP1));
+       /* edOTP1.addTextChangedListener(new GenericTextWatcher(edOTP1));
         edOTP2.addTextChangedListener(new GenericTextWatcher(edOTP2));
         edOTP3.addTextChangedListener(new GenericTextWatcher(edOTP3));
-        edOTP4.addTextChangedListener(new GenericTextWatcher(edOTP4));
+        edOTP4.addTextChangedListener(new GenericTextWatcher(edOTP4));*/
        /* edOTP5.addTextChangedListener(new GenericTextWatcher(edOTP5));
         edOTP6.addTextChangedListener(new GenericTextWatcher(edOTP6));*/
 

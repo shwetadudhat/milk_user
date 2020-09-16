@@ -90,7 +90,7 @@ public class ReferNEarn_Fragment extends BaseFragment {
                 e.printStackTrace();
             }
         } else {
-            Global.isInternetConnected(getContext());
+            Global.showInternetConnectionDialog(getContext());
         }
 
 

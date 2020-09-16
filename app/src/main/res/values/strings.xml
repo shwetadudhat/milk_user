@@ -86,9 +86,6 @@
     <string name="fb_login_protocol_scheme"></string>-->
     <string name="facebook_app_id">3216950248399613</string>
     <string name="fb_login_protocol_scheme">fb3216950248399613</string>
-   <!-- <string name="facebook_app_id">840454623078672</string>&lt;!&ndash;1133063383728858&ndash;&gt;
-    <string name="fb_login_protocol_scheme">fb840454623078672</string>-->
-
 
     <string name="razorpay_api_key">rzp_test_8lOd2pwZBKb1ug</string>
     <string name="razorpay_key_secret">DsIKNHSZStzSIjTAR7UhJhap</string>

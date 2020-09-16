@@ -30,7 +30,7 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
         this.context = context;
         this.planModelList = planModelList;
        // this.clickPosition = clickPosition;
-        this.position = position;
+        this.row_index = position;
     }
 
     public Adapter_FreqPlan(Context context, List<Plan_model> planModelList) {
@@ -88,6 +88,11 @@ public class Adapter_FreqPlan extends RecyclerView.Adapter<Adapter_FreqPlan.hold
 
             }
         });
+
+       /* if (mEventListener != null) {
+            mEventListener.onItemViewClicked1(i, planModelList.get(i).getId(),position);
+        }*/
+
 
         if(row_index==i){
             holder.Freq.setSelected(true);

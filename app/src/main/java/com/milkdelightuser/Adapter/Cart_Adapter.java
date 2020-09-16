@@ -49,7 +49,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view = inflater.inflate(R.layout.cart, null, false);
 
-        return new holder(view);    }
+        return new holder(view);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
