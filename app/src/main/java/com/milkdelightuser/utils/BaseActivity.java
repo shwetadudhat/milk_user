@@ -491,7 +491,7 @@ public class BaseActivity extends AppCompatActivity {
     //endregion
 
     //region FOR CHECK WHETHER INTERNET CONNECTED OR NOT
-    public boolean isInternetConnected() {
+    public  boolean isInternetConnected() {
         if (Global.isInternetConnected(getActivity())) {
             return true;
         } else {

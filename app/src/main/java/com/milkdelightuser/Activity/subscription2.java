@@ -290,13 +290,8 @@ public class subscription2 extends BaseActivity  {
         ll_addmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(subProductList.size()>0){
-                    Log.e("subproductList_addmore",subProductList.toString());
-                    Gson gson = new Gson();
-                    String json = gson.toJson(subProductList);
-                    myEdit.putString(SUB_DATA, json);
-                    myEdit.commit();
-                }
+
+                addListToPref();
                 Intent intent=new Intent(subscription2.this, ProductListing.class);
                 intent.putExtra("seeAll","bestProduct");
                 startActivity(intent);
@@ -319,7 +314,7 @@ public class subscription2 extends BaseActivity  {
 
 
                 if (dbmap.size() > 0) {
-                    passArray = new JSONArray();
+
                     for (int i = 0; i < map.size(); i++) {
 
                         if(dbmap.size()==planSelectedModelArrayList.size()  && !planData.equals(" ")){
@@ -351,47 +346,6 @@ public class subscription2 extends BaseActivity  {
 
                     }
                 }
-
-
-
-             /*   if (planSelectedModelArrayList.size()>0){
-                    for(int i=0;i<planSelectedModelArrayList.size();i++){
-                        Log.e("planidddd",planSelectedModelArrayList.get(i).getPlan_id());
-                        planId= Integer.parseInt(planSelectedModelArrayList.get(i).getPlan_id());
-
-                    }
-                }
-
-                if (planId!=0 && !planData.equals("")){
-                    Log.e("iff","ifff");
-
-                    if (isInternetConnected()) {
-                        try {
-                            if (Addrid==null){
-                                llEdit.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent intent=new Intent(subscription2.this,Addresslist.class);
-                                        startActivityForResult(intent,0);
-                                    }
-                                });
-                                Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
-                            }else{
-                                showDialog("");
-                                Log.e("totalAmount","totalAmount");
-                                AddSubscription();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }else{
-                    Log.e("else","elseee");
-                    Toast.makeText(subscription2.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
-                }*/
-
-
 
             }
         });
@@ -481,6 +435,7 @@ public class subscription2 extends BaseActivity  {
                 for (int j=0;j<planSelectedModelArrayList.size();j++){
                     if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id())){
                         dayyyyy=(int) days1/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
+                        Log.e("dbtotl",db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
                         totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
                         Log.e("totalamounttt", String.valueOf(totalProductAmout));
                         totalProductPrice=totalProductAmout*dayyyyy;
@@ -816,18 +771,6 @@ public class subscription2 extends BaseActivity  {
         Log.e("planId12else",planId+"\nplandata12333else"+planData);
 
 
-       /* if (planData!=null){
-            if (planData.equals("plan1")){
-                //getDateData(15);
-                plan1.callOnClick();
-            }else if (planData.equals("plan2")){
-                plan2.callOnClick();
-                //  getDateData(30);
-            }else if (planData.equals("customplan")){
-                customPlan.callOnClick();
-            }
-        }*/
-
         plan1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1013,7 +956,6 @@ public class subscription2 extends BaseActivity  {
 
 
         if (dbmap.size() > 0) {
-            passArray = new JSONArray();
             for (int i = 0; i < map.size(); i++) {
                 HashMap<String, String> map1 = map.get(i);
 
@@ -1083,6 +1025,8 @@ public class subscription2 extends BaseActivity  {
 
                 subProductList.add(subscriptioAddProductModel);
 
+                addListToPref();
+
             }
 
             Log.e("subProdutList",subProductList.toString());
@@ -1102,55 +1046,16 @@ public class subscription2 extends BaseActivity  {
 
     }
 
-    /*public  void getTotalAmount(){
-        Log.e("start_date1",tardetDate);
-        Log.e("end_date1",enddate);
-
-        // totalAmout=Integer.parseInt(db.getTotalAmount());
-        totalAmout=Integer.parseInt(db.getCartItemQty(product_id))*Integer.parseInt(db.getCartItemPrice(product_id));
-        Log.e("totalAmout", String.valueOf(totalAmout));
-
-        Log.e("totalAmount",String.valueOf(totalAmout));
-
-
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            Date startdate = format.parse(tardetDate);
-            Date endddate = format.parse(enddate);
-
-            format= new SimpleDateFormat("yyyy-MM-dd");
-            tardetDate1 = format.format(startdate);
-            enddate1 = format.format(endddate);
-
-            Log.e("start_date122",tardetDate1);
-            Log.e("end_date122",enddate1);
-
-            long diff = endddate.getTime() - startdate.getTime();
-            long seconds = diff / 1000;
-            long minutes = seconds / 60;
-            long hours = minutes / 60;
-            long days1 = hours / 24;
-
-            Log.e("dayssss",String.valueOf(days1)+"\nstartdate:"+startdate);
-
-            dayyyyy=(int) days1/Integer.parseInt(planSkipDay);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+    private void addListToPref() {
+        if(subProductList.size()>0){
+            Log.e("subproductList_addmore",subProductList.toString());
+            Gson gson = new Gson();
+            String json = gson.toJson(subProductList);
+            myEdit.putString(SUB_DATA, json);
+            myEdit.commit();
         }
+    }
 
-
-
-        Log.e("dayyyyy",String.valueOf(dayyyyy));
-        totalPrice=totalAmout*dayyyyy;
-        Log.e("totalPrice123",String.valueOf(totalPrice));
-        total_gst=totalPrice*gst;
-        total_sgst=totalPrice*sgst;
-        total_tax=total_gst+total_sgst;
-        totalPrice=total_tax+totalPrice;
-
-        Log.e("totalPrice",String.valueOf(totalPrice));
-    }*/
 
     private void AddSubscription() {
 
@@ -1166,8 +1071,8 @@ public class subscription2 extends BaseActivity  {
         if (ChkWallet.isChecked()){
             if (wallet<total_price){
 
-                razorAmount= total_price-wallet;
-                walletAmount=wallet;
+                razorAmount= Math.round(total_price-wallet);
+                walletAmount=Math.round(wallet);
 
                 Log.e("razoramount123", String.valueOf(razorAmount));
                 Log.e("totalAmout123", String.valueOf(total_price));
@@ -1177,7 +1082,7 @@ public class subscription2 extends BaseActivity  {
             }else {
            /* wallet 2100  totalprice 400*/
 
-                walletAmount=total_price;
+                walletAmount=Math.round(total_price);
                 razorAmount=0;
                 Log.e("totalAmout444", String.valueOf(total_price));
                 Log.e("walletAmount444", String.valueOf(walletAmount));
@@ -1185,7 +1090,7 @@ public class subscription2 extends BaseActivity  {
             }
 
         }else{
-            razorAmount= (int) total_price;
+            razorAmount=Math.round( (int) total_price);
             walletAmount=0;
             Log.e("razoramount777", String.valueOf(razorAmount));
             Log.e("totalAmout777", String.valueOf(total_price));
@@ -1194,102 +1099,27 @@ public class subscription2 extends BaseActivity  {
 
         if (razorAmount!=0){
             Log.e("razorrrrrr", String.valueOf(razorAmount));
+            Log.e("wallet_amounttttttt", String.valueOf(walletAmount));
             pay_type="CashFree";
             Intent intent=new Intent(subscription2.this, CashFreeActivity.class);
-            intent.putExtra("amount",String.valueOf(razorAmount));
+            intent.putExtra("activity","subscription");
+            intent.putExtra("cashfree_amount",String.valueOf(razorAmount));
+            intent.putExtra("address_id",Addrid);
+            intent.putExtra("wallet_amount",String.valueOf(walletAmount));
+            intent.putExtra("promo_code",promo_code);
+            intent.putExtra("discount_amount",String.valueOf(discount_amount));
+            intent.putExtra("total_price",String.valueOf(total_price));
             startActivity(intent);
-           // startPayment(razorAmount);
+
         }else{
             pay_type="Wallet Pay";
             addSubPlan();
         }
 
-     //   addSubPlan();
-
-
-    }
-
-    private void startPayment(double razorAmount) {
-        Checkout checkout = new Checkout();
-
-        final Activity activity = subscription2.this;
-        double price_rs = razorAmount;
-        try {
-            JSONObject options = new JSONObject();
-
-            /**
-             * Merchant Name
-             * eg: ACME Corp || HasGeek etc.
-             */
-            options.put("name",user_name);
-            options.put("description","Add Amount in Wallet");
-            //YOU CAN OMIT THE IMAGE OPTION TO FETCH THE IMAGE FROM DASHBOARD
-            options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("currency","INR");
-            /**
-             * Amount is always passed in currency subunits
-             * Eg: "500" = INR 5.00
-             */
-            options.put("amount",price_rs*100);
-
-            JSONObject prefill = new JSONObject();
-            prefill.put("email", user_email);
-            prefill.put("contact",user_nmbr);
-
-            options.put("prefill",prefill);
-
-            checkout.open(activity, options);
-        } catch(Exception e) {
-            Log.e("cds", "Error in starting Razorpay Checkout", e);
-        }
 
     }
 
 
-
-    private void getTransactionId() {
-
-        String tag_json_obj = "json store req";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("user_id", user_id);
-        params.put("subs_id", subs_id);
-        params.put("transaction_id", razorpayPaymentID);
-
-        Log.e("paramssubadad",params.toString());
-
-        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.transaction_id, params, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                dismissDialog();
-                Log.e("subAdd123", response.toString());
-
-                try {
-                    String status=response.getString("status");
-                    String message=response.getString("message");
-
-                    if (status.equals("1")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error1234",error.toString());
-                dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
-
-
-    }
 
     private void addSubPlan() {
 
@@ -1326,48 +1156,6 @@ public class subscription2 extends BaseActivity  {
 
     }
 
-   /* private void addSubPlan() {
-
-        ArrayList<HashMap<String, String>> items = db.getCartAll();
-        if (items.size() > 0) {
-            passArray = new JSONArray();
-            for (int i = 0; i < items.size(); i++) {
-                HashMap<String, String> map = items.get(i);
-                JSONObject jObjP = new JSONObject();
-
-
-                Log.e("priceeee",String.valueOf((Double.parseDouble(map.get("qty"))*Double.parseDouble(map.get("subscription_price")))));
-                pro_gst= (Double.parseDouble(map.get("qty"))*Double.parseDouble(map.get("subscription_price")))*gst;
-                pro_sgst= (Double.parseDouble(map.get("qty"))*Double.parseDouble(map.get("subscription_price")))*sgst;
-                Log.e("pro_gst123",String.valueOf(pro_gst));
-                try {
-                    jObjP.put("product_id", map.get("product_id"));
-                    jObjP.put("order_qty", map.get("qty"));
-                    jObjP.put("subscription_price", map.get("subscription_price"));
-                    Log.e("gstttttt",String.valueOf(gst));
-                    if (map.get("product_id").equals(planSelectedModelArrayList.get(i).getProduct_id())){
-                        Log.e("plaidddddd",planSelectedModelArrayList.get(i).getPlan_id());
-                        planId=Integer.parseInt(planSelectedModelArrayList.get(i).getPlan_id());
-                        jObjP.put("plans_id", String.valueOf(planId));
-                    }
-                    jObjP.put("amount", (Double.parseDouble(db.getTotalSUbAmountById(map.get("product_id"))))+pro_gst+pro_sgst);
-                    jObjP.put("cgst_amount",String.valueOf(pro_gst));
-                    jObjP.put("sgst_amount",String.valueOf( pro_sgst));
-                    jObjP.put("start_date", tardetDate1);
-                    jObjP.put("end_date", enddate1);
-                    passArray.put(jObjP);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (isInternetConnected()) {
-                but_sub_plan(passArray);
-                Log.e("parseArray",passArray.toString());
-            }
-        }
-
-    }*/
 
     private void but_sub_plan(JSONArray passArray) {
 

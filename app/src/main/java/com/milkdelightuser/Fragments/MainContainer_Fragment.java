@@ -73,6 +73,9 @@ public class MainContainer_Fragment extends BaseFragment {
         }else if (targetLayout.equals("ShopByCat")){
             ((drawer) getActivity()).getSupportActionBar().setTitle("Shop By Category");
             openFragment(new Cat_Fragment(),btnHome,tvHome);
+        }else if (targetLayout.equals("Wallet")){
+            ((drawer) getActivity()).getSupportActionBar().setTitle("Wallet");
+            openFragment(new Wallet_Fragment(),btnWallet,tvWallet);
         }
 
         ll_home.setOnClickListener(new View.OnClickListener() {

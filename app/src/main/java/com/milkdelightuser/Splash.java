@@ -186,17 +186,17 @@ public class Splash extends BaseActivity {
 
     public void go_next() {
 
-        Intent intent=new Intent(Splash.this,CashFreeActivity.class);
-        startActivity(intent);
-//        if(sessionManagement.isLoggedIn()) {
-//            Intent startmain = new Intent(Splash.this, drawer.class);
-//            startActivity(startmain);
-//        }
-//        else{
-//            Intent startmain = new Intent(Splash.this, referFriend.class);
-//            startmain.putExtra("referCode",referrerUrl);
-//            startActivity(startmain);
-//        }
+       /* Intent intent=new Intent(Splash.this,CashFreeActivity.class);
+        startActivity(intent);*/
+        if(sessionManagement.isLoggedIn()) {
+            Intent startmain = new Intent(Splash.this, drawer.class);
+            startActivity(startmain);
+        }
+        else{
+            Intent startmain = new Intent(Splash.this, referFriend.class);
+            startmain.putExtra("referCode",referrerUrl);
+            startActivity(startmain);
+        }
         finish();
     }
 

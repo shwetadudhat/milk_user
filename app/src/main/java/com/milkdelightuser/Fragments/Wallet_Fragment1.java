@@ -24,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.Recharge_history;
 import com.milkdelightuser.Activity.drawer;
-import com.milkdelightuser.CashFreeActivity;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseFragment;
@@ -52,7 +51,7 @@ import androidx.fragment.app.FragmentTransaction;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Wallet_Fragment extends BaseFragment {
+public class Wallet_Fragment1 extends BaseFragment {
     TextView wallet_price,tvViewTransaction,tvDesc,btnAddMoney;
     String amount , user_id,user_name,user_nmbr,user_email;
     int count = 0;
@@ -68,7 +67,7 @@ public class Wallet_Fragment extends BaseFragment {
     SharedPreferences.Editor editor;
 
 
-    public Wallet_Fragment() {
+    public Wallet_Fragment1() {
         // Required empty public constructor
     }
 
@@ -134,10 +133,10 @@ public class Wallet_Fragment extends BaseFragment {
                     Log.e("pay",pay);
                     /*drawer drawer= (com.milkdelightuser.Activity.drawer) getActivity();
                     drawer.startpayment(pay);*/
-                    Intent intent=new Intent(getContext(), CashFreeActivity.class);
-                    intent.putExtra("activity","wallet");
-                    intent.putExtra("cashfree_amount",pay);
-                    startActivity(intent);
+
+                    if (getActivity() instanceof drawer){
+                        ((drawer) getActivity()).startpayment(pay);
+                    }
                    /* Intent intent = new Intent(getContext(),pay_razor.class);
                     intent.putExtra("amunt",pay);
                     startActivity(intent);*/
@@ -234,7 +233,7 @@ public class Wallet_Fragment extends BaseFragment {
 
                 Log.e("des",des);
 
-                Wallet_Fragment wallet_fragment = new Wallet_Fragment();
+                Wallet_Fragment1 wallet_fragment = new Wallet_Fragment1();
                 // load fragment
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container_12, wallet_fragment);
@@ -283,8 +282,8 @@ public class Wallet_Fragment extends BaseFragment {
            public void onClick(View view) {
 
 
-               Wallet_Fragment frg = null;
-               frg = (Wallet_Fragment) getFragmentManager().findFragmentById(R.id.container_12);
+               Wallet_Fragment1 frg = null;
+               frg = (Wallet_Fragment1) getFragmentManager().findFragmentById(R.id.container_12);
                final FragmentTransaction ft = getFragmentManager().beginTransaction();
                ft.detach(frg);
                ft.attach(frg);
@@ -330,7 +329,7 @@ public class Wallet_Fragment extends BaseFragment {
 
                             String wallet = jsonObject.getString("wallet_credits");
 
-                            wallet_price.setText(MainActivity.currency_sign + Math.round(Double.parseDouble(wallet)));
+                            wallet_price.setText(MainActivity.currency_sign + wallet);
                             priceee=wallet_price.getText().toString();
                             Log.e("priceeee",priceee);
 
@@ -408,17 +407,5 @@ public class Wallet_Fragment extends BaseFragment {
         });
 
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        //OnResume Fragment
-        Log.e("onresumewallet","onresumewallet");
-       /* Wallet_Fragment wallet_fragment = new Wallet_Fragment();
-        // load fragment
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.container_12, wallet_fragment);
-        transaction.commit();*/
     }
 }

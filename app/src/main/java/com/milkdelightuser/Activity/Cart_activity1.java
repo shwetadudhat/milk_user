@@ -59,7 +59,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 
-public class Cart_activity extends BaseActivity  {
+public class Cart_activity1 extends BaseActivity implements PaymentResultListener {
 
     private DatabaseHandler db;
     SharedPreferences settings ;
@@ -102,7 +102,6 @@ public class Cart_activity extends BaseActivity  {
     String promo_code;
 
     int total_bagtag,total_gst,total_sgst,total_amount;
-    double gst,sgst,pro_gst,pro_sgst,total_tax;
 
     double razorAmount=0,totalAmout,wallet,walletAmount,discount_amount;
 
@@ -121,7 +120,7 @@ public class Cart_activity extends BaseActivity  {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_cart2);
 
-        db = new DatabaseHandler(Cart_activity.this);
+        db = new DatabaseHandler(Cart_activity1.this);
 
 
         ivBack=findViewById(R.id.ivBack);
@@ -130,7 +129,7 @@ public class Cart_activity extends BaseActivity  {
         title=findViewById(R.id.title);
         title.setText("Shopping Cart");
 
-        sessionManagement=new Session_management(Cart_activity.this);
+        sessionManagement=new Session_management(Cart_activity1.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
         user_name = sessionManagement.getUserDetails().get(BaseURL.KEY_NAME);
         user_nmbr = sessionManagement.getUserDetails().get(BaseURL.KEY_MOBILE);
@@ -143,7 +142,7 @@ public class Cart_activity extends BaseActivity  {
 
         rlCoupon=findViewById(R.id.rlCoupon);
         recycler_cartitem=findViewById(R.id.recycler_cartitem);
-        recycler_cartitem.setLayoutManager(new LinearLayoutManager(Cart_activity.this));
+        recycler_cartitem.setLayoutManager(new LinearLayoutManager(Cart_activity1.this));
 
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
@@ -173,7 +172,7 @@ public class Cart_activity extends BaseActivity  {
         cart_adr=findViewById(R.id.cart_adr);
         cart_adrNmbr=findViewById(R.id.cart_adrNmbr);
         recycler_cartList=findViewById(R.id.recycler_cartList);
-        recycler_cartList.setLayoutManager(new LinearLayoutManager(Cart_activity.this));
+        recycler_cartList.setLayoutManager(new LinearLayoutManager(Cart_activity1.this));
 
      //   tvBagTag1.setText("₹"+db.getTotalAmount());
 
@@ -206,9 +205,9 @@ public class Cart_activity extends BaseActivity  {
         balance=findViewById(R.id.balance);
 
 
-        total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round(Global.getTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount()))) ));
-        total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-        total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+        total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round(Global.getTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount()))) ));
+        total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+        total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
 
         total_amount= Integer.parseInt(db.getTotalAmount())+total_gst+total_sgst;
         Log.e("total_amount", String.valueOf(total_amount));
@@ -230,7 +229,7 @@ public class Cart_activity extends BaseActivity  {
         ivAdrEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Cart_activity.this,Addresslist.class);
+                Intent intent=new Intent(Cart_activity1.this,Addresslist.class);
                 //intent.putExtra("action","edit");
                // intent.putExtra("id",addressModelList.get(i).getAddress_id());
                 startActivity(intent);
@@ -243,9 +242,9 @@ public class Cart_activity extends BaseActivity  {
             public void onClick(View view) {
 
                 Log.e("totroooollll", String.valueOf(total_amount));
-                AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity1.this);
                 ViewGroup viewGroup = view.findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(Cart_activity.this).inflate(R.layout.custom_coupon, viewGroup, false);
+                View dialogView = LayoutInflater.from(Cart_activity1.this).inflate(R.layout.custom_coupon, viewGroup, false);
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.setCancelable(true);
@@ -326,7 +325,7 @@ public class Cart_activity extends BaseActivity  {
         ll_buySubscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Cart_activity.this,subscription2.class);
+                Intent intent=new Intent(Cart_activity1.this,subscription2.class);
                // intent.putExtra("product_id",product_id);
                 startActivity(intent);
             }
@@ -336,7 +335,7 @@ public class Cart_activity extends BaseActivity  {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Cart_activity.this,drawer.class);
+                Intent intent=new Intent(Cart_activity1.this,drawer.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -360,23 +359,25 @@ public class Cart_activity extends BaseActivity  {
             container_null1.setVisibility(View.GONE);
             scroll_view.setVisibility(View.VISIBLE);
         }
-        Cart_Adapter adapter = new Cart_Adapter(Cart_activity.this, map);
+        Cart_Adapter adapter = new Cart_Adapter(Cart_activity1.this, map);
         recycler_cartitem.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setEventListener(new Cart_Adapter.EventListener() {
             @Override
             public void onItemViewClicked(int i) {
 
-                total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round( Global.getTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-                total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-                total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+                total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round( Global.getTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+                total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+                total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity1.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
 
                 total_amount= Integer.parseInt(db.getTotalAmount())+total_gst+total_sgst;
                 Log.e("total_amount", String.valueOf(total_amount));
                 tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount()+" (GST: "+total_gst+" SGST: "+total_sgst+")");
                 tvDelChargeTag1.setText("FREE");
                 tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
+//                totalAmout=Math.round(total_bagtag);
 
+              //  btnPaynow.setText("PAY NOW ("+MainActivity.currency_sign+total_amount+")");
 
 
             }
@@ -387,7 +388,7 @@ public class Cart_activity extends BaseActivity  {
     private void getOrderOnceList(){
 
         ArrayList<HashMap<String, String>> map1 = db.getCartAll();
-        Cart_Adapter1 adapter1 = new Cart_Adapter1(Cart_activity.this, map1);
+        Cart_Adapter1 adapter1 = new Cart_Adapter1(Cart_activity1.this, map1);
         recycler_cartList.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
 
@@ -497,9 +498,12 @@ public class Cart_activity extends BaseActivity  {
                         llEdit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent=new Intent(Cart_activity.this,Addresslist.class);
+                                Intent intent=new Intent(Cart_activity1.this,Addresslist.class);
                                 startActivityForResult(intent,0);
-
+//                                Intent intent=new Intent(Cart_activity.this,Addresslist.class);
+//                               /* intent.putExtra("action","edit");
+//                                intent.putExtra("id",Addrid);*/
+//                                startActivity(intent);
                             }
                         });
 
@@ -649,10 +653,6 @@ public class Cart_activity extends BaseActivity  {
             JSONArray passArray = new JSONArray();
             for (int i = 0; i < items.size(); i++) {
                 HashMap<String, String> map = items.get(i);
-
-                pro_gst=Double.valueOf(map.get("price"))* Global.getGSTTax(Cart_activity.this, Double.valueOf(map.get("price")));
-                pro_sgst=Double.valueOf(map.get("price"))* Global.getSGSTTax(Cart_activity.this, Double.valueOf(map.get("price")));
-
                 JSONObject jObjP = new JSONObject();
                 try {
                     jObjP.put("product_id", map.get("product_id"));
@@ -660,8 +660,6 @@ public class Cart_activity extends BaseActivity  {
                     jObjP.put("price", map.get("price"));
                     jObjP.put("plans_id", String.valueOf(planId));
                     jObjP.put("amount", db.getTotalAmountById(map.get("product_id")));
-                    jObjP.put("cgst_amount", pro_gst);
-                    jObjP.put("sgst_amount", pro_sgst);
                     passArray.put(jObjP);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -685,16 +683,15 @@ public class Cart_activity extends BaseActivity  {
         params.put("user_id", u_id);
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
+        params.put("start_date", tardetDate);
+        params.put("end_date", enddate);
         params.put("wallet_amount", String.valueOf(walletAmount));
         params.put("razor_pay_amount", String.valueOf(razorAmount));
         params.put("pay_type", "");
         params.put("pay_mode", "");
-        params.put("transaction_id", "");
         params.put("total_amount", String.valueOf(totalAmout));
         params.put("promo_code", promo_code);
         params.put("promocode_amount", String.valueOf(discount_amount));
-        params.put("total_cgst", String.valueOf(total_gst));
-        params.put("total_sgst", String.valueOf(total_sgst));
 
         Log.e("paramssubadad",params.toString());
 
@@ -714,9 +711,9 @@ public class Cart_activity extends BaseActivity  {
 
                         if (razorAmount==0){
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity1.this);
                             ViewGroup viewGroup = findViewById(android.R.id.content);
-                            View dialogView = LayoutInflater.from(Cart_activity.this).inflate(R.layout.custom_success, viewGroup, false);
+                            View dialogView = LayoutInflater.from(Cart_activity1.this).inflate(R.layout.custom_success, viewGroup, false);
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
                             alertDialog.setCancelable(true);
@@ -734,7 +731,7 @@ public class Cart_activity extends BaseActivity  {
                             tvStts.setTextColor(getResources().getColor(R.color.green));
                             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
-                            ivIcon.setColorFilter(ContextCompat.getColor(Cart_activity.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+                            ivIcon.setColorFilter(ContextCompat.getColor(Cart_activity1.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
                             tvTransDesc.setText("Payment done through your Wallet amount");
 
                             db.clearCart();
@@ -742,7 +739,7 @@ public class Cart_activity extends BaseActivity  {
                             llDialog.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(Cart_activity.this,drawer.class);
+                                    Intent intent=new Intent(Cart_activity1.this,drawer.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -756,7 +753,7 @@ public class Cart_activity extends BaseActivity  {
                         }
 
                     }else if (status.equals("3")){
-                        Toast.makeText(Cart_activity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Cart_activity1.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -782,7 +779,7 @@ public class Cart_activity extends BaseActivity  {
     private void startPayment(double razorAmount) {
         Checkout checkout = new Checkout();
 
-        final Activity activity = Cart_activity.this;
+        final Activity activity = Cart_activity1.this;
         double price_rs = razorAmount;
         try {
             JSONObject options = new JSONObject();
@@ -815,6 +812,155 @@ public class Cart_activity extends BaseActivity  {
 
     }
 
+
+    private void getTransactionId() {
+
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", u_id);
+        params.put("subs_id", subs_id);
+        params.put("transaction_id", razorpayPaymentID);
+
+        Log.e("paramssubadad",params.toString());
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.transaction_id, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("subAdd123", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+                        Toast.makeText(Cart_activity1.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+
+
+    }
+
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID) {
+        this.razorpayPaymentID=razorpayPaymentID;
+
+        try {
+
+            buyProduct();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity1.this);
+            ViewGroup viewGroup = findViewById(android.R.id.content);
+            View dialogView = LayoutInflater.from(Cart_activity1.this).inflate(R.layout.custom_success, viewGroup, false);
+            builder.setView(dialogView);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(true);
+             alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+            TextView tvStts=dialogView.findViewById(R.id.tvStts);
+            TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+            TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+            ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+
+            //  tvStts.setText("");
+            tvTransId.setText("Transaction id : "+razorpayPaymentID);
+            getTransactionId();
+           // tvTransDesc.setText("");
+            tvTransDesc.setText("Payment done through your Razor amount");
+
+            tvStts.setText("Payment Success");
+            tvStts.setTextColor(getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivIcon.setColorFilter(ContextCompat.getColor(Cart_activity1.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+
+            db.clearCart();
+
+            llDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(Cart_activity1.this,drawer.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+
+            alertDialog.show();
+
+
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentSuccess", e);
+        }
+
+
+    }
+    @Override
+    public void onPaymentError(int i, String s) {
+
+        try {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity1.this);
+            ViewGroup viewGroup = findViewById(android.R.id.content);
+            View dialogView = LayoutInflater.from(Cart_activity1.this).inflate(R.layout.custom_success, viewGroup, false);
+            builder.setView(dialogView);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(true);
+               alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+            LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+            TextView tvStts=dialogView.findViewById(R.id.tvStts);
+            TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+            TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+            ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+            tvTransId.setVisibility(View.GONE);
+
+            tvStts.setText("Payment Failed");
+            tvStts.setTextColor(getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            //  ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivIcon.setColorFilter(ContextCompat.getColor(Cart_activity1.this, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+
+
+            llDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+
+                    showTotalCredit(u_id);
+                    //  wallet();
+                }
+            });
+
+            alertDialog.show();
+
+
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentSuccess", e);
+        }
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

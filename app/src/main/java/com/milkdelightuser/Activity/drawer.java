@@ -72,7 +72,7 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
 
     Session_management session_management;
     String user_id,user_name,user_nmbr,user_email,user_image;
-   public static NavigationView navigationView;
+    public static NavigationView navigationView;
    // private RecyclerView menuList;
    public static ListView menuList;
     public static Adapter_menu1 adapterMenu1;
@@ -81,7 +81,7 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
     String home=null;
     static int row_index=0;
 
-    String token;
+    String token,wallet;
 
     TextView user_name1,user_nmbr1;
     CircleImageView user_dp;
@@ -106,6 +106,8 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
       //  getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_noun_menu);
 
         Checkout.preload(getActivity());
+
+
 
         drawer1 = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -224,10 +226,24 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
 
 
         notification=getIntent().getStringExtra("notification");
+        wallet=getIntent().getStringExtra("wallet");
        //
         if( notification!= null)
         {
             OpenMainFragment(new Notification_Fragment(), -1);
+        }else{
+            selectedItem(0);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
+            transaction.addToBackStack(String.valueOf(0));
+            transaction.commit();
+
+        }
+
+        if( wallet!= null)
+        {
+            Wallet();
+          //  OpenMainFragment(new Notification_Fragment(), -1);
         }else{
             selectedItem(0);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -379,6 +395,14 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
         OpenMainFragment(new Offer_Fragment(),i);
 
     }
+
+    public void Wallet(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Wallet"));
+        transaction.addToBackStack(null);
+        transaction.commit();
+        //  OpenMainFragment(new MainContainer_Fragment("Subscription"));
+    }
     public void Subscription(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Subscription"));
@@ -473,10 +497,6 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
-    }
-
-    public Fragment getCurrentFragment() {
-        return this.getSupportFragmentManager().findFragmentById(R.id.mainFrame);
     }
 
     private void OpenMainFragment(Fragment target_frag, int i) {

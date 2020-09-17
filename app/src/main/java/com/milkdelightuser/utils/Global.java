@@ -1,10 +1,13 @@
 package com.milkdelightuser.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -12,9 +15,16 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.subscription2;
 import com.milkdelightuser.R;
 
 import org.json.JSONException;
@@ -35,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -311,6 +322,7 @@ public class Global {
                 Log.e("gsttt", String.valueOf(gst));
                // tax=gst+sgst;
                 tax=product_price*(gst+sgst);
+                Log.e("product_price",String.valueOf(product_price));
                 Log.e("taxxx",tax.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -359,5 +371,51 @@ public class Global {
     public  static int random(int min, int max) {
         return new Random().nextInt(max - min + 1) + min;
     }
+
+
+   /* public static void showDiaog(Context context,String txStatus){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ViewGroup viewGroup = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.custom_success, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+        TextView tvStts=dialogView.findViewById(R.id.tvStts);
+        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+        tvTransId.setVisibility(View.GONE);
+
+        tvStts.setText("Payment Success");
+        tvStts.setTextColor(context.getResources().getColor(R.color.green));
+        ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+        // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
+        ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+        tvTransDesc.setText("Payment done through your Wallet amount");
+
+        //  db.removeItemFromCart(product_id);
+
+
+
+        llDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, drawer.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                alertDialog.dismiss();
+            }
+        });
+
+
+        alertDialog.show();
+
+
+    }*/
 
 }
