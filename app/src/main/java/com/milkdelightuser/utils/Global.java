@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -353,6 +354,10 @@ public class Global {
 
         }
         return sgst;
+    }
+
+    public  static int random(int min, int max) {
+        return new Random().nextInt(max - min + 1) + min;
     }
 
 }

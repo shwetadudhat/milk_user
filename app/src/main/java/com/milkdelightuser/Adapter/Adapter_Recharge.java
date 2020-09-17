@@ -39,7 +39,6 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
 
         DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         DateFormat targetFormat = new SimpleDateFormat("dd MMM yyyy");
-        DateFormat targetFormat2 = new SimpleDateFormat("HH:mm a");
         Calendar c = Calendar.getInstance();
 
         enddate = c.getTime();
@@ -56,6 +55,10 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
                 e.printStackTrace();
             }
             olddate = targetFormat.format(startDte);
+
+            if (i==0){
+                recharge_model.setIsshow(true);
+            }
 
             if (daysBetween(startDte, enddate) > 0 && !currentdate.equals(olddate)) {
                 currentdate = olddate;

@@ -252,6 +252,9 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                }else{
+                    holder.freqDate.setText(tardetDate12);
+                    startDate_model.setStart_date(tardetDate);
                 }
             }
 
@@ -325,6 +328,16 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         recycler_frq.setLayoutManager(gridLayoutManager);
         recycler_frq.setAdapter(adapterFreqPlan);
 
+
+        PlanSelected_model planSelected_model=new PlanSelected_model();
+        planSelected_model.setId(String.valueOf(i));
+        planSelected_model.setProduct_name(map.get("product_name"));
+        planSelected_model.setProduct_id(map.get("product_id"));
+
+
+
+
+
         if (!json.isEmpty()) {
             Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
             subProductList= gson.fromJson(json, type);
@@ -346,14 +359,42 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                             adapterFreqPlan.setSelectedItem(3);
                         }
 
-                }/*else{
+
+                    Log.e("skipppadayyy",subProductList.get(k).getSkip_days());
+                    planSelected_model.setPlan_id(subProductList.get(k).getPlan_id());
+                    planSelected_model.setSkip_day(subProductList.get(k).getSkip_days());
+                    planSelected_model.setStart_date(getDate(stardateList,map));
+
+                    adapterFreqPlan.notifyDataSetChanged();
+                    
+                }else{
                     adapterFreqPlan.setSelectedItem(-1);
-                }*/
+                    planSelected_model.setPlan_id("-1");
+                    planSelected_model.setSkip_day("0");
+                    planSelected_model.setStart_date(tardetDate);
+
+                    adapterFreqPlan.notifyDataSetChanged();
+                }
             }
 
         }else{
             adapterFreqPlan.setSelectedItem(-1);
+            planSelected_model.setPlan_id("-1");
+            planSelected_model.setSkip_day("0");
+            planSelected_model.setStart_date(tardetDate);
+
+            adapterFreqPlan.notifyDataSetChanged();
+
         }
+
+        planSelectedModelArrayList.add(planSelected_model);
+
+        Log.e("planSelectList123",planSelectedModelArrayList.toString());
+
+        /*Log.e("planSelectList123",planSelectedModelArrayList.toString());
+        if (mEventListener != null)
+            mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
+*/
 
 
         adapterFreqPlan.setEventListener(new Adapter_FreqPlan.EventListener() {
@@ -379,7 +420,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                 planSelected_model.setPlan_id(String.valueOf(planId));
                 planSelected_model.setSkip_day(planSkipDay);
                 planSelected_model.setStart_date(getDate(stardateList,map));
-                planSelected_model.setProduct_name(map.get("product_name"));
 
                 if (planSelectedModelArrayList.size()>0){
                     for (int j=0;j<planSelectedModelArrayList.size();j++){
@@ -393,7 +433,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     planSelectedModelArrayList.add(planSelected_model);
                 }
 
-                String modelClass = new Gson().toJson(planSelected_model);
 
                 Log.e("planSelectList",planSelectedModelArrayList.toString());
                 if (mEventListener != null)

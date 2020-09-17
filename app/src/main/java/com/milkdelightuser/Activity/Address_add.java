@@ -170,7 +170,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
         if (isInternetConnected()) {
             showDialog("");
             loadSpiState();
-      }
+       }
         action=getIntent().getStringExtra("action");
 
         toolTitle.setText("Add Address");

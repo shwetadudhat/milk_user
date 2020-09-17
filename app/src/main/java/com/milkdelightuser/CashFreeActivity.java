@@ -6,14 +6,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.cashfree.pg.CFPaymentService;
 import com.cashfree.pg.ui.gpay.GooglePayStatusListener;
+import com.milkdelightuser.Activity.Address_add;
+import com.milkdelightuser.utils.AppController;
+import com.milkdelightuser.utils.BaseActivity;
+import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.CustomVolleyJsonRequest;
+import com.milkdelightuser.utils.Session_management;
+import com.milkdelightuser.utils.Spinner1;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 
 import static com.cashfree.pg.CFPaymentService.PARAM_APP_ID;
 import static com.cashfree.pg.CFPaymentService.PARAM_CUSTOMER_EMAIL;
@@ -23,23 +38,93 @@ import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_AMOUNT;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_CURRENCY;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_ID;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_NOTE;
+import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
+import static com.milkdelightuser.utils.Global.random;
 
-public class CashFreeActivity extends AppCompatActivity {
+public class CashFreeActivity extends BaseActivity {
 
     private static final String TAG = "CashFreeActivity";
+    Session_management session_management;
+    String user_id,user_name,user_phn,user_email;
+
+    int randomDigit ;
+    String appId,orderId ,orderAmount,orderNote,customerName,customerPhone,customerEmail;
+    String token;
+    String stage = "TEST";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashfree);
+
+        session_management=new Session_management(getApplicationContext());
+        user_id = session_management.getUserDetails().get(BaseURL.KEY_ID);
+        user_name = session_management.getUserDetails().get(BaseURL.KEY_NAME);
+        user_phn = session_management.getUserDetails().get(BaseURL.KEY_MOBILE);
+        user_email = session_management.getUserDetails().get(BaseURL.KEY_EMAIL);
+
+        randomDigit = random(0, 1000);
+        appId = getString(R.string.cashfree_api_key);
+        orderId = "order_"+randomDigit;
+        orderAmount = "10";
+        orderNote = "Test Order";
+        customerName =user_name;
+        customerPhone =user_phn;
+        customerEmail = user_email;
+
+
+        if (isInternetConnected()) {
+            showDialog("");
+            getToken(orderId,orderAmount);
+        }
+    }
+
+    private void getToken(String orderId, String orderAmount) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("order_id", orderId);
+        params.put("order_amount", orderAmount);
+
+        Log.e("tokenParam",params.toString());
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest( Request.Method.POST,BaseURL.generate_cashfree_token, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("getTokenResponsre", response.toString());
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    //  Toast.makeText(Address_add_edit.this, message, Toast.LENGTH_SHORT).show();
+
+                    if (status.equals("1")){
+                        token=response.getString("data");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                Toast.makeText(CashFreeActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Same request code for all payment APIs.
-//        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
-        Log.d(TAG, "API Response : ");
+        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
+        Log.d(TAG, "API Response : "+resultCode);
         //Prints all extras. Replace with app logic.
         if (data != null) {
             Bundle bundle = data.getExtras();
@@ -54,22 +139,6 @@ public class CashFreeActivity extends AppCompatActivity {
 
     public void onClick(View view) {
 
-
-        /*
-         * stage allows you to switch between sandboxed and production servers
-         * for CashFree Payment Gateway. The possible values are
-         *
-         * 1. TEST: Use the Test server. You can use this service while integrating
-         *      and testing the CashFree PG. No real money will be deducted from the
-         *      cards and bank accounts you use this stage. This mode is thus ideal
-         *      for use during the development. You can use the cards provided here
-         *      while in this stage: https://docs.cashfree.com/docs/resources/#test-data
-         *
-         * 2. PROD: Once you have completed the testing and integration and successfully
-         *      integrated the CashFree PG, use this value for stage variable. This will
-         *      enable live transactions
-         */
-        String stage = "TEST";
 
         //Show the UI for doGPayPayment and phonePePayment only after checking if the apps are ready for payment
         if (view.getId() == R.id.phonePe_exists) {
@@ -92,27 +161,6 @@ public class CashFreeActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-         * token can be generated from your backend by calling cashfree servers. Please
-         * check the documentation for details on generating the token.
-         * READ THIS TO GENERATE TOKEN: https://bit.ly/2RGV3Pp
-         */
-        String token = "TOKEN_DATA";
-
-
-        /*
-         * appId will be available to you at CashFree Dashboard. This is a unique
-         * identifier for your app. Please replace this appId with your appId.
-         * Also, as explained below you will need to change your appId to prod
-         * credentials before publishing your app.
-         */
-        String appId = "2910406ca04d8e95645bd89d840192";
-        String orderId = "Order0001";
-        String orderAmount = "1";
-        String orderNote = "Test Order";
-        String customerName = "John Doe";
-        String customerPhone = "9900012345";
-        String customerEmail = "test@gmail.com";
 
         Map<String, String> params = new HashMap<>();
 
@@ -134,34 +182,14 @@ public class CashFreeActivity extends AppCompatActivity {
         cfPaymentService.setOrientation(0);
         switch (view.getId()) {
 
-            /***
-             * This method handles the payment gateway invocation (web flow).
-             *
-             * @param context Android context of the calling activity
-             * @param params HashMap containing all the parameters required for creating a payment order
-             * @param token Provide the token for the transaction
-             * @param stage Identifies if test or production service needs to be invoked. Possible values:
-             *              PROD for production, TEST for testing.
-             * @param color1 Background color of the toolbar
-             * @param color2 text color and icon color of toolbar
-             * @param hideOrderId If true hides order Id from the toolbar
-             */
             case R.id.web: {
                 cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage, "#784BD2", "#FFFFFF", false);
 //                 cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage);
                 break;
             }
-            /***
-             * Same for all payment modes below.
-             *
-             * @param context Android context of the calling activity
-             * @param params HashMap containing all the parameters required for creating a payment order
-             * @param token Provide the token for the transaction
-             * @param stage Identifies if test or production service needs to be invoked. Possible values:
-             *              PROD for production, TEST for testing.
-             */
+
             case R.id.upi: {
-//                                cfPaymentService.selectUpiClient("com.google.android.apps.nbu.paisa.user");
+//                cfPaymentService.selectUpiClient("com.google.android.apps.nbu.paisa.user");
                 cfPaymentService.upiPayment(CashFreeActivity.this, params, token, stage);
                 break;
             }

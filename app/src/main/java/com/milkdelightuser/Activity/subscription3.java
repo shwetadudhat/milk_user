@@ -32,7 +32,6 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.milkdelightuser.Adapter.Adapter_SubProduct;
-import com.milkdelightuser.CashFreeActivity;
 import com.milkdelightuser.Model.EndDate_Model;
 import com.milkdelightuser.Model.PlanSelected_model;
 import com.milkdelightuser.Model.Plan_model;
@@ -74,10 +73,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.MY_FREQ_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
-
 import static com.milkdelightuser.utils.Global.SUB_DATA;
 
-public class subscription2 extends BaseActivity  {
+public class subscription3 extends BaseActivity implements  PaymentResultListener {
 
     /*tool bar*/
     Toolbar toolbar;
@@ -161,7 +159,8 @@ public class subscription2 extends BaseActivity  {
         getUserData();
         setArrayList();
 
-
+        //razor pay
+        Checkout.preload(getActivity());
 
         toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
         toolTitle.setText("Add Subscriptions"/*proname*/);
@@ -189,7 +188,7 @@ public class subscription2 extends BaseActivity  {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(subscription2.this, drawer.class);
+                Intent intent=new Intent(subscription3.this, drawer.class);
                 intent.putExtra("notification","subscription_page");
                 startActivity(intent);
             }
@@ -237,9 +236,9 @@ public class subscription2 extends BaseActivity  {
 
                 getTotalAmount();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(subscription3.this);
                 ViewGroup viewGroup = view.findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_coupon, viewGroup, false);
+                View dialogView = LayoutInflater.from(subscription3.this).inflate(R.layout.custom_coupon, viewGroup, false);
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.setCancelable(true);
@@ -297,7 +296,7 @@ public class subscription2 extends BaseActivity  {
                     myEdit.putString(SUB_DATA, json);
                     myEdit.commit();
                 }
-                Intent intent=new Intent(subscription2.this, ProductListing.class);
+                Intent intent=new Intent(subscription3.this, ProductListing.class);
                 intent.putExtra("seeAll","bestProduct");
                 startActivity(intent);
                 finish();
@@ -329,11 +328,11 @@ public class subscription2 extends BaseActivity  {
                                         llEdit.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
-                                                Intent intent=new Intent(subscription2.this,Addresslist.class);
+                                                Intent intent=new Intent(subscription3.this,Addresslist.class);
                                                 startActivityForResult(intent,0);
                                             }
                                         });
-                                        Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(subscription3.this, "plase select address first", Toast.LENGTH_SHORT).show();
                                     }else{
                                         showDialog("");
                                         Log.e("totalAmount","totalAmount");
@@ -345,7 +344,7 @@ public class subscription2 extends BaseActivity  {
                                 }
                             }
                         }else{
-                            Toast.makeText(subscription2.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(subscription3.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -563,9 +562,9 @@ public class subscription2 extends BaseActivity  {
                             Log.e("planModelList123", String.valueOf(planModelList));
 
 
-                            recycler_cartitem.setLayoutManager(new LinearLayoutManager(subscription2.this));
+                            recycler_cartitem.setLayoutManager(new LinearLayoutManager(subscription3.this));
 
-                            adapter = new Adapter_SubProduct(subscription2.this, map,planModelList);
+                            adapter = new Adapter_SubProduct(subscription3.this, map,planModelList);
                             recycler_cartitem.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -772,7 +771,7 @@ public class subscription2 extends BaseActivity  {
                         llEdit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent=new Intent(subscription2.this,Addresslist.class);
+                                Intent intent=new Intent(subscription3.this,Addresslist.class);
                                 intent.putExtra("action","edit");
                                 intent.putExtra("id",Addrid);
                                 startActivityForResult(intent,0);
@@ -909,7 +908,7 @@ public class subscription2 extends BaseActivity  {
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
-                picker = new DatePickerDialog(subscription2.this,
+                picker = new DatePickerDialog(subscription3.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -1059,8 +1058,8 @@ public class subscription2 extends BaseActivity  {
                             }
 
 
-                            pro_gst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
-                            pro_sgst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getSGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
+                            pro_gst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getGSTTax(subscription3.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
+                            pro_sgst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getSGSTTax(subscription3.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
 
                             subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_gst));
                             subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));
@@ -1194,11 +1193,8 @@ public class subscription2 extends BaseActivity  {
 
         if (razorAmount!=0){
             Log.e("razorrrrrr", String.valueOf(razorAmount));
-            pay_type="CashFree";
-            Intent intent=new Intent(subscription2.this, CashFreeActivity.class);
-            intent.putExtra("amount",String.valueOf(razorAmount));
-            startActivity(intent);
-           // startPayment(razorAmount);
+            pay_type="Razor Pay";
+            startPayment(razorAmount);
         }else{
             pay_type="Wallet Pay";
             addSubPlan();
@@ -1212,7 +1208,7 @@ public class subscription2 extends BaseActivity  {
     private void startPayment(double razorAmount) {
         Checkout checkout = new Checkout();
 
-        final Activity activity = subscription2.this;
+        final Activity activity = subscription3.this;
         double price_rs = razorAmount;
         try {
             JSONObject options = new JSONObject();
@@ -1245,6 +1241,110 @@ public class subscription2 extends BaseActivity  {
 
     }
 
+    @Override
+    public void onPaymentSuccess(String razorpayPaymentID) {
+        this.razorpayPaymentID=razorpayPaymentID;
+        Log.e("onSuccess","onsuccess");
+
+        try {
+            pay_type="Razor Pay";
+
+            addSubPlan();
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(subscription3.this);
+            ViewGroup viewGroup = findViewById(android.R.id.content);
+            View dialogView = LayoutInflater.from(subscription3.this).inflate(R.layout.custom_success, viewGroup, false);
+            builder.setView(dialogView);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(true);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+            TextView tvStts=dialogView.findViewById(R.id.tvStts);
+            TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+            TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+            ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+
+            //  tvStts.setText("");
+            tvTransId.setText("Transaction id : "+razorpayPaymentID);
+            getTransactionId();
+            //  tvTransDesc.setText("");
+
+            tvStts.setText("Payment Success");
+            tvStts.setTextColor(getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            tvTransDesc.setText("Payment done through your Razor amount");
+            // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivIcon.setColorFilter(ContextCompat.getColor(subscription3.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+           // db.removeItemFromCart(product_id);
+
+            db.clearCart();
+
+
+
+            llDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(subscription3.this, drawer.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            alertDialog.show();
+
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentSuccess", e);
+        }
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+
+        Log.e("payerror",s);
+        try{
+            AlertDialog.Builder builder = new AlertDialog.Builder(subscription3.this);
+            ViewGroup viewGroup = findViewById(android.R.id.content);
+            View dialogView = LayoutInflater.from(subscription3.this).inflate(R.layout.custom_success, viewGroup, false);
+            builder.setView(dialogView);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(true);
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+            LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+            TextView tvStts=dialogView.findViewById(R.id.tvStts);
+            TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+            TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+            ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+            tvTransId.setVisibility(View.GONE);
+
+            tvStts.setText("Payment Failed");
+            tvStts.setTextColor(getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            //  ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
+            ivIcon.setColorFilter(ContextCompat.getColor(subscription3.this, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+
+
+            llDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            alertDialog.show();
+
+        } catch (Exception e) {
+            Log.e("TAG", "Exception in onPaymentSuccess", e);
+        }
+
+    }
 
 
     private void getTransactionId() {
@@ -1268,7 +1368,7 @@ public class subscription2 extends BaseActivity  {
                     String message=response.getString("message");
 
                     if (status.equals("1")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(subscription3.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1411,9 +1511,9 @@ public class subscription2 extends BaseActivity  {
                         if (razorAmount==0){
 
                             /*api call payment gateway*/
-                            AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(subscription3.this);
                             ViewGroup viewGroup = findViewById(android.R.id.content);
-                            View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_success, viewGroup, false);
+                            View dialogView = LayoutInflater.from(subscription3.this).inflate(R.layout.custom_success, viewGroup, false);
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
                             alertDialog.setCancelable(true);
@@ -1432,7 +1532,7 @@ public class subscription2 extends BaseActivity  {
                             tvStts.setTextColor(getResources().getColor(R.color.green));
                             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
-                            ivIcon.setColorFilter(ContextCompat.getColor(subscription2.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+                            ivIcon.setColorFilter(ContextCompat.getColor(subscription3.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
                             tvTransDesc.setText("Payment done through your Wallet amount");
 
                           //  db.removeItemFromCart(product_id);
@@ -1446,7 +1546,7 @@ public class subscription2 extends BaseActivity  {
                             llDialog.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(subscription2.this, drawer.class);
+                                    Intent intent=new Intent(subscription3.this, drawer.class);
                                     startActivity(intent);
                                     finish();
                                     alertDialog.dismiss();
@@ -1460,9 +1560,9 @@ public class subscription2 extends BaseActivity  {
                         }
 
                     }else if (status.equals("3")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(subscription3.this, message, Toast.LENGTH_SHORT).show();
                     }else if (status.equals("0")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(subscription3.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1542,7 +1642,7 @@ public class subscription2 extends BaseActivity  {
 
                     }else{
                         alertDialog.dismiss();
-                        Toast.makeText(subscription2.this, ""+message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(subscription3.this, ""+message, Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {
@@ -1567,7 +1667,7 @@ public class subscription2 extends BaseActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(subscription2.this, drawer.class);
+        Intent intent=new Intent(subscription3.this, drawer.class);
         startActivity(intent);
         finish();
     }

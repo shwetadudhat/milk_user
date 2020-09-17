@@ -75,27 +75,8 @@ public class BaseURL {
     public static String notification_list= BASE_URL + "notification_list";
     public static String gst_charge= BASE_URL + "gst_charge";
     public static String delivery_status_update= BASE_URL + "delivery_status_update";
+    public static String generate_cashfree_token= BASE_URL + "generate_cashfree_token";
 
-
-    public static String home2banner = BASE_URL + "home2banner";
-
-    public static String showcomplain = BASE_URL + "showcomplain";
-    public static String report_issue = BASE_URL + "report_issue";
-
-    public static String subscriptionoftheday = BASE_URL + "subscriptionoftheday";
-    public static String logo = BASE_URL + "logo";
-    public static String showarea = BASE_URL + "showarea";
-    public static String search = BASE_URL + "search_keyword";
-    public static String resumeorders = BASE_URL + "resumeorders";
-    public static String homecategory = BASE_URL + "homecategory";
-    public static String showcompleted = BASE_URL + "showcompleted";
-    public static String subsdelivery_timing = BASE_URL + "subsdelivery_timing";
-
-    public static String total_bill = BASE_URL + "total_bill";
-    public static String schedule = BASE_URL + "schedule";
-
-
-    public static String addcredit = BASE_URL + "add_credit";
 
     //    public static String IMG_CATEGORY_URL = "https://gofreshdaily.com/app/";
     public static String IMG_CATEGORY_URL = "http://civilwarboots.net/milk_delight/";
