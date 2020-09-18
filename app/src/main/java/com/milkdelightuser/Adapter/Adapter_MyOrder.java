@@ -45,11 +45,15 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
 
         holder.text_ordr.setText(orderModelList.get(position).getOffer_product()+" ("+orderModelList.get(position).getOrder_unit()+")");
         holder.price_ordr.setText(MainActivity.currency_sign +orderModelList.get(position).getOffer_pricee());
-        holder.qty_ordr.setText(orderModelList.get(position).getOffer_qty());
+        holder.qty_ordr.setText("Qty : "+orderModelList.get(position).getOffer_qty());
 
        // String formattedDate = Global.convertDate(orderModelList.get(position).getOffer_deliveryText());
+        if (orderModelList.get(position).getSubStatus().contains("Pending")){
+            holder.delvr_txt.setText("Delivery on "+orderModelList.get(position).getSubStatus());
+        }else{
+            holder.delvr_txt.setText("Delivered on "+orderModelList.get(position).getOffer_deliveryText());
+        }
 
-        holder.delvr_txt.setText("Delivered on "+orderModelList.get(position).getOffer_deliveryText());
 
         holder.rlMain.setOnClickListener(new View.OnClickListener() {
             @Override

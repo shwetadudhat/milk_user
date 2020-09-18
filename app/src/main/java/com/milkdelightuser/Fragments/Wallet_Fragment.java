@@ -62,7 +62,7 @@ public class Wallet_Fragment extends BaseFragment {
     Session_management session_management;
     public static String priceee;
 
-    String pay;
+    Double pay;
 
     SharedPreferences settings ;
     SharedPreferences.Editor editor;
@@ -130,17 +130,15 @@ public class Wallet_Fragment extends BaseFragment {
                     Toast.makeText(getContext(), "Please enter the amount", Toast.LENGTH_SHORT).show();
                 } else if (Integer.valueOf(amount_edit.getText().toString())>0){
 
-                    pay= amount_edit.getText().toString().trim();
-                    Log.e("pay",pay);
-                    /*drawer drawer= (com.milkdelightuser.Activity.drawer) getActivity();
-                    drawer.startpayment(pay);*/
+                    pay= Double.valueOf(amount_edit.getText().toString().trim());
+                    Log.e("pay",String.valueOf(pay));
+
                     Intent intent=new Intent(getContext(), CashFreeActivity.class);
                     intent.putExtra("activity","wallet");
-                    intent.putExtra("cashfree_amount",pay);
+                    intent.putExtra("cashfree_amount",String.valueOf(pay));
+
                     startActivity(intent);
-                   /* Intent intent = new Intent(getContext(),pay_razor.class);
-                    intent.putExtra("amunt",pay);
-                    startActivity(intent);*/
+
                 } else {
                     Toast.makeText(getContext(), "Please enter the amount", Toast.LENGTH_SHORT).show();
 
@@ -200,105 +198,9 @@ public class Wallet_Fragment extends BaseFragment {
 
     }
 
-    public void FailResponse(String des){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        ViewGroup viewGroup = getActivity().findViewById(android.R.id.content);
-        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.custom_success, viewGroup, false);
-        builder.setView(dialogView);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
-        TextView tvStts=dialogView.findViewById(R.id.tvStts);
-        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
-        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
-        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
-
-        tvTransId.setVisibility(View.GONE);
 
 
 
-        tvStts.setText("Payment Failed");
-        tvStts.setTextColor(getResources().getColor(R.color.red));
-        ivIcon.setImageResource(R.drawable.ic_noun_close_1);
-        //  ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
-        ivIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
-
-
-        llDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-
-                Log.e("des",des);
-
-                Wallet_Fragment wallet_fragment = new Wallet_Fragment();
-                // load fragment
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.container_12, wallet_fragment);
-                transaction.commit();
-            }
-        });
-
-        alertDialog.show();
-
-
-    }
-
-   public void successResponse(String razorpayPaymentID){
-       AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-       ViewGroup viewGroup = getActivity().findViewById(android.R.id.content);
-       View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.custom_success, viewGroup, false);
-       builder.setView(dialogView);
-       AlertDialog alertDialog = builder.create();
-       alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-       LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
-       TextView tvStts=dialogView.findViewById(R.id.tvStts);
-       TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
-       TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
-       ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
-
-
-       //  tvStts.setText("");
-       tvTransId.setText("Transaction id : "+razorpayPaymentID);
-       //  tvTransDesc.setText("");
-       tvTransDesc.setText("Payment done through your Razor amount");
-
-       tvStts.setText("Payment Success");
-       tvStts.setTextColor(getResources().getColor(R.color.green));
-       ivIcon.setImageResource(R.drawable.ic_noun_check_1);
-       ivIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
-
-
-       amount_edit.setText("0");
-       wallet(razorpayPaymentID);
-       showTotalCredit(user_id);
-
-       llDialog.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-
-
-               Wallet_Fragment frg = null;
-               frg = (Wallet_Fragment) getFragmentManager().findFragmentById(R.id.container_12);
-               final FragmentTransaction ft = getFragmentManager().beginTransaction();
-               ft.detach(frg);
-               ft.attach(frg);
-               ft.commit();
-
-               alertDialog.dismiss();
-
-           }
-       });
-
-
-       alertDialog.show();
-
-    }
 
 
     private void showTotalCredit(String user_id) {
@@ -368,9 +270,9 @@ public class Wallet_Fragment extends BaseFragment {
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("user_id",user_id);
-        params.put("amount",pay);
+        params.put("amount",String.valueOf(pay));
         params.put("transaction_id",razorpayPaymentID);
-        params.put("pay_type","Razor Pay");
+        params.put("pay_type","CashFree");
 
 
         Log.e("params_wallet",params.toString());

@@ -42,59 +42,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
+
+
                             <LinearLayout
+                                android:visibility="visible"
+                                android:id="@+id/llPayNow"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:weightSum="2"
-                                android:orientation="horizontal">
+                                android:layout_height="wrap_content">
 
-
-                                <LinearLayout
-                                    android:id="@+id/ll_ordrOnce"
-                                    android:background="@drawable/home_add"
-                                    android:layout_marginRight="@dimen/_1sdp"
-                                    android:layout_weight="0.85"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:fontFamily="@font/ubuntu_bold"
-                                        android:padding="@dimen/_10sdp"
-                                        android:textSize="@dimen/_14sdp"
-                                        android:gravity="center"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/main_clr"
-                                        android:text="ORDER ONCE"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        />
-
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:id="@+id/ll_buySubscription"
-                                    android:background="@drawable/bg_fb"
-                                    android:layout_marginLeft="@dimen/_5sdp"
-                                    android:layout_weight="1.15"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:fontFamily="@font/ubuntu_bold"
-                                        android:padding="@dimen/_10sdp"
-                                        android:textSize="@dimen/_14sdp"
-                                        android:gravity="center"
-                                        android:layout_gravity="center"
-                                        android:textColor="@color/white"
-                                        android:text="BUY SUBSCRIPTION"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        />
-
-                                </LinearLayout>
+                                <Button
+                                    android:fontFamily="@font/ubuntu_bold"
+                                    android:id="@+id/btnPaynow"
+                                    android:textSize="@dimen/_16sdp"
+                                    android:textColor="@color/white"
+                                    android:text="PAY NOW (RS. 1,157)"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_bluebtn"/>
 
 
                             </LinearLayout>
-
 
 
                         </RelativeLayout>
@@ -124,86 +91,206 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
+
                                 <RelativeLayout
                                     android:orientation="vertical"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="match_parent">
 
-
-                                    <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/recycler_cartitem"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="@dimen/_10sdp"
-                                        android:layout_marginEnd="@dimen/_10sdp"
-                                        android:layout_marginStart="@dimen/_10sdp"
-                                        android:layout_marginTop="@dimen/_10sdp"
-                                        tools:itemCount="2"
-                                        tools:listitem="@layout/cart" />
 
                                     <RelativeLayout
-                                        android:layout_below="@id/recycler_cartitem"
-                                        android:id="@+id/rlCoupon"
-                                        android:layout_marginLeft="@dimen/_20sdp"
-                                        android:layout_marginRight="@dimen/_20sdp"
-                                        android:layout_marginBottom="@dimen/_20sdp"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
                                         <LinearLayout
-                                            android:id="@+id/llCoupon"
-                                            android:padding="@dimen/_5sdp"
-                                            android:background="@drawable/home_product_border"
-                                            android:weightSum="2"
-                                            android:layout_centerHorizontal="true"
-                                            android:layout_centerVertical="true"
+                                            android:id="@+id/llAddress"
+                                            android:background="@drawable/home_add"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical"
+                                            android:layout_margin="@dimen/_20sdp">
 
                                             <LinearLayout
-                                                android:layout_weight="0.3"
-                                                android:layout_width="0dp"
-                                                android:layout_height="@dimen/_35sdp">
+                                                android:weightSum="2"
+                                                android:paddingLeft="@dimen/_10sdp"
+                                                android:paddingRight="@dimen/_10sdp"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/_37sdp">
 
-                                                <ImageView
-                                                    android:padding="@dimen/_6sdp"
-                                                    android:layout_weight="0.3"
+                                                <TextView
+                                                    android:fontFamily="@font/ubuntu_medium"
+                                                    android:gravity="center|left"
+                                                    android:layout_weight="1.8"
+                                                    android:textColor="@color/title_clr"
+                                                    android:textSize="@dimen/_16sdp"
+                                                    android:text="Delivery Address"
                                                     android:layout_width="0dp"
-                                                    android:src="@drawable/ic_coupon"
-                                                    android:tint="@color/skip_clr"
-                                                    android:layout_height="@dimen/_35sdp"/>
+                                                    android:layout_height="match_parent"/>
+
+
+                                                <LinearLayout
+                                                    android:id="@+id/llEdit"
+                                                    android:layout_weight="0.2"
+                                                    android:layout_width="0dp"
+                                                    android:layout_height="match_parent">
+
+                                                    <ImageView
+                                                        android:id="@+id/ivAdrEdit"
+                                                        android:padding="@dimen/_5sdp"
+                                                        android:tint="@color/main_clr"
+                                                        android:src="@drawable/ic_edit"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="match_parent"
+                                                        />
+
+                                                </LinearLayout>
+
+
 
                                             </LinearLayout>
 
-                                            <TextView
-                                                android:fontFamily="@font/ubuntu_medium"
-                                                android:textColor="@color/skip_clr"
-                                                android:gravity="center|left"
-                                                android:text="Apply Coupon Code"
-                                                android:layout_weight="1.4"
-                                                android:layout_width="0dp"
-                                                android:layout_height="@dimen/_35sdp"/>
+                                            <View
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/_1sdp"
+                                                android:background="@color/dottdline_clr"/>
 
-                                            <ImageView
-                                                android:padding="@dimen/_4sdp"
-                                                android:tint="@color/skip_clr"
-                                                android:src="@drawable/ic_right_back"
-                                                android:layout_weight="0.3"
-                                                android:layout_width="0dp"
-                                                android:layout_height="@dimen/_35sdp"/>
+                                            <LinearLayout
+                                                android:layout_margin="@dimen/_10sdp"
+                                                android:orientation="vertical"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content">
+
+                                                <TextView
+                                                    android:fontFamily="@font/ubuntu_regular"
+                                                    android:textColor="@color/wallettxt_clr"
+                                                    android:id="@+id/cart_adrName"
+                                                    android:textSize="@dimen/_14sdp"
+                                                    android:text="Mr. king"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"/>
+
+
+                                                <TextView
+                                                    android:paddingTop="@dimen/_2sdp"
+                                                    android:lineSpacingMultiplier="1.2"
+                                                    android:textColor="@color/small_title_clr"
+                                                    android:fontFamily="@font/ubuntu_regular"
+                                                    android:id="@+id/cart_adr"
+                                                    android:textSize="@dimen/_12sdp"
+                                                    android:text="Addressfj judgvfgvbhfbvjvhdfhvjfbvhffffffdvgfhvgbhfvbhfdvbfvhfhdvbfhvbbbbbbbbbbbbhfvb udhjvhj j"
+                                                    android:maxLines="3"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"/>
+
+                                                <TextView
+                                                    android:paddingTop="@dimen/_2sdp"
+                                                    android:fontFamily="@font/ubuntu_regular"
+                                                    android:textColor="@color/wallettxt_clr"
+                                                    android:id="@+id/cart_adrNmbr"
+                                                    android:textSize="@dimen/_14sdp"
+                                                    android:text="9999999999"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"/>
+
+
+
+                                            </LinearLayout>
 
 
 
                                         </LinearLayout>
 
+                                        <View
+                                            android:id="@+id/view"
+                                            android:layout_below="@+id/llAddress"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/_15sdp"
+                                            android:background="@color/white"/>
+
+                                        <androidx.recyclerview.widget.RecyclerView
+                                            tools:itemCount="1"
+                                            android:layout_margin="@dimen/_10sdp"
+                                            android:layout_below="@id/view"
+                                            android:id="@+id/recycler_cartList"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:nestedScrollingEnabled="true"
+                                            tools:listitem="@layout/cart1"
+                                            />
+
+                                        <!-- <RelativeLayout
+                                             android:layout_below="@+id/recycler_cartList"
+                                             android:visibility="visible"
+                                             android:id="@+id/rlChk"
+                                             android:layout_marginRight="@dimen/_20sdp"
+                                             android:layout_marginLeft="@dimen/_20sdp"
+                                             android:background="@drawable/bg_grey"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content">
+
+                                             <LinearLayout
+                                                 android:background="@drawable/bg_edit"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:orientation="vertical">
+
+                                                 <LinearLayout
+                                                     android:layout_marginTop="@dimen/_5sdp"
+                                                     android:orientation="horizontal"
+                                                     android:paddingLeft="@dimen/_10sdp"
+                                                     android:paddingRight="@dimen/_10sdp"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content">
+
+                                                     <CheckBox
+                                                         android:fontFamily="@font/ubuntu_medium"
+                                                         android:id="@+id/ChkWallet"
+                                                         android:padding="@dimen/_5sdp"
+                                                         android:gravity="center|left"
+                                                         android:layout_weight="1.8"
+                                                         android:textColor="@color/wallettxt_clr"
+                                                         android:textSize="@dimen/_14sdp"
+                                                         android:layout_width="wrap_content"
+                                                         android:text="Milk Delight Balance"
+                                                         android:layout_height="wrap_content"/>
+
+
+                                                 </LinearLayout>
+
+                                                 <LinearLayout
+                                                     android:paddingBottom="@dimen/_5sdp"
+                                                     android:orientation="vertical"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content">
+
+                                                     <TextView
+                                                         android:fontFamily="@font/ubuntu_regular"
+                                                         android:layout_marginLeft="@dimen/_40sdp"
+                                                         android:id="@+id/balance"
+                                                         android:textColor="@color/wallettxt_clr1"
+                                                         android:layout_marginBottom="@dimen/_5sdp"
+                                                         android:textSize="@dimen/_10sdp"
+                                                         android:text="your balance is"
+                                                         android:layout_width="match_parent"
+                                                         android:layout_height="wrap_content"/>
+
+
+                                                 </LinearLayout>
+
+
+
+                                             </LinearLayout>
+
+                                         </RelativeLayout>-->
+
+
+
+
 
                                     </RelativeLayout>
 
 
-
                                 </RelativeLayout>
-
 
                             </RelativeLayout>
 
@@ -213,6 +300,67 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
+                                <RelativeLayout
+                                    android:id="@+id/rlChk"
+                                    android:layout_margin="@dimen/_20sdp"
+                                    android:background="@drawable/bg_edit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <LinearLayout
+                                        android:background="@drawable/home_add"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <LinearLayout
+                                            android:layout_marginTop="@dimen/_5sdp"
+                                            android:orientation="horizontal"
+                                            android:paddingLeft="@dimen/_10sdp"
+                                            android:paddingRight="@dimen/_10sdp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <CheckBox
+                                                android:fontFamily="@font/ubuntu_medium"
+                                                android:id="@+id/ChkWallet"
+                                                android:padding="@dimen/_5sdp"
+                                                android:gravity="center|left"
+                                                android:layout_weight="1.8"
+                                                android:textColor="@color/wallettxt_clr"
+                                                android:textSize="@dimen/_14sdp"
+                                                android:layout_width="wrap_content"
+                                                android:text="Milk Delight Balance"
+                                                android:layout_height="wrap_content"/>
+
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:paddingBottom="@dimen/_5sdp"
+                                            android:orientation="vertical"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <TextView
+                                                android:fontFamily="@font/ubuntu_regular"
+                                                android:layout_marginLeft="@dimen/_40sdp"
+                                                android:id="@+id/balance"
+                                                android:textColor="@color/wallettxt_clr1"
+                                                android:layout_marginBottom="@dimen/_5sdp"
+                                                android:textSize="@dimen/_10sdp"
+                                                android:text="your balance is"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"/>
+
+
+                                        </LinearLayout>
+
+
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
 
                                 <RelativeLayout
                                     android:paddingBottom="@dimen/_5sdp"

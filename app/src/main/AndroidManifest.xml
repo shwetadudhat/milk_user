@@ -115,6 +115,12 @@
             android:configChanges="keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <activity
+            android:name=".Activity.BuyOnce"
+            android:configChanges="keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".Activity.drawer"
             android:theme="@style/AppTheme" />

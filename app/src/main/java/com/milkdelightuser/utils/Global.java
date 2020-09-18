@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -417,5 +418,131 @@ public class Global {
 
 
     }*/
+
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
+    public static String getTimeAgoLikeTwitter(long time, Context context, boolean allowLongFormat) {
+        if (allowLongFormat) {
+            return getTimeAgoLongFormatLikeTwitter(time, context);
+        }
+
+        if (time < 1000000000000L) {
+            //IF TIMESTAMP GIVEN IN SECONDS, CONVERT TO MILLIS
+            time *= 1000;
+        }
+
+        long now = getCurrentTime();
+        if (time > now || time <= 0) {
+            return "+1d";
+        }
+
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return diff / SECOND_MILLIS + "s";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return 1 + "m";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + "m";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return 1 + "h";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            if (diff / HOUR_MILLIS == 1)
+                return 1 + "h";
+            else
+                return diff / HOUR_MILLIS + "h";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return 1 + "d";
+        } else {
+            return diff / DAY_MILLIS + "d";
+        }
+    }
+
+    private static String getTimeAgoLongFormatLikeTwitter(long time, Context context) {
+        if (time < 1000000000000L) {
+            //if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = getCurrentTime();
+        if (time > now || time <= 0) {
+            return "+1d";
+        }
+
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return context.getString(R.string.seconds_ago, diff / SECOND_MILLIS);
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return context.getString(R.string.min_ago, 1);
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return context.getString(R.string.mins_ago, diff / MINUTE_MILLIS);
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return context.getString(R.string.hour_ago, 1);
+        } else if (diff < 24 * HOUR_MILLIS) {
+            if (diff / HOUR_MILLIS == 1)
+                return context.getString(R.string.hour_ago, 1);
+            else
+                return context.getString(R.string.new_hours_ago, diff / HOUR_MILLIS);
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return context.getString(R.string.day_ago, 1);
+        } else {
+            return context.getString(R.string.new_days_ago, diff / DAY_MILLIS);
+        }
+    }
+
+    private static long getCurrentTime() {
+        return new Date().getTime();
+    }
+
+
+    public static String covertTimeToText(String dataDate) {
+
+        String convTime = null;
+
+        String prefix = "";
+        String suffix = "Ago";
+
+        try {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date pasTime = dateFormat.parse(dataDate);
+
+            Date nowTime = new Date();
+
+            long dateDiff = nowTime.getTime() - pasTime.getTime();
+
+            long second = TimeUnit.MILLISECONDS.toSeconds(dateDiff);
+            long minute = TimeUnit.MILLISECONDS.toMinutes(dateDiff);
+            long hour   = TimeUnit.MILLISECONDS.toHours(dateDiff);
+            long day  = TimeUnit.MILLISECONDS.toDays(dateDiff);
+
+            if (second < 60) {
+                convTime = second + " Seconds " + suffix;
+            } else if (minute < 60) {
+                convTime = minute + " Minutes "+suffix;
+            } else if (hour < 24) {
+                convTime = hour + " Hours "+suffix;
+            } else if (day >= 7) {
+                if (day > 360) {
+                    convTime = (day / 360) + " Years " + suffix;
+                } else if (day > 30) {
+                    convTime = (day / 30) + " Months " + suffix;
+                } else {
+                    convTime = (day / 7) + " Week " + suffix;
+                }
+            } else if (day < 7) {
+                convTime = day+" Days "+suffix;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e("ConvTimeE", e.getMessage());
+        }
+
+        return convTime;
+    }
+
 
 }

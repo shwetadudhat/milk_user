@@ -3,8 +3,16 @@ package com.milkdelightuser.Model;
 public class Order_Model {
 
     String order_id,offer_product,offer_qty,offer_pricee,offer_deliveryText;
-    String order_icon,order_unit;
+    String order_icon,order_unit,subStatus;
 
+
+    public String getSubStatus() {
+        return subStatus;
+    }
+
+    public void setSubStatus(String subStatus) {
+        this.subStatus = subStatus;
+    }
 
     public String getOrder_unit() {
         return order_unit;

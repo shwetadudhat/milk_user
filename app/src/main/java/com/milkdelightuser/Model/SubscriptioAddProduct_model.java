@@ -1,6 +1,8 @@
 package com.milkdelightuser.Model;
 
-public class SubscriptioAddProduct_model {
+import java.io.Serializable;
+
+public class SubscriptioAddProduct_model implements Serializable {
     String product_id,product_name,product_qty,product_oldprice,product_unit,start_date,end_date,skip_days,plan_id;
     int product_price,product_gst,product_sgst,product_totalprice;
 

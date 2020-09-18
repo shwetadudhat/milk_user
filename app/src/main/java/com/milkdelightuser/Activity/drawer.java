@@ -68,13 +68,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 
-public class drawer extends BaseActivity implements PaymentResultListener, FragmentManager.OnBackStackChangedListener {
+public class drawer extends BaseActivity implements  FragmentManager.OnBackStackChangedListener {
 
     Session_management session_management;
     String user_id,user_name,user_nmbr,user_email,user_image;
     public static NavigationView navigationView;
-   // private RecyclerView menuList;
-   public static ListView menuList;
+    public static ListView menuList;
     public static Adapter_menu1 adapterMenu1;
 
     String notification=null;
@@ -231,28 +230,11 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
         if( notification!= null)
         {
             OpenMainFragment(new Notification_Fragment(), -1);
-        }else{
-            selectedItem(0);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
-            transaction.addToBackStack(String.valueOf(0));
-            transaction.commit();
-
-        }
-
-        if( wallet!= null)
-        {
+        }else  if( wallet!= null) {
             Wallet();
-          //  OpenMainFragment(new Notification_Fragment(), -1);
         }else{
             selectedItem(0);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
-            transaction.addToBackStack(String.valueOf(0));
-            transaction.commit();
-
         }
-
 
     }
 
@@ -550,23 +532,8 @@ public class drawer extends BaseActivity implements PaymentResultListener, Fragm
 
     }
 
-    @Override
-    public void onPaymentSuccess(String razorpayPaymentID) {
-        Wallet_Fragment fragment = (Wallet_Fragment) getSupportFragmentManager().findFragmentById(R.id.container_12);
-        fragment.successResponse(razorpayPaymentID);
 
 
-    }
-
-
-
-    @Override
-    public void onPaymentError(int i, String s) {
-        Log.e("payment_error",s);
-        Wallet_Fragment fragment = (Wallet_Fragment) getSupportFragmentManager().findFragmentById(R.id.container_12);
-        fragment.FailResponse(s);
-
-    }
 
     @Override
     protected void onResume() {

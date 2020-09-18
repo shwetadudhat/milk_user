@@ -126,34 +126,29 @@ public class MyOrder_Fragment extends BaseFragment {
                             JSONObject jsonObject1=jsonArray.getJSONObject(i);
 
                             String product_name=jsonObject1.getString("product_name");
-                            int  product_id=jsonObject1.getInt("product_id");
                             int subs_id=jsonObject1.getInt("subs_id");
-                           // String delivery_date=jsonObject1.getString("delivery_date");
                             String delivery_date= Global.getDateConvert(jsonObject1.getString("delivery_date"),"yyyy-MM-dd","EEE dd, MMM yyyy");
                             String order_qty=jsonObject1.getString("order_qty");
                             String price=jsonObject1.getString("price");
-                            String start_date=jsonObject1.getString("start_date");
-                            String description=jsonObject1.getString("description");
-                            String subscription_price=jsonObject1.getString("subscription_price");
                             String unit=jsonObject1.getString("unit");
                             String qty=jsonObject1.getString("qty");
                             String sub_status=jsonObject1.getString("sub_status");
 
-
                             JSONObject jsonObject2=jsonObject1.getJSONObject("product");
                             JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
                             String product_image=jsonObject3.getString("product_image");
-                            Log.e("product_image",product_url+product_image);
 
 
                             Order_Model orderModel=new Order_Model();
                             orderModel.setOrder_id(String.valueOf(subs_id));
                             orderModel.setOffer_product(product_name);
                             orderModel.setOffer_qty(order_qty);
-                            orderModel.setOffer_pricee(price);
+
+                            orderModel.setOffer_pricee(String.valueOf(Math.round(Double.parseDouble(price)+ Math.round( Global.getTax(getContext(), Double.parseDouble(price))))));
                             orderModel.setOffer_deliveryText(delivery_date);
                             orderModel.setOrder_unit(qty+" "+unit);
                             orderModel.setOrder_icon(product_url+product_image);
+                            orderModel.setSubStatus(sub_status);
 
                             orderModelList.add(orderModel);
 

@@ -221,6 +221,7 @@ public class subscription2 extends BaseActivity  {
 
         sharedPreferences = this.getActivity().getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
+        myEdit.clear();
 
         Gson gson = new Gson();
         String json = sharedPreferences.getString(SUB_DATA, "");
@@ -969,9 +970,6 @@ public class subscription2 extends BaseActivity  {
                 for (int j=0;j<stardateList1.size();j++){
                     for (int v=0;v<stardateList1.size();v++){
                         if (map1.get("product_id").equals(stardateList1.get( v).getProdcut_id())){
-                            Log.e("subscriptionProductOd",map1.get("product_id"));
-                            Log.e("startProductOd",stardateList1.get( v).getProdcut_id());
-                            Log.e("startdateeee",stardateList1.get( v).getStart_date());
                             String start_date = null;
                             try {
                                 start_date= Global.getDateConvert(stardateList1.get( v).getStart_date(),"dd-MM-yyyy","yyyy-MM-dd");
@@ -979,9 +977,6 @@ public class subscription2 extends BaseActivity  {
                             }catch (ParseException e){
                                 e.printStackTrace();
                             }
-                          //  Log.e("priceeeee",stardateList1.get(v).getProduct_price());
-
-
 
                             subscriptioAddProductModel.setStart_date(start_date);
                         }
@@ -1025,7 +1020,7 @@ public class subscription2 extends BaseActivity  {
 
                 subProductList.add(subscriptioAddProductModel);
 
-                addListToPref();
+              //  addListToPref();
 
             }
 
@@ -1059,7 +1054,7 @@ public class subscription2 extends BaseActivity  {
 
     private void AddSubscription() {
 
-        Log.e("total_price", String.valueOf(total_price));
+        Log.e("total_price123333", String.valueOf(total_price));
 
 
         if (String.valueOf(total_price).equals("0.0")){
@@ -1073,41 +1068,29 @@ public class subscription2 extends BaseActivity  {
 
                 razorAmount= Math.round(total_price-wallet);
                 walletAmount=Math.round(wallet);
-
-                Log.e("razoramount123", String.valueOf(razorAmount));
-                Log.e("totalAmout123", String.valueOf(total_price));
-                Log.e("walletAmount123", String.valueOf(walletAmount));
-                Log.e("wallet123", String.valueOf(wallet));
-
             }else {
            /* wallet 2100  totalprice 400*/
 
                 walletAmount=Math.round(total_price);
                 razorAmount=0;
-                Log.e("totalAmout444", String.valueOf(total_price));
-                Log.e("walletAmount444", String.valueOf(walletAmount));
-
             }
 
         }else{
             razorAmount=Math.round( (int) total_price);
             walletAmount=0;
-            Log.e("razoramount777", String.valueOf(razorAmount));
-            Log.e("totalAmout777", String.valueOf(total_price));
 
         }
 
         if (razorAmount!=0){
-            Log.e("razorrrrrr", String.valueOf(razorAmount));
-            Log.e("wallet_amounttttttt", String.valueOf(walletAmount));
             pay_type="CashFree";
             Intent intent=new Intent(subscription2.this, CashFreeActivity.class);
+            intent.putExtra("subList",subProductList);
             intent.putExtra("activity","subscription");
             intent.putExtra("cashfree_amount",String.valueOf(razorAmount));
             intent.putExtra("address_id",Addrid);
             intent.putExtra("wallet_amount",String.valueOf(walletAmount));
             intent.putExtra("promo_code",promo_code);
-            intent.putExtra("discount_amount",String.valueOf(discount_amount));
+            intent.putExtra("discount_amount",String.valueOf(Math.round(discount_amount)));
             intent.putExtra("total_price",String.valueOf(total_price));
             startActivity(intent);
 
@@ -1226,6 +1209,7 @@ public class subscription2 extends BaseActivity  {
                           //  db.removeItemFromCart(product_id);
 
                             db.clearCart();
+                            myEdit.clear();
 
 
                             showTotalCredit(user_id);
@@ -1324,9 +1308,7 @@ public class subscription2 extends BaseActivity  {
                         String pay_amount=jsonObject.getString("pay_amount");
                         promo_code=jsonObject.getString("promo_code");
 
-
                         total_price= Float.parseFloat(pay_amount);
-
 
                     }else{
                         alertDialog.dismiss();

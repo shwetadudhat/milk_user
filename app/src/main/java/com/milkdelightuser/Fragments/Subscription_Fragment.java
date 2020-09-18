@@ -303,7 +303,9 @@ public class Subscription_Fragment extends BaseFragment {
             holder.text_plan.setText(showsubscrip_model.getProduct_name()+" ("+showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit()+")");
             holder.unit1.setText(showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit());
 
-            holder.price1.setText( MainActivity.currency_sign + showsubscrip_model.getPrice());
+            holder.price1.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(showsubscrip_model.getSubprice())+ Math.round( Global.getTax(context, Double.parseDouble(showsubscrip_model.getSubprice())))))));
+//            holder.price1.setText( MainActivity.currency_sign + showsubscrip_model.getPrice());
+            /*MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(getContext(), Double.parseDouble(price))))))*/
             holder.qty.setText("QTY :" + " " + showsubscrip_model.getOrder_qty());
             holder.substatus.setText(showsubscrip_model.getPlans());
 

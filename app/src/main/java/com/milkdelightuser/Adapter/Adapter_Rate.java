@@ -1,6 +1,7 @@
 package com.milkdelightuser.Adapter;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.milkdelightuser.utils.Global.covertTimeToText;
 
 
 public class Adapter_Rate extends RecyclerView.Adapter<Adapter_Rate.holder> {
@@ -60,18 +65,32 @@ public class Adapter_Rate extends RecyclerView.Adapter<Adapter_Rate.holder> {
         }
 
         long diff = today.getTime() - ratedate.getTime();
-        long seconds = diff / 1000;
+        /*long seconds = diff / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
-        long days = hours / 24;
+        long days = hours / 24;*/
 
         Log.e("diff", String.valueOf(diff));
 
-        /*long seconds=TimeUnit.MILLISECONDS.toSeconds(today.getTime() - ratedate.getTime());
-        Log.e("seconds",String.valueOf(seconds));
-        long minutes=TimeUnit.MILLISECONDS.toMinutes(today.getTime() - ratedate.getTime());
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        try {
+//            long time = sdf.parse("2016-01-24T16:00:00.000Z").getTime();
+            long time =  format.parse(rateModelList.get(i).getCreated_at()).getTime();
+            long now = System.currentTimeMillis();
+            CharSequence ago =
+                    DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+            Log.e("agoooo", (String) ago);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        long seconds=TimeUnit.MILLISECONDS.toSeconds(today.getTime() - ratedate.getTime());
+        long minutes= TimeUnit.MILLISECONDS.toMinutes(today.getTime() - ratedate.getTime());
         long hours=TimeUnit.MILLISECONDS.toHours(today.getTime() - ratedate.getTime());
-        long days= TimeUnit.MILLISECONDS.toDays(today.getTime() - ratedate.getTime());*/
+        long days=TimeUnit.MILLISECONDS.toDays(today.getTime() - ratedate.getTime());
+
 
         String txt;
 
@@ -87,6 +106,7 @@ public class Adapter_Rate extends RecyclerView.Adapter<Adapter_Rate.holder> {
 
         holder.tvRateDesc.setText(rateModelList.get(i).getRate_desc());
         holder.tvRateTime.setText(txt);
+//        holder.tvRateTime.setText(covertTimeToText(rateModelList.get(i).getCreated_at()));
 
       //  holder.user_dp.setImageResource(rateModelList.get(i).getUser_image());
 //        Glide.with(context)

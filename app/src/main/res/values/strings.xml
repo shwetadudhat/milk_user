@@ -114,4 +114,14 @@
     <string name="invitation_subject">"please use this refer link to earn "</string>
 
 
+    <!--FOR GET TIME AGO LIKE TWITTER-->
+    <string name="seconds_ago">%1$d seconds ago</string>
+    <string name="min_ago">%1$d minute ago</string>
+    <string name="mins_ago">%1$d minutes ago</string>requl
+    <string name="hour_ago">%1$d hour ago</string>
+    <string name="new_hours_ago">%1$d hours ago</string>
+    <string name="day_ago">%1$d day ago</string>
+    <string name="new_days_ago">%1$d days ago</string>
+
+
 </resources>

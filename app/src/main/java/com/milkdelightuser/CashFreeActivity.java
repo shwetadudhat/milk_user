@@ -91,8 +91,11 @@ public class CashFreeActivity extends BaseActivity {
     String promo_code="";
     double total_price=0,total_gst=0,total_sgst=0;
     ArrayList<SubscriptioAddProduct_model> subProductList;
+    String passArrayString;
     JSONArray passArray;
-    String walletAmount="0",razorAmount="0",paymentMode="",transactionId="",total_amount="0";
+    String walletAmount="",razorAmount="",paymentMode="",transactionId="",total_amount="";
+    int totalAMount;
+    ArrayList<SubscriptioAddProduct_model> subProductList1;
 
 
     @Override
@@ -108,16 +111,6 @@ public class CashFreeActivity extends BaseActivity {
         user_phn = session_management.getUserDetails().get(BaseURL.KEY_MOBILE);
         user_email = session_management.getUserDetails().get(BaseURL.KEY_EMAIL);
 
-        activity=getIntent().getStringExtra("activity");
-        amount=getIntent().getStringExtra("cashfree_amount");
-        if (activity.equals("subscription")){
-            Addrid=getIntent().getStringExtra("address_id");
-            walletAmount=getIntent().getStringExtra("wallet_amount");
-            promo_code=getIntent().getStringExtra("promo_code");
-            discount_amount= getIntent().getStringExtra("discount_amount");
-            total_amount=getIntent().getStringExtra("total_price");
-        }
-
         sharedPreferences = getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
 
@@ -126,34 +119,43 @@ public class CashFreeActivity extends BaseActivity {
 
         subProductList=new ArrayList<>();
 
+        Intent intent = getIntent();
+        activity=intent.getStringExtra("activity");
 
+        Log.e("Activity==>", "onCreate: "+activity );
 
-        if (!json.isEmpty()) {
-            Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {
-            }.getType();
-            subProductList = gson.fromJson(json, type);
+        amount=getIntent().getStringExtra("cashfree_amount");
+        if (activity.equals("subscription")){
+            Addrid=getIntent().getStringExtra("address_id");
+            walletAmount=getIntent().getStringExtra("wallet_amount");
+            promo_code=getIntent().getStringExtra("promo_code");
+            discount_amount= getIntent().getStringExtra("discount_amount");
+            total_amount=intent.getStringExtra("total_price");
+            subProductList1= (ArrayList<SubscriptioAddProduct_model>) intent.getSerializableExtra("subList");
+            Log.e("total_amount_if",total_amount);
+            Log.e("subListtttt",subProductList1.toString());
 
-            if (subProductList.size()>0) {
-                for (int i = 0; i < subProductList.size(); i++) {
-                    total_price = total_price + subProductList.get(i).getProduct_totalprice() + subProductList.get(i).getProduct_gst() + subProductList.get(i).getProduct_sgst();
-                    total_gst = total_gst + subProductList.get(i).getProduct_gst();
-                    total_sgst = total_sgst + subProductList.get(i).getProduct_sgst();
+            if (subProductList1.size()>0) {
+                for (int i = 0; i < subProductList1.size(); i++) {
+                    total_price = total_price + subProductList1.get(i).getProduct_totalprice() + subProductList1.get(i).getProduct_gst() + subProductList1.get(i).getProduct_sgst();
+                    total_gst = total_gst + subProductList1.get(i).getProduct_gst();
+                    total_sgst = total_sgst + subProductList1.get(i).getProduct_sgst();
                 }
                 Log.e("total_price", total_price + "\ntotalgsttt:\t" + total_gst + "\ntotalsgst:\t" + total_sgst);
 
                 passArray = new JSONArray();
-                for (int i = 0; i < subProductList.size(); i++) {
+                for (int i = 0; i < subProductList1.size(); i++) {
                     JSONObject jObjP = new JSONObject();
                     try {
-                        jObjP.put("product_id", subProductList.get(i).getProduct_id());
-                        jObjP.put("order_qty", subProductList.get(i).getProduct_qty());
-                        jObjP.put("subscription_price", subProductList.get(i).getProduct_price());
-                        jObjP.put("plans_id", subProductList.get(i).getPlan_id());
-                        jObjP.put("amount", subProductList.get(i).getProduct_totalprice() + subProductList.get(i).getProduct_gst() + subProductList.get(i).getProduct_sgst());
-                        jObjP.put("cgst_amount", subProductList.get(i).getProduct_gst());
-                        jObjP.put("sgst_amount", subProductList.get(i).getProduct_sgst());
-                        jObjP.put("start_date", subProductList.get(i).getStart_date());
-                        jObjP.put("end_date", subProductList.get(i).getEnd_date());
+                        jObjP.put("product_id", subProductList1.get(i).getProduct_id());
+                        jObjP.put("order_qty", subProductList1.get(i).getProduct_qty());
+                        jObjP.put("subscription_price", subProductList1.get(i).getProduct_price());
+                        jObjP.put("plans_id", subProductList1.get(i).getPlan_id());
+                        jObjP.put("amount", subProductList1.get(i).getProduct_totalprice() + subProductList1.get(i).getProduct_gst() + subProductList1.get(i).getProduct_sgst());
+                        jObjP.put("cgst_amount", subProductList1.get(i).getProduct_gst());
+                        jObjP.put("sgst_amount", subProductList1.get(i).getProduct_sgst());
+                        jObjP.put("start_date", subProductList1.get(i).getStart_date());
+                        jObjP.put("end_date", subProductList1.get(i).getEnd_date());
                         passArray.put(jObjP);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -162,7 +164,31 @@ public class CashFreeActivity extends BaseActivity {
                 }
             }
 
+           /* }*/
+        }else if (activity.equals("cart")){
+            Addrid=getIntent().getStringExtra("address_id");
+            walletAmount=getIntent().getStringExtra("wallet_amount");
+            promo_code=getIntent().getStringExtra("promo_code");
+            discount_amount= getIntent().getStringExtra("discount_amount");
+            total_amount=intent.getStringExtra("total_price");
+            total_gst= Double.parseDouble(getIntent().getStringExtra("total_cgst"));
+            total_sgst= Double.parseDouble(getIntent().getStringExtra("total_sgst"));
+            passArrayString=getIntent().getStringExtra("jsonArray");
+
+            if (promo_code==null){
+                promo_code="";
+            }
+
+            try {
+                passArray=new JSONArray(passArrayString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         }
+
+
 
 
         randomDigit = random(0, 1000);
@@ -355,11 +381,21 @@ public class CashFreeActivity extends BaseActivity {
                                 Log.e("wallet","wallet");
                             }
 
-                        }else if (activity.equals("subscription"))
-                        if (isInternetConnected()) {
-                            but_sub_plan(passArray,orderAmount);
-                            Log.e("parseArray",passArray.toString());
+                        }else if (activity.equals("subscription")){
+                            if (isInternetConnected()) {
+                                but_sub_plan(passArray,orderAmount);
+                                Log.e("parseArray",passArray.toString());
+                            }
+                        }else if (activity.equals("cart")){
+                            if (isInternetConnected()) {
+                                oreder_once(passArray,orderAmount);
+                              //  but_sub_plan(passArray,orderAmount);
+                                Log.e("parseArray",passArray.toString());
+                            }
+
                         }
+
+
 
                     }else{
                         tvStts.setText("Payment Failed");
@@ -414,6 +450,68 @@ public class CashFreeActivity extends BaseActivity {
 
     }
 
+    private void oreder_once(JSONArray passArray, String orderAmount) {
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user_id);
+        params.put("product_object", passArray.toString());
+        params.put("address_id",  Addrid);
+        params.put("wallet_amount", String.valueOf(walletAmount));
+        params.put("razor_pay_amount", String.valueOf(orderAmount));
+        params.put("pay_type", "CashFree");
+        params.put("total_amount", String.valueOf(total_price));
+        params.put("promo_code", promo_code);
+        params.put("transaction_id", transactionId);
+        params.put("promocode_amount", String.valueOf(discount_amount));
+        params.put("total_cgst", String.valueOf(total_gst));
+        params.put("total_sgst", String.valueOf(total_sgst));
+
+        Log.e("parambuyonce",params.toString());
+
+
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.order_buy_once, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("buyonce123", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+
+                        Log.e("razorAmount", String.valueOf(razorAmount));
+
+                        db.clearCart();
+                        myEdit.clear();
+
+
+
+                    }else if (status.equals("3")){
+                        Toast.makeText(CashFreeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }else if (status.equals("0")){
+                        Toast.makeText(CashFreeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+    }
 
 
     public  void but_sub_plan(JSONArray passArray, String orderAmount) {
