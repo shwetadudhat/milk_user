@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.milkdelightuser.Activity.Address_add;
 import com.milkdelightuser.Activity.Cart_activity;
+import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.drawer;
 import com.milkdelightuser.Activity.subscription2;
 import com.milkdelightuser.Fragments.Wallet_Fragment;
@@ -96,12 +99,16 @@ public class CashFreeActivity extends BaseActivity {
     String walletAmount="",razorAmount="",paymentMode="",transactionId="",total_amount="";
     int totalAMount;
     ArrayList<SubscriptioAddProduct_model> subProductList1;
+    TextView textView3;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cashfree);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContent();
 
         db = new DatabaseHandler(getActivity());
 
@@ -125,6 +132,7 @@ public class CashFreeActivity extends BaseActivity {
         Log.e("Activity==>", "onCreate: "+activity );
 
         amount=getIntent().getStringExtra("cashfree_amount");
+        textView3.setText(getString(R.string.pay_txt)+" "+ MainActivity.currency_sign+amount+" "+getString(R.string.pay_txt1));
         if (activity.equals("subscription")){
             Addrid=getIntent().getStringExtra("address_id");
             walletAmount=getIntent().getStringExtra("wallet_amount");
@@ -205,6 +213,10 @@ public class CashFreeActivity extends BaseActivity {
             showDialog("");
             getToken(orderId,orderAmount);
         }
+    }
+
+    private void setContent() {
+        textView3=findViewById(R.id.textView3);
     }
 
     private void getToken(String orderId, String orderAmount) {

@@ -73,8 +73,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.MY_FREQ_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.MY_PLAN_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.MY_STARTDATE_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
 
+import static com.milkdelightuser.utils.Global.PLAN_DATA;
+import static com.milkdelightuser.utils.Global.STARTDATE_DATA;
 import static com.milkdelightuser.utils.Global.SUB_DATA;
 
 public class subscription2 extends BaseActivity  {
@@ -101,8 +105,9 @@ public class subscription2 extends BaseActivity  {
     SharedPreferences planPref;
 
     SharedPreferences.Editor planprefEdit;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit;
+    SharedPreferences sharedPreferences,sharedPreferences1,sharedPreferences2;
+    SharedPreferences.Editor myEdit,myEdit1,myEdit2;
+
 
     /*view4*/
     LinearLayout llEdit;
@@ -149,6 +154,9 @@ public class subscription2 extends BaseActivity  {
     ArrayList<StartDate_Model> stardateList1;
     ArrayList<SubscriptioAddProduct_model> subProductList;
     long days1;
+
+    Gson gson;
+    String json,json1;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -204,7 +212,7 @@ public class subscription2 extends BaseActivity  {
         if (ConnectivityReceiver.isConnected()) {
             try {
                 showDialog("");
-              //  getProductDetail(product_id);
+                //  getProductDetail(product_id);
                 getAddressData(user_id);
                 showTotalCredit(user_id);
                 getPlanadata();
@@ -219,16 +227,28 @@ public class subscription2 extends BaseActivity  {
 
         pref = this.getActivity().getSharedPreferences(MY_FREQ_PREFS_NAME, MODE_PRIVATE);
 
-        sharedPreferences = this.getActivity().getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
-        myEdit = sharedPreferences.edit();
-        myEdit.clear();
+//        sharedPreferences = this.getActivity().getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
+        sharedPreferences1 = this.getActivity().getSharedPreferences(MY_PLAN_PREFS_NAME, MODE_PRIVATE);
+        sharedPreferences2 = this.getActivity().getSharedPreferences(MY_STARTDATE_PREFS_NAME, MODE_PRIVATE);
+        myEdit1 = sharedPreferences1.edit();
+        myEdit2 = sharedPreferences2.edit();
+//        myEdit = sharedPreferences.edit();
+//        myEdit.clear();
 
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(SUB_DATA, "");
+        gson = new Gson();
+        json = sharedPreferences1.getString(PLAN_DATA, "");
         if (!json.isEmpty()) {
-            Type type = new TypeToken<List<SubscriptioAddProduct_model>>() {}.getType();
-            subProductList= gson.fromJson(json, type);
-            Log.e("subProductList_frompref",subProductList.toString());
+            Type type = new TypeToken<List<PlanSelected_model>>() {}.getType();
+            planSelectedModelArrayList= gson.fromJson(json, type);
+            Log.e("planList_pref",planSelectedModelArrayList.toString());
+
+        }
+
+        json1 = sharedPreferences2.getString(STARTDATE_DATA, "");
+        if (!json.isEmpty()) {
+            Type type = new TypeToken<List<StartDate_Model>>() {}.getType();
+            stardateList1= gson.fromJson(json, type);
+            Log.e("stardateList1_pref",stardateList1.toString());
 
         }
 
@@ -818,8 +838,8 @@ public class subscription2 extends BaseActivity  {
                     planprefEdit.putBoolean("locked", false).commit();
                 }
 
-                 getDateData(30);
-               // Global.getDateData(30,tardetDate,enddate);
+                getDateData(30);
+                // Global.getDateData(30,tardetDate,enddate);
                 //  getTotalAmount();
 
                 customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
@@ -1020,7 +1040,7 @@ public class subscription2 extends BaseActivity  {
 
                 subProductList.add(subscriptioAddProductModel);
 
-              //  addListToPref();
+                //  addListToPref();
 
             }
 
@@ -1042,13 +1062,30 @@ public class subscription2 extends BaseActivity  {
     }
 
     private void addListToPref() {
-        if(subProductList.size()>0){
+        if (planSelectedModelArrayList.size()>0){
+            gson = new Gson();
+            Log.e("planSelectprefff",planSelectedModelArrayList.toString());
+            json = gson.toJson(planSelectedModelArrayList);
+            myEdit1.putString(PLAN_DATA, json);
+            myEdit1.commit();
+        }
+
+        if (stardateList1.size()>0){
+            gson = new Gson();
+            Log.e("stardateprefff",stardateList1.toString());
+            json1 = gson.toJson(stardateList1);
+            myEdit2.putString(STARTDATE_DATA, json1);
+
+
+            myEdit2.commit();
+        }
+        /*if(subProductList.size()>0){
             Log.e("subproductList_addmore",subProductList.toString());
             Gson gson = new Gson();
             String json = gson.toJson(subProductList);
             myEdit.putString(SUB_DATA, json);
             myEdit.commit();
-        }
+        }*/
     }
 
 
@@ -1069,7 +1106,7 @@ public class subscription2 extends BaseActivity  {
                 razorAmount= Math.round(total_price-wallet);
                 walletAmount=Math.round(wallet);
             }else {
-           /* wallet 2100  totalprice 400*/
+                /* wallet 2100  totalprice 400*/
 
                 walletAmount=Math.round(total_price);
                 razorAmount=0;
@@ -1106,35 +1143,35 @@ public class subscription2 extends BaseActivity  {
 
     private void addSubPlan() {
 
-      if (subProductList.size()>0){
-          passArray = new JSONArray();
-          for (int i=0;i<subProductList.size();i++){
-              JSONObject jObjP = new JSONObject();
-              try {
-                  jObjP.put("product_id", subProductList.get(i).getProduct_id());
-                  jObjP.put("order_qty",subProductList.get(i).getProduct_qty());
-                  jObjP.put("subscription_price", subProductList.get(i).getProduct_price());
-                  jObjP.put("plans_id", subProductList.get(i).getPlan_id());
-                  jObjP.put("amount", subProductList.get(i).getProduct_totalprice()+subProductList.get(i).getProduct_gst()+subProductList.get(i).getProduct_sgst());
-                  jObjP.put("cgst_amount",subProductList.get(i).getProduct_gst());
-                  jObjP.put("sgst_amount",subProductList.get(i).getProduct_sgst());
-                  jObjP.put("start_date", subProductList.get(i).getStart_date());
-                  jObjP.put("end_date", subProductList.get(i).getEnd_date());
-                  passArray.put(jObjP);
-              } catch (JSONException e) {
-                  e.printStackTrace();
-              }
+        if (subProductList.size()>0){
+            passArray = new JSONArray();
+            for (int i=0;i<subProductList.size();i++){
+                JSONObject jObjP = new JSONObject();
+                try {
+                    jObjP.put("product_id", subProductList.get(i).getProduct_id());
+                    jObjP.put("order_qty",subProductList.get(i).getProduct_qty());
+                    jObjP.put("subscription_price", subProductList.get(i).getProduct_price());
+                    jObjP.put("plans_id", subProductList.get(i).getPlan_id());
+                    jObjP.put("amount", subProductList.get(i).getProduct_totalprice()+subProductList.get(i).getProduct_gst()+subProductList.get(i).getProduct_sgst());
+                    jObjP.put("cgst_amount",subProductList.get(i).getProduct_gst());
+                    jObjP.put("sgst_amount",subProductList.get(i).getProduct_sgst());
+                    jObjP.put("start_date", subProductList.get(i).getStart_date());
+                    jObjP.put("end_date", subProductList.get(i).getEnd_date());
+                    passArray.put(jObjP);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-          }
+            }
 
 
-         // Log.e("parseArray",passArray.toString());
+            // Log.e("parseArray",passArray.toString());
 
-          if (isInternetConnected()) {
-              but_sub_plan(passArray);
-              Log.e("parseArray",passArray.toString());
-          }
-      }
+            if (isInternetConnected()) {
+                but_sub_plan(passArray);
+                Log.e("parseArray",passArray.toString());
+            }
+        }
 
 
     }
@@ -1206,7 +1243,7 @@ public class subscription2 extends BaseActivity  {
                             ivIcon.setColorFilter(ContextCompat.getColor(subscription2.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
                             tvTransDesc.setText("Payment done through your Wallet amount");
 
-                          //  db.removeItemFromCart(product_id);
+                            //  db.removeItemFromCart(product_id);
 
                             db.clearCart();
                             myEdit.clear();

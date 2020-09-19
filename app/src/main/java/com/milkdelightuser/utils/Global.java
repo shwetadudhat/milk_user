@@ -62,6 +62,10 @@ public class Global {
     public static final String GST_DATA = "jsonObject";
     public static final String MY_SUBSCRIPTION_PREFS_NAME = "mySubscriptionlistPref";
     public static final String SUB_DATA = "subList";
+    public static final String MY_STARTDATE_PREFS_NAME = "startdatelistPref";
+    public static final String STARTDATE_DATA = "startdateList";
+    public static final String MY_PLAN_PREFS_NAME = "planlistPref";
+    public static final String PLAN_DATA = "planList";
 
     public static boolean isNumeric(String nmbr){
         if (TextUtils.isEmpty(nmbr)) {

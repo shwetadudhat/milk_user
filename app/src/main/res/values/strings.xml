@@ -123,5 +123,10 @@
     <string name="day_ago">%1$d day ago</string>
     <string name="new_days_ago">%1$d days ago</string>
 
+    <!--cashfree text-->
+    <string name="pay_txt">Pay </string>
+    <string name="pay_txt1"> by clicking the button below </string>
+    <string name="sample_checkout_page">Sample Checkout Page</string>
+
 
 </resources>

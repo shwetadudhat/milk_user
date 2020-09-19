@@ -448,7 +448,6 @@ public class subscription1 extends BaseActivity implements  PaymentResultListene
                             }
 
                             Log.e("planModelList123", String.valueOf(planModelList));
-                            Adapter_SubProduct.ClickPosition clickPosition = null;
                             adapterFreqPlan=new Adapter_FreqPlan(subscription1.this,planModelList);
 
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);

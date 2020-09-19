@@ -2,37 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_merchant"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="5dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="5dp"
+    android:paddingBottom="@dimen/_15sdp"
+    android:paddingLeft="@dimen/_15sdp"
+    android:paddingRight="@dimen/_15sdp"
+    android:paddingTop="@dimen/_15sdp"
     tools:context=".CashFreeActivity">
 
     <TextView
+        android:fontFamily="@font/ubuntu_bold"
+        android:textColor="@color/main_clr"
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Sample Checkout Page"
-        android:textSize="24sp"
+        android:text="@string/sample_checkout_page"
+        android:textSize="@dimen/_20sdp"
         android:textStyle="bold" />
     <TextView
+        android:fontFamily="@font/ubuntu_bold"
+        android:textColor="@color/main_clr"
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView2"
-        android:layout_marginTop="16dp"
-        android:text="Pay Rs 1 by clicking the button below " />
+        android:layout_marginTop="@dimen/_14sdp" />
 
     <LinearLayout
         android:id="@+id/button"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="@dimen/_112sdp"
         android:orientation="vertical"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -42,46 +46,90 @@
         android:layout_height="wrap_content">
 
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Upi"
             android:id="@+id/upi"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="Upi"/>
+            android:background="@drawable/bg_bluebtn"/>
+
+
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/amazon"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="Amazon"/>
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/web"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="Billpay Web"/>
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/gpay"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="Gpay"/>
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/phonePe"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="PhonePe"/>
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/phonePe_exists"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="Check PhonePe"/>
         <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/gpay_ready"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textSize="@dimen/_16sdp"
+            android:textColor="@color/white"
+            android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick"
+            android:background="@drawable/bg_bluebtn"
             android:text="GPay Ready"/>
     </LinearLayout>
 </RelativeLayout>

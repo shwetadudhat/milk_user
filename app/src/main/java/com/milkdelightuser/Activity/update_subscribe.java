@@ -533,7 +533,7 @@ public class update_subscribe extends BaseActivity {
                                 planModelList.add(plan_model);
 
                             }
-                            Adapter_SubProduct.ClickPosition clickPosition = null;
+
                             adapterFreqPlan=new Adapter_FreqPlan(update_subscribe.this,planModelList);
 
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);

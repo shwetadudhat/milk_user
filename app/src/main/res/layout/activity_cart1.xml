@@ -302,6 +302,7 @@
                                 android:layout_height="wrap_content">
 
                                 <Button
+                                    style="?android:attr/borderlessButtonStyle"
                                     android:fontFamily="@font/ubuntu_bold"
                                     android:id="@+id/btnPaynow"
                                     android:textSize="@dimen/_16sdp"
