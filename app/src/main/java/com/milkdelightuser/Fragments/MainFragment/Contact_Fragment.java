@@ -140,6 +140,7 @@ public class Contact_Fragment extends BaseFragment {
                     msg=edConMsg.getText().toString();
                 }else{
                     edConMsg.setError("Please enter message here!");
+                    Global.showKeyBoard(getContext(),edConMsg);
                 }
 
                 if (ConnectivityReceiver.isConnected()) {

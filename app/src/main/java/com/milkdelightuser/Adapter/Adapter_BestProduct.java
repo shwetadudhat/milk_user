@@ -3,6 +3,7 @@ package com.milkdelightuser.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.Product;
+import com.milkdelightuser.Activity.update_subscribe;
 import com.milkdelightuser.Model.App_Product_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.DatabaseHandler;
@@ -36,8 +38,8 @@ public class Adapter_BestProduct extends RecyclerView.Adapter<Adapter_BestProduc
 
     int count = 1;
     private DatabaseHandler dbcart;
+    Double gst,cgst,sgst;
 
-    Double product_price;
 
     public Adapter_BestProduct(Context context, List<App_Product_Model> productModelList) {
         this.context = context;
@@ -60,36 +62,47 @@ public class Adapter_BestProduct extends RecyclerView.Adapter<Adapter_BestProduc
         App_Product_Model allProductsModel=productModelList.get(i);
         dbcart = new DatabaseHandler(context);
 
-      //  product_price= Double.valueOf(productModelList.get(i).getPrice())+ Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice()));
-        //Log.e("Stringproduct_price",String.valueOf(Math.round(product_price)));
-        holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
-        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getPrice())+ Math.round(Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())))));
-       // holder.tvProPrice.setText(MainActivity.currency_sign+ allProductsModel.getPrice());
+       holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
+//        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())+ Math.round(Global.getTax(context, Double.parseDouble(productModelList.get(i).getPrice())))));
 
-        Glide.with(context)
-                .load(/*BaseURL.IMG_CATEGORY_URL + */productModelList.get(i).getProduct_image())
-                .into(holder.ivProd);
+//        Glide.with(context)
+//                .load(/*BaseURL.IMG_CATEGORY_URL + */productModelList.get(i).getProduct_image())
+//                .into(holder.ivProd);
+
+        Global.loadGlideImage(context,productModelList.get(i).getProduct_image(),productModelList.get(i).getProduct_image(),holder.ivProd);
+
+        if (!productModelList.get(i).getGst().equals("null")){
+             gst= Double.valueOf(productModelList.get(i).getGst());
+             holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
+
+        }else{
+            holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
+
+        }
 
         if (!productModelList.get(i).getMrp().equals("0")){
             holder.tvOldPrice.setVisibility(View.VISIBLE);
-            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getMrp())))));
-
-         //   holder.tvOldPrice.setText( MainActivity.currency_sign +productModelList.get(i).getMrp());
             holder.tvOldPrice.setPaintFlags(holder.tvOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
+
 
 
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                holder.btnAdd.callOnClick();
-               /* Intent intent=new Intent(context, Product.class);
+               // holder.btnAdd.callOnClick();
+                Intent intent=new Intent(context, Product.class);
                 intent.putExtra("proname",productModelList.get(i).getProduct_name());
                 intent.putExtra("proId",productModelList.get(i).getProduct_id());
-                context.startActivity(intent);*/
+                context.startActivity(intent);
             }
         });
+
+        Log.e("catttidd",allProductsModel.getCategory_id());
 
 
 

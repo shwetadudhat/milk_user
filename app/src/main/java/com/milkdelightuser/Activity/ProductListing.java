@@ -130,7 +130,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ProductListing.this,drawer.class);
+                Intent intent=new Intent(ProductListing.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -276,6 +276,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
 
                     App_Product_Model appProductModel=new App_Product_Model();
                     appProductModel.setProduct_id(product_id);
+                    appProductModel.setCategory_id(category_id);
                     appProductModel.setProduct_name(product_name);
                     appProductModel.setPrice(price);
                     appProductModel.setSubscription_price(subscription_price);
@@ -365,6 +366,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
 
                     App_Product_Model appProductModel=new App_Product_Model();
                     appProductModel.setProduct_id(product_id);
+                    appProductModel.setCategory_id(category_id);
                     appProductModel.setProduct_name(product_name);
                     appProductModel.setPrice(price);
                     appProductModel.setSubscription_price(subscription_price);
@@ -424,8 +426,12 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                 String filter_type=data.getStringExtra("filter_type");
                 String items_size=data.getStringExtra("items_size");
                 String items_unit=data.getStringExtra("items_unit");
-                showDialog(" ");
 
+                Log.e("filtertype",filter_type+"\n"+items_size+"\n"+items_unit);
+                showDialog(" ");
+                if (filter_type.equals("")){
+                    filter_type="ASC";
+                }
                 getData1(filter_type,items_size,items_unit);
 
 
@@ -442,12 +448,9 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                 finish();
             }
         }
-    }//
+    }
 
     private void getData1(String filter_type, String items_size, String items_unit) {
-
-
-
 
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
@@ -465,8 +468,6 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                 dismissDialog();
                 Log.e("Tfilterdata", response.toString());
                 productModelList = new ArrayList();
-
-
 
                 try {
                     String status=response.getString("status");
@@ -493,6 +494,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                             String unit = jsonObject.getString("unit");
                             String total1 = jsonObject.getString("total");
                             String mrp = jsonObject.getString("mrp");
+                            String gst = jsonObject.getString("gst");
                             String product_review_count = jsonObject.getString("product_review_count");
 
                             String ratting = null;
@@ -507,7 +509,9 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                             }
 
                             App_Product_Model appProductModel=new App_Product_Model();
+                            appProductModel.setGst(gst);
                             appProductModel.setProduct_id(product_id);
+                            appProductModel.setCategory_id(category_id);
                             appProductModel.setProduct_name(product_name);
                             appProductModel.setPrice(price);
                             appProductModel.setSubscription_price(subscription_price);

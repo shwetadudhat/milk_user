@@ -1,7 +1,7 @@
 package com.milkdelightuser.Model;
 
 public class PlanSelected_model {
-    String id,product_id,start_date,plan_id,skip_day,end_date,product_name;
+    String id,product_id,/*start_date,*/plan_id,skip_day,end_date,product_name;
 
 
     public String getProduct_name() {
@@ -48,13 +48,13 @@ public class PlanSelected_model {
         this.product_id = product_id;
     }
 
-    public String getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
-    }
+//    public String getStart_date() {
+//        return start_date;
+//    }
+//
+//    public void setStart_date(String start_date) {
+//        this.start_date = start_date;
+//    }
 
     public String getPlan_id() {
         return plan_id;
@@ -69,7 +69,7 @@ public class PlanSelected_model {
         return "PlanSelected_model{" +
                 "id='" + id + '\'' +
                 ", product_id='" + product_id + '\'' +
-                ", start_date='" + start_date + '\'' +
+//                ", start_date='" + start_date + '\'' +
                 ", plan_id='" + plan_id + '\'' +
                 ", skip_day='" + skip_day + '\'' +
                 ", end_date='" + end_date + '\'' +

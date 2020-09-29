@@ -2,14 +2,13 @@ package com.milkdelightuser.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.util.Log;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -47,7 +47,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.cart, null, false);
+        View view = inflater.inflate(R.layout.listitem_cart, null, false);
 
         return new holder(view);
     }
@@ -59,16 +59,17 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
         final HashMap<String, String> map = list.get(i);
         dbcart = new DatabaseHandler(activity);
 
-        Log.e("productimage",map.get("product_image"));
-        Glide.with(activity)
-                .load(map.get("product_image"))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate()
-                .into(holder.image_product);
+//        Glide.with(activity)
+//                .load(map.get("product_image"))
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .dontAnimate()
+//                .into(holder.image_product);
+
+        Global.loadGlideImage(activity,map.get("product_image"), map.get("product_image"),holder.image_product);
+
 
         holder.text_product.setText(map.get("product_name")+" ("+map.get("unit")+")");
         holder.price_product.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(activity, Double.valueOf(map.get("price")))))));
-     //   holder.price_product.setText("₹ "+map.get("price"));
         holder.number.setText(dbcart.getCartItemQty(map.get("product_id")));
 
 
@@ -76,33 +77,50 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(activity, "delete clickeddd", Toast.LENGTH_SHORT).show();
-                count=1;
-                  //  dbcart.removeItemFromCart(map.get("product_id"));
-              //  notifyItemRemoved(i);
-                holder.number.setText(String.valueOf(count));
-                if (holder.number.getText().toString().contains("1")){
-                    HashMap<String, String> map1 = new HashMap<>();
-                    map1.put("product_id", map.get("product_id"));
-                    map1.put("product_name", map.get("product_name"));
-                    map1.put("category_id", map.get("category_id"));
-                    map1.put("product_description", map.get("product_description"));
-                    map1.put("price", map.get("price"));
-                    map1.put("subscription_price", map.get("subscription_price"));
-                    map1.put("product_image", map.get("product_image"));
-                    map1.put("unit", map.get("unit"));
-                    map1.put("stock", map.get("stock"));
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                        .setTitle(R.string.delete_title)
+                        .setMessage(R.string.delete_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                count=1;
+                                holder.number.setText(String.valueOf(count));
+                                if (holder.number.getText().toString().contains("1")) {
+                                    HashMap<String, String> map1 = new HashMap<>();
+                                    map1.put("product_id", map.get("product_id"));
+                                    map1.put("product_name", map.get("product_name"));
+                                    map1.put("category_id", map.get("category_id"));
+                                    map1.put("product_description", map.get("product_description"));
+                                    map1.put("price", map.get("price"));
+                                    map1.put("subscription_price", map.get("subscription_price"));
+                                    map1.put("product_image", map.get("product_image"));
+                                    map1.put("unit", map.get("unit"));
+                                    map1.put("stock", map.get("stock"));
 
-                    dbcart.setCart(map, Float.valueOf(holder.number.getText().toString()));
-                    dbcart.removeItemFromCart(map.get("product_id"));
+                                    dbcart.setCart(map, Float.valueOf(holder.number.getText().toString()));
+                                    dbcart.removeItemFromCart(map.get("product_id"));
 
-                    list.remove(i);
+                                    list.remove(i);
 
-                    notifyDataSetChanged();
-                    if (mEventListener != null)
-                        mEventListener.onItemViewClicked(i);
+                                    notifyDataSetChanged();
+                                    if (mEventListener != null)
+                                        mEventListener.onItemViewClicked(i);
 
-                }
+                                }
+
+
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
 
@@ -220,6 +238,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
 
         }
     }
+
 
     public interface EventListener {
         void onItemViewClicked(int position);

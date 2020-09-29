@@ -25,7 +25,7 @@ public class AsyncProgressDialog extends Thread {
         pd.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // pd.setContentView(R.layout.custom_progress);
         pd.getWindow().setBackgroundDrawable(
-                new ColorDrawable(Color.TRANSPARENT));
+                context.getResources().getDrawable(R.color.transparent));
         pd.setContentView(
                 context.getLayoutInflater().inflate(R.layout.custom_progress,
                         null),

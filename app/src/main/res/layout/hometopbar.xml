@@ -52,7 +52,7 @@
              android:drawableTint="@color/grey"
              android:drawableLeft="@drawable/ic_search_black_24dp"
              android:gravity="center_vertical"
-             android:text="Search here"
+             android:text="@string/search"
              android:paddingLeft="@dimen/_25sdp"
              android:textSize="@dimen/_12sdp">
 

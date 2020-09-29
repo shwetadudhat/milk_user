@@ -36,7 +36,7 @@
             android:id="@+id/title"
             android:textSize="@dimen/_14sdp"
             android:textColor="@color/white"
-            android:text="Subscription Details"
+            android:text="@string/subscription_details"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
 

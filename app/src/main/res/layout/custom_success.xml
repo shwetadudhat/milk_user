@@ -32,7 +32,7 @@
             android:textColor="@color/red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Payment Fail"
+            android:text="@string/payment_fail"
             android:gravity="center"/>
 
         <TextView
@@ -59,7 +59,7 @@
             android:textColor="@color/product_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Payment Fail from the user please try again letter"
+            android:text="@string/payment_fail_from_the_user_please_try_again_letter"
             android:gravity="center"/>
 
 

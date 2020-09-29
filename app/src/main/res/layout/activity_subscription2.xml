@@ -10,10 +10,7 @@
 
     <include layout="@layout/topbar2"/>
 
-   <!-- <androidx.core.widget.NestedScrollView
-        android:scrollbars="none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">-->
+
 
 
         <RelativeLayout
@@ -29,31 +26,6 @@
                 android:layout_height="wrap_content">
 
 
-               <!-- <LinearLayout
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:paddingLeft="@dimen/_45sdp"
-                    android:paddingRight="@dimen/_45sdp"
-                    android:id="@+id/llBuySubscrption"
-                    android:background="@drawable/bg_fb"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:fontFamily="@font/ubuntu_bold"
-                        android:id="@+id/tvSub"
-                        android:padding="@dimen/_10sdp"
-                        android:textSize="@dimen/_15sdp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:textColor="@color/white"
-                        android:text="BUY SUBSCRIPTIONS"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        />
-
-                </LinearLayout>-->
 
                 <RelativeLayout
                     android:id="@+id/rl_bottomview"
@@ -61,12 +33,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <View
+                   <!-- <View
                         android:background="@drawable/shadow_top"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_2sdp"/>
+                        android:layout_height="@dimen/_2sdp"/>-->
 
                     <RelativeLayout
+                        android:elevation="@dimen/_2sdp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -100,7 +73,7 @@
                                         android:gravity="center"
                                         android:layout_gravity="center"
                                         android:textColor="@color/main_clr"
-                                        android:text="ADD MORE"
+                                        android:text="@string/add_more"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         />
@@ -121,7 +94,7 @@
                                         android:gravity="center"
                                         android:layout_gravity="center"
                                         android:textColor="@color/white"
-                                        android:text="BUY SUBSCRIPTION"
+                                        android:text="@string/buy_subscription"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         />
@@ -131,24 +104,6 @@
 
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:visibility="gone"
-                                android:id="@+id/llPayNow"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <Button
-                                    android:fontFamily="@font/ubuntu_bold"
-                                    android:id="@+id/btnPaynow"
-                                    android:textSize="@dimen/_16sdp"
-                                    android:textColor="@color/white"
-                                    android:text="PAY NOW (RS. 1,157)"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/bg_bluebtn"/>
-
-
-                            </LinearLayout>
 
 
                         </RelativeLayout>
@@ -185,8 +140,8 @@
                             android:id="@+id/recycler_cartitem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:itemCount="2"
-                            tools:listitem="@layout/cart3" />
+                            tools:itemCount="1"
+                            tools:listitem="@layout/listitem_subcart" />
 
 
                         <RelativeLayout
@@ -202,7 +157,7 @@
                                 android:gravity="center|left"
                                 android:textColor="@color/title_clr"
                                 android:textSize="@dimen/_14sdp"
-                                android:text="Select Plans"
+                                android:text="@string/select_plans"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
@@ -214,7 +169,7 @@
                                 android:gravity="center|left"
                                 android:textColor="@color/small_title_clr"
                                 android:textSize="@dimen/_10sdp"
-                                android:text="Please Select Your Plan Date"
+                                android:text="@string/please_select_your_plan_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
@@ -232,7 +187,7 @@
                                     android:textSize="@dimen/_10sdp"
                                     android:id="@+id/plan1"
                                     android:textColor="@color/main_clr"
-                                    android:text="15 DAYS"
+                                    android:text="@string/_15_days"
                                     android:layout_marginRight="@dimen/_5sdp"
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:background="@drawable/bg_button"
@@ -247,7 +202,7 @@
                                     android:textSize="@dimen/_10sdp"
                                     android:id="@+id/plan2"
                                     android:textColor="@color/main_clr"
-                                    android:text="30 DAYS"
+                                    android:text="@string/_30_days"
                                     android:layout_marginRight="@dimen/_5sdp"
                                     android:layout_marginLeft="@dimen/_5sdp"
                                     android:layout_marginTop="@dimen/_5sdp"
@@ -263,7 +218,7 @@
                                     android:textSize="@dimen/_10sdp"
                                     android:id="@+id/customPlan"
                                     android:textColor="@color/main_clr"
-                                    android:text="custom date"
+                                    android:text="@string/custom_date"
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_marginLeft="@dimen/_5sdp"
                                     android:background="@drawable/bg_button"
@@ -304,7 +259,7 @@
                                         android:layout_weight="1.8"
                                         android:textColor="@color/title_clr"
                                         android:textSize="@dimen/_14sdp"
-                                        android:text="Delivery Address"
+                                        android:text="@string/delivery_address"
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"/>
 
@@ -423,7 +378,7 @@
                                     android:fontFamily="@font/ubuntu_medium"
                                     android:textColor="@color/skip_clr"
                                     android:gravity="center|left"
-                                    android:text="Apply Coupon Code"
+                                    android:text="@string/apply_coupon_code"
                                     android:layout_weight="1.4"
                                     android:layout_width="0dp"
                                     android:layout_height="@dimen/_35sdp"/>
@@ -474,7 +429,7 @@
                                         android:textColor="@color/wallettxt_clr"
                                         android:textSize="@dimen/_14sdp"
                                         android:layout_width="wrap_content"
-                                        android:text="Milk Delight Balance"
+                                        android:text="@string/milk_delight_balance"
                                         android:layout_height="wrap_content"/>
 
 
@@ -495,7 +450,7 @@
                                         android:textColor="@color/wallettxt_clr1"
                                         android:layout_marginBottom="@dimen/_5sdp"
                                         android:textSize="@dimen/_10sdp"
-                                        android:text="your balance is"
+                                        android:text="@string/your_balance_is"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"/>
 
@@ -531,7 +486,7 @@
 
 
 
-<!--    </androidx.core.widget.NestedScrollView>-->
+
 
 
 

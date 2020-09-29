@@ -78,6 +78,8 @@ public class SpinnerAdapter extends BaseAdapter implements Filterable {
             }
         }
 
+        Log.e("dataaaa",data.toString());
+
         return data;
     }
 
@@ -189,11 +191,19 @@ public class SpinnerAdapter extends BaseAdapter implements Filterable {
 
         for (int i = 0; i < data.size(); i++) {
             if (position == i) {
-                data.get(i).isSelected = !data.get(i).isSelected;
+                if (data.get(i).isSelected==false){
+                    data.get(i).isSelected = !data.get(i).isSelected;
+                }
+                Log.e("data==>1",String.valueOf(data.get(i).isSelected));
+                Log.e("data==>2",String.valueOf(!data.get(i).isSelected));
             } else if (!isMultiSel) {
                 data.get(i).isSelected = false;
+                Log.e("falseee","falsee");
+
             }
         }
+
+        Log.e("dattalist",data.toString());
 
         notifyDataSetChanged();
     }

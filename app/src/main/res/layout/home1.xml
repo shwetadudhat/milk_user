@@ -102,7 +102,7 @@
 
                         <RelativeLayout
                             android:layout_marginBottom="@dimen/_20sdp"
-                            android:id="@+id/bannerView"
+                            android:id="@+id/RlbannerView"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_180sdp">
 
@@ -132,15 +132,13 @@
                                 app:pageColor="@color/white"
                                 app:snap="false" />
 
-
                         </RelativeLayout>
-
 
                         <RelativeLayout
                             android:id="@+id/RlbestSelling"
                             android:layout_marginBottom="@dimen/_20sdp"
                             android:background="@color/bg_clr"
-                            android:layout_below="@+id/bannerView"
+                            android:layout_below="@+id/RlbannerView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -157,7 +155,7 @@
                                     android:layout_marginStart="@dimen/_10sdp"
                                     android:layout_centerVertical="true"
                                     android:fontFamily="@font/ubuntu_medium"
-                                    android:text="Best Selling Product"
+                                    android:text="@string/best_selling_product"
                                     android:textColor="@color/title_clr"
                                     android:textSize="@dimen/_12sdp" />
 
@@ -170,14 +168,13 @@
                                     android:textColor="@color/white"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:layout_alignParentRight="true"
-                                    android:text="See All"
+                                    android:text="@string/see_all"
                                     android:paddingTop="@dimen/_5sdp"
                                     android:paddingBottom="@dimen/_5sdp"
                                     android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/seeAllSelling"/>
-
                             </RelativeLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -191,9 +188,7 @@
                                 android:orientation="horizontal"
                                 android:id="@+id/recycler_SellingProduct"
                                 />
-
                         </RelativeLayout>
-
 
                         <RelativeLayout
                             android:layout_marginBottom="@dimen/_20sdp"
@@ -202,7 +197,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_160sdp">
 
+
+                          <!--  <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                                android:id="@+id/youtube_player_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_160sdp"
+                                app:autoPlay="false"
+                                android:visibility="gone"
+                                card_view:showVideoDuration="true"
+                                card_view:showSeekBar="true"
+                                app:showFullScreenButton="false"
+                                app:videoId="S0Q4gqBUs7c" />-->
                             <VideoView
+                                android:visibility="visible"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_160sdp"
                                 android:id="@+id/videoview"
@@ -223,32 +230,6 @@
                                 />
                         </RelativeLayout>
 
-                        <!--<RelativeLayout
-                            android:id="@+id/RlVideo"
-                            android:layout_marginBottom="@dimen/_20sdp"
-                            android:layout_below="@+id/RlbestSelling"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content">
-
-                            <VideoView
-                                android:layout_width="fill_parent"
-                                android:layout_height="@dimen/_160sdp"
-                                android:id="@+id/videoview"/>
-
-
-                            <ImageView
-                                android:id="@+id/ivYouTube"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:backgroundTint="@color/red"
-                                android:background="@drawable/ic_noun_youtube"
-                                android:layout_width="@dimen/_100sdp"
-                                android:layout_height="@dimen/_100sdp"
-                                />
-
-
-                        </RelativeLayout>-->
-
                         <RelativeLayout
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:id="@+id/rlCatttt"
@@ -264,7 +245,7 @@
                                 android:textSize="@dimen/_14sdp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Categories"/>
+                                android:text="@string/categories"/>
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:layout_margin="@dimen/_8sdp"
@@ -276,8 +257,6 @@
                                 />
 
                         </RelativeLayout>
-
-
 
                         <RelativeLayout
                             android:id="@+id/Rlbestproduct"
@@ -300,7 +279,7 @@
                                     android:fontFamily="@font/ubuntu_medium"
                                     android:layout_margin="@dimen/_12sdp"
                                     android:layout_alignParentLeft="true"
-                                    android:text="Best Product"
+                                    android:text="@string/best_product"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/bestProduct"/>
@@ -314,7 +293,7 @@
                                     android:textColor="@color/white"
                                     android:layout_margin="@dimen/_10sdp"
                                     android:layout_alignParentRight="true"
-                                    android:text="See All"
+                                    android:text="@string/see_all"
                                     android:paddingTop="@dimen/_5sdp"
                                     android:paddingBottom="@dimen/_5sdp"
                                     android:gravity="center"
@@ -344,62 +323,7 @@
             </LinearLayout>
 
         </LinearLayout>
-        <RelativeLayout
 
-            android:visibility="gone"
-            android:id="@+id/reltive_main"
-            android:background="@color/lightred"
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_height="50dp"
-            >
-
-            <ImageView
-                android:id="@+id/image_cart"
-                android:layout_width="50dp"
-                android:layout_height="45dp"
-                android:src="@drawable/cart"
-                android:paddingLeft="10dp"
-                android:tint="#fff"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_toRightOf="@+id/image_cart"
-                android:layout_marginLeft="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#fff"
-                    android:id="@+id/price"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#fff"
-                    android:id="@+id/item"
-                    android:textSize="13dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Checkout"
-
-                android:layout_marginRight="20dp"
-                android:layout_centerVertical="true"
-                android:textColor="@color/white"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/checkout"
-                android:textSize="19dp" />
-
-        </RelativeLayout>
 
 
     </RelativeLayout>

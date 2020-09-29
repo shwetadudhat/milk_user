@@ -15,7 +15,7 @@ import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 import com.google.android.material.snackbar.Snackbar;
-import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.Home;
 import com.milkdelightuser.Activity.referFriend;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.Session_management;
@@ -27,8 +27,7 @@ import androidx.core.content.ContextCompat;
 
 
 public class Splash extends BaseActivity {
-    public static final int MY_PERMISSIONS_REQUEST_WRITE_FIELS = 102;
-    private AlertDialog dialog;
+
     Session_management sessionManagement;
 
     public  static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
@@ -62,7 +61,6 @@ public class Splash extends BaseActivity {
                         try {
                             // Thread will sleep` for 5 seconds
                             sleep(4 * 1000);
-
                             // After 5 seconds redirect to another intent
                             go_next();
 
@@ -189,7 +187,7 @@ public class Splash extends BaseActivity {
        /* Intent intent=new Intent(Splash.this,CashFreeActivity.class);
         startActivity(intent);*/
         if(sessionManagement.isLoggedIn()) {
-            Intent startmain = new Intent(Splash.this, drawer.class);
+            Intent startmain = new Intent(Splash.this, Home.class);
             startActivity(startmain);
         }
         else{

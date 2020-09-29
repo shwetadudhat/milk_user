@@ -25,6 +25,7 @@ import com.milkdelightuser.Model.Schedule_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
 
 import org.json.JSONException;
@@ -49,17 +50,12 @@ public class Schedule extends BaseActivity {
 
     private HorizontalCalendar horizontalCalendar;
 
-    List<Schedule_Model> scheduleModels = new ArrayList<>();
-    RecyclerView schedulelist;
-    Context context;
+
     String todaydate;
-    RelativeLayout visible_rl , schedule_relative;
     Session_management session_management;
     String user_id;
-    Button back;
 
     String a;
-    TextView orderstatus;
 
     ImageView ivBack;
     TextView title,tvLeftDay;
@@ -119,8 +115,6 @@ public class Schedule extends BaseActivity {
                 onBackPressed();
             }
         });
-
-
 
 
 
@@ -262,7 +256,6 @@ public class Schedule extends BaseActivity {
 
                                 String product_name=jsonObject1.getString("product_name");
                                 String product_image=jsonObject1.getString("product_image");
-                                String subs_id=jsonObject1.getString("subs_id");
                                 String order_qty=jsonObject1.getString("order_qty");
                                 String price=jsonObject1.getString("price");
                                 String start_date=jsonObject1.getString("start_date");
@@ -279,13 +272,17 @@ public class Schedule extends BaseActivity {
 
                                 substatus_show.setText(plans);
                                 text_plan.setText(product_name+"("+qty+" "+unit+")");
-                                price_plan.setText(price);
-                                qty_plan.setText("QTY :"+order_qty);
-                                unit_plan.setText(unit);
+//                                price_plan.setText(MainActivity.currency_sign+price);
+                                qty_plan.setText(getString(R.string.qty)+order_qty);
+                                unit_plan.setText(qty+" "+unit);
+                                price_plan.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(Schedule.this, Double.parseDouble(price)))))));
 
-                                Glide.with(Schedule.this)
+                              /*  Glide.with(Schedule.this)
                                         .load(product_url+product_image)
                                         .into(image_plan);
+*/
+                                Global.loadGlideImage(Schedule.this,product_image,product_url+product_image,image_plan);
+
 
 
 

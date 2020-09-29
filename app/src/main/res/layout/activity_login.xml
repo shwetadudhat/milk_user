@@ -182,7 +182,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="OR" />
+                        android:text="@string/or" />
 
                     <View
                         android:layout_width="0dp"
@@ -219,7 +219,7 @@
                             android:id="@+id/emailMobileNumber_login"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_40sdp"
-                            android:hint="Enter Email Id/Phone Number"
+                            android:hint="@string/enter_email_id_phone_number"
                             android:inputType="text"
                             android:padding="@dimen/_10sdp"
                             android:textSize="@dimen/_12sdp" />
@@ -232,7 +232,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_40sdp"
                             android:layout_marginTop="@dimen/_20sdp"
-                            android:hint="Enter Password"
+                            android:hint="@string/enter_pass"
                             android:inputType="textPassword"
                             android:padding="@dimen/_10sdp"
                             android:textSize="@dimen/_12sdp" />

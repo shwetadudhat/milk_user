@@ -26,7 +26,7 @@
                 android:layout_weight="1.4"
                 android:textColor="@color/title_clr"
                 android:textSize="@dimen/_14sdp"
-                android:text="Delivery Address"
+                android:text="@string/delivery_address"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"/>
 

@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,13 +25,13 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.milkdelightuser.Adapter.Cart_Adapter;
 import com.milkdelightuser.Adapter.Cart_Adapter1;
-import com.milkdelightuser.CashFreeActivity;
+import com.milkdelightuser.Model.SubscriptioAddProduct_model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.ConnectivityReceiver;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
@@ -56,6 +55,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
+import static com.milkdelightuser.utils.Global.MY_PLAN_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.MY_STARTDATE_PREFS_NAME;
 
 
 public class BuyOnce extends BaseActivity  {
@@ -67,12 +68,8 @@ public class BuyOnce extends BaseActivity  {
     ImageView ivBack,ivNotify;
     TextView title;
 
-    LinearLayout scroll_view;
-    RelativeLayout container_null1;
-
-
     /*view2*/
-    LinearLayout llEdit;
+    LinearLayout llEdit,ll_addresstext;
     ImageView ivAdrEdit;
     TextView cart_adrName,cart_adr,cart_adrNmbr;
     RecyclerView recycler_cartList;
@@ -98,10 +95,14 @@ public class BuyOnce extends BaseActivity  {
 
     double razorAmount=0,/*totalAmout,*/wallet,walletAmount;
 
-    String Addrid,tardetDate;
+    String Addrid,tardetDate,pincode;
 
     String enddate;
     String pay_amount,discount_amount;
+
+    JSONArray passArray;
+    SharedPreferences sharedPreferences,sharedPreferences1;
+    SharedPreferences.Editor myEdit,myEdit1;
 
     @Override
 
@@ -118,7 +119,7 @@ public class BuyOnce extends BaseActivity  {
         ivNotify=findViewById(R.id.ivNotify);
         ivNotify.setVisibility(View.VISIBLE);
         title=findViewById(R.id.title);
-        title.setText("Shopping Cart");
+        title.setText(getString(R.string.shoppingcart));
 
 
 
@@ -127,6 +128,11 @@ public class BuyOnce extends BaseActivity  {
         user_name = sessionManagement.getUserDetails().get(BaseURL.KEY_NAME);
         user_nmbr = sessionManagement.getUserDetails().get(BaseURL.KEY_MOBILE);
         user_email = sessionManagement.getUserDetails().get(BaseURL.KEY_EMAIL);
+
+        sharedPreferences = getSharedPreferences(MY_STARTDATE_PREFS_NAME, MODE_PRIVATE);
+        sharedPreferences1 = getSharedPreferences(MY_PLAN_PREFS_NAME, MODE_PRIVATE);
+        myEdit = sharedPreferences.edit();
+        myEdit1 = sharedPreferences.edit();
 
 
 
@@ -153,6 +159,7 @@ public class BuyOnce extends BaseActivity  {
         Log.e("tardetDate",tardetDate);
 
         llEdit=findViewById(R.id.llEdit);
+        ll_addresstext=findViewById(R.id.ll_addresstext);
         ivAdrEdit=findViewById(R.id.ivAdrEdit);
         cart_adrName=findViewById(R.id.cart_adrName);
         cart_adr=findViewById(R.id.cart_adr);
@@ -202,7 +209,7 @@ public class BuyOnce extends BaseActivity  {
 
 
         if (pay_amount!=null){
-            btnPaynow.setText("PAY NOW ("+MainActivity.currency_sign+pay_amount+")");
+            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+pay_amount+")");
             tvTotalTag1.setText(MainActivity.currency_sign+pay_amount);
             tvCuponTa1.setText("-"+MainActivity.currency_sign+discount_amount);
             total_amount=Integer.parseInt(pay_amount);
@@ -210,7 +217,7 @@ public class BuyOnce extends BaseActivity  {
             tvDelChargeTag1.setText("FREE");
             tvCuponTa1.setText("-");
             tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
-            btnPaynow.setText("PAY NOW ("+MainActivity.currency_sign+total_amount+")");
+            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+total_amount+")");
         }
 
 
@@ -225,7 +232,9 @@ public class BuyOnce extends BaseActivity  {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(BuyOnce.this,Addresslist.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
+                /*Intent intent=new Intent(BuyOnce.this,Addresslist.class);
+                startActivity(intent);*/
             }
         });
 
@@ -239,7 +248,15 @@ public class BuyOnce extends BaseActivity  {
             @Override
             public void onClick(View view) {
 
-                buyOrdrOnce();
+                if (Addrid==null){
+                    Toast.makeText(BuyOnce.this, "Choose Delivery Address First", Toast.LENGTH_SHORT).show();
+                }else{
+                    if (isInternetConnected()){
+                        showDialog("");
+                        checkPincode();
+                    }
+//                    buyOrdrOnce();
+                }
             }
         });
 
@@ -248,7 +265,7 @@ public class BuyOnce extends BaseActivity  {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(BuyOnce.this,drawer.class);
+                Intent intent=new Intent(BuyOnce.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -261,6 +278,47 @@ public class BuyOnce extends BaseActivity  {
         });
     }
 
+    private void checkPincode() {
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pincode", pincode);
+
+        Log.e("params",params.toString());
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.pincode_check, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("pincheck123rsponse", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+                         buyOrdrOnce();
+                    }
+                    else if (status.equals("0")){
+                        Toast.makeText(BuyOnce.this, ""+message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+    }
 
 
     private void getOrderOnceList(){
@@ -290,19 +348,21 @@ public class BuyOnce extends BaseActivity  {
             @Override
             public void onResponse(JSONObject response) {
                 dismissDialog();
-                Log.e("Tag123", response.toString());
+                Log.e("addresstag123", response.toString());
 
                 try {
                     String status=response.getString("status");
                     String message=response.getString("message");
 
                     if (status.equals("1")){
+                        ll_addresstext.setVisibility(View.VISIBLE);
                         //Toast.makeText(subscription.this, message, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject=response.getJSONObject("data");
                         String user_name=jsonObject.getString("user_name");
                         Addrid=jsonObject.getString("id");
                         String user_number=jsonObject.getString("user_number");
                         String address=jsonObject.getString("full_address");
+                        pincode=jsonObject.getString("pincode");
 
                         cart_adrName.setText(user_name);
                         cart_adr.setText(address);
@@ -324,6 +384,9 @@ public class BuyOnce extends BaseActivity  {
                             }
                         });
 
+                    }
+                    else if (status.equals("0")){
+                        ll_addresstext.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -416,34 +479,23 @@ public class BuyOnce extends BaseActivity  {
         if (ChkWallet.isChecked()){
             if (wallet<total_amount){
 
-                Log.e("ifff", String.valueOf(total_amount));
                 razorAmount=total_amount-wallet;
                 walletAmount=wallet;
 
-                Log.e("razoramount123", String.valueOf(razorAmount));
-                Log.e("totalAmout123", String.valueOf(total_amount));
-                Log.e("walletAmount123", String.valueOf(walletAmount));
-                Log.e("wallet123", String.valueOf(wallet));
-
-
             }else {
                 /*wallet 2100  totalprice 400*/
-
                 walletAmount= total_amount;
                 razorAmount=0;
-                Log.e("totalAmout444", String.valueOf(total_amount));
-                Log.e("walletAmount444", String.valueOf(walletAmount));
-
             }
-
         }else{
             razorAmount=total_amount;
             walletAmount=0;
-            Log.e("razoramount777", String.valueOf(razorAmount));
-            Log.e("totalAmout777", String.valueOf(total_amount));
-
-
         }
+
+        Log.e("razoramount123", String.valueOf(razorAmount));
+        Log.e("totalAmout123", String.valueOf(total_amount));
+        Log.e("walletAmount123", String.valueOf(walletAmount));
+        Log.e("wallet123", String.valueOf(wallet));
 
         buyProduct();
 
@@ -454,7 +506,7 @@ public class BuyOnce extends BaseActivity  {
 
         ArrayList<HashMap<String, String>> items = db.getCartAll();
         if (items.size() > 0) {
-            JSONArray passArray = new JSONArray();
+            passArray = new JSONArray();
             for (int i = 0; i < items.size(); i++) {
                 HashMap<String, String> map = items.get(i);
 
@@ -475,14 +527,13 @@ public class BuyOnce extends BaseActivity  {
                 }
             }
 
-
             Log.e("total_amount_cart",String.valueOf(total_amount));
 
             if (razorAmount!=0){
                 Log.e("jsonArray123",passArray.toString());
-                Intent intent=new Intent(BuyOnce.this, CashFreeActivity.class);
+                Intent intent=new Intent(BuyOnce.this, BuyOncePayment.class);
 
-                intent.putExtra("activity","cart");
+                intent.putExtra("activity","listitem_cart");
                 intent.putExtra("address_id",Addrid);
                 intent.putExtra("jsonArray",passArray.toString());
                 intent.putExtra("wallet_amount", String.valueOf(walletAmount));
@@ -492,7 +543,8 @@ public class BuyOnce extends BaseActivity  {
                 intent.putExtra("discount_amount",String.valueOf(discount_amount));
                 intent.putExtra("total_cgst",String.valueOf(total_gst));
                 intent.putExtra("total_sgst",String.valueOf(total_sgst));
-                startActivity(intent);
+//                startActivity(intent);
+                startActivityForResult(intent,5);
 
             }else{
                 if (isInternetConnected()) {
@@ -508,10 +560,8 @@ public class BuyOnce extends BaseActivity  {
 
         if (promo_code==null){
             promo_code="";
-            Log.e("promo_if","promo_if");
-        }else{
-            Log.e("promo_else","promo_else");
         }
+
 
         Log.e("walletAmount", String.valueOf(walletAmount));
 
@@ -521,7 +571,12 @@ public class BuyOnce extends BaseActivity  {
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
         params.put("wallet_amount", String.valueOf(walletAmount));
-        params.put("razor_pay_amount", String.valueOf(razorAmount));
+        if (razorAmount!=0.0){
+            params.put("razor_pay_amount", String.valueOf(razorAmount));
+        }else{
+            params.put("razor_pay_amount", "");
+        }
+
         params.put("pay_type", "Wallet Pay");
         params.put("pay_mode", "");
         params.put("transaction_id", "");
@@ -555,7 +610,7 @@ public class BuyOnce extends BaseActivity  {
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
                             alertDialog.setCancelable(true);
-                               alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                               alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
                             LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
                             TextView tvStts=dialogView.findViewById(R.id.tvStts);
@@ -565,7 +620,7 @@ public class BuyOnce extends BaseActivity  {
 
                             tvTransId.setVisibility(View.GONE);
 
-                            tvStts.setText("Payment Success");
+                            tvStts.setText(R.string.payment_success);
                             tvStts.setTextColor(getResources().getColor(R.color.green));
                             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -577,13 +632,11 @@ public class BuyOnce extends BaseActivity  {
                             llDialog.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(BuyOnce.this,drawer.class);
+                                    Intent intent=new Intent(BuyOnce.this, Home.class);
                                     startActivity(intent);
                                     finish();
                                 }
                             });
-
-
 
                             alertDialog.show();
 
@@ -633,8 +686,142 @@ public class BuyOnce extends BaseActivity  {
 
             }
 
+        }else if (requestCode == 5) {
+            if(resultCode == Activity.RESULT_OK) {
+                String txMsg = data.getStringExtra("txMsg");
+                String referenceId = data.getStringExtra("referenceId");
+                String txStatus = data.getStringExtra("txStatus");
+                String orderAmount = data.getStringExtra("orderAmount");
+
+                // TODO: Do something with your extra data
+
+                Log.e("msggggg",txMsg);
+                showDialog("");
+                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount);
+
+                //  but_sub_plan(passArray,orderAmount);
+
+            }
         }
     }//
+
+    private void showSuccessDialog( String txMsg, String referenceId, String txStatus,String orderAmount) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(BuyOnce.this);
+        ViewGroup viewGroup =BuyOnce.this.getWindow().getDecorView().findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(BuyOnce.this).inflate(R.layout.custom_success, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+
+        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+        TextView tvStts=dialogView.findViewById(R.id.tvStts);
+        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+
+        tvTransDesc.setText(txMsg);
+        tvTransId.setText("Transaction id:"+referenceId);
+
+
+
+        if (txStatus.equals("SUCCESS")){
+            tvStts.setText(R.string.payment_success);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+            if (ConnectivityReceiver.isConnected()) {
+                showDialog("");
+
+                oreder_once(passArray,orderAmount,referenceId);
+                /* but_sub_plan1(passArray, orderAmount,referenceId);*/
+                Log.e("parseArray", passArray.toString());
+            } else {
+                Global.showInternetConnectionDialog(getApplicationContext());
+            }
+        } else {
+            tvStts.setText(R.string.payment_fail);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+
+        llDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void oreder_once(JSONArray passArray, String orderAmount,String transactionId) {
+
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", u_id);
+        params.put("product_object", passArray.toString());
+        params.put("address_id",  Addrid);
+        params.put("wallet_amount", String.valueOf(walletAmount));
+        params.put("razor_pay_amount", orderAmount);
+        params.put("pay_type", "CashFree");
+        params.put("total_amount", String.valueOf(total_amount));
+        params.put("promo_code", promo_code);
+        params.put("transaction_id", transactionId);
+        params.put("promocode_amount", String.valueOf(discount_amount));
+        params.put("total_cgst", String.valueOf(total_gst));
+        params.put("total_sgst", String.valueOf(total_sgst));
+
+        Log.e("parambuyonce",params.toString());
+
+
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.order_buy_once, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("buyonce123", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+
+                        Log.e("razorAmount", String.valueOf(razorAmount));
+
+                        db.clearCart();
+                        myEdit1.clear().apply();
+                        myEdit.clear().apply();
+
+                    }else if (status.equals("3")){
+                        Toast.makeText(BuyOnce.this, message, Toast.LENGTH_SHORT).show();
+                    }else if (status.equals("0")){
+                        Toast.makeText(BuyOnce.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+    }
 
 
 }

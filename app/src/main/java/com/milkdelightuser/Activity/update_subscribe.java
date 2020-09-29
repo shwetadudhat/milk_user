@@ -22,13 +22,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.milkdelightuser.Adapter.Adapter_FreqPlan;
-import com.milkdelightuser.Adapter.Adapter_SubProduct;
 import com.milkdelightuser.Model.Plan_model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
+import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
 
 import org.json.JSONArray;
@@ -66,7 +66,7 @@ public class update_subscribe extends BaseActivity {
 
 
     String product_id,sub_plan,start_date,end_date,product_qty,subs_id;
-    String Addrid,tardetDate,tardetDate1,enddate1;
+    String Addrid,tardetDate1,enddate1;
     Session_management session_management;
     String user_id,user_name,user_nmbr,user_email,plan_id,product_price,product_unit;
     String cur_date;
@@ -76,7 +76,6 @@ public class update_subscribe extends BaseActivity {
     String wallet;
 
     /*view2*/
-    public static final String[] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     TextView freqDate,tvSub;
     RecyclerView recycler_freqPlan;
     Adapter_FreqPlan adapterFreqPlan;
@@ -105,8 +104,6 @@ public class update_subscribe extends BaseActivity {
     int dayyyyy;
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,7 +115,7 @@ public class update_subscribe extends BaseActivity {
         toolbar=findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
         toolTitle=findViewById(R.id.title);
-        toolTitle.setText("Modify Subscriptions");
+        toolTitle.setText(R.string.modify_sub);
 
         ivBack=findViewById(R.id.ivBack);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +135,7 @@ public class update_subscribe extends BaseActivity {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(update_subscribe.this, drawer.class);
+                Intent intent=new Intent(update_subscribe.this, Home.class);
                 intent.putExtra("notification","subscription_page");
                 startActivity(intent);
             }
@@ -160,7 +157,7 @@ public class update_subscribe extends BaseActivity {
         tvqtyUnit=findViewById(R.id.tvqtyUnit);
 
         tvSub=findViewById(R.id.tvSub);
-        tvSub.setText("UPDATE SUBSCRIPTION");
+        tvSub.setText(R.string.update_sub);
 
 
         product_id=getIntent().getStringExtra("product_id");
@@ -294,74 +291,10 @@ public class update_subscribe extends BaseActivity {
             e.printStackTrace();
         }
 
-        /*plan_id*/
 
         Log.e("start_date12333",start_date);
         Log.e("cur_date123333",cur_date);
-       /* if(cur_date.equals(start_date)){
-            Log.e("iffff123","iffff");
 
-            if (plan_id.equals("1")){
-                dayyyyy=dayyyyy/1;
-
-
-
-            }else if (plan_id.equals("3")){
-                dayyyyy=dayyyyy/3;
-//                getEndDateData(dayyyyy);
-
-
-            }else if (plan_id.equals("4")){
-                dayyyyy=dayyyyy/2;
-//                getEndDateData(dayyyyy);
-
-
-            }else if (plan_id.equals("5")){
-                dayyyyy=dayyyyy/7;
-                *//*getEndDateData(dayyyyy);*//*
-
-            }
-
-            getEndDateData(dayyyyy);
-
-        }
-        else{
-            Log.e("elseee123","elssss");
-
-            if (plan_id.equals("1")){
-                dayyyyy=dayyyyy/1;
-
-
-
-            }else if (plan_id.equals("3")){
-                dayyyyy=dayyyyy/3;
-//                getEndDateData(dayyyyy);
-
-
-            }else if (plan_id.equals("4")){
-                dayyyyy=dayyyyy/2;
-//                getEndDateData(dayyyyy);
-
-
-            }else if (plan_id.equals("5")){
-                dayyyyy=dayyyyy/7;
-                *//*getEndDateData(dayyyyy);*//*
-
-            }
-
-            getEndDateData(dayyyyy);
-
-        }*/
-
-        /*if (plan_id.equals("1")){
-            dayyyyy=dayyyyy/1;
-        }else if (plan_id.equals("3")){
-            dayyyyy=dayyyyy/3;
-        }else if (plan_id.equals("4")){
-            dayyyyy=dayyyyy/2;
-        }else if (plan_id.equals("5")){
-            dayyyyy=dayyyyy/7;
-        }*/
         getEndDateData(dayyyyy);
 
         String tag_json_obj = "json store req";
@@ -387,14 +320,6 @@ public class update_subscribe extends BaseActivity {
                     if (status.equals("1")){
 
                         Toast.makeText(update_subscribe.this, message, Toast.LENGTH_SHORT).show();
-
-                      /*  Subscription_Fragment wallet_fragment = new Subscription_Fragment();
-                        // load fragment
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.container_12, wallet_fragment);
-                        transaction.commit();
-                       */
-
 
 
                     }
@@ -470,9 +395,12 @@ public class update_subscribe extends BaseActivity {
                         tvProPrice.setText(MainActivity.currency_sign+product_price);
 
 
-                        Glide.with(update_subscribe.this)
+                        /*Glide.with(update_subscribe.this)
                                 .load(proImgae)
-                                .into(ivproImage);
+                                .into(ivproImage);*/
+
+                        Global.loadGlideImage(update_subscribe.this,proImgae,proImgae,ivproImage);
+
 
 
                     }

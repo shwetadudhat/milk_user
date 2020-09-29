@@ -27,7 +27,7 @@
                 android:padding="@dimen/_10sdp"
                 android:textColor="@color/title_clr"
                 android:layout_height="wrap_content"
-                android:text="FAQ"/>
+                android:text="@string/faq1"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_10sdp"
                 android:layout_height="wrap_content"
-                android:text="Privacy &amp; Return Policy"/>
+                android:text="@string/privacy_policy"/>
 
             <LinearLayout
                 android:layout_marginLeft="@dimen/_10sdp"

@@ -117,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:text="per day" />
+                        android:text="@string/per_day" />
 
 
                 </LinearLayout>
@@ -145,7 +145,7 @@
                 android:gravity="center|left"
                 android:textColor="@color/title_clr"
                 android:textSize="@dimen/_14sdp"
-                android:text="Select Frequency"
+                android:text="@string/select_frequency"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -157,7 +157,7 @@
                 android:gravity="center|left"
                 android:textColor="@color/small_title_clr"
                 android:textSize="@dimen/_10sdp"
-                android:text="Please Select Your Plan Date"
+                android:text="@string/please_select_your_plan_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -199,7 +199,7 @@
                     android:layout_toLeftOf="@+id/freqDate"
                     android:textSize="@dimen/_10sdp"
                     android:textColor="@color/small_title_clr"
-                    android:text="Start Your Plan"
+                    android:text="@string/start_your_plan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

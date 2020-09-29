@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.milkdelightuser.Adapter.Adapter_Prosize;
 import com.milkdelightuser.Model.App_Product_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
@@ -57,16 +58,16 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
     // ArrayList<String> stringArrayList;
     ArrayList<App_Product_Model> stringArrayList;
     String selestedItem;
-    String itemtype="";
-    int index,select_id;
-    int row_index=-1;
-    String category_id;
+    String itemtype1="",select_id;
+    int index;
+    int row_index=-1,positionn=-1;
+
 
 
     SharedPreferences settings ;
     SharedPreferences.Editor editor;
     boolean isSelectedd;
-    String filterData,sortData;
+    String filterData,sortData,seeAll;
     ArrayAdapter<String> adapter;
 
 
@@ -83,8 +84,6 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_filter_product);
 
-        category_id=getIntent().getStringExtra("category_id");
-
         ll_apply=findViewById(R.id.ll_apply);
         ll_clear=findViewById(R.id.ll_clear);
         edSortType=findViewById(R.id.edSortType);
@@ -97,63 +96,51 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         isSelectedd = settings.getBoolean("locked", false);
         filterData=settings.getString("select","");
         sortData=settings.getString("sort_data","");
-        select_id=settings.getInt("select_id",0);
-
-
-
-        Log.e("select",filterData);
-        Log.e("sortData123",sortData);
-        Log.e("select_id",""+select_id);
-
+        select_id=settings.getString("select_id","");
+        seeAll=getIntent().getStringExtra("seeAll");
 
 
         stringArrayList=new ArrayList<>();
-
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, sort_type);
 
-        if (isSelectedd){
-            edSortType.setText(sortData);
-        }
+
 
         if(edSortType != null) {
 
             edSortType.setAdapter(adapter);
+            if (isSelectedd){
+                if (!select_id.equals(-1)){
+                    positionn=Integer.parseInt(select_id);
+                }
+                if (sortData!=null){
+                    selestedItem=sortData;
+                }
+                if (filterData!=null){
+                    itemtype1=filterData;
+                }
 
-            edSortType.setSelection(0);
+                edSortType.setText(sortData);
+            }else {
+                edSortType.setSelection(0);
+            }
 
             edSortType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     index=i;
-                    Log.e("index",""+i);
                     Object item = adapterView.getItemAtPosition(+i);
-                    Log.e   ("index123", String.valueOf(item));
                     selestedItem= String.valueOf(item);
                     Log.e("selestedItem",selestedItem);
-                    editor.putBoolean("locked", true);
-                    editor.putString("sort_data",selestedItem);
-                    editor.apply();
-
-                    if (isSelectedd){
-                        sortData=settings.getString("sort_data","");
-                        Log.e(" sortData11111",sortData);
-                    }
-                    // Toast.makeText(getBaseContext(), sort_type[index], Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
 
 
         if (isInternetConnected()) {
             try {
                 showDialog("");
-
                 getProductSizeData();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -164,28 +151,50 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         ll_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (sortData==null){
+                    sortData="";
+                }
+                if (itemtype1==null){
+                    itemtype1="";
+                }
+                editor.putBoolean("locked", true);
 
-                //   Log.e("selestedItem",selestedItem);
-                Log.e("sortData123",sortData);
-                Log.e("sortData","sortData");
+                if (selestedItem==null){
+                    selestedItem="";
+                    editor.putString("sort_data", selestedItem);
+
+                }else if(selestedItem!=null){
+                    editor.putString("sort_data",selestedItem);
+                }else if (isSelectedd){
+                    sortData=settings.getString("sort_data","");
+                    if (sortData!=null){
+                        editor.putString("sort_data",sortData);
+                        selestedItem=sortData;
+                    }else{
+                        editor.putString("sort_data",selestedItem);
+                    }
+                }
+                editor.putString("select_id",String.valueOf(positionn));
+                editor.putString("select",itemtype1);
+                editor.apply();
+
+                if (isSelectedd){
+                    sortData=settings.getString("sort_data","");
+                    select_id=settings.getString("select_id","");
+                    positionn=Integer.parseInt(select_id);
+                }
+                /*select_id*/
+
 
                 Intent returnIntent = new Intent();
+                returnIntent.putExtra("filter_type",selestedItem);
+                returnIntent.putExtra("seeAll",seeAll);
 
-
-                if (filterData.equals("")){
-                    returnIntent.putExtra("filter_type",sortData);
-
+                if (itemtype1.equals("")){
                     returnIntent.putExtra("items_size","");
                     returnIntent.putExtra("items_unit","");
                 }else{
-
-                    Log.e("itemtype",filterData);
-
-                    String[] splited = filterData.split("\\s+");
-                    Log.e("splited",splited[0]);
-                    Log.e("splited2",splited[1]);
-
-                    returnIntent.putExtra("filter_type",sortData);
+                    String[] splited = itemtype1.split("\\s+");
                     returnIntent.putExtra("items_size",splited[0]);
                     returnIntent.putExtra("items_unit",splited[1]);
                 }
@@ -207,20 +216,16 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
                 adapterProsize.notifyDataSetChanged();
 
                 /*   spinner data*/
-                edSortType.setText("Select Sort Type");
+                edSortType.setText(getString(R.string.select_sort_type));
                 adapter = new ArrayAdapter<String>(FilterCatProduct.this,
                         android.R.layout.simple_dropdown_item_1line, sort_type);
                 edSortType.setAdapter(adapter);
-
                 editor.clear().apply();
 
-
-
                 Intent backIntent = new Intent();
-                backIntent.putExtra("category_id",category_id);
+                backIntent.putExtra("seeAll",seeAll);
                 setResult(RESULT_CANCELED, backIntent);
                 finish();
-
 
             }
         });
@@ -228,6 +233,9 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent backIntent = new Intent();
+                backIntent.putExtra("seeAll",seeAll);
+                setResult(RESULT_CANCELED, backIntent);
                 finish();
             }
         });
@@ -262,26 +270,34 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
                                 App_Product_Model appProductModel=new App_Product_Model();
                                 appProductModel.setQty(qty);
                                 appProductModel.setUnit(unit);
-
-
                                 stringArrayList.add(appProductModel);
 
                             }
 
-                            Log.e("stringArrayList", String.valueOf(stringArrayList));
                             recycler_prosize.setLayoutManager(new GridLayoutManager(getApplicationContext(),4));
 
                             Log.e("stringArrayList123", String.valueOf(stringArrayList));
                             adapterProsize=new Adapter_Prosize(getApplicationContext(),stringArrayList);
                             recycler_prosize.setAdapter(adapterProsize);
 
+                            adapterProsize.setEventListener(new Adapter_Prosize.EventListener() {
+                                @Override
+                                public void onItemViewClicked(int position, String itemtype) {
+                                    positionn=position;
+                                    itemtype1=itemtype;
+                                    Log.e("itemtypee",itemtype1);
+                                }
+                            });
 
                             if (isSelectedd){
-                                filterData=settings.getString("select","");
-                                Log.e("filterData123",filterData);
+                                select_id=settings.getString("select_id","");
                                 Log.e("select_id",""+select_id);
 
-                                adapterProsize.setSelectedItem(select_id);
+                                if (select_id.equals("")){
+                                    adapterProsize.setSelectedItem(-1);
+                                }else{
+                                    adapterProsize.setSelectedItem(Integer.parseInt(select_id));
+                                }
                                 adapterProsize.notifyDataSetChanged();
 
                             }
@@ -298,13 +314,9 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(FilterProduct.this, "" + error, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(FilterCatProduct.this, "" + error, Toast.LENGTH_SHORT).show();
             }
         });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
@@ -315,107 +327,4 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         Toast.makeText(getBaseContext(), sort_type[index], Toast.LENGTH_SHORT).show();
 
     }
-
-    public class Adapter_Prosize extends RecyclerView.Adapter<Adapter_Prosize.holder> {
-
-        Context context;
-        ArrayList<App_Product_Model> stringArrayList;
-
-
-        public Adapter_Prosize(Context context, ArrayList<App_Product_Model> stringArrayList) {
-            this.context = context;
-            this.stringArrayList = stringArrayList;
-
-
-
-        }
-
-        public int getSelectedItem() {
-            return row_index;
-        }
-        public void setSelectedItem(int selectedItem) {
-            row_index = selectedItem;
-            Log.e("clearrr11","clear"+row_index);
-        }
-
-        @NonNull
-        @Override
-        public Adapter_Prosize.holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            View view = inflater.inflate(R.layout.listitem_productsize, null, false);
-            context = viewGroup.getContext();
-            return new Adapter_Prosize.holder(view);    }
-
-        @Override
-        public void onBindViewHolder(@NonNull final Adapter_Prosize.holder holder, int i) {
-
-
-            isSelectedd = settings.getBoolean("locked", false);
-            if (isSelectedd){
-                filterData=settings.getString("select","");
-                Log.e("filterData",filterData);
-                if (stringArrayList.get(i).equals(filterData)){
-                    row_index=i;
-                    Log.e("row_index",""+row_index);
-                }
-            }
-
-            holder.tvProsize.setText(stringArrayList.get(i).getQty()+" "+stringArrayList.get(i).getUnit());
-            holder.tvProsize.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    row_index=i;
-                    notifyDataSetChanged();
-                    itemtype=holder.tvProsize.getText().toString();
-                    editor.putBoolean("locked", true);
-                    editor.putInt("select_id", i);
-                    editor.putString("select",itemtype);
-                    editor.apply();
-
-                }
-            });
-            if(row_index==i){
-                holder.tvProsize.setBackground(getResources().getDrawable(R.drawable.home_add));
-                holder.tvProsize.setTextColor(getResources().getColor(R.color.main_clr));
-                setTypeFaceBold(holder.tvProsize);
-                // editor.putBoolean("locked", true).apply();
-            }
-            else
-            {
-                holder.tvProsize.setBackground(getResources().getDrawable(R.drawable.bg_grey));
-                holder.tvProsize.setTextColor(getResources().getColor(R.color.grey));
-                setTypeFaceRegular(holder.tvProsize);
-                // editor.putBoolean("locked", false).apply();
-            }
-
-            if (row_index==-1){
-                Log.e("clearrr","clear");
-                holder.tvProsize.setBackground(getResources().getDrawable(R.drawable.bg_grey));
-                holder.tvProsize.setTextColor(getResources().getColor(R.color.grey));
-                setTypeFaceRegular(holder.tvProsize);
-                editor.clear();
-                editor.apply();
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return stringArrayList.size();
-
-        }
-
-        public class holder extends RecyclerView.ViewHolder {
-
-            TextView tvProsize;
-
-            public holder(@NonNull View itemView) {
-                super(itemView);
-
-                tvProsize =itemView.findViewById(R.id.tvProsize);
-
-            }
-        }
-    }
-
-
 }

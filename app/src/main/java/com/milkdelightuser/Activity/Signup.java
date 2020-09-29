@@ -387,7 +387,7 @@ public class Signup extends BaseActivity {
                         Session_management session_management = new Session_management(Signup.this);
                         session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);
 
-                        Intent intent = new Intent(Signup.this, drawer.class);
+                        Intent intent = new Intent(Signup.this, Home.class);
                         startActivity(intent);
                         finishAffinity();
 
@@ -466,54 +466,53 @@ public class Signup extends BaseActivity {
                                                 if (txt_confpass.equals(txt_pass)){
                                                     return true;
                                                 }else{
-
-                                                    showKeyBoard();
                                                     et_confpass.setError("Password And Confirm Password must be same");
+                                                    Global.showKeyBoard(this,et_confpass);
                                                 }
                                             }else{
-                                                showKeyBoard();
                                                 et_confpass.setError("Please enter valid Password!");
-
+                                                Global.showKeyBoard(this,et_confpass);
                                             }
                                         }else{
-                                            showKeyBoard();
                                             et_confpass.setError("Confirm Password field is required");
+                                            Global.showKeyBoard(this,et_confpass);
                                         }
                                     }else{
-                                        showKeyBoard();
                                         et_pass.setError("Please enter minimum 6 digit Password!");
+                                        Global.showKeyBoard(this,et_pass);
                                     }
                                 }else{
-                                    showKeyBoard();
                                     et_pass.setError("Password field is required");
+                                    Global.showKeyBoard(this,et_pass);
                                 }
                             }else{
-                                showKeyBoard();
                                 et_email.setError("Please enter a valid Email Address");
+                                Global.showKeyBoard(this,et_email);
                             }
                         }else{
-                            showKeyBoard();
                             et_email.setError(" Email Address  is required");
+                            Global.showKeyBoard(this,et_email);
                         }
 
                     }else{
-                        showKeyBoard();
+                        ;
                         et_phn.setError("Please enter a valid Mobile Number");
+                        Global.showKeyBoard(this,et_phn);
                     }
                 }else{
-                    showKeyBoard();
                     et_phn.setError("Please enter a valid Number");
+                    Global.showKeyBoard(this,et_phn);
                 }
 
             }else{
-                showKeyBoard();
                 et_phn.setError("Mobile Number is required");
+                Global.showKeyBoard(this,et_phn);
             }
 
         } else {
             et_name.setError("Name is Required!");
-            showKeyBoard();
-            // Global.showKeyBoard(getActivity(), edEmailMobileNumber);
+            Global.showKeyBoard(this,et_name);
+
         }
         return false;
     }
@@ -657,7 +656,7 @@ public class Signup extends BaseActivity {
                         Session_management session_management = new Session_management(Signup.this);
                         session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);
 
-                        Intent intent = new Intent(Signup.this, drawer.class);
+                        Intent intent = new Intent(Signup.this, Home.class);
                         startActivity(intent);
                         finishAffinity();
 
@@ -800,11 +799,6 @@ public class Signup extends BaseActivity {
                         Log.e("ERROR", "FB_LOGIN:> " + exception.toString());
                     }
                 });
-    }
-
-  public void  showKeyBoard(){
-      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-      imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
     }
 
 }

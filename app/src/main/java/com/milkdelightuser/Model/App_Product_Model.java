@@ -20,12 +20,20 @@ public class App_Product_Model {
     String rate;
     String review_count;
     String total;
+    String gst;
 
 
     public App_Product_Model() {
 
     }
 
+    public String getGst() {
+        return gst;
+    }
+
+    public void setGst(String gst) {
+        this.gst = gst;
+    }
 
     public String getCategory_id() {
         return category_id;
@@ -185,6 +193,7 @@ public class App_Product_Model {
     public String toString() {
         return "App_Product_Model{" +
                 "product_id='" + product_id + '\'' +
+                ", category_id='" + category_id + '\'' +
                 ", subcat_id='" + subcat_id + '\'' +
                 ", product_name='" + product_name + '\'' +
                 ", mrp='" + mrp + '\'' +
@@ -200,7 +209,9 @@ public class App_Product_Model {
                 ", created_at='" + created_at + '\'' +
                 ", updated_at='" + updated_at + '\'' +
                 ", rate='" + rate + '\'' +
+                ", review_count='" + review_count + '\'' +
                 ", total='" + total + '\'' +
+                ", gst='" + gst + '\'' +
                 '}';
     }
 }

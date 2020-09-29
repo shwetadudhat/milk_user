@@ -28,7 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.milkdelightuser.Activity.Addresslist;
-import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.Home;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.AppHelper;
@@ -89,6 +89,15 @@ public class Profile_Fragment extends BaseFragment {
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        return view;
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         sessionManagement=new Session_management(getContext());
@@ -146,9 +155,12 @@ public class Profile_Fragment extends BaseFragment {
         if(user_profilee.equals("") || user_profilee.equals("null")){
             image_profile.setImageResource(R.mipmap.ic_launcher);
         }else{
-            Glide.with(getContext())
+          /*  Glide.with(getContext())
                     .load(BaseURL.profile_url+user_profilee)
                     .into(image_profile);
+*/
+            Global.loadGlideImage(getContext(),user_profilee,BaseURL.profile_url+user_profilee,image_profile);
+
 
         }
 
@@ -256,7 +268,7 @@ public class Profile_Fragment extends BaseFragment {
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.custome_forget_password, viewGroup, false);
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
                 //  alertDialog.setCancelable(false);
 
 
@@ -299,18 +311,25 @@ public class Profile_Fragment extends BaseFragment {
 
                         if (txtOldPass.length()==0){
                             edOldPass.setError("Old password feild required !");
+                            Global.showKeyBoard(getContext(),edOldPass);
                         }else if (txtNewPass.length()==0){
                             edNewPass.setError("New password feild required !");
+                            Global.showKeyBoard(getContext(),edNewPass);
                         }else if (txtNewPass.length()<6){
                             edNewPass.setError("Please enter minimum 6 digit password !");
+                            Global.showKeyBoard(getContext(),edNewPass);
                         }else if (txtRePass.length()==0){
                             edReEnPass.setError("Re-enter password feild required !");
+                            Global.showKeyBoard(getContext(),edReEnPass);
                         }else if (txtRePass.length()<6){
                             edReEnPass.setError("Please enter minimum 6 digit password !");
+                            Global.showKeyBoard(getContext(),edReEnPass);
                         }else if (txtOldPass.equals(txtNewPass)){
                             edNewPass.setError("Both Feilds are must be different!");
+                            Global.showKeyBoard(getContext(),edNewPass);
                         }else if (!txtRePass.equals(txtNewPass)){
                             edReEnPass.setError("Both Feilds are must be same!");
+                            Global.showKeyBoard(getContext(),edReEnPass);
                         }else{
                             //api call
                             if (ConnectivityReceiver.isConnected()) {
@@ -331,14 +350,7 @@ public class Profile_Fragment extends BaseFragment {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        return view;
-    }
 
     private void EditProfile(String u_id, String profName, String profNmbr, String profEmail) {
         String tag_json_obj = "json store req";
@@ -514,8 +526,8 @@ public class Profile_Fragment extends BaseFragment {
                         Session_management session_management = new Session_management(getContext());
                         session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);
 
-                        if (getActivity() instanceof drawer){
-                            ((drawer) getActivity()).getNavViewData();
+                        if (getActivity() instanceof Home){
+                            ((Home) getActivity()).getNavViewData();
                         }
 
                         Toast.makeText(getContext(),""+message, Toast.LENGTH_SHORT).show();
@@ -563,13 +575,15 @@ public class Profile_Fragment extends BaseFragment {
 
         if (txtName.length() == 0) {
             edProName.setError("please enter name");
-            Toast.makeText(getContext(), "Enter Name", Toast.LENGTH_SHORT).show();
+            Global.showKeyBoard(getContext(),edProName);
             return false;
         } else if (!Global.isValidEmail(txtEmail)) {
             edProEmail.setError("please enter valid email address");
+            Global.showKeyBoard(getContext(),edProEmail);
             return false;
         }else if (txtNmbr.length() != 10 ) {
             edProNmbr.setError("please enter valid mobile number");
+            Global.showKeyBoard(getContext(),edProNmbr);
             return false;
         /*}else if (txtPincode.length()== 0 ) {
             Log.e("pincode",txtPincode);

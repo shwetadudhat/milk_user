@@ -32,6 +32,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public static final String COLUMN_UNIT = "unit";
     public static final String COLUMN_STOCK = "stock";
+    public static final String COLUMN_CGST = "cgst";
+    public static final String COLUMN_SGST = "sgst";
+    public static final String COLUMN_GST = "gst";
 
     public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -50,6 +53,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + COLUMN_SUB_PRICE + " DOUBLE NOT NULL, "
                 + COLUMN_UNIT + " TEXT NOT NULL, "
                 + COLUMN_STOCK + " DOUBLE NOT NULL"
+             /*   + COLUMN_CGST + " DOUBLE NOT NULL,"
+                + COLUMN_SGST + " DOUBLE NOT NULL,"
+                + COLUMN_GST + " DOUBLE NOT NULL"*/
                 + ")";
         db.execSQL(exe);
     }
@@ -71,6 +77,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(COLUMN_SUB_PRICE, map.get(COLUMN_SUB_PRICE));
             values.put(COLUMN_STOCK, map.get(COLUMN_STOCK));
             values.put(COLUMN_UNIT, map.get(COLUMN_UNIT));
+          /*  values.put(COLUMN_CGST, map.get(COLUMN_CGST));
+            values.put(COLUMN_SGST, map.get(COLUMN_SGST));
+            values.put(COLUMN_GST, map.get(COLUMN_GST));*/
             Log.e("values",values.toString());
             db.insert(CART_TABLE, null, values);
             return true;
@@ -186,6 +195,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.e("idddddd",id);
         db = getReadableDatabase();
         String qry = "Select SUM(" + COLUMN_QTY + " * " + COLUMN_PRICE + ") as total_amount  from " + CART_TABLE + " where " + COLUMN_ID + " = " + id;
+        Cursor cursor = db.rawQuery(qry, null);
+        cursor.moveToFirst();
+        String total = cursor.getString(cursor.getColumnIndex("total_amount"));
+        if (total != null) {
+            Log.e("tottalll",total);
+            return total;
+        } else {
+            return "0";
+        }
+
+    }
+
+    public String getTotalAmountByIdIncludeGSt(String id) {
+        Log.e("idddddd",id);
+        db = getReadableDatabase();
+        String qry = "Select SUM(" + COLUMN_QTY + " * " + COLUMN_PRICE +"*"+COLUMN_GST+ ") as total_amount  from " + CART_TABLE + " where " + COLUMN_ID + " = " + id;
         Cursor cursor = db.rawQuery(qry, null);
         cursor.moveToFirst();
         String total = cursor.getString(cursor.getColumnIndex("total_amount"));

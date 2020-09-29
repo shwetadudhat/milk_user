@@ -71,7 +71,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
         setContentView(R.layout.activity_product_listing);
 
         toolTitle=findViewById(R.id.title);
-        toolTitle.setText("Product Listing");
+        toolTitle.setText(R.string.product_list);
 
         
         seeAll=getIntent().getStringExtra("seeAll");
@@ -131,7 +131,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(CatProductListing.this,drawer.class);
+                Intent intent=new Intent(CatProductListing.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -256,6 +256,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
                     String unit = jsonObject2.getString("unit");
                     String total1 = jsonObject2.getString("total");
                     String mrp = jsonObject2.getString("mrp");
+                    String gst = jsonObject.getString("gst");
 
                     String product_review_count = jsonObject2.getString("product_review_count");
 
@@ -271,7 +272,9 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
                     }
 
                     App_Product_Model appProductModel=new App_Product_Model();
+                    appProductModel.setGst(gst);
                     appProductModel.setProduct_id(product_id);
+                    appProductModel.setCategory_id(category_id);
                     appProductModel.setProduct_name(product_name);
                     appProductModel.setPrice(price);
                     appProductModel.setSubscription_price(subscription_price);
@@ -407,6 +410,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
 
                             App_Product_Model appProductModel=new App_Product_Model();
                             appProductModel.setProduct_id(product_id);
+                            appProductModel.setCategory_id(category_id);
                             appProductModel.setProduct_name(product_name);
                             appProductModel.setPrice(price);
                             appProductModel.setSubscription_price(subscription_price);
@@ -433,7 +437,6 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
 
                         Log.e("productModelList1234", String.valueOf(productModelList.size()));
 
-                      //  notifyDataSetChanged();
 
                         adapterBestProductList.updateData(productModelList);
                         adapterBestProductList.notifyDataSetChanged();

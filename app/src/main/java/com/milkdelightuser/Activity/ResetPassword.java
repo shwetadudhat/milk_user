@@ -20,6 +20,7 @@ import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
+import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
 
 import org.json.JSONException;
@@ -137,21 +138,26 @@ public class ResetPassword extends BaseActivity {
                                 return true;
                             }else{
                                 ed_rePass.setError("Both Feild are must be same!");
+                                Global.showKeyBoard(ResetPassword.this,ed_rePass);
                             }
 
                         }else{
                             ed_rePass.setError("Please re-enter valid Password!");
+                            Global.showKeyBoard(ResetPassword.this,ed_rePass);
                         }
                     }else{
                         ed_rePass.setError("Re-enter Password Feild is Required!");
+                        Global.showKeyBoard(ResetPassword.this,ed_rePass);
                     }
                    // return true;
                 } else {
                     ed_pass.setError("Please enter valid Password!");
+                    Global.showKeyBoard(ResetPassword.this,ed_pass);
                 }
 
         } else {
             ed_pass.setError("Password Feild is Required!");
+            Global.showKeyBoard(ResetPassword.this,ed_pass);
         }
         return false;
     }

@@ -76,6 +76,7 @@ public class BaseURL {
     public static String gst_charge= BASE_URL + "gst_charge";
     public static String delivery_status_update= BASE_URL + "delivery_status_update";
     public static String generate_cashfree_token= BASE_URL + "generate_cashfree_token";
+    public static String pincode_check= BASE_URL + "pincode_check";
 
 
     //    public static String IMG_CATEGORY_URL = "https://gofreshdaily.com/app/";

@@ -12,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.milkdelightuser.Model.Home_Model_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.Global;
 
 import java.util.List;
 
@@ -42,14 +43,17 @@ public class Home_Banner_Adapter extends RecyclerView.Adapter<Home_Banner_Adapte
 
         final Home_Model_Model selectCityModel = home_model_models.get(i);
 
-        Glide.with(context)
-                .load(BaseURL.IMG_CATEGORY_URL + selectCityModel. getBanner_image())
+//        Glide.with(context)
+//                .load(BaseURL.IMG_CATEGORY_URL + selectCityModel. getBanner_image())
+//
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .dontAnimate()
+//                .into(holder.city_image);
 
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate()
-                .into(holder.city_image);
+        Global.loadGlideImage(context,selectCityModel. getBanner_image(),BaseURL.IMG_CATEGORY_URL + selectCityModel. getBanner_image(),holder.city_image);
 
-       // holder.textView12.setText(selectCityModel.getCity_name());
+
+        // holder.textView12.setText(selectCityModel.getCity_name());
 
 
 

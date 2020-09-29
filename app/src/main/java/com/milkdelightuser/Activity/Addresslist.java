@@ -1,6 +1,8 @@
 package com.milkdelightuser.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +25,9 @@ import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.ConnectivityReceiver;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
+import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
 
 import org.json.JSONArray;
@@ -35,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +58,9 @@ public class Addresslist extends BaseActivity {
     Session_management sessionManagement;
     String u_id;
 
+    RelativeLayout container_null1;
+
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +70,7 @@ public class Addresslist extends BaseActivity {
         setContentView(R.layout.activity_addresslist);
 
         toolTitle=findViewById(R.id.title);
-        toolTitle.setText("My Address");
+        toolTitle.setText(R.string.myaddress);
 
         sessionManagement=new Session_management(Addresslist.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -71,6 +80,7 @@ public class Addresslist extends BaseActivity {
 
 
         recycler_address=findViewById(R.id.recycler_address);
+        container_null1=findViewById(R.id.container_null1);
 
         if (isInternetConnected()) {
             showDialog("");
@@ -95,19 +105,15 @@ public class Addresslist extends BaseActivity {
                 intent.putExtra("action","add");
                 //startActivity(intent);
               //  finish();
-                startActivityForResult(intent,0);
+                startActivityForResult(intent,1);
 
             }
         });
 
-
-
-
-
-
     }
 
     private void AddressList(String u_id) {
+        addressModelList.clear();
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", u_id);
@@ -123,14 +129,16 @@ public class Addresslist extends BaseActivity {
                     String status=response.getString("status");
                     String message=response.getString("message");
 
-                    Toast.makeText(Addresslist.this, message, Toast.LENGTH_SHORT).show();
 
                     if (status.equals("1")){
                         JSONArray jsonArray = response.getJSONArray("data");
                         if (jsonArray.length()==0){
-                            Toast.makeText(Addresslist.this, "0 data found", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Addresslist.this, "0 data found", Toast.LENGTH_SHORT).show();
                         }else{
+                            container_null1.setVisibility(View.GONE);
+                            recycler_address.setVisibility(View.VISIBLE);
                             for (int i=0;i<jsonArray.length();i++){
+
 
                                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                                 String id=jsonObject.getString("id");
@@ -164,10 +172,31 @@ public class Addresslist extends BaseActivity {
                             adapter_address.setEventListener(new Adapter_Address.EventListener() {
                                 @Override
                                 public void onItemDeleteClicked(int i, String address_id) {
-                                    if (isInternetConnected()) {
-                                        showDialog("");
-                                        AddressDelete( i,address_id);
-                                    }
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(Addresslist.this)
+                                            .setTitle(R.string.delete_title)
+                                            .setMessage(R.string.delete_msg)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (isInternetConnected()) {
+                                                        showDialog("");
+                                                        AddressDelete( i,address_id);
+                                                    }
+
+
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            });
+
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+
+
                                 }
 
                                 @Override
@@ -185,12 +214,15 @@ public class Addresslist extends BaseActivity {
                                     Intent intent=new Intent(Addresslist.this, Edit_Address.class);
                                     intent.putExtra("action","edit");
                                     intent.putExtra("id",address_id);
-                                    startActivityForResult(intent,0);
+                                    startActivityForResult(intent,1);
                                   //  context.startActivity(intent);
                                 }
                             });
                         }
 
+                    }else{
+                        container_null1.setVisibility(View.VISIBLE);
+                        recycler_address.setVisibility(View.GONE);
                     }
 
                 } catch (JSONException e) {
@@ -202,6 +234,8 @@ public class Addresslist extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
+                container_null1.setVisibility(View.VISIBLE);
+                recycler_address.setVisibility(View.GONE);
                 Toast.makeText(Addresslist.this, "" + error, Toast.LENGTH_SHORT).show();
             }
         });
@@ -294,21 +328,17 @@ public class Addresslist extends BaseActivity {
 
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0) {
+        if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
 
+                String user_id=data.getStringExtra("user_id");
                 showDialog("");
+                AddressList(user_id);
 
-                AddressList(u_id);
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
             }
         }
     }//

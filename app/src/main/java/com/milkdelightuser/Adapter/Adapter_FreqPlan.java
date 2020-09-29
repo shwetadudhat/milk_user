@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.milkdelightuser.Activity.subscription;
 import com.milkdelightuser.Model.Plan_model;
 import com.milkdelightuser.R;
 

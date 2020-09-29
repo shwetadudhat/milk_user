@@ -3,6 +3,7 @@ package com.milkdelightuser.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
     private DatabaseHandler dbcart;
 
     Double product_price;
+    Double gst,cgst,sgst;
 
     public Adapter_BestProductList(Context context, List<App_Product_Model> productModelList) {
         this.context = context;
@@ -71,17 +73,31 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
 
         holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
         //holder.tvProPrice.setText(MainActivity.currency_sign+Math.round(product_price));
-        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getPrice())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())))));
+//        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getPrice())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())))));
         //  holder.tvProPrice.setText((MainActivity.currency_sign+Math.round(Float.parseFloat(productModelList.get(i).getPrice()))));
 
-        Glide.with(context)
-                .load(/*BaseURL.IMG_CATEGORY_URL + */productModelList.get(i).getProduct_image())
+       /* Glide.with(context)
+                .load(*//*BaseURL.IMG_CATEGORY_URL + *//*productModelList.get(i).getProduct_image())
                 .into(holder.ivProd);
+*/
+        Global.loadGlideImage(context,productModelList.get(i).getProduct_image(),productModelList.get(i).getProduct_image(),holder.ivProd);
+
+        if (!productModelList.get(i).getGst().equals("null")){
+            gst= Double.valueOf(productModelList.get(i).getGst());
+            holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
+
+        }else{
+            holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
+
+        }
+
 
         if (!productModelList.get(i).getMrp().equals("0")){
             holder.tvOldPrice.setVisibility(View.VISIBLE);
          //   holder.tvOldPrice.setText( MainActivity.currency_sign +productModelList.get(i).getMrp());
-            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getMrp())))));
+//            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getMrp())))));
             holder.tvOldPrice.setPaintFlags(holder.tvOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }else{
             holder.tvOldPrice.setVisibility(View.GONE);
@@ -90,8 +106,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
         holder.llitem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              /*  holder.btnAdd.callOnClick();*/
-
+//                holder.btnAdd.callOnClick();
                 Intent intent=new Intent(context, Product.class);
                 intent.putExtra("proname",productModelList.get(i).getProduct_name());
                 intent.putExtra("proId",productModelList.get(i).getProduct_id());
@@ -99,9 +114,13 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
             }
         });
 
+        Log.e("allProcatid",allProductsModel.getCategory_id());
+
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
 
                 HashMap<String, String> map = new HashMap<>();
                 map.put("product_id", allProductsModel.getProduct_id());
@@ -110,11 +129,11 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
                 map.put("product_description", allProductsModel.getDescription());
                 map.put("price", allProductsModel.getPrice());
                 map.put("subscription_price", allProductsModel.getSubscription_price());
-//                map.put("price", String.valueOf(Math.round(Double.valueOf(allProductsModel.getPrice())+ Global.getTax(context, Double.valueOf(allProductsModel.getPrice())))));
-//                map.put("subscription_price", String.valueOf(Math.round(Double.valueOf(allProductsModel.getSubscription_price())+ Global.getTax(context, Double.valueOf(allProductsModel.getSubscription_price())))));
                 map.put("product_image", allProductsModel.getProduct_image());
                 map.put("unit",allProductsModel.getQty()+" "+ allProductsModel.getUnit());
                 map.put("stock", allProductsModel.getStock());
+
+                Log.e("producttttprice", allProductsModel.getPrice());
 
                 if (dbcart.isInCart(map.get("product_id"))) {
                     dbcart.setCart(map, Float.valueOf(dbcart.getCartItemQty(map.get("product_id")))+1);

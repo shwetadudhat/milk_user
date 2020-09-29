@@ -83,11 +83,12 @@ public class MyOrderDetail extends BaseActivity {
         sessionManagement=new Session_management(MyOrderDetail.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
 
+        Log.e("order_id",order_id);
+        Log.e("uiddd",u_id);
+
         if (isInternetConnected()) {
             showDialog("");
             getMyOrderDetail(u_id,order_id);
-            getAddressData(u_id);
-
         }
 
 
@@ -115,7 +116,7 @@ public class MyOrderDetail extends BaseActivity {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MyOrderDetail.this, drawer.class);
+                Intent intent=new Intent(MyOrderDetail.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
                 finish();
@@ -153,49 +154,63 @@ public class MyOrderDetail extends BaseActivity {
                         String delivery_date=jsonObject1.getString("delivery_date");
                         String order_qty=jsonObject1.getString("order_qty");
                         String price=jsonObject1.getString("price");
-                        String start_date=jsonObject1.getString("start_date");
                         String unit=jsonObject1.getString("unit");
                         String qty=jsonObject1.getString("qty");
 
+                        JSONObject orders=jsonObject1.getJSONObject("orders");
+                        String promocode_amount=orders.getString("promocode_amount");
+                        String total_amount=orders.getString("total_amount");
+                        String total_cgst=orders.getString("total_cgst");
+                        String total_sgst=orders.getString("total_sgst");
+                        String created_at=orders.getString("created_at");
+
+
+                        Double bagtag=Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))* Double.parseDouble(order_qty);
+                        tvBagTag1.setText(MainActivity.currency_sign+Math.round(bagtag));
+                        tvDelChargeTag1.setText("FREE");
+                        if (promocode_amount.equals("0")){
+                            tvCuponTa1.setText("-");
+                        }else{
+                            tvCuponTa1.setText("-"+MainActivity.currency_sign+Math.round(Float.parseFloat(promocode_amount)));
+                        }
+                        tvTotalTag1.setText(MainActivity.currency_sign+Math.round(Float.parseFloat(total_amount)));
+
+
+
                         JSONObject jsonObject2=jsonObject.getJSONObject("address");
                         String full_address=jsonObject2.getString("full_address");
+                        String user_name=jsonObject2.getString("user_name");
+                        String user_number=jsonObject2.getString("user_number");
 
                         String product_url=jsonObject.getString("product_url");
 
                         Log.e("imagggg",product_url+product_image);
 
-                        Glide.with(MyOrderDetail.this)
+                       /* Glide.with(MyOrderDetail.this)
                                 .load(product_url+product_image)
-                                .into(image_ordr);
+                                .into(image_ordr);*/
+                        Global.loadGlideImage(MyOrderDetail.this,product_image,product_url+product_image,image_ordr);
+
 
 
                         text_ordr.setText(product_name+" ("+qty+" "+unit+")");
                         price_ordr.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))));
-                        qty_ordr.setText("Qty : "+order_qty);
+                        qty_ordr.setText(getString(R.string.qty)+order_qty);
 
                         try {
-                            String formattedDate= Global.getDateConvert(start_date,"yyyy-MM-dd","EEE dd, MMM yyyy");
+                            String formattedDate= Global.getDateConvert(created_at,"yyyy-MM-dd hh:mm:ss","EEE dd, MMM yyyy");
                             String DEldate= Global.getDateConvert(delivery_date,"yyyy-MM-dd","EEE dd, MMM yyyy");
 
                             ordr_date.setText(formattedDate);
-                            ordr_deldate.setText("Successfully order delivered on "+DEldate);
+                            ordr_deldate.setText(getString(R.string.success_order)+" "+DEldate);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
                         ordr_address.setText(full_address);
+                        ordr_custName.setText(user_name);
+                        ordr_addNmbr.setText(user_number);
 
-                        Double bagtag=Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))* Double.parseDouble(order_qty);
-                        tvBagTag1.setText(MainActivity.currency_sign+Math.round(bagtag));
-                        tvDelChargeTag1.setText("FREE");
-                        Double discount_amount = 0.0;
-                        if (discount_amount==0.0){
-                            tvCuponTa1.setText("-");
-                            tvTotalTag1.setText(MainActivity.currency_sign+Math.round(bagtag));
-                        }else{
-                            tvCuponTa1.setText("-"+MainActivity.currency_sign+Math.round(discount_amount));
-                            tvTotalTag1.setText(MainActivity.currency_sign+Math.round(bagtag-discount_amount));
-                        }
 
 
                     }else if (status.contains("0")){
@@ -220,47 +235,6 @@ public class MyOrderDetail extends BaseActivity {
     }
 
 
-    private void getAddressData(String user_id) {
-        String tag_json_obj = "json store req";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("user_id", user_id);
-
-        Log.e("params",params.toString());
-
-        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.user_address, params, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                dismissDialog();
-                Log.e("Tag123", response.toString());
-
-                try {
-                    String status=response.getString("status");
-                    String message=response.getString("message");
-
-                    if (status.equals("1")){
-                        JSONObject jsonObject=response.getJSONObject("data");
-                        String user_name=jsonObject.getString("user_name");
-                        String user_number=jsonObject.getString("user_number");
-
-                        ordr_custName.setText(user_name);
-//                        ordr_address.setText(address);
-                        ordr_addNmbr.setText(user_number);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error1234",error.toString());
-                dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
-    }
 
 
 }

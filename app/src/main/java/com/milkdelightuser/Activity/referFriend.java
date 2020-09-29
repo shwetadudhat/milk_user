@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.milkdelightuser.R;
+import com.milkdelightuser.utils.Global;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,6 +68,7 @@ public class referFriend extends AppCompatActivity {
                 txt_refercode=edReferCode.getText().toString();
                 if (txt_refercode.equals("")){
                     edReferCode.setError("please enter the Refer Code");
+                    Global.showKeyBoard(getApplicationContext(),edReferCode);
                 }else{
                     Intent intent=new Intent(referFriend.this, ChooseLoginSignup.class);
                     intent.putExtra("referCode",txt_refercode);

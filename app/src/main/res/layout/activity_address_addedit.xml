@@ -34,7 +34,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
 
-            android:hint="Enter Name"
+            android:hint="@string/enter_name"
             android:inputType="text"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -47,7 +47,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_grey"
-            android:hint="House No,Building Name"
+            android:hint="@string/house_no_building_name"
             android:inputType="text"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -60,7 +60,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_grey"
-            android:hint="Road Name,Area ,Colony"
+            android:hint="@string/road_name_area_colony"
             android:inputType="text"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -75,7 +75,7 @@
             <TextView
                 android:textColor="@color/main_clr"
                 android:fontFamily="@font/ubuntu_regular"
-                android:hint="state"
+                android:hint="@string/state"
                 android:layout_weight="1"
                 android:id="@+id/SpiState"
                 android:drawableTint="@color/grey"
@@ -92,7 +92,7 @@
             <TextView
                 android:textColor="@color/main_clr"
                 android:fontFamily="@font/ubuntu_regular"
-                android:hint="City"
+                android:hint="@string/city"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_weight="1"
                 android:id="@+id/SpiCity"
@@ -116,7 +116,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_grey"
-            android:hint="Landmark"
+            android:hint="@string/landmark"
             android:inputType="text"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -129,7 +129,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_grey"
-            android:hint="Phone Number"
+            android:hint="@string/phone_number"
             android:inputType="number"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -143,7 +143,7 @@
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_grey"
-            android:hint="Picode"
+            android:hint="@string/picode"
             android:inputType="number"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_12sdp" />
@@ -160,7 +160,7 @@
         android:fontFamily="@font/ubuntu_bold"
         android:textColor="@color/white"
         android:padding="@dimen/_3sdp"
-        android:text="SAVE"
+        android:text="@string/save"
         android:layout_margin="@dimen/_15sdp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"

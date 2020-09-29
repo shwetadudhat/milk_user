@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.milkdelightuser.Model.Cat_Banner_Model;
 import com.milkdelightuser.R;
+import com.milkdelightuser.utils.Global;
 
 import java.util.List;
 
@@ -45,10 +46,12 @@ public class Cat_banner_Adapter extends PagerAdapter {
         View imageLayout = LayoutInflater.from(view.getContext()).inflate(R.layout.listitem_catbanner,view,false);
         ImageView banner=imageLayout.findViewById(R.id.image_category);
         final Cat_Banner_Model cat_banner_model = cat_banner_models.get(position);
-        Glide.with(context)
-                .load(/*BaseURL.IMG_CATEGORY_URL + */cat_banner_model.getBanner_image())
-                .into(banner);
+//        Glide.with(context)
+//                .load(/*BaseURL.IMG_CATEGORY_URL + */cat_banner_model.getBanner_image())
+//                .into(banner);
       // banner.setImageResource(cat_banner_model.getBanner_image());
+        Global.loadGlideImage(context,cat_banner_model.getBanner_image(),cat_banner_model.getBanner_image(),banner);
+
 
         view.addView(imageLayout, 0);
         return imageLayout;

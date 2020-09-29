@@ -152,16 +152,19 @@ public class Forgot_Password extends BaseActivity {
                    return true;
                 } else {
                     edNumberEmail.setError("Please enter valid Mobile Number!");
+                    Global.showKeyBoard(Forgot_Password.this,edNumberEmail);
                 }
             } else{
                 if (Global.isValidEmail(txt_emailMobileNumber)) {
                     return true;
                 } else {
                     edNumberEmail.setError("Please enter valid Email Id!");
+                    Global.showKeyBoard(Forgot_Password.this,edNumberEmail);
                 }
             }
         } else {
             edNumberEmail.setError("Email or Phone Number is Required!");
+            Global.showKeyBoard(Forgot_Password.this,edNumberEmail);
         }
         return false;
     }

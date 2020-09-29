@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Milk Delight User</string>
+    <string name="app_name">Milk Delight</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="rozer_pay">rzp_test_OjqPWNjTS6DCNH</string>
@@ -39,13 +39,9 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
-    <string-array name="filter_type">
-        <item>ASC</item>
-        <item>DESC</item>
-    </string-array>
-
-
     <string name="current_date">June, 2016</string>
+
+
     <string name="add_event">ADD CALENDAR EVENT</string>
     <string name="sun">SUN</string>
     <string name="mon">MON</string>
@@ -55,11 +51,11 @@
     <string name="fri">FRI</string>
     <string name="sat">SAT</string>
     <string name="last_date">30</string>
-
-
     <string name="google_api_realsekey">AIzaSyBQ-YSVmQS8h0Pv3hs_YwLZ65ifZqZ23X0</string>
 
+
     <string name="breakfast">Breakfast</string>
+
     <string name="title_activity_story">story</string>
     <string name="verify_sign_up"><![CDATA[Verify & SIGN UP]]></string>
     <string name="verify_proceed"><![CDATA[Verify & PROCEED]]></string>
@@ -82,21 +78,34 @@
     <string name="generate_a_new_password">Generate a New Password</string>
     <string name="enter_pass">Enter Password</string>
     <string name="re_enter_password">Re-enter Password</string>
+    <string name="facebook_app_id">3216950248399613</string>
     <!-- <string name="facebook_app_id">YOUR_APP_ID_HERE</string>
     <string name="fb_login_protocol_scheme"></string>-->
-    <string name="facebook_app_id">3216950248399613</string>
     <string name="fb_login_protocol_scheme">fb3216950248399613</string>
-
-    <string name="razorpay_api_key">rzp_test_8lOd2pwZBKb1ug</string>
-    <string name="razorpay_key_secret">DsIKNHSZStzSIjTAR7UhJhap</string>
-
-
     <string name="cashfree_api_key">2910406ca04d8e95645bd89d840192</string>
+
+    <!--cashfreee-->
     <string name="cashfree_key_secret">5a090e406e21089df07ee733065a7ef426edbaf6</string>
+    <string name="myprofile">My Profile</string>
+
+    <!--drawer menu-->
+    <string name="myorder">My Order</string>
+    <string name="Offer">Offer</string>
+    <string name="shopByCat">Shop By Category</string>
+    <string name="rate">Rate Our App</string>
+    <string name="contact">Contact us</string>
+    <string name="referFriend">Refer a Friend</string>
+    <string name="about">About us</string>
+    <string name="faq">Faq</string>
+    <string name="faq1">FAQ</string>
+    <string name="notification">Notification</string>
+    <string name="Home">Home</string>
 
 
     <string name="subscription">Subscription</string>
+    <string name="mysubscription">My Subscription</string>
     <string name="wallet">Wallet</string>
+    <string name="mywallet">My Wallet</string>
     <string name="cart">Cart</string>
     <string name="log_out">LOG OUT</string>
     <string name="change_password12"><u>Change Password?</u></string>
@@ -108,25 +117,159 @@
     <string name="my_profile">My Profile</string>
     <string name="order">Your Order</string>
     <string name="invite_text">Invite Your Friend and get\n<b> ₹.38 </b> in your wallet</string>
-    <string name="invite_txtt">"Invite Your Friend and get\n"</string>
-    <string name="invite_wallet_txt">" in your wallet"</string>
-    <string name="invitation_extended_title" > Refer and Earn</string>
+    <string name="invite_txtt">Invite Your Friend and get\n</string>
+    <string name="invite_wallet_txt">in your wallet</string>
+    <string name="invitation_extended_title"> Refer and Earn</string>
     <string name="invitation_subject">"please use this refer link to earn "</string>
+    <string name="seconds_ago">%1$d seconds ago</string>
 
 
     <!--FOR GET TIME AGO LIKE TWITTER-->
-    <string name="seconds_ago">%1$d seconds ago</string>
     <string name="min_ago">%1$d minute ago</string>
-    <string name="mins_ago">%1$d minutes ago</string>requl
-    <string name="hour_ago">%1$d hour ago</string>
+    <string name="mins_ago">%1$d minutes ago</string>
+    <string name="hour_ago">%1$d hour ago</string>requl
     <string name="new_hours_ago">%1$d hours ago</string>
     <string name="day_ago">%1$d day ago</string>
     <string name="new_days_ago">%1$d days ago</string>
+    <string name="pay_txt">Pay </string>
 
     <!--cashfree text-->
-    <string name="pay_txt">Pay </string>
     <string name="pay_txt1"> by clicking the button below </string>
     <string name="sample_checkout_page">Sample Checkout Page</string>
+    <string name="exit_msg">Press Back twice to exit</string>
+
+
+    <string name="logout_title">Logout</string>
+    <string name="delete_title">Remove Item</string>
+    <string name="logout_msg">Are you sure want to logout?</string>
+    <string name="delete_msg">Are you sure want to remove this item?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+    <string name="enter_coupon">please enter the Coupon Code</string>
+    <string name="payment_success">Payment Success</string>
+    <string name="payment_by_wallet">Payment done through your Wallet amount</string>
+    <string name="product_list">Product Listing</string>
+    <string name="qty">Qty : </string>
+    <string name="best_selling_product">Best Selling Product</string>
+    <string name="see_all">See All</string>
+    <string name="categories">Categories</string>
+    <string name="best_product">Best Product</string>
+    <string name="no_data_found">No data Found</string>
+    <string name="add_new_subscriptions">+ADD NEW SUBSCRIPTIONS</string>
+    <string name="pause">paused</string>
+    <string name="resume">Resume</string>
+    <string name="subscriptiondot">Subscription :</string>
+    <string name="view_delivery_schedule">View Delivery Schedule</string>
+    <string name="modify">Modify</string>
+    <string name="subscription_details">Subscription Details</string>
+    <string name="renew_your_subscription">RENEW YOUR SUBSCRIPTION</string>
+    <string name="view_all_transaction">View All Transaction</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="we_suggest_an_average_of_rs_4100">We suggest an average of Rs. 4100</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="add_money">+ADD MONEY</string>
+    <string name="_100">+100</string>
+    <string name="_1000">+1000</string>
+    <string name="_2000">+2000</string>
+    <string name="_3000">+3000</string>
+    <string name="addtowallet">add to wallet From : </string>
+    <string name="deductfromwallet">deduct from wallet </string>
+    <string name="transacrtionid">Transaction Id : </string>
+    <string name="shoppingcart">Shopping Cart</string>
+    <string name="apply_coupon_code">Apply Coupon Code</string>
+    <string name="price_details">Price Details</string>
+    <string name="bag_total">Bag Total</string>
+    <string name="delivery_charges">Delivery Charges</string>
+    <string name="coupon_code">Coupon Code</string>
+    <string name="total">Total</string>
+    <string name="order_once">ORDER ONCE</string>
+    <string name="buy_subscription">BUY SUBSCRIPTION</string>
+    <string name="pay_now">PAY NOW</string>
+    <string name="upi">Upi</string>
+    <string name="amazon">Amazon</string>
+    <string name="billpay_web">Billpay Web</string>
+    <string name="gpay">Gpay</string>
+    <string name="phonepe">PhonePe</string>
+    <string name="check_phonepe">Check PhonePe</string>
+    <string name="gpay_ready">GPay Ready</string>
+    <string name="milk_delight_balance">Milk Delight Balance</string>
+    <string name="your_balance_is">your balance is</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="product_size">Product Size</string>
+    <string name="clear">CLEAR</string>
+    <string name="apply">APPLY</string>
+    <string name="select_sort_type">Select Sort Type</string>
+    <string name="user_details">User Details</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email_id">Email Id</string>
+    <string name="your_address">Your Address</string>
+    <string name="myaddress">My Address</string>
+    <string name="add_new_address">ADD NEW ADDRESS</string>
+    <string name="add_address">Add Address</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="house_no_building_name">House No,Building Name</string>
+    <string name="road_name_area_colony">Road Name,Area ,Colony</string>
+    <string name="state">state</string>
+    <string name="city">City</string>
+    <string name="landmark">Landmark</string>
+    <string name="picode">Picode</string>
+    <string name="save">SAVE</string>
+    <string name="edit_address">Edit Address</string>
+    <string name="or">OR</string>
+    <string name="order_date">Order Date</string>
+    <string name="delivery_on">Delivery On</string>
+    <string name="type">Type</string>
+    <string name="fat">Fat</string>
+    <string name="weight">Weight</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="go_to_cart">GO TO CART</string>
+    <string name="milk_type">Milk Type</string>
+    <string name="rate1">Ratings</string>
+    <string name="add_review">ADD REVIEW</string>
+    <string name="all_review">All Reviews</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="enter_email_id">Enter Email Id</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="modify_sub">Modify Subscriptions</string>
+    <string name="update_sub">UPDATE SUBSCRIPTION</string>
+    <string name="select_frequency">Select Frequency</string>
+    <string name="please_select_your_plan_date">Please Select Your Plan Date</string>
+    <string name="select_plans">Select Plans</string>
+    <string name="_15_days">15 DAYS</string>
+    <string name="_30_days">30 DAYS</string>
+    <string name="custom_date">custom date</string>
+    <string name="start_your_plan">Start Your Plan</string>
+    <string name="per_day">per day</string>
+    <string name="add_more">ADD MORE</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="apply_coupon">Apply Coupon</string>
+    <string name="enter_coupon_code">Enter Coupon Code</string>
+    <string name="payment_fail_from_the_user_please_try_again_letter">Payment Fail from the user please try again letter</string>
+    <string name="payment_fail">Payment Fail</string>
+    <string name="change_pass">Change Password</string>
+    <string name="enter_old_password">Enter Old Password</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="re_enter_password1">Re-Enter Password</string>
+    <string name="write_your_review">Write Your Review</string>
+    <string name="enter_meassage_here">Enter Meassage Here</string>
+    <string name="write_a_message">Write a Message</string>
+    <string name="enter_message_here">Enter Message Here...</string>
+    <string name="send">SEND</string>
+    <string name="privacy_policy"><![CDATA[Privacy & Return Policy]]></string>
+    <string name="nothing_in_here_right_now">Nothing in here right now!</string>
+    <string name="we_ll_let_you_know_when_we_have_something_for_you_here">We\'ll let you know when we have something for you here.</string>
+    <string name="copy">COPY</string>
+    <string name="every_day">Every Day</string>
+    <string name="success_order">Successfully order delivered on </string>
+    <string-array name="filter_type">
+        <item>ASC</item>
+        <item>DESC</item>
+    </string-array>
 
 
 </resources>

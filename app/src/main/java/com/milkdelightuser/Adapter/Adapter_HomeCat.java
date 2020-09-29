@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.milkdelightuser.Activity.CatProductListing;
 import com.milkdelightuser.Model.AppCategory_Model;
 import com.milkdelightuser.R;
+import com.milkdelightuser.utils.Global;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +47,11 @@ public class Adapter_HomeCat extends RecyclerView.Adapter<Adapter_HomeCat.holder
 
     @Override
     public void onBindViewHolder(@NonNull final holder holder, int i) {
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(appCategoryModelList.get(i).getCategory_image())
-                .into(holder.image_appcat);
+                .into(holder.image_appcat);*/
+
+        Global.loadGlideImage(context,appCategoryModelList.get(i).getCategory_image(),appCategoryModelList.get(i).getCategory_image(),holder.image_appcat);
 
         holder.text_appcat.setText(appCategoryModelList.get(i).getCategory_name());
 

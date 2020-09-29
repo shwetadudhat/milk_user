@@ -1,11 +1,10 @@
 package com.milkdelightuser.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +20,10 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.milkdelightuser.Activity.Home;
 import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.Recharge_history;
-import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.WalletPayment;
 import com.milkdelightuser.CashFreeActivity;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
@@ -46,7 +46,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
 /**
@@ -133,11 +132,12 @@ public class Wallet_Fragment extends BaseFragment {
                     pay= Double.valueOf(amount_edit.getText().toString().trim());
                     Log.e("pay",String.valueOf(pay));
 
-                    Intent intent=new Intent(getContext(), CashFreeActivity.class);
+                    Intent intent=new Intent(getContext(), WalletPayment.class);
                     intent.putExtra("activity","wallet");
                     intent.putExtra("cashfree_amount",String.valueOf(pay));
 
-                    startActivity(intent);
+//                    startActivity(intent);
+                    startActivityForResult(intent,0);
 
                 } else {
                     Toast.makeText(getContext(), "Please enter the amount", Toast.LENGTH_SHORT).show();
@@ -197,10 +197,6 @@ public class Wallet_Fragment extends BaseFragment {
 
 
     }
-
-
-
-
 
 
     private void showTotalCredit(String user_id) {
@@ -265,18 +261,87 @@ public class Wallet_Fragment extends BaseFragment {
     }
 
 
-    private void wallet(String razorpayPaymentID) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if(resultCode == Activity.RESULT_OK) {
+                String txMsg = data.getStringExtra("txMsg");
+                String referenceId = data.getStringExtra("referenceId");
+                String txStatus = data.getStringExtra("txStatus");
+                String orderAmount = data.getStringExtra("orderAmount");
+                // TODO: Do something with your extra data
+
+                Log.e("msggggg",txMsg);
+
+                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount);
+
+            }
+        }
+    }
+
+    private void showSuccessDialog( String txMsg, String referenceId, String txStatus,String orderAmount) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        ViewGroup viewGroup = ((Activity)getContext()).getWindow().getDecorView().findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.custom_success, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+
+        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+        TextView tvStts=dialogView.findViewById(R.id.tvStts);
+        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+
+        tvTransDesc.setText(txMsg);
+        tvTransId.setText("Transaction id:"+referenceId);
+
+        amount_edit.setText("0");
+
+        if (txStatus.equals("SUCCESS")){
+            tvStts.setText(R.string.payment_success);
+            tvStts.setTextColor(getContext().getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+            if (ConnectivityReceiver.isConnected()) {
+                showDialog("");
+                wallet1(referenceId, orderAmount);
+                Log.e("wallet", "wallet");
+            } else {
+                Global.showInternetConnectionDialog(getContext());
+            }
+        } else {
+            tvStts.setText(R.string.payment_fail);
+            tvStts.setTextColor(getContext().getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+
+        llDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void wallet1(String referenceId, String orderAmount) {
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("user_id",user_id);
-        params.put("amount",String.valueOf(pay));
-        params.put("transaction_id",razorpayPaymentID);
+        params.put("amount",orderAmount);
+        params.put("transaction_id",referenceId);
         params.put("pay_type","CashFree");
 
-
         Log.e("params_wallet",params.toString());
-
 
         CustomVolleyJsonRequest jsonObjectRequest= new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.add_credit, params, new Response.Listener<JSONObject>() {
             @Override
@@ -289,7 +354,7 @@ public class Wallet_Fragment extends BaseFragment {
                     String message = response.getString("message");
 
                     if (status.contains("1")) {
-                        showTotalCredit(user_id);
+                         showTotalCredit(user_id);
                     }
                     else {
 

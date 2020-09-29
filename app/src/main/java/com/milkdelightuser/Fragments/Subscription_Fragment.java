@@ -1,9 +1,11 @@
 package com.milkdelightuser.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -94,7 +96,7 @@ public class Subscription_Fragment extends BaseFragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_plans_, container, false);
+        View view = inflater.inflate(R.layout.fragment_subscription, container, false);
 
         return view;
     }
@@ -206,6 +208,7 @@ public class Subscription_Fragment extends BaseFragment {
                             String plans = jsonObject1.getString("plans");
 
                             JSONObject jsonObject2=jsonObject1.getJSONObject("product");
+//                            String price = jsonObject2.getString("price");
                             JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
                             String product_image = jsonObject3.getString("product_image");
 
@@ -284,6 +287,7 @@ public class Subscription_Fragment extends BaseFragment {
             context = viewGroup.getContext();
             return new holder(view);    }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull final holder holder, final int i) {
 
@@ -295,26 +299,27 @@ public class Subscription_Fragment extends BaseFragment {
             editor.putString("subs_id",showsubscrip_model.getSubs_id());
             editor.commit();
 
-            Glide.with(context)
+          /*  Glide.with(context)
                     .load( showsubscrip_model. getProduct_image())
-                    .into(holder.image_plan);
+                    .into(holder.image_plan);*/
+
+            Global.loadGlideImage(context,showsubscrip_model. getProduct_image(),showsubscrip_model. getProduct_image(),holder.image_plan);
+
 
 
             holder.text_plan.setText(showsubscrip_model.getProduct_name()+" ("+showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit()+")");
             holder.unit1.setText(showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit());
 
-            holder.price1.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(showsubscrip_model.getSubprice())+ Math.round( Global.getTax(context, Double.parseDouble(showsubscrip_model.getSubprice())))))));
-//            holder.price1.setText( MainActivity.currency_sign + showsubscrip_model.getPrice());
-            /*MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(getContext(), Double.parseDouble(price))))))*/
-            holder.qty.setText("QTY :" + " " + showsubscrip_model.getOrder_qty());
+            holder.price1.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(showsubscrip_model.getPrice())+ Math.round( Global.getTax(context, Double.parseDouble(showsubscrip_model.getPrice())))))));
+            holder.qty.setText(getString(R.string.qty) + " " + showsubscrip_model.getOrder_qty());
             holder.substatus.setText(showsubscrip_model.getPlans());
 
-            if (showsubscrip_model.getSub_status().contains("paused")){
-                holder.pause.setText("Resume");
+            if (showsubscrip_model.getSub_status().contains(getString(R.string.pause))){
+                holder.pause.setText(R.string.resume);
              //   holder.pause.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_play_circle_filled_black_24dp),null,null,null);
             }
             else {
-                holder.pause.setText("Pause");
+                holder.pause.setText(R.string.pause);
              //   holder.pause.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_pause_circle_filled_black_24dp),null,null,null);
 
             }
@@ -323,7 +328,7 @@ public class Subscription_Fragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
 
-                    if (showsubscrip_model.getSub_status().contains("paused")){
+                    if (showsubscrip_model.getSub_status().contains(getString(R.string.pause))){
 //
                         start_date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());;
 
@@ -358,7 +363,7 @@ public class Subscription_Fragment extends BaseFragment {
 
                         final Dialog dialog = builder.create();
                         dialog.setCanceledOnTouchOutside(false);
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
                         final TextView startdate = dialogView.findViewById(R.id.start_date);
                         final TextView endstart = dialogView.findViewById(R.id.end_date);
@@ -505,13 +510,33 @@ public class Subscription_Fragment extends BaseFragment {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ConnectivityReceiver.isConnected()) {
-                        showDialog("");
-                        delete(i,showsubscrip_model.getSubs_id());
-                    } else {
-                        Global.showInternetConnectionDialog(getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setTitle(R.string.delete_title)
+                            .setMessage(R.string.delete_msg)
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (ConnectivityReceiver.isConnected()) {
+                                        showDialog("");
+                                        delete(i,showsubscrip_model.getSubs_id());
+                                    } else {
+                                        Global.showInternetConnectionDialog(getContext());
 
-                    }
+                                    }
+
+
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
 
                 }
             });
@@ -562,11 +587,7 @@ public class Subscription_Fragment extends BaseFragment {
 
             TextView unit1 , price1  , quantity , text_plan , substatus , qty;
             ImageView image_plan;
-            Button sub_button;
             TextView pause  , modify;
-            SharedPreferences sharedPreferences;
-            SharedPreferences.Editor editor;
-            String subs_id;
             ImageView delete;
             Button subDelStatus;
 
@@ -574,7 +595,6 @@ public class Subscription_Fragment extends BaseFragment {
             public holder(@NonNull View itemView) {
                 super(itemView);
 
-                sub_button= itemView.findViewById(R.id.sub_button);
                 image_plan =itemView.findViewById(R.id.image_plan);
                 text_plan = itemView.findViewById(R.id.text_plan);
                 price1 = itemView.findViewById(R.id.price_plan);

@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.milkdelightuser.Activity.Cart_activity;
-import com.milkdelightuser.Activity.drawer;
+import com.milkdelightuser.Activity.Home;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.BaseFragment;
 
@@ -64,17 +64,17 @@ public class MainContainer_Fragment extends BaseFragment {
 
 
 
-        if (targetLayout.equals("Home")){
-            ((drawer) getActivity()).getSupportActionBar().setTitle("Milk Delight");
+        if (targetLayout.equals(getString(R.string.home))){
+            ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
             openFragment(new Home_Fragment1(),btnHome,tvHome);
-        }else if (targetLayout.equals("Subscription")){
-            ((drawer) getActivity()).getSupportActionBar().setTitle("My Subscription");
+        }else if (targetLayout.equals(getString(R.string.subscription))){
+            ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.mysubscription));
             openFragment(new Subscription_Fragment(),btnSubscription,tvSubscription);
-        }else if (targetLayout.equals("ShopByCat")){
-            ((drawer) getActivity()).getSupportActionBar().setTitle("Shop By Category");
+        }else if (targetLayout.equals(getString(R.string.shopByCat))){
+            ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.shopByCat));
             openFragment(new Cat_Fragment(),btnHome,tvHome);
-        }else if (targetLayout.equals("Wallet")){
-            ((drawer) getActivity()).getSupportActionBar().setTitle("Wallet");
+        }else if (targetLayout.equals(getString(R.string.wallet))){
+            ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.wallet));
             openFragment(new Wallet_Fragment(),btnWallet,tvWallet);
         }
 
@@ -111,8 +111,8 @@ public class MainContainer_Fragment extends BaseFragment {
                 setTypeFaceRegular(tvWallet);
 
                 openFragment(new Home_Fragment1(),btnHome,tvHome);
-                ((drawer) getActivity()).getSupportActionBar().setTitle("Milk Delight");
-                ((drawer) getActivity()).selectedItem(0);
+                ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+                ((Home) getActivity()).selectedItem(0);
 
 
             }
@@ -152,9 +152,9 @@ public class MainContainer_Fragment extends BaseFragment {
                 setTypeFaceRegular(tvWallet);
 
 
-                ((drawer) getActivity()).getSupportActionBar().setTitle("My Subscription");
+                ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.mysubscription));
                 openFragment(new Subscription_Fragment(),btnSubscription,tvSubscription);
-                  ((drawer) getActivity()).selectedItem(4);
+                  ((Home) getActivity()).selectedItem(4);
 
             }
         });
@@ -192,9 +192,9 @@ public class MainContainer_Fragment extends BaseFragment {
                 setTypeFaceRegular(tvHome);
 
 
-                ((drawer) getActivity()).getSupportActionBar().setTitle("My wallet");
+                ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.mywallet));
                 openFragment(new Wallet_Fragment(),btnWallet,tvWallet);
-                ((drawer) getActivity()).selectedItem(-1);
+                ((Home) getActivity()).selectedItem(-1);
 
             }
         });
@@ -233,7 +233,7 @@ public class MainContainer_Fragment extends BaseFragment {
                 Intent intent=new Intent(getContext(), Cart_activity.class);
                 startActivity(intent);
                 getActivity().finish();
-                ((drawer) getActivity()).selectedItem(-1);
+                ((Home) getActivity()).selectedItem(-1);
 
 
             }

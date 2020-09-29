@@ -107,7 +107,7 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableTint="@color/green"
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Order Date"
+                    android:text="@string/order_date"
                     android:textColor="@color/title_clr"
                     android:textSize="@dimen/_12sdp" />
 
@@ -129,7 +129,7 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableLeft="@drawable/ic_circle_white_8dp"
                     android:drawableTint="@color/green"
-                    android:text="Delivery On"
+                    android:text="@string/delivery_on"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/title_clr"/>
@@ -175,7 +175,7 @@
                     android:id="@+id/tvPriceTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price Details"/>
+                    android:text="@string/price_details"/>
 
                 <TextView
                     android:fontFamily="@font/ubuntu_regular"
@@ -183,7 +183,7 @@
                     android:textColor="@color/title_clr"
                     android:paddingBottom="@dimen/_5sdp"
                     android:id="@+id/tvBagTag"
-                    android:text="Bag Total"
+                    android:text="@string/bag_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvPriceTag"
@@ -209,7 +209,7 @@
                     android:textColor="@color/title_clr"
                     android:paddingBottom="@dimen/_5sdp"
                     android:id="@+id/tvDelChargeTag"
-                    android:text="Delivery Charges"
+                    android:text="@string/delivery_charges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvBagTag"
@@ -235,7 +235,7 @@
                     android:textColor="@color/title_clr"
                     android:paddingBottom="@dimen/_5sdp"
                     android:id="@+id/tvCuponTag"
-                    android:text="Coupon Code"
+                    android:text="@string/coupon_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvDelChargeTag"
@@ -272,7 +272,7 @@
                     android:textColor="@color/main_clr"
                     android:paddingBottom="@dimen/_5sdp"
                     android:id="@+id/tvTotalTag"
-                    android:text="Total"
+                    android:text="@string/total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dotView"
@@ -335,7 +335,7 @@
                         android:gravity="center|left"
                         android:textColor="@color/title_clr"
                         android:textSize="@dimen/_14sdp"
-                        android:text="Delivery Address"
+                        android:text="@string/delivery_address"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"/>
 

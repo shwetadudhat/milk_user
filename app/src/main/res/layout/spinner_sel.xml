@@ -32,7 +32,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="@string/app_name"
-            android:textColor="@color/title_clr"
+            android:textColor="@color/white"
              />
 
         <TextView
@@ -59,6 +59,7 @@
     </LinearLayout>
 
     <EditText
+        android:fontFamily="@font/ubuntu_regular"
         android:id="@+id/editSearch"
         android:textSize="@dimen/_14sdp"
         android:layout_width="match_parent"
@@ -74,7 +75,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/gray_light_" />
+        android:background="@color/gray_light" />
 
     <ListView
         android:id="@+id/lvSpinner"
@@ -91,7 +92,7 @@
         android:listSelector="@color/gray_light__"
         android:overScrollMode="never"
         android:scrollbars="none"
-        tools:listitem="@layout/spinner_sel_item" />
+        tools:listitem="@layout/spinner_item" />
 
     <LinearLayout
         android:layout_width="match_parent"

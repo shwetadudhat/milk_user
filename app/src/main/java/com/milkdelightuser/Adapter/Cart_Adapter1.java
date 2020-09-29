@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.R;
-import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 
 import java.util.ArrayList;
@@ -27,10 +26,7 @@ public class Cart_Adapter1 extends RecyclerView.Adapter<Cart_Adapter1.holder> {
     ArrayList<HashMap<String, String>> list;
 
     Activity activity;
-    String o= "0";
-    private DatabaseHandler dbcart;
 
-    int count=1;
 
     public Cart_Adapter1(Activity activity, ArrayList<HashMap<String, String>> list) {
         this.list = list;
@@ -43,7 +39,7 @@ public class Cart_Adapter1 extends RecyclerView.Adapter<Cart_Adapter1.holder> {
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.cart1, null, false);
+        View view = inflater.inflate(R.layout.listitem_cart1, null, false);
 
         return new holder(view);    }
 
@@ -52,16 +48,19 @@ public class Cart_Adapter1 extends RecyclerView.Adapter<Cart_Adapter1.holder> {
     public void onBindViewHolder(@NonNull final holder holder, final int i) {
 
         final HashMap<String, String> map = list.get(i);
-        dbcart = new DatabaseHandler(activity);
-        Glide.with(activity)
+
+     /*   Glide.with(activity)
                 .load(map.get("product_image"))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
-                .into(holder.image_product);
+                .into(holder.image_product);*/
+
+        Global.loadGlideImage(activity,map.get("product_image"), map.get("product_image"),holder.image_product);
+
 
         holder.text_product.setText(map.get("product_name")+" ("+map.get("unit")+")");
 //        holder.price_product.setText("₹ "+map.get("price"));
-        holder.qty_product.setText("Qty : "+map.get("qty"));
+        holder.qty_product.setText(activity.getString(R.string.qty)+map.get("qty"));
         holder.price_product.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(activity, Double.valueOf(map.get("price")))))));
 
 
@@ -76,7 +75,7 @@ public class Cart_Adapter1 extends RecyclerView.Adapter<Cart_Adapter1.holder> {
     public class holder extends RecyclerView.ViewHolder {
 
         TextView text_product,qty_product, price_product;
-        ImageView image_product,ivDeleteCart;
+        ImageView image_product;
 
 
         public holder(@NonNull View itemView) {

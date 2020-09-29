@@ -17,14 +17,43 @@
         <include layout="@layout/topbar1" />
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_above="@id/btnAddNew"
         android:layout_below="@id/llTool"
-        android:id="@+id/recycler_address"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:itemCount="1"
-        tools:listitem="@layout/listitem_address"/>
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/recycler_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="1"
+            tools:listitem="@layout/listitem_address"/>
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/container_null1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data Found"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
 
     <Button
         style="?android:attr/borderlessButtonStyle"
@@ -34,18 +63,13 @@
         android:textSize="@dimen/_16sdp"
         android:padding="@dimen/_10sdp"
         android:textColor="@color/white"
-        android:text="ADD NEW ADDRESS"
+        android:text="@string/add_new_address"
         android:layout_margin="@dimen/_20sdp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_bluebtn"/>
-
-
-
-
-
 
 
 </RelativeLayout>

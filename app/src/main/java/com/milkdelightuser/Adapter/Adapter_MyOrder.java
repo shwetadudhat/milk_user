@@ -14,6 +14,7 @@ import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.MyOrderDetail;
 import com.milkdelightuser.Model.Order_Model;
 import com.milkdelightuser.R;
+import com.milkdelightuser.utils.Global;
 
 import java.util.List;
 
@@ -39,19 +40,22 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
      //   holder.image_ordr.setImageResource(orderModelList.get(position).getOrder_icon());
-        Glide.with(context)
+      /*  Glide.with(context)
                 .load(orderModelList.get(position).getOrder_icon())
-                .into(holder.image_ordr);
+                .into(holder.image_ordr);*/
+
+        Global.loadGlideImage(context,orderModelList.get(position).getOrder_icon(),orderModelList.get(position).getOrder_icon(),holder.image_ordr);
+
 
         holder.text_ordr.setText(orderModelList.get(position).getOffer_product()+" ("+orderModelList.get(position).getOrder_unit()+")");
         holder.price_ordr.setText(MainActivity.currency_sign +orderModelList.get(position).getOffer_pricee());
-        holder.qty_ordr.setText("Qty : "+orderModelList.get(position).getOffer_qty());
+        holder.qty_ordr.setText(context.getString(R.string.qty)+orderModelList.get(position).getOffer_qty());
 
        // String formattedDate = Global.convertDate(orderModelList.get(position).getOffer_deliveryText());
         if (orderModelList.get(position).getSubStatus().contains("Pending")){
-            holder.delvr_txt.setText("Delivery on "+orderModelList.get(position).getSubStatus());
+            holder.delvr_txt.setText(context.getString(R.string.delivery_on)+orderModelList.get(position).getSubStatus());
         }else{
-            holder.delvr_txt.setText("Delivered on "+orderModelList.get(position).getOffer_deliveryText());
+            holder.delvr_txt.setText(context.getString(R.string.delivery_on)+orderModelList.get(position).getOffer_deliveryText());
         }
 
 

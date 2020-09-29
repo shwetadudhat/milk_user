@@ -14,6 +14,7 @@ import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Model.Schedule_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.BaseURL;
+import com.milkdelightuser.utils.Global;
 
 import java.util.List;
 
@@ -43,11 +44,14 @@ public class Adapter_Schedule extends RecyclerView.Adapter<Adapter_Schedule.hold
 
         final Schedule_Model scheduleModel = schedule_models.get(i);
 
-        Glide.with(context)
+      /*  Glide.with(context)
                 .load(BaseURL.IMG_CATEGORY_URL + scheduleModel.getProduct_image())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .into(holder.image_day);
+*/
+        Global.loadGlideImage(context,scheduleModel.getProduct_image(),BaseURL.IMG_CATEGORY_URL + scheduleModel.getProduct_image(),holder.image_day);
+
 
         String sign= MainActivity.currency_sign;
 

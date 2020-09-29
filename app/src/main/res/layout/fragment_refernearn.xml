@@ -81,7 +81,7 @@
                     android:layout_gravity="center"
                     android:textColor="@color/white"
                     android:background="@color/main_clr"
-                    android:text="COPY"
+                    android:text="@string/copy"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_weight="0.6" />

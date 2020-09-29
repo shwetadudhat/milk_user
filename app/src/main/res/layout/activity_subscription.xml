@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:text="BUY SUBSCRIPTIONS"
+                    android:text="@string/buy_subscription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
@@ -132,7 +132,6 @@
                                         android:id="@+id/tvQtyDec"
                                         android:textAlignment="center"
                                         android:layout_gravity="center"
-
                                         android:gravity="center"
                                         android:textSize="@dimen/_14sdp"
                                         android:textColor="@color/white"
@@ -182,7 +181,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:itemCount="2"
-                        tools:listitem="@layout/cart2"
+                        tools:listitem="@layout/listitem_cart2"
                         />
 
                     <RelativeLayout
@@ -200,7 +199,7 @@
                             android:gravity="center|left"
                             android:textColor="@color/title_clr"
                             android:textSize="@dimen/_14sdp"
-                            android:text="Select Frequency"
+                            android:text="@string/select_frequency"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -212,7 +211,7 @@
                             android:gravity="center|left"
                             android:textColor="@color/small_title_clr"
                             android:textSize="@dimen/_10sdp"
-                            android:text="Please Select Your Plan Date"
+                            android:text="@string/please_select_your_plan_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -254,7 +253,7 @@
                                 android:layout_toLeftOf="@+id/freqDate"
                                 android:textSize="@dimen/_10sdp"
                                 android:textColor="@color/small_title_clr"
-                                android:text="Start Your Plan"
+                                android:text="@string/start_your_plan"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
 
@@ -279,7 +278,7 @@
                             android:gravity="center|left"
                             android:textColor="@color/title_clr"
                             android:textSize="@dimen/_14sdp"
-                            android:text="Select Plans"
+                            android:text="@string/select_plans"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -291,7 +290,7 @@
                             android:gravity="center|left"
                             android:textColor="@color/small_title_clr"
                             android:textSize="@dimen/_10sdp"
-                            android:text="Please Select Your Plan Date"
+                            android:text="@string/please_select_your_plan_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 
@@ -309,7 +308,7 @@
                                 android:textSize="@dimen/_10sdp"
                                 android:id="@+id/plan1"
                                 android:textColor="@color/main_clr"
-                                android:text="15 DAYS"
+                                android:text="@string/_15_days"
                                 android:layout_marginRight="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:background="@drawable/bg_button"
@@ -324,7 +323,7 @@
                                 android:textSize="@dimen/_10sdp"
                                 android:id="@+id/plan2"
                                 android:textColor="@color/main_clr"
-                                android:text="30 DAYS"
+                                android:text="@string/_30_days"
                                 android:layout_marginRight="@dimen/_5sdp"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:layout_marginTop="@dimen/_5sdp"
@@ -340,7 +339,7 @@
                                 android:textSize="@dimen/_10sdp"
                                 android:id="@+id/customPlan"
                                 android:textColor="@color/main_clr"
-                                android:text="custom date"
+                                android:text="@string/custom_date"
                                 android:layout_marginTop="@dimen/_5sdp"
                                 android:layout_marginLeft="@dimen/_5sdp"
                                 android:background="@drawable/bg_button"
@@ -381,7 +380,7 @@
                                     android:layout_weight="1.8"
                                     android:textColor="@color/title_clr"
                                     android:textSize="@dimen/_14sdp"
-                                    android:text="Delivery Address"
+                                    android:text="@string/delivery_address"
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"/>
 
@@ -501,7 +500,7 @@
                                 android:fontFamily="@font/ubuntu_medium"
                                 android:textColor="@color/skip_clr"
                                 android:gravity="center|left"
-                                android:text="Apply Coupon Code"
+                                android:text="@string/apply_coupon_code"
                                 android:layout_weight="1.4"
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/_35sdp"/>
@@ -552,7 +551,7 @@
                                     android:textColor="@color/wallettxt_clr"
                                     android:textSize="@dimen/_14sdp"
                                     android:layout_width="wrap_content"
-                                    android:text="Milk Delight Balance"
+                                    android:text="@string/milk_delight_balance"
                                     android:layout_height="wrap_content"/>
 
 
@@ -573,7 +572,7 @@
                                     android:textColor="@color/wallettxt_clr1"
                                     android:layout_marginBottom="@dimen/_5sdp"
                                     android:textSize="@dimen/_10sdp"
-                                    android:text="your balance is"
+                                    android:text="@string/your_balance_is"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"/>
 
@@ -729,7 +728,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:itemCount="2"
-                tools:listitem="@layout/cart2"
+                tools:listitem="@layout/listitem_cart2"
                 />
 
             <RelativeLayout

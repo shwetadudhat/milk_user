@@ -1,5 +1,6 @@
 package com.milkdelightuser.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,6 +69,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
 
 
 
+    @SuppressLint("SetTextI18n")
     @Override
 
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,12 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_address_addedit);
 
         toolTitle=findViewById(R.id.title);
+        action=getIntent().getStringExtra("action");
+        if (action.equals("edit")){
+            id= Integer.parseInt(getIntent().getStringExtra("id"));
+            toolTitle.setText(R.string.edit_address);
+
+        }
 
 
         ivBack=findViewById(R.id.ivBack);
@@ -166,12 +174,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
 
 
 
-        action=getIntent().getStringExtra("action");
-        if (action.equals("edit")){
-            id= Integer.parseInt(getIntent().getStringExtra("id"));
-            toolTitle.setText("Edit Address");
 
-        }
         if (isInternetConnected()) {
             showDialog("");
             editAddressData(String.valueOf(id));
@@ -420,42 +423,52 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
             Toast.makeText(Edit_Address.this, "Select Locality", Toast.LENGTH_SHORT).show();
         } else*/ if (txtName.length() == 0) {
             edName.setError("Enter Name");
+            Global.showKeyBoard(Edit_Address.this,edName);
             //    Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show();
             return false;
         } else if (txtHouse.length() == 0) {
             edHouse.setError("Enter House No, Building name");
+            Global.showKeyBoard(Edit_Address.this,edHouse);
             //   Toast.makeText(this, "Enter House No, Building name", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtArea.length()==0){
             edArea.setError("Enter Road Name,Area ,Colony");
+            Global.showKeyBoard(Edit_Address.this,edArea);
             //  Toast.makeText(this, "Enter Road Name,Area ,Colony", Toast.LENGTH_SHORT).show();
             return false;
         }else if (selectedStateId .equals("-1")) {
             SpiState.setError("Please select the state");
+            Global.showKeyBoard(Edit_Address.this,SpiState);
             return false;
         }
         else   if (selectedCityId .equals( "-1")) {
             SpiCity.setError("Please select the city");
+            Global.showKeyBoard(Edit_Address.this,SpiCity);
             return false;
         }else if (txtLandmark.length()==0){
             edLandmark.setError("Enter Landmark");
+            Global.showKeyBoard(Edit_Address.this,edLandmark);
             //Toast.makeText(this, "Enter Landmark", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtNumber.length()==0){
             edNumber.setError("Enter Phone Number");
+            Global.showKeyBoard(Edit_Address.this,edNumber);
             //  Toast.makeText(this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtNumber.length()!=10){
             edNumber.setError("Please Enter valid Phone Number");
+            Global.showKeyBoard(Edit_Address.this,edNumber);
             //  Toast.makeText(this, "Please Enter valid Phone Number", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtPincode.length()==0){
             edPincode.setError("Please Enter Pincode");
+            Global.showKeyBoard(Edit_Address.this,edPincode);
             //  Toast.makeText(this, "Please Enter Pincode", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (!Global.isValidPinCode(txtPincode)){
             edPincode.setError("Please Enter valid Pincode");
+            Global.showKeyBoard(Edit_Address.this,edPincode);
             //  Toast.makeText(this, "Please Enter valid Pincode", Toast.LENGTH_SHORT).show();
             return false;
         }else{
@@ -491,21 +504,16 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
                     String status=response.getString("status");
                     String message=response.getString("message");
 
-
-
                     if (status.equals("1")){
                         Toast.makeText(Edit_Address.this, message, Toast.LENGTH_SHORT).show();
 
-                       /* Intent intent=new Intent(Edit_Address.this,Addresslist.class);
-                        intent.putExtra("user_id",user_id);
-                        startActivity(intent);
-                        finish();*/
-
                         Intent returnIntent = new Intent();
-                         returnIntent.putExtra("user_id",user_id);
+                        returnIntent.putExtra("user_id",user_id);
                         setResult(Activity.RESULT_OK,returnIntent);
                         finish();
 
+                    }else{
+                        Toast.makeText(Edit_Address.this, ""+message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -522,7 +530,6 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
 
-        finish();
     }
 
 

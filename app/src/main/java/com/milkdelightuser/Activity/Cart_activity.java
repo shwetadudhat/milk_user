@@ -1,9 +1,6 @@
 package com.milkdelightuser.Activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,8 +23,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.milkdelightuser.Adapter.Cart_Adapter;
-import com.milkdelightuser.Adapter.Cart_Adapter1;
-import com.milkdelightuser.CashFreeActivity;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
@@ -37,10 +31,7 @@ import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,7 +44,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,6 +64,7 @@ public class Cart_activity extends BaseActivity  {
     /*view1*/
     RelativeLayout rlCoupon;
     RecyclerView recycler_cartitem;
+    Cart_Adapter adapter;
 
 
     TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1;
@@ -83,16 +74,16 @@ public class Cart_activity extends BaseActivity  {
 
 
     Session_management sessionManagement;
-    String u_id,subs_id,user_name,user_nmbr,user_email;
+    String u_id,user_name,user_nmbr,user_email;
 
 
     String promo_code;
 
     int total_bagtag,total_gst,total_sgst,total_amount;
 
-    double razorAmount=0,/*totalAmout,*/wallet,walletAmount,discount_amount;
+    double discount_amount;
 
-    String Addrid,tardetDate;
+    String tardetDate;
 
     String enddate;
     String pay_amount;
@@ -112,7 +103,7 @@ public class Cart_activity extends BaseActivity  {
         ivNotify=findViewById(R.id.ivNotify);
         ivNotify.setVisibility(View.VISIBLE);
         title=findViewById(R.id.title);
-        title.setText("Shopping Cart");
+        title.setText(R.string.shoppingcart);
 
         sessionManagement=new Session_management(Cart_activity.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -190,7 +181,7 @@ public class Cart_activity extends BaseActivity  {
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.setCancelable(true);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
                 EditText tvCode=dialogView.findViewById(R.id.tvCode);
                 Button btnApplyCoupon=dialogView.findViewById(R.id.btnApplyCoupon);
@@ -213,7 +204,8 @@ public class Cart_activity extends BaseActivity  {
 //                        Log.e("totalAmout", String.valueOf(totalAmout));
 
                         if (code.length()==0){
-                            tvCode.setError("please enter the Coupon Code");
+                            tvCode.setError(getString(R.string.enter_coupon));
+                            Global.showKeyBoard(getApplicationContext(),tvCode);
                         }else{
                             //api call
 
@@ -269,7 +261,7 @@ public class Cart_activity extends BaseActivity  {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Cart_activity.this,drawer.class);
+                Intent intent=new Intent(Cart_activity.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -293,7 +285,7 @@ public class Cart_activity extends BaseActivity  {
             container_null1.setVisibility(View.GONE);
             scroll_view.setVisibility(View.VISIBLE);
         }
-        Cart_Adapter adapter = new Cart_Adapter(Cart_activity.this, map);
+        adapter = new Cart_Adapter(Cart_activity.this, map);
         recycler_cartitem.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         adapter.setEventListener(new Cart_Adapter.EventListener() {
@@ -385,121 +377,9 @@ public class Cart_activity extends BaseActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(this,drawer.class);
+        Intent intent=new Intent(this, Home.class);
         startActivity(intent);
     }
-
-
-    private void buyOnce(JSONArray passArray) {
-
-        if (promo_code==null){
-            promo_code="";
-            Log.e("promo_if","promo_if");
-        }else{
-            Log.e("promo_else","promo_else");
-        }
-
-        Log.e("walletAmount", String.valueOf(walletAmount));
-
-        String tag_json_obj = "json store req";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("user_id", u_id);
-        params.put("product_object", passArray.toString());
-        params.put("address_id",  Addrid);
-        params.put("wallet_amount", String.valueOf(walletAmount));
-        params.put("razor_pay_amount", String.valueOf(razorAmount));
-        params.put("pay_type", "Wallet Pay");
-        params.put("pay_mode", "");
-        params.put("transaction_id", "");
-        params.put("total_amount", String.valueOf(total_amount));
-        params.put("promo_code", promo_code);
-        params.put("promocode_amount", String.valueOf(discount_amount));
-        params.put("total_cgst", String.valueOf(total_gst));
-        params.put("total_sgst", String.valueOf(total_sgst));
-
-        Log.e("paramssubadad",params.toString());
-
-
-        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.order_buy_once, params, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                dismissDialog();
-                Log.e("subAdd123", response.toString());
-
-                try {
-                    String status=response.getString("status");
-                    String message=response.getString("message");
-
-                    if (status.equals("1")){
-                        //Toast.makeText(subscription.this, message, Toast.LENGTH_SHORT).show();
-
-                        if (razorAmount==0){
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Cart_activity.this);
-                            ViewGroup viewGroup = findViewById(android.R.id.content);
-                            View dialogView = LayoutInflater.from(Cart_activity.this).inflate(R.layout.custom_success, viewGroup, false);
-                            builder.setView(dialogView);
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.setCancelable(true);
-                               alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                            LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
-                            TextView tvStts=dialogView.findViewById(R.id.tvStts);
-                            TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
-                            TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
-                            ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
-
-                            tvTransId.setVisibility(View.GONE);
-
-                            tvStts.setText("Payment Success");
-                            tvStts.setTextColor(getResources().getColor(R.color.green));
-                            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
-                            // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
-                            ivIcon.setColorFilter(ContextCompat.getColor(Cart_activity.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
-                            tvTransDesc.setText("Payment done through your Wallet amount");
-
-                            db.clearCart();
-
-                            llDialog.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent=new Intent(Cart_activity.this,drawer.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-
-
-
-                            alertDialog.show();
-
-
-                        }
-
-                    }else if (status.equals("3")){
-                        Toast.makeText(Cart_activity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error1234",error.toString());
-                dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
-
-
-    }
-
 
 
 }

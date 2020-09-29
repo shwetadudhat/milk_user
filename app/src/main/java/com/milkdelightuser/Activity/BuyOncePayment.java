@@ -1,4 +1,4 @@
-package com.milkdelightuser;
+package com.milkdelightuser.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,16 +25,14 @@ import com.android.volley.VolleyError;
 import com.cashfree.pg.CFPaymentService;
 import com.cashfree.pg.ui.gpay.GooglePayStatusListener;
 import com.google.gson.Gson;
-import com.milkdelightuser.Activity.MainActivity;
-import com.milkdelightuser.Activity.Home;
 import com.milkdelightuser.Model.SubscriptioAddProduct_model;
+import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Session_management;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +41,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -64,7 +61,7 @@ import static com.milkdelightuser.utils.Global.MY_STARTDATE_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.random;
 
 
-public class CashFreeActivity extends BaseActivity {
+public class BuyOncePayment extends BaseActivity {
 
     private static final String TAG = "CashFreeActivity";
     DatabaseHandler db;
@@ -113,8 +110,6 @@ public class CashFreeActivity extends BaseActivity {
         myEdit = sharedPreferences.edit();
         myEdit1 = sharedPreferences.edit();
 
-
-
         Intent intent = getIntent();
         activity=intent.getStringExtra("activity");
 
@@ -122,50 +117,27 @@ public class CashFreeActivity extends BaseActivity {
 
         amount=getIntent().getStringExtra("cashfree_amount");
         textView3.setText(getString(R.string.pay_txt)+" "+ MainActivity.currency_sign+amount+" "+getString(R.string.pay_txt1));
-        if (activity.equals("subscription")){
+        if (activity.equals("listitem_cart")){
             Addrid=getIntent().getStringExtra("address_id");
             walletAmount=getIntent().getStringExtra("wallet_amount");
             promo_code=getIntent().getStringExtra("promo_code");
             discount_amount= getIntent().getStringExtra("discount_amount");
             total_amount=intent.getStringExtra("total_price");
-            subProductList1= (ArrayList<SubscriptioAddProduct_model>) intent.getSerializableExtra("subList");
-            Log.e("total_amount_if",total_amount);
-            Log.e("subListtttt",subProductList1.toString());
+            total_gst= Double.parseDouble(getIntent().getStringExtra("total_cgst"));
+            total_sgst= Double.parseDouble(getIntent().getStringExtra("total_sgst"));
+            passArrayString=getIntent().getStringExtra("jsonArray");
 
-            if (subProductList1.size()>0) {
-                for (int i = 0; i < subProductList1.size(); i++) {
-                    total_price = total_price + subProductList1.get(i).getProduct_totalprice() + subProductList1.get(i).getProduct_gst() + subProductList1.get(i).getProduct_sgst();
-                    total_gst = total_gst + subProductList1.get(i).getProduct_gst();
-                    total_sgst = total_sgst + subProductList1.get(i).getProduct_sgst();
-                }
-                Log.e("total_price", total_price + "\ntotalgsttt:\t" + total_gst + "\ntotalsgst:\t" + total_sgst);
-
-                passArray = new JSONArray();
-                for (int i = 0; i < subProductList1.size(); i++) {
-                    JSONObject jObjP = new JSONObject();
-                    try {
-                        jObjP.put("product_id", subProductList1.get(i).getProduct_id());
-                        jObjP.put("order_qty", subProductList1.get(i).getProduct_qty());
-                        jObjP.put("subscription_price", subProductList1.get(i).getProduct_price());
-                        jObjP.put("plans_id", subProductList1.get(i).getPlan_id());
-                        jObjP.put("amount", subProductList1.get(i).getProduct_totalprice() + subProductList1.get(i).getProduct_gst() + subProductList1.get(i).getProduct_sgst());
-                        jObjP.put("cgst_amount", subProductList1.get(i).getProduct_gst());
-                        jObjP.put("sgst_amount", subProductList1.get(i).getProduct_sgst());
-                        jObjP.put("start_date", subProductList1.get(i).getStart_date());
-                        jObjP.put("end_date", subProductList1.get(i).getEnd_date());
-                        passArray.put(jObjP);
-
-                        Log.e("passarrayyya",passArray.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+            if (promo_code==null){
+                promo_code="";
             }
 
-           /* }*/
-        }
+            try {
+                passArray=new JSONArray(passArrayString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+        }
 
         randomDigit = random(0, 1000);
         appId = getString(R.string.cashfree_api_key);
@@ -217,7 +189,7 @@ public class CashFreeActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                Toast.makeText(CashFreeActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(BuyOncePayment.this, "" + error, Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -233,19 +205,19 @@ public class CashFreeActivity extends BaseActivity {
         //Show the UI for doGPayPayment and phonePePayment only after checking if the apps are ready for payment
         if (view.getId() == R.id.phonePe_exists) {
             Toast.makeText(
-                    CashFreeActivity.this,
-                    CFPaymentService.getCFPaymentServiceInstance().doesPhonePeExist(CashFreeActivity.this, stage)+"",
+                    BuyOncePayment.this,
+                    CFPaymentService.getCFPaymentServiceInstance().doesPhonePeExist(BuyOncePayment.this, stage)+"",
                     Toast.LENGTH_SHORT).show();
             return;
         } else if (view.getId() == R.id.gpay_ready) {
-            CFPaymentService.getCFPaymentServiceInstance().isGPayReadyForPayment(CashFreeActivity.this, new GooglePayStatusListener() {
+            CFPaymentService.getCFPaymentServiceInstance().isGPayReadyForPayment(BuyOncePayment.this, new GooglePayStatusListener() {
                 @Override
                 public void isReady() {
-                    Toast.makeText(CashFreeActivity.this, "Ready", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuyOncePayment.this, "Ready", Toast.LENGTH_SHORT).show();
                 }
                 @Override
                 public void isNotReady() {
-                    Toast.makeText(CashFreeActivity.this, "Not Ready", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuyOncePayment.this, "Not Ready", Toast.LENGTH_SHORT).show();
                 }
             });
             return;
@@ -273,7 +245,7 @@ public class CashFreeActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.web: {
-                cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage, "#784BD2", "#FFFFFF", false);
+                cfPaymentService.doPayment(BuyOncePayment.this, params, token, stage, "#784BD2", "#FFFFFF", false);
 //                 cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage);
                 break;
             }
@@ -282,19 +254,19 @@ public class CashFreeActivity extends BaseActivity {
                 params.put(PARAM_PAYMENT_OPTION, "upi");
                 params.put(PARAM_UPI_VPA, "testsuccess@gocash");
 //                cfPaymentService.selectUpiClient("com.google.android.apps.nbu.paisa.user");
-                cfPaymentService.upiPayment(CashFreeActivity.this, params, token, stage);
+                cfPaymentService.upiPayment(BuyOncePayment.this, params, token, stage);
                 break;
             }
             case R.id.amazon: {
-                cfPaymentService.doAmazonPayment(CashFreeActivity.this, params, token, stage);
+                cfPaymentService.doAmazonPayment(BuyOncePayment.this, params, token, stage);
                 break;
             }
             case R.id.gpay: {
-                cfPaymentService.gPayPayment(CashFreeActivity.this, params, token, stage);
+                cfPaymentService.gPayPayment(BuyOncePayment.this, params, token, stage);
                 break;
             }
             case R.id.phonePe: {
-                cfPaymentService.phonePePayment(CashFreeActivity.this, params, token, stage);
+                cfPaymentService.phonePePayment(BuyOncePayment.this, params, token, stage);
                 break;
             }
         }
@@ -307,46 +279,47 @@ public class CashFreeActivity extends BaseActivity {
         Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
         Log.d(TAG, "API Response : "+resultCode);
         //Prints all extras. Replace with app logic.
-        /*if (data != null) {
+       /* if (data != null) {
             Bundle bundle = data.getExtras();
             if (bundle != null)
-                showDiaog(CashFreeActivity.this,bundle);
+                showDiaog(BuyOncePayment.this,bundle);
 
         }*/
+
         if (data != null) {
             Bundle bundle = data.getExtras();
-            Intent intent=new Intent();
+            Intent intent = new Intent();
             for (String key : bundle.keySet()) {
                 if (bundle.getString(key) != null) {
 
 
 //                    showDiaog(CashFreeActivity.this,bundle);
 
-                    if (key.equals("txMsg")){
-                        intent.putExtra("txMsg",bundle.getString(key));
+                    if (key.equals("txMsg")) {
+                        intent.putExtra("txMsg", bundle.getString(key));
                     }
-                    if (key.equals("referenceId")){
-                        transactionId=bundle.getString(key);
-                        intent.putExtra("referenceId",transactionId);
+                    if (key.equals("referenceId")) {
+                        transactionId = bundle.getString(key);
+                        intent.putExtra("referenceId", transactionId);
                     }
 
-                    if (key.equals("txStatus")){
-                        String status= bundle.getString(key);
-                        intent.putExtra("txStatus",status);
+                    if (key.equals("txStatus")) {
+                        String status = bundle.getString(key);
+                        intent.putExtra("txStatus", status);
                     }
                 }
             }
 
-            intent.putExtra("orderAmount",orderAmount);
-            intent.putExtra("subList",subProductList1);
+            intent.putExtra("orderAmount", orderAmount);
+            intent.putExtra("subList", subProductList1);
 
-            setResult(Activity.RESULT_OK,intent);
+            setResult(Activity.RESULT_OK, intent);
             finish();
-
         }
     }
 
     public  void showDiaog(Context context, Bundle bundle){
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         ViewGroup viewGroup = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.custom_success, viewGroup, false);
@@ -354,7 +327,6 @@ public class CashFreeActivity extends BaseActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(true);
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
-
 
         LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
         TextView tvStts=dialogView.findViewById(R.id.tvStts);
@@ -375,7 +347,7 @@ public class CashFreeActivity extends BaseActivity {
                 if (key.equals("txStatus")){
                     String status= bundle.getString(key);
                     if (status.equals("SUCCESS")){
-                        tvStts.setText("Payment Success");
+                        tvStts.setText(R.string.payment_success);
                         tvStts.setTextColor(context.getResources().getColor(R.color.green));
                         ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                         ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -386,16 +358,19 @@ public class CashFreeActivity extends BaseActivity {
 
 
                      //   db.clearCart();
-                        if (activity.equals("subscription")) {
+                        if (activity.equals("listitem_cart")){
                             if (isInternetConnected()) {
-                                but_sub_plan(passArray, orderAmount);
-                                Log.e("parseArray", passArray.toString());
+                                oreder_once(passArray,orderAmount);
+                              //  but_sub_plan(passArray,orderAmount);
+                                Log.e("parseArray",passArray.toString());
                             }
+
                         }
 
 
+
                     }else{
-                        tvStts.setText("Payment Failed");
+                        tvStts.setText(R.string.payment_fail);
                         tvStts.setTextColor(context.getResources().getColor(R.color.red));
                         ivIcon.setImageResource(R.drawable.ic_noun_close_1);
                         //  ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -414,10 +389,29 @@ public class CashFreeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
+                if (activity.equals("wallet")){
+
+                   /* Wallet_Fragment wallet_fragment = new Wallet_Fragment();
+                    // load fragment
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();*//*getChildFragmentManager*//*
+                    transaction.replace(R.id.container_12, wallet_fragment);
+                    transaction.commit();*/
+
+
+                    Intent intent=new Intent(context, Home.class);
+                    intent.putExtra("wallet","Wallet");
+                    context.startActivity(intent);
+                    ((Activity) context).finish();
+                    alertDialog.dismiss();
+
+//                   finish();
+
+                }else {
                     Intent intent=new Intent(context, Home.class);
                     context.startActivity(intent);
                     ((Activity) context).finish();
                     alertDialog.dismiss();
+                }
 
             }
         });
@@ -425,36 +419,37 @@ public class CashFreeActivity extends BaseActivity {
 
         alertDialog.show();
 
+
     }
 
+    private void oreder_once(JSONArray passArray, String orderAmount) {
+        if(walletAmount.equals("")){
 
-    public  void but_sub_plan(JSONArray passArray, String orderAmount) {
-
-
+        }
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", user_id);
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
         params.put("wallet_amount", String.valueOf(walletAmount));
-        params.put("razor_pay_amount", String.valueOf(orderAmount));
+        params.put("razor_pay_amount", orderAmount);
         params.put("pay_type", "CashFree");
-        params.put("total_amount", String.valueOf(total_price));
+        params.put("total_amount", String.valueOf(total_amount));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);
         params.put("promocode_amount", String.valueOf(discount_amount));
         params.put("total_cgst", String.valueOf(total_gst));
         params.put("total_sgst", String.valueOf(total_sgst));
 
-        Log.e("subadd123",params.toString());
+        Log.e("parambuyonce",params.toString());
 
 
 
-        /*CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.subscribe_plans_add, params, new Response.Listener<JSONObject>() {
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.order_buy_once, params, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 dismissDialog();
-                Log.e("subAddedd123", response.toString());
+                Log.e("buyonce123", response.toString());
 
                 try {
                     String status=response.getString("status");
@@ -468,11 +463,10 @@ public class CashFreeActivity extends BaseActivity {
                         myEdit.clear().apply();
                         myEdit1.clear().apply();
 
-
                     }else if (status.equals("3")){
-                        Toast.makeText(CashFreeActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BuyOncePayment.this, message, Toast.LENGTH_SHORT).show();
                     }else if (status.equals("0")){
-                        Toast.makeText(CashFreeActivity.this, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BuyOncePayment.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -490,10 +484,8 @@ public class CashFreeActivity extends BaseActivity {
                 MY_SOCKET_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);*/
-
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
-
 
 
     @Override

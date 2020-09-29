@@ -30,7 +30,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.milkdelightuser.Adapter.Adapter_SubProduct;
 import com.milkdelightuser.CashFreeActivity;
 import com.milkdelightuser.Model.EndDate_Model;
@@ -47,14 +46,11 @@ import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,11 +71,9 @@ import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.MY_FREQ_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_PLAN_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_STARTDATE_PREFS_NAME;
-import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
 
 import static com.milkdelightuser.utils.Global.PLAN_DATA;
 import static com.milkdelightuser.utils.Global.STARTDATE_DATA;
-import static com.milkdelightuser.utils.Global.SUB_DATA;
 
 public class subscription2 extends BaseActivity  {
 
@@ -87,8 +81,6 @@ public class subscription2 extends BaseActivity  {
     Toolbar toolbar;
     TextView toolTitle;
     ImageView ivBack,ivNotify;
-
-
 
     LinearLayout adrsss;
 
@@ -105,8 +97,8 @@ public class subscription2 extends BaseActivity  {
     SharedPreferences planPref;
 
     SharedPreferences.Editor planprefEdit;
-    SharedPreferences sharedPreferences,sharedPreferences1,sharedPreferences2;
-    SharedPreferences.Editor myEdit,myEdit1,myEdit2;
+    SharedPreferences sharedPreferences1,sharedPreferences2;
+    SharedPreferences.Editor myEdit1,myEdit2;
 
 
     /*view4*/
@@ -135,8 +127,7 @@ public class subscription2 extends BaseActivity  {
 
     double razorAmount,totalProductAmout,totalProductPrice,wallet,walletAmount,total_price=0;
 
-    String razorpayPaymentID="";
-    String Addrid,tardetDate,enddate;
+    String Addrid,tardetDate,enddate,pincode;
 
     int planId=-1;
     int dayyyyy;
@@ -157,6 +148,8 @@ public class subscription2 extends BaseActivity  {
 
     Gson gson;
     String json,json1;
+
+    ArrayList<SubscriptioAddProduct_model> subProductList1;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -197,7 +190,7 @@ public class subscription2 extends BaseActivity  {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(subscription2.this, drawer.class);
+                Intent intent=new Intent(subscription2.this, Home.class);
                 intent.putExtra("notification","subscription_page");
                 startActivity(intent);
             }
@@ -227,83 +220,69 @@ public class subscription2 extends BaseActivity  {
 
         pref = this.getActivity().getSharedPreferences(MY_FREQ_PREFS_NAME, MODE_PRIVATE);
 
-//        sharedPreferences = this.getActivity().getSharedPreferences(MY_SUBSCRIPTION_PREFS_NAME, MODE_PRIVATE);
         sharedPreferences1 = this.getActivity().getSharedPreferences(MY_PLAN_PREFS_NAME, MODE_PRIVATE);
         sharedPreferences2 = this.getActivity().getSharedPreferences(MY_STARTDATE_PREFS_NAME, MODE_PRIVATE);
         myEdit1 = sharedPreferences1.edit();
         myEdit2 = sharedPreferences2.edit();
-//        myEdit = sharedPreferences.edit();
-//        myEdit.clear();
 
         gson = new Gson();
-        json = sharedPreferences1.getString(PLAN_DATA, "");
-        if (!json.isEmpty()) {
-            Type type = new TypeToken<List<PlanSelected_model>>() {}.getType();
-            planSelectedModelArrayList= gson.fromJson(json, type);
-            Log.e("planList_pref",planSelectedModelArrayList.toString());
-
-        }
-
-        json1 = sharedPreferences2.getString(STARTDATE_DATA, "");
-        if (!json.isEmpty()) {
-            Type type = new TypeToken<List<StartDate_Model>>() {}.getType();
-            stardateList1= gson.fromJson(json, type);
-            Log.e("stardateList1_pref",stardateList1.toString());
-
-        }
 
         rlCoupon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                getTotalAmount();
+              if (IsDataSelected()){
+                  Log.e("trueee","truuuu");
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
-                ViewGroup viewGroup = view.findViewById(android.R.id.content);
-                View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_coupon, viewGroup, false);
-                builder.setView(dialogView);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.setCancelable(true);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                  getTotalAmount();
 
-                EditText tvCode=dialogView.findViewById(R.id.tvCode);
-                Button btnApplyCoupon=dialogView.findViewById(R.id.btnApplyCoupon);
+                  AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
+                  ViewGroup viewGroup = view.findViewById(android.R.id.content);
+                  View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_coupon, viewGroup, false);
+                  builder.setView(dialogView);
+                  AlertDialog alertDialog = builder.create();
+                  alertDialog.setCancelable(true);
+                  alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
-                tvCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View view, boolean b) {
-                        tvCode.setBackground(getResources().getDrawable(R.drawable.bg_edit));
-                    }
-                });
+                  EditText tvCode = dialogView.findViewById(R.id.tvCode);
+                  Button btnApplyCoupon = dialogView.findViewById(R.id.btnApplyCoupon);
 
-                btnApplyCoupon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String code;
-                        code=tvCode.getText().toString();
+                  tvCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                      @Override
+                      public void onFocusChange(View view, boolean b) {
+                          tvCode.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+                      }
+                  });
 
-
-                        if (code.length()==0){
-                            tvCode.setError("please enter the Coupon Code");
-                        }else{
-                            //api call
-
-                            if (isInternetConnected()) {
-                                try {
-                                    showDialog("");
-                                    applyCoupon(alertDialog,code);
+                  btnApplyCoupon.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View view) {
+                          String code;
+                          code = tvCode.getText().toString();
 
 
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+                          if (code.length() == 0) {
+                              tvCode.setError("please enter the Coupon Code");
+                              Global.showKeyBoard(getApplicationContext(),tvCode);
+                          } else {
 
-                    }
-                });
-                alertDialog.show();
+                              if (isInternetConnected()) {
+                                  try {
+                                      showDialog("");
+                                      applyCoupon(alertDialog, code);
 
+
+                                  } catch (Exception e) {
+                                      e.printStackTrace();
+                                  }
+                              }
+                          }
+
+                      }
+                  });
+                  alertDialog.show();
+
+              }
 
             }
         });
@@ -321,57 +300,45 @@ public class subscription2 extends BaseActivity  {
         });
 
 
-        llBuySubscrption.setOnClickListener(new View.OnClickListener() {
+        llEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                dbmap = db.getCartAll();
-
-
-                isLocked=  planPref.getBoolean("locked",false);
-                planData=planPref.getString("plan","");
-
-                Log.e("planId",planId+"\nplandata"+planData);
-
-
-                if (dbmap.size() > 0) {
-
-                    for (int i = 0; i < map.size(); i++) {
-
-                        if(dbmap.size()==planSelectedModelArrayList.size()  && !planData.equals(" ")){
-                            if (isInternetConnected()) {
-                                try {
-                                    if (Addrid==null){
-                                        llEdit.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                Intent intent=new Intent(subscription2.this,Addresslist.class);
-                                                startActivityForResult(intent,0);
-                                            }
-                                        });
-                                        Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        showDialog("");
-                                        Log.e("totalAmount","totalAmount");
-                                        AddSubscription();
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }else{
-                            Toast.makeText(subscription2.this, "Please Select Plan or Frequency ", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                    }
-                }
-
+                Log.e("cickkkk12333","clickkk");
+                Intent intent=new Intent(subscription2.this,Addresslist.class);
+                startActivityForResult(intent,0);
             }
         });
 
 
+        llBuySubscrption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (IsDataSelected()){
+                    if (isInternetConnected()) {
+                        try {
+                            if (Addrid==null){
+                                llEdit.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent=new Intent(subscription2.this,Addresslist.class);
+                                        startActivityForResult(intent,0);
+                                    }
+                                });
+                                Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
+                            }else{
+                                showDialog("");
+                                checkPincode();
+//                                AddSubscription();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void setArrayList() {
@@ -620,12 +587,9 @@ public class subscription2 extends BaseActivity  {
                                             customPlan.callOnClick();
                                         }
                                     }
-
                                 }
 
-
                             });
-
 
                         }
                     }
@@ -739,28 +703,13 @@ public class subscription2 extends BaseActivity  {
                         Addrid=jsonObject.getString("id");
                         String full_address=jsonObject.getString("full_address");
                         String user_number=jsonObject.getString("user_number");
+                        pincode=jsonObject.getString("pincode");
 
 
                         adrName.setText(user_name);
                         adrNmbr.setText(user_number);
                         adr.setText(full_address);
 
-                        llEdit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent=new Intent(subscription2.this,Addresslist.class);
-                                intent.putExtra("action","edit");
-                                intent.putExtra("id",Addrid);
-                                startActivityForResult(intent,0);
-                            }
-                        });
-
-                        ivAdrEdit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                llEdit.callOnClick();
-                            }
-                        });
 
                     }else if (status.equals("0")){
                         adrsss.setVisibility(View.GONE);
@@ -795,28 +744,34 @@ public class subscription2 extends BaseActivity  {
         plan1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                customPlan.setTag("unselected"+subs_id);
-                plan2.setTag("unselected"+subs_id);
-                plan1.setTag("selected"+subs_id);
+                if (IsPlanSelected()){
 
-                if (plan1.getTag().equals("selected"+subs_id)){
-                    planprefEdit.putBoolean("locked", true).commit();
-                    planprefEdit.putString("plan","plan1");
-                    planprefEdit.apply();
-                }else if (plan1.getTag().equals("unselected"+subs_id)){
-                    planprefEdit.putBoolean("locked", false).commit();
+                    customPlan.setTag("unselected"+subs_id);
+                    plan2.setTag("unselected"+subs_id);
+                    plan1.setTag("selected"+subs_id);
+
+                    if (plan1.getTag().equals("selected"+subs_id)){
+                        planprefEdit.putBoolean("locked", true).commit();
+                        planprefEdit.putString("plan","plan1");
+                        planprefEdit.apply();
+                    }else if (plan1.getTag().equals("unselected"+subs_id)){
+                        planprefEdit.putBoolean("locked", false).commit();
+                    }
+
+
+                    getDateData(15);
+                    //  getTotalAmount();
+
+                    plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    plan2.setTextColor(getResources().getColor(R.color.main_clr));
+                    customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    customPlan.setTextColor(getResources().getColor(R.color.main_clr));
+                    plan1.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+                    plan1.setTextColor(getResources().getColor(R.color.white));
+
+
                 }
 
-
-                getDateData(15);
-                //  getTotalAmount();
-
-                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                plan2.setTextColor(getResources().getColor(R.color.main_clr));
-                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                customPlan.setTextColor(getResources().getColor(R.color.main_clr));
-                plan1.setBackground(getResources().getDrawable(R.drawable.bg_fb));
-                plan1.setTextColor(getResources().getColor(R.color.white));
 
             }
         });
@@ -824,146 +779,118 @@ public class subscription2 extends BaseActivity  {
         plan2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plan2.setTag("selected"+subs_id);
-                plan1.setTag("unselected"+subs_id);
-                customPlan.setTag("unselected"+subs_id);
+                if (IsPlanSelected()){
+                    plan2.setTag("selected" + subs_id);
+                    plan1.setTag("unselected" + subs_id);
+                    customPlan.setTag("unselected" + subs_id);
 
 
-                if (plan2.getTag().equals("selected"+subs_id)){
-                    planprefEdit.putBoolean("locked", true).commit();
-                    planprefEdit.putString("plan","plan2");
-                    planprefEdit.apply();
+                    if (plan2.getTag().equals("selected" + subs_id)) {
+                        planprefEdit.putBoolean("locked", true).commit();
+                        planprefEdit.putString("plan", "plan2");
+                        planprefEdit.apply();
 
-                }else if (plan2.getTag().equals("unselected"+subs_id)){
-                    planprefEdit.putBoolean("locked", false).commit();
+                    } else if (plan2.getTag().equals("unselected" + subs_id)) {
+                        planprefEdit.putBoolean("locked", false).commit();
+                    }
+
+                    getDateData(30);
+                    // Global.getDateData(30,tardetDate,enddate);
+                    //  getTotalAmount();
+
+                    customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    customPlan.setTextColor(getResources().getColor(R.color.main_clr));
+                    plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    plan1.setTextColor(getResources().getColor(R.color.main_clr));
+                    plan2.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+                    plan2.setTextColor(getResources().getColor(R.color.white));
+
                 }
-
-                getDateData(30);
-                // Global.getDateData(30,tardetDate,enddate);
-                //  getTotalAmount();
-
-                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                customPlan.setTextColor(getResources().getColor(R.color.main_clr));
-                plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                plan1.setTextColor(getResources().getColor(R.color.main_clr));
-                plan2.setBackground(getResources().getDrawable(R.drawable.bg_fb));
-                plan2.setTextColor(getResources().getColor(R.color.white));
 
             }
         });
         customPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plan2.setTag("unselected"+subs_id);
-                customPlan.setTag("selected"+subs_id);
-                plan2.setTag("unselected"+subs_id);
+                if (IsPlanSelected()){
+                    plan2.setTag("unselected" + subs_id);
+                    customPlan.setTag("selected" + subs_id);
+                    plan2.setTag("unselected" + subs_id);
 
 
+                    if (customPlan.getTag().equals("selected" + subs_id)) {
+                        planprefEdit.putBoolean("locked", true).commit();
+                        planprefEdit.putString("plan", "customplan");
+                        planprefEdit.apply();
+                    } else if (customPlan.getTag().equals("unselected" + subs_id)) {
+                        planprefEdit.putBoolean("locked", false).commit();
+                    }
 
-                if (customPlan.getTag().equals("selected"+subs_id)){
-                    planprefEdit.putBoolean("locked", true).commit();
-                    planprefEdit.putString("plan","customplan");
-                    planprefEdit.apply();
-                }else if (customPlan.getTag().equals("unselected"+subs_id)){
-                    planprefEdit.putBoolean("locked", false).commit();
+                    final Calendar cldr = Calendar.getInstance();
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    picker = new DatePickerDialog(subscription2.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    int month = monthOfYear + 1;
+                                    String sMonth = "";
+                                    if (month < 10) {
+                                        sMonth = "0" + String.valueOf(month);
+                                    } else {
+                                        sMonth = String.valueOf(month);
+                                    }
+
+
+                                    enddate = dayOfMonth + "-" + sMonth + "-" + year;
+
+                                    Log.e("enddate", enddate);
+
+                                    for (int i = 0; i < stardateList1.size(); i++) {
+                                        tardetDate = stardateList1.get(i).getStart_date();
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                        Date date = null;
+                                        try {
+                                            date = dateFormat.parse(tardetDate);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                                        try {
+                                            Date startdate = format.parse(tardetDate);
+                                            Date endddate = format.parse(enddate);
+
+                                            long diff = endddate.getTime() - startdate.getTime();
+                                            long seconds = diff / 1000;
+                                            long minutes = seconds / 60;
+                                            long hours = minutes / 60;
+                                            days1 = hours / 24;
+
+                                            Log.e("dayss==>1", days1 + "\nstartdate:" + startdate);
+                                            getDateData(Integer.parseInt(String.valueOf(days1)));
+
+
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+
+                                }
+                            }, year, month, day);
+                    picker.show();
+
+                    // getTotalAmount();
+                    plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    plan1.setTextColor(getResources().getColor(R.color.main_clr));
+                    plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                    plan2.setTextColor(getResources().getColor(R.color.main_clr));
+                    customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+                    customPlan.setTextColor(getResources().getColor(R.color.white));
                 }
-
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                picker = new DatePickerDialog(subscription2.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                int month=monthOfYear+1;
-                                String sMonth = "";
-                                if (month < 10) {
-                                    sMonth = "0"+ String.valueOf(month);
-                                } else {
-                                    sMonth = String.valueOf(month);
-                                }
-
-
-                                enddate=dayOfMonth+"-"+sMonth+"-"+year;
-
-                                Log.e("enddate",enddate);
-
-                                for (int i = 0; i < stardateList1.size(); i++) {
-                                    tardetDate=stardateList1.get(i).getStart_date();
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                    Date date = null;
-                                    try {
-                                        date = dateFormat.parse(tardetDate);
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                                    try {
-                                        Date startdate = format.parse(tardetDate);
-                                        Date endddate = format.parse(enddate);
-
-                                        long diff = endddate.getTime() - startdate.getTime();
-                                        long seconds = diff / 1000;
-                                        long minutes = seconds / 60;
-                                        long hours = minutes / 60;
-                                        days1 = hours / 24;
-
-                                        Log.e("dayss",days1+"\nstartdate:"+startdate);
-
-                                        for (int j=0;j<planSelectedModelArrayList.size();j++){
-
-                                            if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id())){
-                                                dayyyyy=(int) days1/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
-
-                                                totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
-                                                totalProductPrice=totalProductAmout*dayyyyy;
-
-                                            }
-
-
-                                        }
-                                        EndDate_Model endDate_model = new EndDate_Model();
-                                        endDate_model.setProdcut_id(stardateList1.get(i).getProdcut_id());
-                                        endDate_model.setEnd_date(enddate);
-                                        endDate_model.setTotal_days(String.valueOf(dayyyyy));
-                                        endDate_model.setProduct_totalPrice((int) totalProductPrice);
-
-
-                                        if (endDateModelArrayList.size()>0){
-                                            for (int k=0;k<endDateModelArrayList.size();k++){
-                                                if (endDateModelArrayList.get(k).getProdcut_id().equals(stardateList1.get(i).getProdcut_id())){
-                                                    Log.e("stardateList1get(k)",stardateList1.get(k).getProdcut_id());
-                                                    Log.e("stardateLit(i)",stardateList1.get(i).getProdcut_id());
-                                                    Log.e("endDateModelget(k)",endDateModelArrayList.get(k).getProdcut_id());
-                                                    endDateModelArrayList.remove(k);
-                                                }
-                                            }
-                                            endDateModelArrayList.add(endDate_model);
-                                        }else{
-                                            endDateModelArrayList.add(endDate_model);
-                                        }
-                                        Log.e("customEndList", endDateModelArrayList.toString());
-
-                                    } catch (ParseException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-
-                            }
-                        }, year, month, day);
-                picker.show();
-
-                // getTotalAmount();
-                plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                plan1.setTextColor(getResources().getColor(R.color.main_clr));
-                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                plan2.setTextColor(getResources().getColor(R.color.main_clr));
-                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
-                customPlan.setTextColor(getResources().getColor(R.color.white));
             }
         });
 
@@ -1046,7 +973,7 @@ public class subscription2 extends BaseActivity  {
 
             Log.e("subProdutList",subProductList.toString());
 
-
+            total_price=0;
             if (subProductList.size()>0){
                 for (int i=0;i<subProductList.size();i++){
                     total_price=total_price+ subProductList.get(i).getProduct_totalprice()+subProductList.get(i).getProduct_gst()+subProductList.get(i).getProduct_sgst();
@@ -1064,7 +991,6 @@ public class subscription2 extends BaseActivity  {
     private void addListToPref() {
         if (planSelectedModelArrayList.size()>0){
             gson = new Gson();
-            Log.e("planSelectprefff",planSelectedModelArrayList.toString());
             json = gson.toJson(planSelectedModelArrayList);
             myEdit1.putString(PLAN_DATA, json);
             myEdit1.commit();
@@ -1072,20 +998,11 @@ public class subscription2 extends BaseActivity  {
 
         if (stardateList1.size()>0){
             gson = new Gson();
-            Log.e("stardateprefff",stardateList1.toString());
             json1 = gson.toJson(stardateList1);
             myEdit2.putString(STARTDATE_DATA, json1);
-
-
             myEdit2.commit();
         }
-        /*if(subProductList.size()>0){
-            Log.e("subproductList_addmore",subProductList.toString());
-            Gson gson = new Gson();
-            String json = gson.toJson(subProductList);
-            myEdit.putString(SUB_DATA, json);
-            myEdit.commit();
-        }*/
+
     }
 
 
@@ -1094,9 +1011,10 @@ public class subscription2 extends BaseActivity  {
         Log.e("total_price123333", String.valueOf(total_price));
 
 
-        if (String.valueOf(total_price).equals("0.0")){
+        /*if (String.valueOf(total_price).equals("0.0")){
             getTotalAmount();
-        }
+        }*/
+        getTotalAmount();
 
         Log.e("total_amount33", String.valueOf(total_price));
 
@@ -1117,6 +1035,7 @@ public class subscription2 extends BaseActivity  {
             walletAmount=0;
 
         }
+        Log.e("subProductList123",subProductList.toString());
 
         if (razorAmount!=0){
             pay_type="CashFree";
@@ -1129,11 +1048,13 @@ public class subscription2 extends BaseActivity  {
             intent.putExtra("promo_code",promo_code);
             intent.putExtra("discount_amount",String.valueOf(Math.round(discount_amount)));
             intent.putExtra("total_price",String.valueOf(total_price));
-            startActivity(intent);
+//            startActivity(intent);
+            startActivityForResult(intent,5);
 
         }else{
             pay_type="Wallet Pay";
-            addSubPlan();
+            String transactionId="";
+            addSubPlan(transactionId);
         }
 
 
@@ -1141,7 +1062,7 @@ public class subscription2 extends BaseActivity  {
 
 
 
-    private void addSubPlan() {
+    private void addSubPlan(String transactionId) {
 
         if (subProductList.size()>0){
             passArray = new JSONArray();
@@ -1167,10 +1088,16 @@ public class subscription2 extends BaseActivity  {
 
             // Log.e("parseArray",passArray.toString());
 
-            if (isInternetConnected()) {
-                but_sub_plan(passArray);
-                Log.e("parseArray",passArray.toString());
+            if (transactionId.equals("")){
+                if (isInternetConnected()) {
+                    but_sub_plan(passArray);
+                    Log.e("parseArray",passArray.toString());
+                }
+            }else{
+                but_sub_plan1(passArray,String.valueOf(razorAmount),transactionId);
             }
+
+
         }
 
 
@@ -1181,14 +1108,18 @@ public class subscription2 extends BaseActivity  {
 
         Log.e("walletAmount", String.valueOf(walletAmount));
 
-
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", user_id);
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
         params.put("wallet_amount", String.valueOf(walletAmount));
-        params.put("razor_pay_amount", String.valueOf(razorAmount));
+        if (razorAmount!=0.0){
+            params.put("razor_pay_amount", String.valueOf(razorAmount));
+        }else{
+            params.put("razor_pay_amount", "");
+        }
+//        params.put("razor_pay_amount", String.valueOf(razorAmount));
         params.put("pay_type", pay_type);
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
@@ -1214,8 +1145,6 @@ public class subscription2 extends BaseActivity  {
 
                         Log.e("razorAmount", String.valueOf(razorAmount));
 
-
-
                         if (razorAmount==0){
 
                             /*api call payment gateway*/
@@ -1225,7 +1154,7 @@ public class subscription2 extends BaseActivity  {
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
                             alertDialog.setCancelable(true);
-                            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
                             LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
@@ -1236,26 +1165,23 @@ public class subscription2 extends BaseActivity  {
 
                             tvTransId.setVisibility(View.GONE);
 
-                            tvStts.setText("Payment Success");
+                            tvStts.setText(R.string.payment_success);
                             tvStts.setTextColor(getResources().getColor(R.color.green));
                             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
                             ivIcon.setColorFilter(ContextCompat.getColor(subscription2.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
-                            tvTransDesc.setText("Payment done through your Wallet amount");
-
-                            //  db.removeItemFromCart(product_id);
+                            tvTransDesc.setText(R.string.payment_by_wallet);
 
                             db.clearCart();
-                            myEdit.clear();
-
+                            myEdit1.clear().apply();
+                            myEdit2.clear().apply();
 
                             showTotalCredit(user_id);
-
 
                             llDialog.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent=new Intent(subscription2.this, drawer.class);
+                                    Intent intent=new Intent(subscription2.this, Home.class);
                                     startActivity(intent);
                                     finish();
                                     alertDialog.dismiss();
@@ -1312,6 +1238,20 @@ public class subscription2 extends BaseActivity  {
             if (resultCode == Activity.RESULT_CANCELED) {
                 Log.e("user_id11","user_id11");
                 //Write your code if there's no result
+            }
+        }else if (requestCode == 5) {
+            if(resultCode == Activity.RESULT_OK) {
+                String txMsg = data.getStringExtra("txMsg");
+                String referenceId = data.getStringExtra("referenceId");
+                String txStatus = data.getStringExtra("txStatus");
+                String orderAmount = data.getStringExtra("orderAmount");
+                subProductList1= (ArrayList<SubscriptioAddProduct_model>) data.getSerializableExtra("subList");
+                // TODO: Do something with your extra data
+
+                Log.e("msggggg",txMsg);
+
+                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,subProductList1);
+
             }
         }
     }//
@@ -1374,10 +1314,221 @@ public class subscription2 extends BaseActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(subscription2.this, drawer.class);
+        Intent intent=new Intent(subscription2.this, Home.class);
         startActivity(intent);
         finish();
     }
 
+
+    public boolean IsDataSelected(){
+        isLocked=  planPref.getBoolean("locked",false);
+        planData=planPref.getString("plan","");
+
+        Log.e("plandata",planData);
+
+        if (planSelectedModelArrayList.size() > 0) {
+
+            for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
+
+                Log.e("planidddddddd", planSelectedModelArrayList.get(i).getPlan_id());
+
+                if (!planSelectedModelArrayList.get(i).getPlan_id().equals("-1") && planData != null && !planData.equals("")) {
+                    return true;
+                } else {
+                    Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
+                    break;
+
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public boolean IsPlanSelected(){
+        isLocked=  planPref.getBoolean("locked",false);
+        planData=planPref.getString("plan","");
+
+        Log.e("plandata",planData);
+
+        if (planSelectedModelArrayList.size() > 0) {
+
+            for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
+
+                Log.e("planidddddddd", planSelectedModelArrayList.get(i).getPlan_id());
+
+                if (!planSelectedModelArrayList.get(i).getPlan_id().equals("-1") ) {
+                    return true;
+                } else {
+                    Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
+                    break;
+
+                }
+            }
+        }
+        return false;
+
+    }
+
+    private void checkPincode() {
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pincode", pincode);
+
+        Log.e("params",params.toString());
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.pincode_check, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("pincheck123rsponse", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+                        AddSubscription();
+                    }
+                    else if (status.equals("0")){
+                        Toast.makeText(subscription2.this, ""+message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+    }
+
+    private void showSuccessDialog( String txMsg, String referenceId, String txStatus,String orderAmount,ArrayList<SubscriptioAddProduct_model> subProductList1) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
+        ViewGroup viewGroup =subscription2.this.getWindow().getDecorView().findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_success, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+
+        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+        TextView tvStts=dialogView.findViewById(R.id.tvStts);
+        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+
+        tvTransDesc.setText(txMsg);
+        tvTransId.setText("Transaction id:"+referenceId);
+
+
+
+        if (txStatus.equals("SUCCESS")){
+            tvStts.setText(R.string.payment_success);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+            if (ConnectivityReceiver.isConnected()) {
+                showDialog("");
+                Log.e("sublist==>0",subProductList.toString());
+                addSubPlan(referenceId);
+               /* but_sub_plan1(passArray, orderAmount,referenceId);*/
+                Log.e("parseArray", passArray.toString());
+            } else {
+                Global.showInternetConnectionDialog(getApplicationContext());
+            }
+        } else {
+            tvStts.setText(R.string.payment_fail);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+
+        llDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    public  void but_sub_plan1(JSONArray passArray, String orderAmount,String transactionId) {
+
+        String tag_json_obj = "json store req";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user_id);
+        params.put("product_object", passArray.toString());
+        params.put("address_id",  Addrid);
+        params.put("wallet_amount", String.valueOf(walletAmount));
+        params.put("razor_pay_amount", String.valueOf(orderAmount));
+        params.put("pay_type", "CashFree");
+        params.put("total_amount", String.valueOf(total_price));
+        params.put("promo_code", promo_code);
+        params.put("transaction_id", transactionId);
+        params.put("promocode_amount", String.valueOf(discount_amount));
+        params.put("total_cgst", String.valueOf(total_gst));
+        params.put("total_sgst", String.valueOf(total_sgst));
+
+        Log.e("subadd11",params.toString());
+
+
+        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.subscribe_plans_add, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissDialog();
+                Log.e("subAddedd123", response.toString());
+
+                try {
+                    String status=response.getString("status");
+                    String message=response.getString("message");
+
+                    if (status.equals("1")){
+
+                        Log.e("razorAmount", String.valueOf(razorAmount));
+
+                        db.clearCart();
+                        myEdit1.clear().apply();
+                        myEdit2.clear().apply();
+
+
+                    }else if (status.equals("3")){
+                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                    }else if (status.equals("0")){
+                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error1234",error.toString());
+                dismissDialog();
+                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
+
+    }
 
 }

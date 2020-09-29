@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
+    android:textColor="@color/main_clr"
     android:fontFamily="@font/ubuntu_medium"
     style="@style/txt_333_16"
     android:id="@+id/tvSpinnerTitle"

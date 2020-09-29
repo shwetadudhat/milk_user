@@ -252,7 +252,7 @@ public class Login extends BaseActivity {
                                 Session_management session_management = new Session_management(Login.this);
                                 session_management.createLoginSession(userid, user_email, user_name, user_image, user_phone);
 
-                                Intent intent = new Intent(getApplicationContext(), drawer.class);
+                                Intent intent = new Intent(getApplicationContext(), Home.class);
                                 startActivity(intent);
                                 finishAffinity();
 
@@ -296,12 +296,15 @@ public class Login extends BaseActivity {
                             return true;
                         } else {
                             edpassword.setError("Please enter valid Password!");
+                            Global.showKeyBoard(Login.this,edpassword);
                         }
                     } else {
                         edpassword.setError("Password is Required!");
+                        Global.showKeyBoard(this,edpassword);
                     }
                 } else {
                     edemailMobileNumber.setError("Please enter valid Mobile Number!");
+                    Global.showKeyBoard(this,edemailMobileNumber);
                 }
             } else{
                 if (Global.isValidEmail(txt_emailMobileNumber)) {
@@ -310,16 +313,20 @@ public class Login extends BaseActivity {
                             return true;
                         } else {
                             edpassword.setError("Please enter valid Password!");
+                            Global.showKeyBoard(this,edpassword);
                         }
                     } else {
                         edpassword.setError("Password is Required!");
+                        Global.showKeyBoard(this,edpassword);
                     }
                 } else {
                     edemailMobileNumber.setError("Please enter valid Email Id!");
+                    Global.showKeyBoard(this,edemailMobileNumber);
                 }
             }
         } else {
             edemailMobileNumber.setError("Email or Phone Number is Required!");
+            Global.showKeyBoard(this,edemailMobileNumber);
         }
         return false;
     }
@@ -548,7 +555,7 @@ public class Login extends BaseActivity {
                         Session_management session_management = new Session_management(Login.this);
                         session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);
 
-                        Intent intent = new Intent(Login.this, drawer.class);
+                        Intent intent = new Intent(Login.this, Home.class);
                         startActivity(intent);
                         finishAffinity();
 

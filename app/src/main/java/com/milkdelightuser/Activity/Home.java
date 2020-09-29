@@ -1,7 +1,7 @@
 package com.milkdelightuser.Activity;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -37,16 +37,15 @@ import com.milkdelightuser.Fragments.MainFragment.Notification_Fragment;
 import com.milkdelightuser.Fragments.MainFragment.Offer_Fragment;
 import com.milkdelightuser.Fragments.MainFragment.Profile_Fragment;
 import com.milkdelightuser.Fragments.MainFragment.ReferNEarn_Fragment;
-import com.milkdelightuser.Fragments.Wallet_Fragment;
 import com.milkdelightuser.Model.Menu_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.AppController;
 import com.milkdelightuser.utils.BaseActivity;
 import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.CustomVolleyJsonRequest;
+import com.milkdelightuser.utils.ExitStrategy;
+import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.Session_management;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +56,7 @@ import java.util.Map;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -68,7 +68,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 
-public class drawer extends BaseActivity implements  FragmentManager.OnBackStackChangedListener {
+public class Home extends BaseActivity implements  FragmentManager.OnBackStackChangedListener {
 
     Session_management session_management;
     String user_id,user_name,user_nmbr,user_email,user_image;
@@ -94,23 +94,16 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_drawer);
+        setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar_00);
         if (toolbar != null){
             setSupportActionBar(toolbar);
         }
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      //  getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_noun_menu);
-
-        Checkout.preload(getActivity());
-
-
 
         drawer1 = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -123,40 +116,33 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_noun_menu);
-        getSupportActionBar().setTitle("Milk Delight");
+        getSupportActionBar().setTitle(getString(R.string.app_name));
 
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
-
         getPreferenceData();
-
-
-
 
         user_name1=findViewById(R.id.user_name1);
         user_nmbr1=findViewById(R.id.user_nmbr1);
         user_dp=findViewById(R.id.user_dp);
 
-
         menuList =  findViewById(R.id.list);
         //Data
         ArrayList<Menu_Model> nav_item = new ArrayList<>();
-        nav_item.add(new Menu_Model(R.drawable.ic_home_1,"Home"));
-        nav_item.add(new Menu_Model(R.drawable.ic_account_circle_black_24dp,"My Profile"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_order,"My Order"));
-        nav_item.add(new Menu_Model(R.drawable.ic_sale,"Offer"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_subscribe,"Subscription"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_menu,"Shop By Category"));
-        nav_item.add(new Menu_Model(R.drawable.ic_star_black_24dp,"Rate Our App"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_contact_us_1,"Contact us"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_share,"Refer a Friend"));
-        nav_item.add(new Menu_Model(R.drawable.ic_noun_help,"About us"));
-        nav_item.add(new Menu_Model(R.drawable.ic_question,"Faq"));
+        nav_item.add(new Menu_Model(R.drawable.ic_home_1,getString(R.string.home)));
+        nav_item.add(new Menu_Model(R.drawable.ic_account_circle_black_24dp,getString(R.string.myprofile)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_order,getString(R.string.myorder)));
+        nav_item.add(new Menu_Model(R.drawable.ic_sale,getString(R.string.Offer)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_subscribe,getString(R.string.subscription)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_menu,getString(R.string.shopByCat)));
+        nav_item.add(new Menu_Model(R.drawable.ic_star_black_24dp,getString(R.string.rate)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_contact_us_1,getString(R.string.contact)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_share,getString(R.string.referFriend)));
+        nav_item.add(new Menu_Model(R.drawable.ic_noun_help,getString(R.string.about)));
+        nav_item.add(new Menu_Model(R.drawable.ic_question,getString(R.string.faq)));
 
-        adapterMenu1 = new Adapter_menu1( drawer.this,  android.R.layout.simple_list_item_activated_1,
+        adapterMenu1 = new Adapter_menu1( Home.this,  android.R.layout.simple_list_item_activated_1,
                 nav_item);
         menuList.setAdapter(adapterMenu1);
-
-
 
 
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -168,8 +154,6 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
             }
         });
 
-
-
         getNavViewData();
 
 
@@ -180,7 +164,7 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
             public void onClick(View view) {
                 row_index=1;
                 drawer1.closeDrawer(GravityCompat.START);
-                getSupportActionBar().setTitle("My Profile");
+                getSupportActionBar().setTitle(getString(R.string.myprofile));
                 MyProfile(1);
                 adapterMenu1.setSelectedItem(row_index);
                 adapterMenu1.notifyDataSetChanged();
@@ -192,16 +176,8 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("logouttttt","logouttttt");
-                if (isInternetConnected()) {
-                    showDialog("");
-                    if (session_management.isLoggedIn()){
-                        session_management.logoutSession();
-                        Intent intent=new Intent(drawer.this, Login.class);
-                        startActivity(intent);
-                    }
-                    //  LogOut(user_id,token);
-                }
+                confirmLogout();
+
             }
         });
 
@@ -229,9 +205,9 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
        //
         if( notification!= null)
         {
-            OpenMainFragment(new Notification_Fragment(), -1);
+            OpenMainFragment(new Notification_Fragment(), 11);
         }else  if( wallet!= null) {
-            Wallet();
+            Wallet(12);
         }else{
             selectedItem(0);
         }
@@ -241,45 +217,45 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void selectedItem(int i) {
         if (i==0){
-            getSupportActionBar().setTitle("Milk Delight");
+            getSupportActionBar().setTitle(getString(R.string.app_name));
             Home(0);
         }else if (i==1){
-            getSupportActionBar().setTitle("My Profile");
+            getSupportActionBar().setTitle(getString(R.string.myprofile));
             MyProfile(1);
         }else if (i==2){
-            getSupportActionBar().setTitle("My Order");
+            getSupportActionBar().setTitle(getString(R.string.myorder));
             MyOrder(2);
 
         }else if (i==3){
-            getSupportActionBar().setTitle("Offer");
+            getSupportActionBar().setTitle(getString(R.string.Offer));
             offer(3);
 
         }else if (i==4){
-            getSupportActionBar().setTitle("Subscription");
+            getSupportActionBar().setTitle(getString(R.string.subscription));
             Subscription(4);
 
         }else if (i==5){
-            getSupportActionBar().setTitle("Shop By Category");
+            getSupportActionBar().setTitle(getString(R.string.shopByCat));
             ShopByCat(5);
 
         }else if (i==6){
-            getSupportActionBar().setTitle("Rate Our App");
+            getSupportActionBar().setTitle(getString(R.string.rate));
             rate(6);
 
         }else if (i==7){
-            getSupportActionBar().setTitle("Contact us");
+            getSupportActionBar().setTitle(getString(R.string.contact));
             contact(7);
 
         }else if (i==8){
-            getSupportActionBar().setTitle("Refer a Friend");
+            getSupportActionBar().setTitle(getString(R.string.referFriend));
             referFriend(8);
 
         }else if (i==9){
-            getSupportActionBar().setTitle("About us");
+            getSupportActionBar().setTitle(getString(R.string.about));
             about(9);
 
         }else if (i==10){
-            getSupportActionBar().setTitle("FAQ");
+            getSupportActionBar().setTitle(getString(R.string.faq1));
             faq(10);
 
         }
@@ -302,9 +278,12 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
     public void getNavViewData() {
 
         if (!user_image.equals("null")){
-            Glide.with(drawer.this)
+           /* Glide.with(Home.this)
                     .load(BaseURL.profile_url+user_image)
-                    .into(user_dp);
+                    .into(user_dp);*/
+            Global.loadGlideImage(Home.this,user_image,BaseURL.profile_url+user_image,user_dp);
+
+
         }else{
             user_dp.setImageResource(R.mipmap.ic_launcher);
         }
@@ -321,16 +300,7 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
     }
 
 
-    @Override
-    public void onBackPressed() {
-         drawer1 = findViewById(R.id.drawer_layout);
-        if (drawer1.isDrawerOpen(GravityCompat.START)) {
-            drawer1.closeDrawer(GravityCompat.START);
-        } else {
-          //  rel_homefrag.setVisibility(View.VISIBLE);
-            super.onBackPressed();
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -346,20 +316,17 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
         switch(item.getItemId())
         {
             case R.id.action_notification:
-                getSupportActionBar().setTitle("Notification");
-                OpenMainFragment(new Notification_Fragment(), -1);
+                getSupportActionBar().setTitle(getString(R.string.notification));
+                OpenMainFragment(new Notification_Fragment(), 11);
                 break;
         }
         return true;
-
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void Home(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Home"));
+        transaction.replace(R.id.mainFrame, new MainContainer_Fragment(getString(R.string.home)));
         transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
        // OpenMainFragment(new MainContainer_Fragment("Home"));
@@ -378,16 +345,16 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
 
     }
 
-    public void Wallet(){
+    public void Wallet(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Wallet"));
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.mainFrame, new MainContainer_Fragment(getString(R.string.wallet)));
+        transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
         //  OpenMainFragment(new MainContainer_Fragment("Subscription"));
     }
     public void Subscription(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFrame, new MainContainer_Fragment("Subscription"));
+        transaction.replace(R.id.mainFrame, new MainContainer_Fragment(getString(R.string.subscription)));
         transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
       //  OpenMainFragment(new MainContainer_Fragment("Subscription"));
@@ -396,7 +363,7 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void ShopByCat(int i){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFrame, new MainContainer_Fragment("ShopByCat"));
+        transaction.replace(R.id.mainFrame, new MainContainer_Fragment(getString(R.string.shopByCat)));
         transaction.addToBackStack(String.valueOf(i));
         transaction.commit();
       //  OpenMainFragment(new MainContainer_Fragment("ShopByCat"));
@@ -452,14 +419,12 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
                     if (status.contains("1")) {
                         if (session_management.isLoggedIn()){
                             session_management.logoutSession();
-                            Intent intent=new Intent(drawer.this, Login.class);
+                            Intent intent=new Intent(Home.this, Login.class);
                             startActivity(intent);
                         }
 
                     } else {
-
                         Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -483,7 +448,7 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
 
     private void OpenMainFragment(Fragment target_frag, int i) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        getSupportFragmentManager().addOnBackStackChangedListener(drawer.this);
+        getSupportFragmentManager().addOnBackStackChangedListener(Home.this);
         transaction.replace(R.id.mainFrame, target_frag);
         Log.e("fragmentTagiiii",String.valueOf(i));
         transaction.addToBackStack(String.valueOf(i));
@@ -492,97 +457,120 @@ public class drawer extends BaseActivity implements  FragmentManager.OnBackStack
     }
 
 
-    public void startpayment(String pay) {
-        Checkout checkout = new Checkout();
-
-//        checkout.setImage(R.mipmap.ic_launcher);
-        // final Activity activity = this;
-        final Activity activity = drawer.this;
-        int price_rs = Integer.parseInt(pay);
-        try {
-            JSONObject options = new JSONObject();
-
-            /**
-             * Merchant Name
-             * eg: ACME Corp || HasGeek etc.
-             */
-            options.put("name",user_name);
-            options.put("description","Add Amount in Wallet");
-            //YOU CAN OMIT THE IMAGE OPTION TO FETCH THE IMAGE FROM DASHBOARD
-            options.put("image","https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("currency","INR");
-            /**
-             * Amount is always passed in currency subunits
-             * Eg: "500" = INR 5.00
-             */
-            options.put("amount",price_rs*100);
-
-            JSONObject prefill = new JSONObject();
-            prefill.put("email", user_email);
-            prefill.put("contact",user_nmbr);
-
-            options.put("prefill",prefill);
-
-
-            checkout.open(activity, options);
-        } catch(Exception e) {
-            Log.e("cds", "Error in starting Razorpay Checkout", e);
-        }
-
-
-    }
-
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
         getNavViewData();
-        Log.e("navigationView","onResume");
     }
 
     @Override
     public void onBackStackChanged() {
 
         String fragmentTag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-        Log.e("taggg",fragmentTag);
         adapterMenu1.setSelectedItem(Integer.parseInt(fragmentTag));
         adapterMenu1.notifyDataSetChanged();
+        Log.e("fragmentTag",fragmentTag);
 
         if (Integer.parseInt(fragmentTag)==0){
-            getSupportActionBar().setTitle("Milk Delight");
+            getSupportActionBar().setTitle(getString(R.string.app_name));
 
         }else if (Integer.parseInt(fragmentTag)==1){
-            getSupportActionBar().setTitle("My Profile");
+            getSupportActionBar().setTitle(getString(R.string.myprofile));
 
         }else if (Integer.parseInt(fragmentTag)==2){
-            getSupportActionBar().setTitle("My Order");
+            getSupportActionBar().setTitle(getString(R.string.myorder));
 
         }else if (Integer.parseInt(fragmentTag)==3){
-            getSupportActionBar().setTitle("Offer");
+            getSupportActionBar().setTitle(getString(R.string.Offer));
 
         }else if (Integer.parseInt(fragmentTag)==4){
-            getSupportActionBar().setTitle("Subscription");
+            getSupportActionBar().setTitle(getString(R.string.subscription));
 
         }else if (Integer.parseInt(fragmentTag)==5){
-            getSupportActionBar().setTitle("Shop By Category");
+            getSupportActionBar().setTitle(getString(R.string.shopByCat));
 
         }else if (Integer.parseInt(fragmentTag)==6){
-            getSupportActionBar().setTitle("Rate Our App");
+            getSupportActionBar().setTitle(getString(R.string.rate));
 
         }else if (Integer.parseInt(fragmentTag)==7){
-            getSupportActionBar().setTitle("Contact us");
+            getSupportActionBar().setTitle(getString(R.string.contact));
 
         }else if (Integer.parseInt(fragmentTag)==8){
-            getSupportActionBar().setTitle("Refer a Friend");
+            getSupportActionBar().setTitle(getString(R.string.referFriend));
 
         }else if (Integer.parseInt(fragmentTag)==9){
-            getSupportActionBar().setTitle("About us");
+            getSupportActionBar().setTitle(getString(R.string.about));
 
         }else if (Integer.parseInt(fragmentTag)==10){
-            getSupportActionBar().setTitle("FAQ");
+            getSupportActionBar().setTitle(getString(R.string.faq1));
+
+        }else if (Integer.parseInt(fragmentTag)==11){
+            getSupportActionBar().setTitle(getString(R.string.notification));
+
+        }else if (Integer.parseInt(fragmentTag)==12){
+            getSupportActionBar().setTitle(getString(R.string.wallet));
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("satckpoint",String.valueOf(getSupportFragmentManager().getBackStackEntryCount()));
+        if (drawer1.isDrawerOpen(GravityCompat.START)) {
+                drawer1.closeDrawer(GravityCompat.START);
+        }else{
+            if (getSupportFragmentManager().getBackStackEntryCount() > 1){
+                Log.e("iffff","iffff");
+                getFragmentManager().popBackStack();
+                super.onBackPressed();
+
+            }
+            else {
+                Log.e("elseeee","elsee");
+                // finish();
+
+                Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.mainFrame);
+                if (f instanceof MainContainer_Fragment) {
+                    Log.e("truuuurrr","truuuurr");
+                    finish();
+                }else{
+                    Log.e("truuuurrr11","truuuurr11");
+                    super.onBackPressed();
+                }
+            }
+
+        }
+
+    }
+
+    public void confirmLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.logout_title)
+                .setMessage(R.string.logout_msg)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                     //   showToast("Logged Out", Toast.LENGTH_SHORT);
+                        Toast.makeText(Home.this, "Logged Out", Toast.LENGTH_SHORT).show();
+                        if (session_management.isLoggedIn()){
+                            session_management.logoutSession();
+                            Intent intent=new Intent(Home.this, Login.class);
+                            startActivity(intent);
+                        }
+
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
 }

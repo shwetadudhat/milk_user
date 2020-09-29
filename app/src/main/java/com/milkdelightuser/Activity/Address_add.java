@@ -54,9 +54,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
     String position_name, postionid;
     TextView toolTitle;
     String action;
-    List<Address_Model> addressModelList;
 
-    ArrayList<State_Model> StateName;
      String selectedStateId = "-1";
      ArrayList<Spinner1> stateItems =new ArrayList<>();
      String selectedCityId = "-1";
@@ -76,6 +74,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_address_addedit);
 
         toolTitle=findViewById(R.id.title);
+        toolTitle.setText(R.string.add_address);
 
 
         ivBack=findViewById(R.id.ivBack);
@@ -172,10 +171,6 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             loadSpiState();
        }
         action=getIntent().getStringExtra("action");
-
-        toolTitle.setText("Add Address");
-
-
 
         position_name = "City";
         postionid = "false";
@@ -293,14 +288,6 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
                                 Spinner1 spinner1=new Spinner1(city_id,city_name);
                                 cityItems.add(spinner1);
 
-//                                SpiCity.setBackground(getResources().getDrawable(R.drawable.bg_edit));
-
-                                /*SpiCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                                    @Override
-                                    public void onFocusChange(View view, boolean b) {
-                                        SpiCity.setBackground(getResources().getDrawable(R.drawable.bg_edit));
-                                    }
-                                });*/
 
                                 Log.e("cityItems",cityItems.toString());
 
@@ -336,42 +323,52 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             Toast.makeText(Edit_Address.this, "Select Locality", Toast.LENGTH_SHORT).show();
         } else*/ if (txtName.length() == 0) {
             edName.setError("Enter Name");
+            Global.showKeyBoard(Address_add.this,edName);
         //    Toast.makeText(this, "Enter Name", Toast.LENGTH_SHORT).show();
             return false;
         } else if (txtHouse.length() == 0) {
             edHouse.setError("Enter House No, Building name");
+            Global.showKeyBoard(Address_add.this,edHouse);
          //   Toast.makeText(this, "Enter House No, Building name", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtArea.length()==0){
             edArea.setError("Enter Road Name,Area ,Colony");
+            Global.showKeyBoard(Address_add.this,edArea);
           //  Toast.makeText(this, "Enter Road Name,Area ,Colony", Toast.LENGTH_SHORT).show();
             return false;
         }else if (selectedStateId .equals("-1")) {
             SpiState.setError("Please select the state");
+            Global.showKeyBoard(Address_add.this,SpiState);
             return false;
         }
         else   if (selectedCityId .equals( "-1")) {
             SpiCity.setError("Please select the city");
+            Global.showKeyBoard(Address_add.this,SpiCity);
             return false;
         }else if (txtLandmark.length()==0){
             edLandmark.setError("Enter Landmark");
+            Global.showKeyBoard(Address_add.this,edLandmark);
             //Toast.makeText(this, "Enter Landmark", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtNumber.length()==0){
             edNumber.setError("Enter Phone Number");
+            Global.showKeyBoard(Address_add.this,edNumber);
           //  Toast.makeText(this, "Enter Phone Number", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtNumber.length()!=10){
             edNumber.setError("Please Enter valid Phone Number");
+            Global.showKeyBoard(Address_add.this,edNumber);
           //  Toast.makeText(this, "Please Enter valid Phone Number", Toast.LENGTH_SHORT).show();
             return false;
         }else if (txtPincode.length()==0){
             edPincode.setError("Please Enter Pincode");
+            Global.showKeyBoard(Address_add.this,edPincode);
           //  Toast.makeText(this, "Please Enter Pincode", Toast.LENGTH_SHORT).show();
             return false;
         }
         else if (!Global.isValidPinCode(txtPincode)){
             edPincode.setError("Please Enter valid Pincode");
+            Global.showKeyBoard(Address_add.this,edPincode);
           //  Toast.makeText(this, "Please Enter valid Pincode", Toast.LENGTH_SHORT).show();
             return false;
         }else{
@@ -400,26 +397,20 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             @Override
             public void onResponse(JSONObject response) {
                 dismissDialog();
-                Log.e("city", response.toString());
+                Log.e("address_create", response.toString());
                 try {
                     String status=response.getString("status");
                     String message=response.getString("message");
 
 
-
                     if (status.equals("1")){
-                        Toast.makeText(Address_add.this, message, Toast.LENGTH_SHORT).show();
-
-                        /*Intent intent=new Intent(Address_add.this,Addresslist.class);
-                        intent.putExtra("user_id",user_id);
-                        startActivity(intent);
-                        finish();*/
-
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("user_id",user_id);
                         setResult(Activity.RESULT_OK,returnIntent);
                         finish();
 
+                    }else{
+                        Toast.makeText(Address_add.this, ""+message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -440,7 +431,6 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
 
-        finish();
     }
 
 
@@ -454,6 +444,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
                     showSpinnerSel("Select Your State",SpiState, stateItems, true, new SpinnerCallback() {
                         @Override
                         public void onDone(ArrayList<Spinner1> list) {
+                            Log.e("listttttt",list.toString());
                             selectedStateId = list.get(0).ID;
                             SpiState.setText(list.get(0).title);
 

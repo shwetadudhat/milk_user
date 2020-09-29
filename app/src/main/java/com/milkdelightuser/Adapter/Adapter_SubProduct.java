@@ -45,10 +45,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import static android.content.Context.MODE_PRIVATE;
 import static com.milkdelightuser.utils.Global.MY_PLAN_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_STARTDATE_PREFS_NAME;
-import static com.milkdelightuser.utils.Global.MY_SUBSCRIPTION_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.PLAN_DATA;
 import static com.milkdelightuser.utils.Global.STARTDATE_DATA;
-import static com.milkdelightuser.utils.Global.SUB_DATA;
 
 
 public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.holder> {
@@ -59,7 +57,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     ArrayList<PlanSelected_model> planSelectedModelArrayList,planSelectedModelArrayList1;
     ArrayList<StartDate_Model> stardateList,stardateList1;
     ArrayList<SubscriptioAddProduct_model> subProductList;
-    ClickPosition clickPosition;
 
     RecyclerView recycler_frq;
     Adapter_FreqPlan adapterFreqPlan;
@@ -73,6 +70,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     int plan_idd;
 
     SharedPreferences sharedPreferences,sharedPreferences1;
+    SharedPreferences.Editor myEdit1,myEdit2;
+
     Gson gson;
     String json,json1;
 
@@ -100,7 +99,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-        View view = inflater.inflate(R.layout.cart3, null, false);
+        View view = inflater.inflate(R.layout.listitem_subcart, null, false);
         context = viewGroup.getContext();
         return new holder(view);    }
 
@@ -112,6 +111,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         sharedPreferences = context.getSharedPreferences(MY_PLAN_PREFS_NAME, MODE_PRIVATE);
         sharedPreferences1 = context.getSharedPreferences(MY_STARTDATE_PREFS_NAME, MODE_PRIVATE);
+        myEdit1 = sharedPreferences.edit();
+        myEdit2 = sharedPreferences1.edit();
 
 
 
@@ -120,12 +121,17 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         json1 = sharedPreferences1.getString(STARTDATE_DATA, "");
 
         Log.e("productimage",map.get("product_image"));
-        Glide.with(context)
+      /*  Glide.with(context)
                 .load(map.get("product_image"))
 
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
-                .into(holder.ivproImage);
+                .into(holder.ivproImage);*/
+
+        Global.loadGlideImage(context,map.get("product_image"), map.get("product_image"),holder.ivproImage);
+
+
+        Log.e("mapPrice",map.get("price"));
 
         holder.tvproName.setText(map.get("product_name")+" ("+map.get("unit")+")");
         holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(context, Double.valueOf(map.get("price"))))));
@@ -141,19 +147,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         tardetDate = df1.format(c);
 
-        if (!json.isEmpty()) {
-            Type type = new TypeToken<List<PlanSelected_model>>() {}.getType();
-            planSelectedModelArrayList1= gson.fromJson(json, type);
-            Log.e("preffff_planlist====>",planSelectedModelArrayList1.toString());
-        }
 
-        if (!json1.isEmpty()) {
-            Type type = new TypeToken<List<PlanSelected_model>>() {}.getType();
-            stardateList1= gson.fromJson(json1, type);
-            Log.e("preffff_startlist====>",stardateList1.toString());
-        }
-
-  /*      StartDate_Model startDate_model=new StartDate_Model();
+        StartDate_Model startDate_model=new StartDate_Model();
         startDate_model.setProdcut_id(map.get("product_id"));
         startDate_model.setProduct_qty(map.get("qty"));
 
@@ -161,7 +156,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         if (!json1.isEmpty()) {
             Type type = new TypeToken<List<StartDate_Model>>() {}.getType();
             stardateList1= gson.fromJson(json1, type);
-            Log.e("stardateList_frompref",stardateList1.toString());
+            Log.e("stardateList==>frompref",stardateList1.toString());
             for (int k=0;k<stardateList1.size();k++){
                 if (map.get("product_id").equals(stardateList1.get(k).getProdcut_id())){
                     Log.e("startdateeeepref",stardateList1.get(k).getStart_date());
@@ -171,6 +166,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                    break;
                 }else{
                     holder.freqDate.setText(tardetDate12);
                     startDate_model.setStart_date(tardetDate);
@@ -178,12 +174,36 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             }
 
         }else{
+
             holder.freqDate.setText(tardetDate12);
             startDate_model.setStart_date(tardetDate);
         }
 
-        stardateList.add(startDate_model);
-        Log.e("stardateList1234",stardateList.toString());*/
+
+        Log.e("stardateList1234",stardateList.toString());
+
+        if (stardateList.size()>0){
+            for (int j=0;j<stardateList.size();j++){
+                if (stardateList.get(j).getProdcut_id().equals(map.get("product_id"))){
+                    stardateList.remove(j);
+                }
+            }
+            stardateList.add(startDate_model);
+        }else{
+            stardateList.add(startDate_model);
+        }
+
+
+       // AddDateToPref(stardateList1);
+
+
+        Log.e("stardateList",stardateList.toString());
+
+        if (mEventListener!=null){
+            mEventListener.onDateClicked(i,map.get("product_id"),stardateList);
+            //  mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
+        }
+
 
         holder.freqDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,13 +244,15 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                                     stardateList.add(startDate_model);
                                 }
 
-                                notifyDataSetChanged();
+
+
 
                                 Log.e("stardateList",stardateList.toString());
 
+                                AddDateToPref(stardateList1);
+
                                 if (mEventListener!=null){
                                     mEventListener.onDateClicked(i,map.get("product_id"),stardateList);
-                                    //  mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
                                 }
 
 
@@ -241,27 +263,18 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         });
 
 
-
         adapterFreqPlan = new Adapter_FreqPlan(context, planModelList,i);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycler_frq.setLayoutManager(gridLayoutManager);
-        recycler_frq.setAdapter(adapterFreqPlan);
 
-
-     /*   PlanSelected_model planSelected_model=new PlanSelected_model();
+        PlanSelected_model planSelected_model=new PlanSelected_model();
         planSelected_model.setId(String.valueOf(i));
         planSelected_model.setProduct_name(map.get("product_name"));
         planSelected_model.setProduct_id(map.get("product_id"));
 
-
-
-
-
         if (!json.isEmpty()) {
             Type type = new TypeToken<List<PlanSelected_model>>() {}.getType();
             planSelectedModelArrayList1= gson.fromJson(json, type);
+            Log.e("planllist1==>frompref",planSelectedModelArrayList1.toString());
             for (int k=0;k<planSelectedModelArrayList1.size();k++){
                 if (map.get("product_name").equals(planSelectedModelArrayList1.get(k).getProduct_name())){
 
@@ -274,27 +287,29 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                         adapterFreqPlan.setSelectedItem(0);
                     }else if (planSelectedModelArrayList1.get(k).getPlan_id().equals("2")){
                         adapterFreqPlan.setSelectedItem(1);
-                    }if (planSelectedModelArrayList1.get(k).getPlan_id().equals("3")){
+                    }else if (planSelectedModelArrayList1.get(k).getPlan_id().equals("3")){
                         adapterFreqPlan.setSelectedItem(2);
-                    }if (planSelectedModelArrayList1.get(k).getPlan_id().equals("4")){
+                    }else if (planSelectedModelArrayList1.get(k).getPlan_id().equals("4")){
                         adapterFreqPlan.setSelectedItem(3);
+                    }else{
+                        adapterFreqPlan.setSelectedItem(-1);
                     }
 
 
                     Log.e("skipppadayyy",planSelectedModelArrayList1.get(k).getSkip_day());
                     planSelected_model.setPlan_id(planSelectedModelArrayList1.get(k).getPlan_id());
                     planSelected_model.setSkip_day(planSelectedModelArrayList1.get(k).getSkip_day());
-                    planSelected_model.setStart_date(getDate(stardateList,map));
 
-//                    adapterFreqPlan.notifyDataSetChanged();
+
+                    break;
+
 
                 }else{
                     adapterFreqPlan.setSelectedItem(-1);
                     planSelected_model.setPlan_id("-1");
                     planSelected_model.setSkip_day("0");
-                    planSelected_model.setStart_date(tardetDate);
 
-//                    adapterFreqPlan.notifyDataSetChanged();
+
                 }
             }
 
@@ -302,16 +317,38 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             adapterFreqPlan.setSelectedItem(-1);
             planSelected_model.setPlan_id("-1");
             planSelected_model.setSkip_day("0");
-            planSelected_model.setStart_date(tardetDate);
-
-//            adapterFreqPlan.notifyDataSetChanged();
 
         }
 
-        planSelectedModelArrayList.add(planSelected_model);
+        //  planSelectedModelArrayList.add(planSelected_model);
+        if (planSelectedModelArrayList.size()>0){
+            for (int j=0;j<planSelectedModelArrayList.size();j++){
+                if (planSelectedModelArrayList.get(j).getProduct_id().equals(map.get("product_id"))){
+
+                    planSelectedModelArrayList.remove(j);
+                }
+            }
+            planSelectedModelArrayList.add(planSelected_model);
+        }else{
+            planSelectedModelArrayList.add(planSelected_model);
+        }
+
 
         Log.e("planSelectList123",planSelectedModelArrayList.toString());
-*/
+//        AddPlanToPref(planSelectedModelArrayList);
+
+        if (mEventListener != null)
+            mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
+
+        //  adapterFreqPlan.setSelectedItem(-1);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler_frq.setLayoutManager(gridLayoutManager);
+        recycler_frq.setAdapter(adapterFreqPlan);
+
+
+
 
         adapterFreqPlan.setEventListener(new Adapter_FreqPlan.EventListener() {
             @Override
@@ -335,7 +372,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                 planSelected_model.setProduct_id(map.get("product_id"));
                 planSelected_model.setPlan_id(String.valueOf(planId));
                 planSelected_model.setSkip_day(planSkipDay);
-                planSelected_model.setStart_date(getDate(stardateList,map));
 
                 if (planSelectedModelArrayList.size()>0){
                     for (int j=0;j<planSelectedModelArrayList.size();j++){
@@ -349,7 +385,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     planSelectedModelArrayList.add(planSelected_model);
                 }
 
-                notifyDataSetChanged();
+                AddPlanToPref(planSelectedModelArrayList);
 
                 Log.e("planSelectList",planSelectedModelArrayList.toString());
                 if (mEventListener != null)
@@ -444,15 +480,38 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                         list.remove(i);
 
 
-                        Log.e("startdateList_remove",stardateList1.toString());
-                        Log.e("planselectedList_remove",planSelectedModelArrayList1.toString());
+
+                        for (int j=0;j<stardateList.size();j++){
+                            if (stardateList.get(j).getProdcut_id().equals(map.get("product_id"))){
+                                stardateList.remove(j);
+                                break;
+                            }
+                        }
+
+                        for (int j=0;j<planSelectedModelArrayList.size();j++){
+                            if (planSelectedModelArrayList.get(j).getProduct_id().equals(map.get("product_id"))){
+                                planSelectedModelArrayList.remove(j);
+                                break;
+                            }
+                        }
+
+                       /* AddDateToPref(stardateList);
+                        AddPlanToPref(planSelectedModelArrayList);*/
+                       if (list.size()==0){
+                           myEdit1.clear().apply();
+                           myEdit2.clear().apply();
+                       }
+
+                        notifyDataSetChanged();
+
+                        Log.e("startdate_remove===>1",stardateList.toString());
+                        Log.e("planselectedList_remove",planSelectedModelArrayList.toString());
+
 
                         if (mEventListener!=null){
                             mEventListener.onQtyClicked(i,map.get("product_id"));
                             //  mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
                         }
-
-                        notifyDataSetChanged();
 
 
                     }
@@ -461,6 +520,31 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             }
         });
 
+    }
+
+    public void AddDateToPref(ArrayList<StartDate_Model> stardateList1){
+        if (stardateList1.size()>0){
+            myEdit2.clear().apply();
+            gson = new Gson();
+
+            Log.e("stardateList1==>pref",stardateList1.toString());
+            json1 = gson.toJson(stardateList1);
+            myEdit2.putString(STARTDATE_DATA, json1);
+            myEdit2.commit();
+        }
+
+    }
+
+    private void AddPlanToPref(ArrayList<PlanSelected_model> planSelectedModelArrayList) {
+        if (planSelectedModelArrayList.size()>0){
+            myEdit1.clear().apply();
+            gson = new Gson();
+
+            json = gson.toJson(planSelectedModelArrayList);
+            Log.e("planList==>pref",planSelectedModelArrayList.toString());
+            myEdit1.putString(STARTDATE_DATA, json);
+            myEdit1.commit();
+        }
     }
 
     public String getDate(ArrayList<StartDate_Model> stardateList, HashMap<String, String> map ){
@@ -498,6 +582,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         }
     }
+
+
 
     public interface EventListener {
         void onQtyClicked(int position, String product_id);

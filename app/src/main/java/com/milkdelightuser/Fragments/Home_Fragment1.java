@@ -1,5 +1,7 @@
 package com.milkdelightuser.Fragments;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,16 +15,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+
+
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.milkdelightuser.Activity.ProductListing;
 import com.milkdelightuser.Adapter.Adapter_BestProduct;
 import com.milkdelightuser.Adapter.Adapter_HomeCat;
@@ -41,6 +50,7 @@ import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.MemberItemDecoration;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +76,6 @@ import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.GST_DATA;
 import static com.milkdelightuser.utils.Global.MY_GST_PREFS_NAME;
 
-/*import com.viewpagerindicator.CirclePageIndicator;*/
 
 
 public class Home_Fragment1 extends BaseFragment  {
@@ -80,6 +89,7 @@ public class Home_Fragment1 extends BaseFragment  {
     RecyclerView recycler_SellingProduct, recycler_cat, recycler_BestProduct;
 
     VideoView videoview;
+    WebView webView;
     ImageView ivYouTube;
     public boolean isPlaying1=false;
 
@@ -98,13 +108,15 @@ public class Home_Fragment1 extends BaseFragment  {
     List<App_Product_Model> productModelList;
     List<AppCategory_Model> appCategoryModelList;
 
-    RelativeLayout RlbestSelling,rlCatttt,Rlbestproduct;
+    RelativeLayout RlbestSelling,rlCatttt,Rlbestproduct,RlbannerView,RlVideo;
 
     RelativeLayout rv_container,rv_null;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
 
+
+    YouTubePlayerView youTubePlayerView;
 
     public Home_Fragment1() {
         // Required empty public -constructor
@@ -117,10 +129,6 @@ public class Home_Fragment1 extends BaseFragment  {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-      //  search.setOnQueryTextListener((SearchView.OnQueryTextListener) getContext());
-
-
         return view;
     }
 
@@ -132,15 +140,31 @@ public class Home_Fragment1 extends BaseFragment  {
         search=view.findViewById(R.id.search);
         editSearch=view.findViewById(R.id.editSearch);
 
-
+        RlbannerView=view.findViewById(R.id.RlbannerView);
+        RlVideo=view.findViewById(R.id.RlVideo);
         RlbestSelling=view.findViewById(R.id.RlbestSelling);
         rlCatttt=view.findViewById(R.id.rlCatttt);
         Rlbestproduct=view.findViewById(R.id.Rlbestproduct);
 
         videoview = (VideoView)view.findViewById(R.id.videoview);
+
+//        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
+
+
+
+
+       /* youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                String videoId = "S0Q4gqBUs7c";
+                youTubePlayer.loadVideo(videoId, 0);
+            }
+        });*/
+
         ivYouTube = view.findViewById(R.id.ivYouTube);
         rv_container = view.findViewById(R.id.rv_container);
         rv_null = view.findViewById(R.id.rv_null);
+
 
 
         recycler_SellingProduct=view.findViewById(R.id.recycler_SellingProduct);
@@ -205,22 +229,13 @@ public class Home_Fragment1 extends BaseFragment  {
                 Log.e("gstTag", response.toString());
                 try {
                     String status=response.getString("status");
-                    String message=response.getString("message");
-
 
                     if(status.equals("1")){
                         JSONObject jsonObject=response.getJSONObject("data");
-                        String id=jsonObject.getString("id");
-                        String gst=jsonObject.getString("gst");
-                        String sgst=jsonObject.getString("sgst");
-
-
                         myEdit.putString(GST_DATA, jsonObject.toString());
                         myEdit.commit();
 
-
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -232,8 +247,6 @@ public class Home_Fragment1 extends BaseFragment  {
                 Log.e("error1234",error.toString());
                 dismissDialog();
                 showToast("" + error);
-                //  rv_null.setVisibility(View.VISIBLE);
-                //  rv_container.setVisibility(View.GONE);
 
             }
         });
@@ -275,7 +288,12 @@ public class Home_Fragment1 extends BaseFragment  {
 
                         dismissDialog();
 
-                        setUpBannerSlider1(view_pager_banner,indicator_banner,home_banner,banner_url);
+                        if (home_banner.length()>0){
+                            setUpBannerSlider1(view_pager_banner,indicator_banner,home_banner,banner_url);
+                        }else{
+                            RlbannerView.setVisibility(View.GONE);
+                        }
+
 
                         if (selling_product.length()>0){
                             setUpSellingProduct(selling_product,product_url);
@@ -295,8 +313,11 @@ public class Home_Fragment1 extends BaseFragment  {
                             Rlbestproduct.setVisibility(View.GONE);
                         }
 
-                        VideoViewFun(video_link);
-
+                        if (video_link.equals("") || video_link.equals("null") ){
+                            RlVideo.setVisibility(View.GONE);
+                        }else{
+                            VideoViewFun(video_link);
+                        }
 
                     }
 
@@ -363,6 +384,8 @@ public class Home_Fragment1 extends BaseFragment  {
     private void setUpBestProduct(JSONArray base_product, String product_url) {
         productModelList=new ArrayList<>();
 
+        Log.e("base_productres",base_product.toString());
+
         App_Product_Model appProductModel;
 
         for (int i=0;i<base_product.length();i++){
@@ -371,6 +394,7 @@ public class Home_Fragment1 extends BaseFragment  {
             try {
                 jsonObject = base_product.getJSONObject(i);
                 String product_id = jsonObject.getString("product_id");
+                String category_id = jsonObject.getString("category_id");
                 String product_name = jsonObject.getString("product_name");
                 String price = jsonObject.getString("price");
                 String subscription_price = jsonObject.getString("subscription_price");
@@ -381,9 +405,12 @@ public class Home_Fragment1 extends BaseFragment  {
                 String unit = jsonObject.getString("unit");
                 String total = jsonObject.getString("total");
                 String mrp = jsonObject.getString("mrp");
+                String gst = jsonObject.getString("gst");
 
                 appProductModel=new App_Product_Model();
+                appProductModel.setGst(gst);
                 appProductModel.setProduct_id(product_id);
+                appProductModel.setCategory_id(category_id);
                 appProductModel.setProduct_name(product_name);
                 appProductModel.setPrice(price);
                 appProductModel.setSubscription_price(subscription_price);
@@ -443,8 +470,10 @@ public class Home_Fragment1 extends BaseFragment  {
                 String unit = jsonObject.getString("unit");
                 String total = jsonObject.getString("total");
                 String mrp = jsonObject.getString("mrp");
+                String gst = jsonObject.getString("gst");
 
                 appProductModel=new App_Product_Model();
+                appProductModel.setGst(gst);
                 appProductModel.setProduct_id(product_id);
                 appProductModel.setCategory_id(category_id);
                 appProductModel.setProduct_name(product_name);
@@ -567,29 +596,34 @@ public class Home_Fragment1 extends BaseFragment  {
 
 
     private void VideoViewFun(String link) {
+     //   getLifecycle().addObserver(youTubePlayerView);
 
 
-      /*  DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int h = displaymetrics.heightPixels;
-        int w = displaymetrics.widthPixels;
+       /* youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                String videoId = "zxQXEyMMC0E";
+                youTubePlayer.loadVideo(videoId, 0);
+            }
+        });*/
 
-        videoview.setLayoutParams(new RelativeLayout.LayoutParams(w,400));
-*/
+
         /*Uri uri = Uri.parse(link);
         videoview.setMediaController(new MediaController(getContext()));
         videoview.setVideoURI(uri);
         videoview.requestFocus();
         videoview.start();*/
 
+
         videoview.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
 
         Uri video = Uri.parse(link);
     //    videoview.setVideoURI(video);
+        Uri uri = Uri.parse("https://www.youtube.com/watch?v=h1Xp7p1taW0&ab_channel=AmulTheTasteofIndia");
+        /*https://www.youtube.com/watch?v=OfscxuLO_GI&t=4s*/
 
 
         Log.e("linkkkkkk",link);
-     //   videoview.setVideoPath(link);
         ivYouTube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -630,13 +664,13 @@ public class Home_Fragment1 extends BaseFragment  {
     }
 
 
-   /* setVideoURI(Uri uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(this.getContext(), uri);
-        mVideoWidth = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-        mVideoHeight = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-        super.setVideoURI(uri);
-    }*/
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+//        youTubePlayerView.release();
+    }
+
+
 
 }
 

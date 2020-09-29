@@ -48,7 +48,7 @@
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Upi"
+            android:text="@string/upi"
             android:id="@+id/upi"
             android:fontFamily="@font/ubuntu_bold"
             android:textSize="@dimen/_16sdp"
@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="Amazon"/>
+            android:text="@string/amazon"/>
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="Billpay Web"/>
+            android:text="@string/billpay_web"/>
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="Gpay"/>
+            android:text="@string/gpay"/>
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
@@ -106,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="PhonePe"/>
+            android:text="@string/phonepe"/>
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="Check PhonePe"/>
+            android:text="@string/check_phonepe"/>
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
@@ -130,6 +130,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_bluebtn"
-            android:text="GPay Ready"/>
+            android:text="@string/gpay_ready"/>
     </LinearLayout>
 </RelativeLayout>

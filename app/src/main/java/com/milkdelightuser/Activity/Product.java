@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,9 +73,7 @@ public class Product extends BaseActivity {
     private static int NUM_PAGES = 0;
     CirclePageIndicator indicator;
 
-
     private DatabaseHandler db;
-
 
 
     /*tool bar*/
@@ -99,16 +98,20 @@ public class Product extends BaseActivity {
     String u_id;
     float  txtrate;
 
+    LinearLayout ll_main;
+    RelativeLayout reltive_null;
+
+    String product_id1,category_id1,product_name,description,price,subscription_price,proImgae,qty1,unit,stock;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_product);
+        setContent();
 
-        toolbar=findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
-        toolTitle=findViewById(R.id.title);
+
 
         db = new DatabaseHandler(getActivity());
 
@@ -116,7 +119,7 @@ public class Product extends BaseActivity {
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
 
 
-        ivBack=findViewById(R.id.ivBack);
+
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,13 +127,12 @@ public class Product extends BaseActivity {
             }
         });
 
-        ivNotify=findViewById(R.id.ivNotify);
-        ivNotify.setVisibility(View.VISIBLE);
+
 
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Product.this,drawer.class);
+                Intent intent=new Intent(Product.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
                 finish();
@@ -138,27 +140,6 @@ public class Product extends BaseActivity {
         });
 
 
-        pager = (ViewPager)findViewById(R.id.view_pager_product);
-        indicator = findViewById(R.id.indicator_product);
-        itemName = findViewById(R.id.itemName);
-        itemPrice = findViewById(R.id.itemPrice);
-        tvMrp = findViewById(R.id.tvMrp);
-
-        tvRate = findViewById(R.id.tvRate);
-        rating = findViewById(R.id.rating);
-        tvQtyDec = findViewById(R.id.tvQtyDec);
-        tvQty = findViewById(R.id.tvQty);
-        tvQtyInc = findViewById(R.id.tvQtyInc);
-        tvProDesc = findViewById(R.id.tvProDesc);
-        tvItemType = findViewById(R.id.tvItemType);
-        tvItemFat = findViewById(R.id.tvItemFat);
-        tvItemWeight = findViewById(R.id.tvItemWeight);
-        tvItemMilkType = findViewById(R.id.tvItemMilkType);
-        allReview = findViewById(R.id.allReview);
-        addReview = findViewById(R.id.addReview);
-        recycler_review = findViewById(R.id.recycler_review);
-        ll_schedule = findViewById(R.id.ll_schedule);
-        ll_cart = findViewById(R.id.ll_cart);
 
         proname=getIntent().getStringExtra("proname");
         proId=getIntent().getStringExtra("proId");
@@ -175,7 +156,7 @@ public class Product extends BaseActivity {
                 builder.setView(dialogView);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.setCancelable(true);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
                 RatingBar rate=dialogView.findViewById(R.id.rate);
@@ -212,6 +193,31 @@ public class Product extends BaseActivity {
         ll_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (tvQty.getText().toString().equals("0")){
+                    Log.e("iffff","ifff");
+                    int count=1;
+                    tvQty.setText(String.valueOf(count));
+                    if (tvQty.getText().toString().contains("1")) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("product_id", product_id1);
+                        map.put("product_name", product_name);
+                        map.put("category_id", category_id1);
+                        map.put("product_description", description);
+                        map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
+                        map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                        map.put("product_image", proImgae);
+                        map.put("unit", qty1+" "+unit);
+                        map.put("stock", stock);
+                        db.setCart(map, Float.valueOf(count));
+
+                        Log.e("settt","settt");
+                    }
+                    Intent intent=new Intent(Product.this,subscription2.class);
+                    intent.putExtra("schedule","schedule");
+                    intent.putExtra("product_id",proId);
+                    startActivity(intent);
+                    finish();
+                }
                 Intent intent=new Intent(Product.this,subscription2.class);
                 intent.putExtra("schedule","schedule");
                 intent.putExtra("product_id",proId);
@@ -238,19 +244,14 @@ public class Product extends BaseActivity {
             showDialog(" ");
            // cat_banner();
             getProductDetail(proId);
-
             getReviewList(proId);
-
-
         }
-
 
         Log.e("rateModelList123", String.valueOf(rateModelList));
 
-
-
-
     }
+
+
 
     public void getProductDetail(String proId) {
 
@@ -275,19 +276,19 @@ public class Product extends BaseActivity {
                         JSONObject jsonObject=response.getJSONObject("data");
                         JSONObject product_details=jsonObject.getJSONObject("product_details");
 
-                        String product_id1 = product_details.getString("product_id");
-                        String category_id1 = product_details.getString("category_id");
-                        String product_name = product_details.getString("product_name");
+                        product_id1 = product_details.getString("product_id");
+                        category_id1 = product_details.getString("category_id");
+                        product_name = product_details.getString("product_name");
                         String category_name = product_details.getString("category_name");
-                        String price = String.valueOf(Double.valueOf(product_details.getString("price"))+ Math.round( Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
-                        String subscription_price = String.valueOf(Double.valueOf(product_details.getString("subscription_price"))+ Math.round(  Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
+                        price = String.valueOf(Double.valueOf(product_details.getString("price"))+ Math.round( Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
+                        subscription_price = String.valueOf(Double.valueOf(product_details.getString("subscription_price"))+ Math.round(  Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
 
 //                        String subscription_price = product_details.getString("subscription_price");
-                        String qty1 = product_details.getString("qty");
+                        qty1 = product_details.getString("qty");
                         String product_image1 = product_details.getString("product_image");
-                        String description = product_details.getString("description");
-                        String stock = product_details.getString("stock");
-                        String unit = product_details.getString("unit");
+                        description = product_details.getString("description");
+                        stock = product_details.getString("stock");
+                        unit = product_details.getString("unit");
                         String mrp = String.valueOf(Double.valueOf(product_details.getString("mrp"))+ Math.round( Global.getTax(Product.this, Double.valueOf(product_details.getString("mrp")))));
 
                     //    String mrp = product_details.getString("mrp");
@@ -295,8 +296,9 @@ public class Product extends BaseActivity {
                         String product_url = product_details.getString("product_url");
                         String milk_type = product_details.getString("milk_type");
                         String fat = product_details.getString("fat");
+                        String gst = product_details.getString("gst");
 
-                        String proImgae=product_url+product_image1;
+                        proImgae=product_url+product_image1;
 
                        // float ratting1 = 0;
                         String ratting123=null;
@@ -332,12 +334,28 @@ public class Product extends BaseActivity {
 
                         rating.setRating(Float.parseFloat(ratting123));
 
-                        tvRate.setText(product_review_count+" Ratings");
+                        tvRate.setText(product_review_count+getString(R.string.rate1));
 
                         JSONArray product_images=jsonObject.getJSONArray("product_images");
                         setUpProductSlider1(pager,indicator,product_images,product_url);
 
                         itemName.setText(product_name+" ("+qty1+" "+unit+")");
+
+                        if (!gst.equals("null")){
+                           /* holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+                            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
+                            */
+                            itemPrice.setText(MainActivity.currency_sign +  String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(Product.this, Double.parseDouble(price),Double.parseDouble(gst)))));
+                            tvMrp.setText( MainActivity.currency_sign + String.valueOf(Math.round(Double.parseDouble(mrp))+ Math.round(Global.getTax1(Product.this, Double.parseDouble(mrp),Double.parseDouble(gst)))));
+
+                        }else{
+                           /* holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
+                            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
+                           */
+                            tvMrp.setText( MainActivity.currency_sign + Math.round(Float.parseFloat(mrp)));
+                            tvMrp.setText( MainActivity.currency_sign + Math.round(Float.parseFloat(mrp)));
+
+                        }
 
 
                         itemPrice.setText(MainActivity.currency_sign + Math.round(Float.parseFloat(price)));
@@ -349,6 +367,7 @@ public class Product extends BaseActivity {
 
                         if (db.isInCart(proId)) {
                             tvQty.setText(db.getCartItemQty(proId));
+                            Log.e("addddd","dbaddd");
                         } else{
                             tvQty.setText("0");
                         }
@@ -604,7 +623,7 @@ public class Product extends BaseActivity {
                         JSONObject jsonObject=response.getJSONObject("data");
                         JSONArray jsonArray=jsonObject.getJSONArray("review_list");
 
-                        allReview.setText("All Reviews("+jsonArray.length()+")");
+                        allReview.setText(getString(R.string.all_review)+" ("+jsonArray.length()+")");
 
                         String profile_url=jsonObject.getString("profile_url");
 
@@ -657,6 +676,41 @@ public class Product extends BaseActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
 
+    }
+
+    private void setContent() {
+        toolbar=findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
+        toolTitle=findViewById(R.id.title);
+        ll_main=findViewById(R.id.lim);
+
+        ivBack=findViewById(R.id.ivBack);
+
+        ivNotify=findViewById(R.id.ivNotify);
+        ivNotify.setVisibility(View.VISIBLE);
+
+
+        pager = (ViewPager)findViewById(R.id.view_pager_product);
+        indicator = findViewById(R.id.indicator_product);
+        itemName = findViewById(R.id.itemName);
+        itemPrice = findViewById(R.id.itemPrice);
+        tvMrp = findViewById(R.id.tvMrp);
+
+        tvRate = findViewById(R.id.tvRate);
+        rating = findViewById(R.id.rating);
+        tvQtyDec = findViewById(R.id.tvQtyDec);
+        tvQty = findViewById(R.id.tvQty);
+        tvQtyInc = findViewById(R.id.tvQtyInc);
+        tvProDesc = findViewById(R.id.tvProDesc);
+        tvItemType = findViewById(R.id.tvItemType);
+        tvItemFat = findViewById(R.id.tvItemFat);
+        tvItemWeight = findViewById(R.id.tvItemWeight);
+        tvItemMilkType = findViewById(R.id.tvItemMilkType);
+        allReview = findViewById(R.id.allReview);
+        addReview = findViewById(R.id.addReview);
+        recycler_review = findViewById(R.id.recycler_review);
+        ll_schedule = findViewById(R.id.ll_schedule);
+        ll_cart = findViewById(R.id.ll_cart);
     }
 
     @Override

@@ -187,7 +187,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:itemCount="2"
-                            tools:listitem="@layout/cart2"
+                            tools:listitem="@layout/listitem_cart2"
                             />
 
                         <RelativeLayout

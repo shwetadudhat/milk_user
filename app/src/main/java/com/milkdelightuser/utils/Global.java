@@ -1,13 +1,14 @@
 package com.milkdelightuser.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -15,16 +16,17 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.milkdelightuser.Activity.drawer;
-import com.milkdelightuser.Activity.subscription2;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.milkdelightuser.R;
 
 import org.json.JSONException;
@@ -45,10 +47,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Global {
 
@@ -175,12 +180,50 @@ public class Global {
         return items;
     }
 
+    public static void hideKeyBoard(Context c, View v) {
+        InputMethodManager imm = (InputMethodManager) c
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+
     public static void showKeyBoard(Context c, View v) {
         v.requestFocus();
         v.setFocusableInTouchMode(true);
 
         InputMethodManager imm = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+    }
+
+    public static RequestOptions getGlideRequestOptions(int placeholder) {
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(placeholder);
+        requestOptions.error(placeholder);
+        return requestOptions;
+    }
+
+    public static void loadGlideImage(Context context, String imageName, String imageURL, ImageView imageView){
+        if (imageName != null && !TextUtils.isEmpty(imageName)) {
+            Glide.with(context).load(imageURL)
+                    .apply(getGlideRequestOptions(R.mipmap.ic_launcher))
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                            holder.featuredImage.setVisibility(View.GONE);
+                            imageView.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_launcher));
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                            holder.featuredImage.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    })
+                    .into(imageView);
+        }else {
+            imageView.setImageResource(R.mipmap.ic_launcher);
+        }
     }
 
     public static String convertDate(String date){
@@ -312,6 +355,21 @@ public class Global {
 
     }
 
+    public  static Double getTax1(Context context, Double product_price,Double gst){
+
+        Double gst1,tax1;
+
+        gst1= gst/100;
+
+        Log.e("gsttt", String.valueOf(gst1));
+        // tax=gst+sgst;
+        tax1=product_price*(gst1);
+        Log.e("product_price",String.valueOf(product_price));
+        Log.e("taxxx",String.valueOf(tax1));
+
+        return tax1;
+    }
+
 
     public  static Double getTax(Context context, Double product_price){
        SharedPreferences GstPref1 = context.getSharedPreferences(MY_GST_PREFS_NAME, MODE_PRIVATE);
@@ -385,7 +443,7 @@ public class Global {
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
         alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
         LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
@@ -396,7 +454,7 @@ public class Global {
 
         tvTransId.setVisibility(View.GONE);
 
-        tvStts.setText("Payment Success");
+        tvStts.setText(R.string.payment_success);
         tvStts.setTextColor(context.getResources().getColor(R.color.green));
         ivIcon.setImageResource(R.drawable.ic_noun_check_1);
         // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -547,6 +605,48 @@ public class Global {
 
         return convTime;
     }
+
+    public static void setTypeFaceBold(TextView txt){
+        Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu_bold.ttf");
+        txt.setTypeface(face);
+    }
+
+    public static void setTypeFaceRegular(TextView txt){
+        Typeface face = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/ubuntu_regular.ttf");
+        txt.setTypeface(face);
+    }
+
+    public void setTextViewDrawableColor(TextView textView, int color) {
+
+        for (Drawable drawable : textView.getCompoundDrawables()) {
+            if (drawable != null) {
+                textView.setTextColor(color);
+                drawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(textView.getContext(), color), PorterDuff.Mode.SRC_IN));
+            }else{
+                Log.e("drawable","drawable not found");
+            }
+        }
+    }
+
+
+    public void setTextViewDrawableColor1(TextView textView, int drawableRes, int color) {
+
+        textView.setCompoundDrawablesWithIntrinsicBounds(
+                null,  // Left
+                tintDrawable(ContextCompat.getDrawable(getApplicationContext(), drawableRes),
+                        ContextCompat.getColor(getApplicationContext(), color)), // Top
+                null, // Right
+                null); //Bottom
+    }
+
+    public static Drawable tintDrawable(Drawable drawable, int tint) {
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, tint);
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_ATOP);
+
+        return drawable;
+    }
+
 
 
 }

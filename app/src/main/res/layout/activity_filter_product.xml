@@ -12,7 +12,7 @@
     <TextView
         android:fontFamily="@font/ubuntu_bold"
         android:layout_margin="@dimen/_15sdp"
-        android:text="Filter"
+        android:text="@string/filter"
         android:id="@+id/txtFilter"
         android:textColor="@color/title_clr"
         android:textSize="@dimen/_22sdp"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/txtFilter"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:text="Sort By"
+        android:text="@string/sort_by"
         android:textColor="@color/title_clr"
         android:textSize="@dimen/_15sdp"
        />
@@ -51,7 +51,7 @@
         android:textColor="@color/txt_clr"
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
-        android:hint="Select Sort Type"
+        android:hint="@string/select_sort_type"
         android:layout_below="@id/sortby"
         android:id="@+id/edSortType"
         android:drawableTint="@color/txt_clr"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edSortType"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:text="Product Size"
+        android:text="@string/product_size"
         android:textColor="@color/title_clr"
         android:textSize="@dimen/_15sdp"
          />
@@ -109,7 +109,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@color/main_clr"
-                android:text="CLEAR"
+                android:text="@string/clear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
@@ -130,7 +130,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:textColor="@color/white"
-                android:text="APPLY"
+                android:text="@string/apply"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />

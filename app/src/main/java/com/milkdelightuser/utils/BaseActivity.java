@@ -115,20 +115,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    //region FOR SHOW SPINNER SELECTION
-//    ArrayList<Spinner> array = new ArrayList<>();
-//                array.add(new Spinner("0", "FITS IN HAND LUGGAGE"));
-//                array.add(new Spinner("1", "FITS IN CARRY ON"));
-//                array.add(new Spinner("2", "SMALL"));
-//                array.add(new Spinner("3", "MEDIUM"));
-//                array.add(new Spinner("4", "LARGE"));
-//    showSpinnerSel("Choose Size", tvDeliveryTitle, array, true, new SpinnerCallback() {
-//        @Override
-//        public void onDone(ArrayList<Spinner> list) {
-//
-//        }
-//    });
-
     public void showSpinnerSel(String title, TextView tv, ArrayList<Spinner1> data, boolean isFilterable, SpinnerCallback callback) {
         Dialog a = new Dialog(getActivity());
         Window w = a.getWindow();
@@ -148,16 +134,6 @@ public class BaseActivity extends AppCompatActivity {
         lblselect.setText(title);
         lblselect.setText(title.replace("*", "").trim());
 
-        //        TextView dialogClear = (TextView) w.findViewById(R.id.dialogClear);
-        //        dialogClear.setOnClickListener(new View.OnClickListener() {
-        //            @Override
-        //            public void onClick(View view) {
-        //                tv.setText("");
-        //                tv.setTag(null);
-        //                a.dismiss();
-        //            }
-        //        });
-
         EditText editSearch = w.findViewById(R.id.editSearch);
         if (isFilterable) {
             editSearch.setVisibility(View.VISIBLE);
@@ -172,27 +148,12 @@ public class BaseActivity extends AppCompatActivity {
             editSearch.setVisibility(View.GONE);
         }
 
-        //        EditText editSearch = (EditText) w.findViewById(R.id.editSearch);
-        //        if (isFilterable) {
-        //            editSearch.setVisibility(View.VISIBLE);
-        //        } else {
-        //            editSearch.setVisibility(View.GONE);
-        //        }
-
         String selectedStr = "";
 
-        //        if (tv == editIntensity) {
-        //            selectedStr = stoneParam.FancycolorIntensityList;
-        //        }
-        //        if (tv == editColor) {
-        //            selectedStr = stoneParam.FancyColorList;
-        //        }
-        //        if (tv == editOvertone) {
-        //            selectedStr = stoneParam.FancycolorOvertoneList;
-        //        }
 
         if (!selectedStr.isEmpty()) {
             ArrayList<String> selected = Global.asList(selectedStr.replace("'", ""));
+
 
             if (!selected.isEmpty()) {
                 for (int i = 0; i < data.size(); i++) {
@@ -205,41 +166,33 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
 
-
         SpinnerAdapter adapter=new SpinnerAdapter(getActivity());
         adapter.setFilterable(isFilterable);
         ListView lv = w.findViewById(R.id.lvSpinner);
         lv.setAdapter(adapter);
         adapter.addAll(data);
-        /*SpinnerSelAdapter adapter = new SpinnerSelAdapter(getActivity());
-        adapter.setFilterable(isFilterable);
-        ListView lv = w.findViewById(R.id.lvSpinner);
-        lv.setAdapter(adapter);
-        adapter.addAll(data);*/
-
-        //        if (tv.getTag().toString().trim()!= null){
-        //            for (int i = 0; i <data.size() ; i++) {
-        //                if (tv.getTag().toString().trim().equals(data.get(i).ID)){
-        //                    Debug.e("Game Id" , data.get(i).ID);
-        //                }
-        //            }
-        //        }
-
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.changeSelection(position, true);
+                adapter.changeSelection(position, false);
+                Global.hideKeyBoard(getActivity(), view);
+
+               /* ArrayList<Spinner1> selList = adapter.getSelectedAll();
+                Log.e("selList123",selList.toString());
+                tv.setText(adapter.getSelectedTitle());
+                tv.setTag(adapter.getSelectedIds());
+
+                if (selList.size() > 0) {
+                    tv.setTag(adapter.getSelectedIdArray());
+                } else {
+                    tv.setTag(null);
+                }
+
+                callback.onDone(selList);
+                a.dismiss();*/
             }
         });
-
-        //        for (int i = 0; i <data.size() ; i++) {
-        //            if (adapter.isSelectedAtleastOne()){
-        //                adapter.changeSelection(Integer.valueOf(data.get(i).ID), true);
-        //            }else{
-        //                adapter.changeSelection(Integer.valueOf(data.get(i).ID), false);
-        //            }
-        //        }
 
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -262,35 +215,12 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-        //        editSearch.addTextChangedListener(new TextWatcher() {
-        //            @Override
-        //            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        //
-        //            }
-        //
-        //            @Override
-        //            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        //
-        //            }
-        //
-        //            @Override
-        //            public void afterTextChanged(Editable editable) {
-        //                if (editable.toString().trim().length() >= 1) {
-        //                    adapter.getFilter().item_filter(editable.toString().trim());
-        //                } else {
-        //                    adapter.getFilter().item_filter("");
-        //                }
-        //
-        //            }
-        //        });
-
         Button btnSpinnerOk = w.findViewById(R.id.btnPositive);
-        //        final View llGame = (View) w.findViewById(R.id.llGame);
-        //        final TextView tvGameName = (TextView) w.findViewById(R.id.tvGameName);
         btnSpinnerOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Spinner1> selList = adapter.getSelectedAll();
+                Log.e("selList",selList.toString());
                 tv.setText(adapter.getSelectedTitle());
                 tv.setTag(adapter.getSelectedIds());
 
@@ -317,104 +247,6 @@ public class BaseActivity extends AppCompatActivity {
     }
     //endregion
 
-    //region FOR SHOW SPINNER
-//    ArrayList<Spinner> array = new ArrayList<>();
-//                array.add(new Spinner("1", "FITS IN HAND LUGGAGE"));
-//                array.add(new Spinner("1", "FITS IN CARRY ON"));
-//                array.add(new Spinner("1", "SMALL"));
-//                array.add(new Spinner("1", "MEDIUM"));
-//                array.add(new Spinner("1", "LARGE"));
-//    showSpinner("Choose Size", array,true, new SpinnerCallback() {
-//        @Override
-//        public void onDone(ArrayList<Spinner> list) {
-//
-//        }
-//    });
-    public void showSpinner(final String title, final ArrayList<Spinner1> data, final boolean isFilterable, final SpinnerCallback callback) {
-        final Dialog a = new Dialog(getActivity());
-        Window w = a.getWindow();
-        a.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        a.setContentView(R.layout.spinner);
-        w.setBackgroundDrawableResource(android.R.color.transparent);
-
-        TextView labelSelect = w.findViewById(R.id.dialogtitle);
-        labelSelect.setText(title.replace("*", "").trim());
-
-        ImageView ivRowClose = w.findViewById(R.id.ivRowClose);
-        ivRowClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                a.dismiss();
-            }
-        });
-
-//        TextView dialogClear = (TextView) w.findViewById(R.id.dialogClear);
-//        dialogClear.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                tv.setText("");
-//                tv.setTag(null);
-//                a.dismiss();
-//            }
-//        });
-
-        final SpinnerAdapter adapter = new SpinnerAdapter(getActivity());
-        adapter.setFilterable(isFilterable);
-        ListView lv = w.findViewById(R.id.lvSpinner);
-        lv.setAdapter(adapter);
-        adapter.addAll(data);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                ArrayList<Spinner1> selList = new ArrayList<Spinner1>();
-                selList.add(adapter.getItem(position));
-//                tv.setText(adapter.getItem(position).title);
-//                tv.setTag(adapter.getItem(position).ID);
-                if (callback != null) {
-                    callback.onDone(selList);
-                }
-                a.dismiss();
-            }
-        });
-
-        EditText editSearch = w.findViewById(R.id.editSearch);
-        if (isFilterable) {
-            editSearch.setVisibility(View.VISIBLE);
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Global.showKeyBoard(getActivity(), editSearch);
-                }
-            }, 500);
-        } else {
-            editSearch.setVisibility(View.GONE);
-        }
-
-        editSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().trim().length() >= 1) {
-                    adapter.getFilter().filter(editable.toString().trim());
-                } else {
-                    adapter.getFilter().filter("");
-                }
-            }
-        });
-        a.show();
-    }
-    //endregion
 
     public Fragment getViewPagerFragment(int viewPagerId, int position) {
         Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + viewPagerId + ":" + position);
@@ -762,7 +594,5 @@ public class BaseActivity extends AppCompatActivity {
 
         return drawable;
     }
-
-
 
 }

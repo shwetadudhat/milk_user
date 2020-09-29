@@ -18,6 +18,7 @@ import com.milkdelightuser.Activity.MainActivity;
 import com.milkdelightuser.Activity.Product;
 import com.milkdelightuser.Model.App_Product_Model;
 import com.milkdelightuser.R;
+import com.milkdelightuser.utils.BaseURL;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 
@@ -70,9 +71,12 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
         holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(allProductsModel.getPrice())+ Global.getTax(context, Double.valueOf(allProductsModel.getPrice()))));
       //  holder.tvProPrice.setText(MainActivity.currency_sign+productModelList.get(i).getPrice());
 
-        Glide.with(context)
-                .load(/*BaseURL.IMG_CATEGORY_URL + */productModelList.get(i).getProduct_image())
-                .into(holder.ivProd);
+/*        Glide.with(context)
+                .load(*//*BaseURL.IMG_CATEGORY_URL + *//*productModelList.get(i).getProduct_image())
+                .into(holder.ivProd);*/
+
+        Global.loadGlideImage(context,productModelList.get(i).getProduct_image(), productModelList.get(i).getProduct_image(),holder.ivProd);
+
 
         if (!productModelList.get(i).getMrp().equals("0")){
             holder.tvOldPrice.setVisibility(View.VISIBLE);

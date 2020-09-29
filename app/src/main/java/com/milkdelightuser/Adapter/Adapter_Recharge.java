@@ -22,16 +22,13 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.holder> {
 
     List<Recharge_Model> recharge_models;
     Context context;
 
-  /*  Date enddate=null ;*/
-  Date enddate = null, CurrentDate = null;
+    Date enddate = null;
     String currentdate = "", olddate;
-
 
 
     public Adapter_Recharge(List<Recharge_Model> recharge_models) {
@@ -42,9 +39,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
         Calendar c = Calendar.getInstance();
 
         enddate = c.getTime();
-
         Recharge_Model recharge_model;
-
 
         for (int i = 0; i < recharge_models.size(); i++) {
             recharge_model = recharge_models.get(i);
@@ -89,31 +84,16 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
         Date startDte = null;
         String formattedDate = null;
         String formattedDate1 = null;
-        String olddate;
 
         try {
             startDte = originalFormat.parse(rechargeModel.getCreated_at());
-            olddate = targetFormat.format(startDte);
-            enddate = c.getTime();
-           /* if (enddate != null) {
-                if (daysBetween(startDte, enddate) > 0 && !currentdate.equals(olddate)) {
-                    currentdate = olddate;
-                    holder.tvDate.setVisibility(View.VISIBLE);
-                } else {
-                    holder.tvDate.setVisibility(View.GONE);
-                }
 
-            } else {
-                holder.tvDate.setVisibility(View.VISIBLE);
-
-            }*/
 
             if (rechargeModel.isIsshow()) {
                 holder.tvDate.setVisibility(View.VISIBLE);
             } else {
                 holder.tvDate.setVisibility(View.GONE);
             }
-//            enddate = originalFormat.parse(rechargeModel.getCreated_at());
 
             formattedDate = targetFormat.format(startDte);
             formattedDate1 = targetFormat2.format(startDte);
@@ -126,43 +106,20 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
         }
 
 
-       /* try {
-            startDte = originalFormat.parse(rechargeModel.getCreated_at());
-            if (enddate!=null){
-                if (daysBetween(startDte,enddate)>0){
-                    holder.tvDate.setVisibility(View.VISIBLE);
-                }else{
-                    holder.tvDate.setVisibility(View.GONE);
-                }
-
-            }else{
-                holder.tvDate.setVisibility(View.VISIBLE);
-
-            }
-
-             enddate = originalFormat.parse(rechargeModel.getCreated_at());
-
-             formattedDate = targetFormat.format(startDte);
-             formattedDate1 = targetFormat2.format(startDte);
-
-            Log.e("formattedDate",formattedDate);
-            Log.e("formattedDate123",formattedDate1);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
-
         holder.tvDate.setText(formattedDate);
-        holder.tvGetTrans.setText("add to wallet From : "+rechargeModel.getPay_type());
-        holder.tvTransId.setText("Transaction Id : "+rechargeModel.getTransaction_id());
+
+
         holder.tvTime.setText(formattedDate1);
         if (rechargeModel.getAmount_status().equals("Credit")){
+            holder.tvGetTrans.setText(context.getString(R.string.addtowallet)+""+rechargeModel.getPay_mode());
+            holder.tvTransId.setText(context.getString(R.string.transacrtionid)+rechargeModel.getTransaction_id());
             holder.tvPrice.setText("+"+ MainActivity.currency_sign +rechargeModel.getAmount());
             holder.tvPrice.setTextColor(context.getResources().getColor(R.color.green));
         }else{
+            holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet));
             holder.tvPrice.setText("-"+ MainActivity.currency_sign +rechargeModel.getAmount());
             holder.tvPrice.setTextColor(context.getResources().getColor(R.color.red));
+            holder.tvTransId.setVisibility(View.GONE);
         }
 
         holder.setIsRecyclable(false);

@@ -45,7 +45,7 @@
 
                 <TextView
                     android:fontFamily="@font/ubuntu_medium"
-                    android:text="Total Balance"
+                    android:text="@string/total_balance"
                     android:textColor="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

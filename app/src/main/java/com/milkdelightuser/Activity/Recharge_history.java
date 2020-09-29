@@ -74,7 +74,7 @@ public class Recharge_history extends BaseActivity {
         ivNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Recharge_history.this, drawer.class);
+                Intent intent=new Intent(Recharge_history.this, Home.class);
                 intent.putExtra("notification","product_page");
                 startActivity(intent);
             }
@@ -152,6 +152,7 @@ public class Recharge_history extends BaseActivity {
                             String transaction_id = jsonObject.getString("transaction_id");
                             String amount_status = jsonObject.getString("amount_status");
                             String pay_type = jsonObject.getString("pay_type");
+                            String pay_mode = jsonObject.getString("pay_mode");
                             String recharge_status = jsonObject.getString("recharge_status");
                             String date_of_recharge=jsonObject.getString("date_of_recharge");
                             String created_at=jsonObject.getString("created_at");
@@ -170,6 +171,7 @@ public class Recharge_history extends BaseActivity {
                             recharge_model.setRecharge_status(recharge_status);
                             recharge_model.setDate_of_recharge(date_of_recharge);
                             recharge_model.setCreated_at(created_at);
+                            recharge_model.setPay_mode(pay_mode);
 
                             recharge_models.add(recharge_model);
 
