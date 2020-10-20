@@ -921,7 +921,8 @@ public class subscription2 extends BaseActivity  {
                 subscriptioAddProductModel.setProduct_id(map1.get("product_id"));
                 subscriptioAddProductModel.setProduct_name(map1.get("product_name"));
                 subscriptioAddProductModel.setProduct_qty(db.getCartItemQty(map1.get("product_id")));
-                subscriptioAddProductModel.setProduct_price(Integer.parseInt(map1.get("subscription_price")));
+                subscriptioAddProductModel.setProduct_price(Math.round(Float.parseFloat(map1.get("subscription_price"))));
+//                subscriptioAddProductModel.setProduct_price(Integer.parseInt(map1.get("subscription_price")));
                 subscriptioAddProductModel.setProduct_unit(map1.get("unit"));
                 subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_sgst));
                 subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));
@@ -954,14 +955,6 @@ public class subscription2 extends BaseActivity  {
                                 e.printStackTrace();
                             }
 
-
-
-
-                           /* pro_gst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
-                            pro_sgst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getSGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
-*/
-                          /*  subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_gst));
-                            subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));*/
                             subscriptioAddProductModel.setProduct_totalprice(endDateModelArrayList.get(v).getProduct_totalPrice());
                             subscriptioAddProductModel.setEnd_date(end_date);
                         }
@@ -1093,14 +1086,13 @@ public class subscription2 extends BaseActivity  {
                     jObjP.put("start_date", subProductList.get(i).getStart_date());
                     jObjP.put("end_date", subProductList.get(i).getEnd_date());
                     jObjP.put("product_name",subProductList.get(i).getProduct_name());
-                    jObjP.put("pack_size ",subProductList.get(i).getProduct_unit());
+                    jObjP.put("pack_size",subProductList.get(i).getProduct_unit());
                     passArray.put(jObjP);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
             }
-
 
             // Log.e("parseArray",passArray.toString());
 
@@ -1137,6 +1129,7 @@ public class subscription2 extends BaseActivity  {
         }
 //        params.put("razor_pay_amount", String.valueOf(razorAmount));
         params.put("pay_type", pay_type);
+        params.put("pay_mode", "");
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
         params.put("promocode_amount", String.valueOf(discount_amount));
@@ -1476,8 +1469,10 @@ public class subscription2 extends BaseActivity  {
         llDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 alertDialog.dismiss();
+                Intent intent=new Intent(subscription2.this, Home.class);
+                startActivity(intent);
+                finish();
             }
         });
         alertDialog.show();
@@ -1493,6 +1488,7 @@ public class subscription2 extends BaseActivity  {
         params.put("wallet_amount", String.valueOf(walletAmount));
         params.put("razor_pay_amount", String.valueOf(orderAmount));
         params.put("pay_type", "CashFree");
+        params.put("pay_mode", "");
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);

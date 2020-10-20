@@ -86,7 +86,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
     CircleImageView user_dp;
     public static DrawerLayout drawer1;
 
-    LinearLayout logout;
+    LinearLayout logout,header;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -124,6 +124,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         user_name1=findViewById(R.id.user_name1);
         user_nmbr1=findViewById(R.id.user_nmbr1);
         user_dp=findViewById(R.id.user_dp);
+        header=findViewById(R.id.header);
 
         menuList =  findViewById(R.id.list);
         //Data
@@ -158,6 +159,13 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
 
         ImageView iVBackNavigation=findViewById(R.id.iVBackNavigation);
+
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iVBackNavigation.callOnClick();
+            }
+        });
 
         iVBackNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,10 +290,10 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
     public void getNavViewData() {
 
+        getPreferenceData();
+        Log.e("user_image123==>123",user_image);
+
         if (!user_image.equals("null")){
-           /* Glide.with(Home.this)
-                    .load(BaseURL.profile_url+user_image)
-                    .into(user_dp);*/
             Global.loadGlideImage(Home.this,user_image,BaseURL.profile_url+user_image,user_dp);
             Log.e("urrrllll",BaseURL.profile_url+user_image);
 
@@ -293,7 +301,6 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         }else{
             user_dp.setImageResource(R.mipmap.ic_launcher);
         }
-
 
         user_name1.setText(user_name);
         if (user_nmbr.equals("null")){

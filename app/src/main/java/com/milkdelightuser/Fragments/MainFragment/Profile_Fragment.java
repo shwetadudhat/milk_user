@@ -63,7 +63,7 @@ import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 public class Profile_Fragment extends BaseFragment {
 
     Context context;
-    CircleImageView image_profile;
+    CircleImageView image_profile,iv_edit;
     Bitmap photo;
     TextView userName,userNmbr;
 
@@ -108,6 +108,7 @@ public class Profile_Fragment extends BaseFragment {
         user_profilee=sessionManagement.getUserDetails().get(BaseURL.KEY_IMAGE);
 
         image_profile=view.findViewById(R.id.image_profile);
+        iv_edit=view.findViewById(R.id.iv_edit);
         userName=view.findViewById(R.id.userName);
         userNmbr=view.findViewById(R.id.userNmbr);
         ibProEdit=view.findViewById(R.id.ibProEdit);
@@ -165,7 +166,7 @@ public class Profile_Fragment extends BaseFragment {
         }
 
 
-        image_profile.setOnClickListener(new View.OnClickListener() {
+        iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Intent i = new Intent(
@@ -522,6 +523,8 @@ public class Profile_Fragment extends BaseFragment {
                         String profile_url = jsonObject1.getString("profile_url");
                       //  String pincode = jsonObject1.getString("pincode");
 
+
+                        Log.e("user_image123==>2",user_image);
 
                         Session_management session_management = new Session_management(getContext());
                         session_management.createLoginSession(user_id, user_email, user_name, user_image, user_phone);

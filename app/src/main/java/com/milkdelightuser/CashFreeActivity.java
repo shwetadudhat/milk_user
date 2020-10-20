@@ -313,6 +313,7 @@ public class CashFreeActivity extends BaseActivity {
                 showDiaog(CashFreeActivity.this,bundle);
 
         }*/
+        Log.e("data",String.valueOf(data));
         if (data != null) {
             Bundle bundle = data.getExtras();
             Intent intent=new Intent();
@@ -439,6 +440,7 @@ public class CashFreeActivity extends BaseActivity {
         params.put("wallet_amount", String.valueOf(walletAmount));
         params.put("razor_pay_amount", String.valueOf(orderAmount));
         params.put("pay_type", "CashFree");
+        params.put("pay_mode", "");
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);

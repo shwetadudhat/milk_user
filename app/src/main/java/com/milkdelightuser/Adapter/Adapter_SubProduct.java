@@ -273,7 +273,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     planSelected_model.setPlan_id(planSelectedModelArrayList1.get(k).getPlan_id());
                     planSelected_model.setSkip_day(planSelectedModelArrayList1.get(k).getSkip_day());
 
-
                     break;
 
 

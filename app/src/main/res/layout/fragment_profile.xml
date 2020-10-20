@@ -25,13 +25,43 @@
                 android:orientation="vertical"
                 >
 
-                <de.hdodenhof.circleimageview.CircleImageView
+              <!--  <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="@dimen/_90sdp"
                     android:id="@+id/image_profile"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:src="@drawable/logo_1" />
+                    android:src="@drawable/logo_1" />-->
+
+                <RelativeLayout
+                    android:layout_centerInParent="true"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_profile"
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:src="@drawable/logo_1"
+                        android:layout_gravity="bottom|center_horizontal" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/iv_edit"
+                        android:tint="@color/main_clr"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_edit"
+                        android:paddingLeft="@dimen/_4sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:background="@drawable/oval_back" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:fontFamily="@font/ubuntu_regular"

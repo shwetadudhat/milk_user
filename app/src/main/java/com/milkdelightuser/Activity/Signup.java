@@ -908,49 +908,6 @@ public class Signup extends BaseActivity {
                 });
     }
 
-    private String getEmailAddress() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Signup.this);
-        ViewGroup viewGroup = findViewById(android.R.id.content);
-        View dialogView = LayoutInflater.from(Signup.this).inflate(R.layout.custom_email, viewGroup, false);
-        builder.setView(dialogView);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(true);
-        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
-        EditText et_email=dialogView.findViewById(R.id.et_email);
-        Button btnApply=dialogView.findViewById(R.id.btnApply);
-
-        et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                et_email.setBackground(getResources().getDrawable(R.drawable.bg_edit));
-            }
-        });
-
-        btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emailId=et_email.getText().toString();
-
-
-                if (emailId.length()==0) {
-                    et_email.setError(getString(R.string.enter_email_id));
-                    Global.showKeyBoard(getApplicationContext(), et_email);
-                }else if (!Global.isValidEmail(emailId)){
-                    //api call
-                    et_email.setError("Enter Valid email id");
-                    Global.showKeyBoard(getApplicationContext(), et_email);
-                }else{
-                    Log.e("emailId",emailId);
-                    alertDialog.dismiss();
-
-                }
-
-            }
-        });
-        alertDialog.show();
-        return et_email.getText().toString();
-
-    }
 
 }

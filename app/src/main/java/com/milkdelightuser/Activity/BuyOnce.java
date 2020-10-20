@@ -492,7 +492,6 @@ public class BuyOnce extends BaseActivity  {
 
         buyProduct();
 
-
     }
 
     private void buyProduct() {
@@ -521,7 +520,7 @@ public class BuyOnce extends BaseActivity  {
                     jObjP.put("price", map.get("price"));
                     jObjP.put("amount", db.getTotalAmountById(map.get("product_id")));
                     jObjP.put("product_name", map.get("product_name"));
-                    jObjP.put("pack_size ", map.get("unit"));
+                    jObjP.put("pack_size", map.get("unit"));
                     jObjP.put("cgst_amount", String.valueOf(pro_sgst));
                     jObjP.put("sgst_amount",String.valueOf(pro_sgst));
                     passArray.put(jObjP);
@@ -581,7 +580,7 @@ public class BuyOnce extends BaseActivity  {
         }
 
         params.put("pay_type", "Wallet Pay");
-        params.put("pay_mode", "");
+//        params.put("pay_mode", "");
         params.put("transaction_id", "");
         params.put("total_amount", String.valueOf(total_amount));
         params.put("promo_code", promo_code);
@@ -628,7 +627,7 @@ public class BuyOnce extends BaseActivity  {
                             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                             // ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.green), android.graphics.PorterDuff.Mode.MULTIPLY);
                             ivIcon.setColorFilter(ContextCompat.getColor(BuyOnce.this, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
-                            tvTransDesc.setText("Payment done through your Wallet amount");
+                            tvTransDesc.setText(getString(R.string.payment_by_wallet));
 
                             db.clearCart();
 
@@ -750,7 +749,11 @@ public class BuyOnce extends BaseActivity  {
         llDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 alertDialog.dismiss();
+                Intent intent=new Intent(BuyOnce.this, Home.class);
+                startActivity(intent);
+                finish();
             }
         });
         alertDialog.show();
@@ -770,6 +773,7 @@ public class BuyOnce extends BaseActivity  {
         params.put("wallet_amount", String.valueOf(walletAmount));
         params.put("razor_pay_amount", orderAmount);
         params.put("pay_type", "CashFree");
+        params.put("pay_mode", "");
         params.put("total_amount", String.valueOf(total_amount));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);
