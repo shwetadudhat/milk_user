@@ -2,9 +2,16 @@ package com.milkdelightuser.Model;
 
 public class Order_Model {
 
-    String order_id,offer_product,offer_qty,offer_pricee,offer_deliveryText;
+    String order_id,offer_product,offer_qty,offer_pricee,offer_deliveryText,gst;
     String order_icon,order_unit,subStatus;
 
+    public String getGst() {
+        return gst;
+    }
+
+    public void setGst(String gst) {
+        this.gst = gst;
+    }
 
     public String getSubStatus() {
         return subStatus;

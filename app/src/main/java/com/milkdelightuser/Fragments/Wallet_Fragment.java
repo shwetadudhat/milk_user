@@ -287,7 +287,7 @@ public class Wallet_Fragment extends BaseFragment {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.custom_success, viewGroup, false);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(true);
+        alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 

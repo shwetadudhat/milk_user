@@ -205,13 +205,19 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
        //
         if( notification!= null)
         {
-            OpenMainFragment(new Notification_Fragment(), 11);
+//            notificationCntent();
+            OpenMainFragment(new Notification_Fragment());
         }else  if( wallet!= null) {
             Wallet(12);
         }else{
             selectedItem(0);
         }
 
+    }
+
+    private void notificationCntent() {
+        Intent intent=new Intent(Home.this,NotificationActivity.class);
+        startActivity(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -239,8 +245,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             ShopByCat(5);
 
         }else if (i==6){
-            getSupportActionBar().setTitle(getString(R.string.rate));
-            rate(6);
+            rate();
 
         }else if (i==7){
             getSupportActionBar().setTitle(getString(R.string.contact));
@@ -282,6 +287,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
                     .load(BaseURL.profile_url+user_image)
                     .into(user_dp);*/
             Global.loadGlideImage(Home.this,user_image,BaseURL.profile_url+user_image,user_dp);
+            Log.e("urrrllll",BaseURL.profile_url+user_image);
 
 
         }else{
@@ -300,8 +306,6 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
     }
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -317,7 +321,8 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         {
             case R.id.action_notification:
                 getSupportActionBar().setTitle(getString(R.string.notification));
-                OpenMainFragment(new Notification_Fragment(), 11);
+//                notificationCntent();
+                OpenMainFragment(new Notification_Fragment(),11);
                 break;
         }
         return true;
@@ -369,7 +374,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
       //  OpenMainFragment(new MainContainer_Fragment("ShopByCat"));
     }
 
-    public void rate(int i) {
+    public void rate() {
         Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
@@ -456,6 +461,17 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
     }
 
+    private void OpenMainFragment(Fragment target_frag) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        getSupportFragmentManager().addOnBackStackChangedListener(Home.this);
+        transaction.replace(R.id.mainFrame, target_frag);
+//        Log.e("fragmentTagiiii",String.valueOf(i));
+//        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
+
 
 
     @Override
@@ -466,6 +482,8 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
     @Override
     public void onBackStackChanged() {
+
+        Log.e("getSupportFragmentMa",String.valueOf(getSupportFragmentManager().getBackStackEntryCount()));
 
         String fragmentTag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
         adapterMenu1.setSelectedItem(Integer.parseInt(fragmentTag));
@@ -489,9 +507,6 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
         }else if (Integer.parseInt(fragmentTag)==5){
             getSupportActionBar().setTitle(getString(R.string.shopByCat));
-
-        }else if (Integer.parseInt(fragmentTag)==6){
-            getSupportActionBar().setTitle(getString(R.string.rate));
 
         }else if (Integer.parseInt(fragmentTag)==7){
             getSupportActionBar().setTitle(getString(R.string.contact));
@@ -536,7 +551,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
                     finish();
                 }else{
                     Log.e("truuuurrr11","truuuurr11");
-                    super.onBackPressed();
+                   super.onBackPressed();
                 }
             }
 

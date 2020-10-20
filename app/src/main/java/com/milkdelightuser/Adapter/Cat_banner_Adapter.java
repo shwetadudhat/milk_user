@@ -1,6 +1,8 @@
 package com.milkdelightuser.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,17 @@ import com.milkdelightuser.Model.Cat_Banner_Model;
 import com.milkdelightuser.R;
 import com.milkdelightuser.utils.Global;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.milkdelightuser.utils.Global.IMGURL_PREFS_NAME;
+import static com.milkdelightuser.utils.Global.URL_DATA;
 
 public class Cat_banner_Adapter extends PagerAdapter {
 
@@ -51,6 +60,7 @@ public class Cat_banner_Adapter extends PagerAdapter {
 //                .into(banner);
       // banner.setImageResource(cat_banner_model.getBanner_image());
         Global.loadGlideImage(context,cat_banner_model.getBanner_image(),cat_banner_model.getBanner_image(),banner);
+
 
 
         view.addView(imageLayout, 0);

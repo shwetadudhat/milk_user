@@ -181,6 +181,8 @@
     <string name="bag_total">Bag Total</string>
     <string name="delivery_charges">Delivery Charges</string>
     <string name="coupon_code">Coupon Code</string>
+    <string name="cgst">CGST</string>
+    <string name="sgst">SGST</string>
     <string name="total">Total</string>
     <string name="order_once">ORDER ONCE</string>
     <string name="buy_subscription">BUY SUBSCRIPTION</string>
@@ -266,6 +268,7 @@
     <string name="copy">COPY</string>
     <string name="every_day">Every Day</string>
     <string name="success_order">Successfully order delivered on </string>
+    <string name="email_address">Email Address</string>
     <string-array name="filter_type">
         <item>ASC</item>
         <item>DESC</item>

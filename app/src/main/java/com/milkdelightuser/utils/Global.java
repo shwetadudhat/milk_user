@@ -63,8 +63,10 @@ public class Global {
     public static final String FREQ_ID = "freq_id";
     public static final String MY_NOTIFICATION_PREFS_NAME = "notificationPref";
     public static final String MY_GST_PREFS_NAME = "GSTPref";
+    public static final String IMGURL_PREFS_NAME = "URLPref";
     public static final String NOTIFICATION_DATA = "jsonarray";
     public static final String GST_DATA = "jsonObject";
+    public static final String URL_DATA = "urlObject";
     public static final String MY_SUBSCRIPTION_PREFS_NAME = "mySubscriptionlistPref";
     public static final String SUB_DATA = "subList";
     public static final String MY_STARTDATE_PREFS_NAME = "startdatelistPref";
@@ -357,21 +359,44 @@ public class Global {
 
     public  static Double getTax1(Context context, Double product_price,Double gst){
 
-        Double gst1,tax1;
+        Double gst1,tax1,tax;
 
-        gst1= gst/100;
 
-        Log.e("gsttt", String.valueOf(gst1));
+
+
+//        gst1= gst/100;
+        gst1=(gst/2)/100;
+        tax1= Double.valueOf(Math.round(product_price*(gst1)));
+        tax=2*tax1;
+       /* gst1=(gst/2)/100;
+
+        Log.e("gsttt==>/2", String.valueOf(gst1));
         // tax=gst+sgst;
-        tax1=product_price*(gst1);
-        Log.e("product_price",String.valueOf(product_price));
-        Log.e("taxxx",String.valueOf(tax1));
+        tax1=product_price*(gst1*2);
+        Log.e("product_price==>1",String.valueOf(product_price));
+        Log.e("taxxx==>1",String.valueOf(tax1));
+*/
+        return tax;
+    }
+
+
+    public  static Double getCGSTTax1(Context context, Double product_price,Double gst){
+
+        Double gst1,tax1,cgst1;
+        gst1=gst/2;
+        cgst1= gst1/100;
+
+        Log.e("gsttt=>2", String.valueOf(gst1));
+        // tax=gst+sgst;
+        tax1=Double.valueOf(Math.round(product_price*(cgst1)));
+        Log.e("product_price==>2",String.valueOf(product_price));
+        Log.e("taxxx==>2",String.valueOf(tax1));
 
         return tax1;
     }
 
 
-    public  static Double getTax(Context context, Double product_price){
+    /*public  static Double getTax(Context context, Double product_price){
        SharedPreferences GstPref1 = context.getSharedPreferences(MY_GST_PREFS_NAME, MODE_PRIVATE);
         String gstData = GstPref1.getString(GST_DATA, null);
         Double gst,sgst,tax = null;
@@ -393,7 +418,7 @@ public class Global {
 
         }
         return tax;
-    }
+    }*/
 
     public  static Double getGSTTax(Context context, Double product_price){
         SharedPreferences GstPref1 = context.getSharedPreferences(MY_GST_PREFS_NAME, MODE_PRIVATE);

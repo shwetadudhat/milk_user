@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -96,6 +97,9 @@ public class otp extends BaseActivity {
                     if (isInternetConnected()) {
                         try {
                             showDialog("");
+                            for (int i = 0;i < customPinview.getPinLength();i++) {
+                                customPinview.onKey(customPinview.getFocusedChild(), KeyEvent.KEYCODE_DEL, new KeyEvent(KeyEvent.ACTION_UP,KeyEvent.KEYCODE_DEL));
+                            }
                             ResendOtp(nmbr/*mobile*/);
 
                         } catch (Exception e) {
@@ -142,7 +146,6 @@ public class otp extends BaseActivity {
                     String message=response.getString("message");
 
                     if (status.equals("1")){
-                        Toast.makeText(com.milkdelightuser.Activity.otp.this, message, Toast.LENGTH_SHORT).show();
 
                         JSONObject jsonObject=response.getJSONObject("data");
                         String id = jsonObject.getString("user_id");
@@ -152,7 +155,6 @@ public class otp extends BaseActivity {
                         String user_phone = jsonObject.getString("user_phone");
 
                         Log.e("id",id);
-
 
                         Session_management session_management = new Session_management(com.milkdelightuser.Activity.otp.this);
                         session_management.createLoginSession(id, user_email, user_name, user_image, user_phone);

@@ -15,7 +15,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -74,6 +76,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.appcompat.app.AlertDialog;
+
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
 public class Signup extends BaseActivity {
@@ -104,6 +108,7 @@ public class Signup extends BaseActivity {
     String token;
     String referCode;
     String fileUri;
+    String emailId;
 
 
     @Override
@@ -570,46 +575,52 @@ public class Signup extends BaseActivity {
                 // String GoogleAccountDetail = new Gson().toJson(socialMediaAccountDetailModel);
                 // GoogleLogin(GoogleId, GoogleAccountDetail);
 
-                Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                        File file = Global.getOutputMediaFile();
-                        Log.e("filllleee",file.toString());
-                        Global.saveBitmap(bitmap, file);
+                Log.e("GoogleProfileUrl",GoogleProfileUrl);
 
-                       // Log.e("Fillllleee",file.toString());
-                        social_sign_up1(GoogleName,GoogleEmail,GoogleId,"google",file);
+                if (GoogleProfileUrl.equals("null") || GoogleProfileUrl.equals(""))
+                {
+                    Log.e("nulll12","nulll12");
+                    social_sign_up1(GoogleName,GoogleEmail,GoogleId,"google");
+                }else {
+                    Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                            File file = Global.getOutputMediaFile();
+                            Log.e("filllleee",file.toString());
+                            Global.saveBitmap(bitmap, file);
 
-                     //   userSignUp("$firstName $lastName", Global.getPref(getActivity(), StaticDataUtility.sMOBILE_NUMBER, "")!!, email, thirdPartyId, file)
-                        try {
-                            File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-                            if (!mydir.exists()) {
-                                mydir.mkdirs();
+                            // Log.e("Fillllleee",file.toString());
+
+
+                            //   userSignUp("$firstName $lastName", Global.getPref(getActivity(), StaticDataUtility.sMOBILE_NUMBER, "")!!, email, thirdPartyId, file)
+                            try {
+                                File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                if (!mydir.exists()) {
+                                    mydir.mkdirs();
+                                }
+
+                                fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                Log.e   ("fileUri",fileUri);
+                                FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                outputStream.flush();
+                                outputStream.close();
+
+                                Log.e("bitmap123",bitmap.toString());
+
+                                social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",bitmap);
+                            } catch(IOException e) {
+                                e.printStackTrace();
                             }
-
-                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
-
-                            Log.e   ("fileUri",fileUri);
-                            FileOutputStream outputStream = new FileOutputStream(fileUri);
-
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                            outputStream.flush();
-                            outputStream.close();
-
-                            Log.e("bitmap123",bitmap.toString());
-
-                            social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",bitmap);
-                        } catch(IOException e) {
-                            e.printStackTrace();
+                            // Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
                         }
-                       // Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public void onLoadCleared(Drawable placeholder) {
-                    }
-                });
-
-
+                        @Override
+                        public void onLoadCleared(Drawable placeholder) {
+                        }
+                    });
+                }
 
                 Log.e("GoogleEmail",GoogleEmail);
             }
@@ -620,7 +631,7 @@ public class Signup extends BaseActivity {
         }
     }
 
-    private void social_sign_up1(String txt_name, String txt_email, String txt_providerId, String txt_providerType,File file) {
+    private void social_sign_up1(String txt_name, String txt_email, String txt_providerId, String txt_providerType) {
         CustomVolleyMultipartRequest multipartRequest = new CustomVolleyMultipartRequest(Request.Method.POST,BaseURL.social_login, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
@@ -662,20 +673,14 @@ public class Signup extends BaseActivity {
 
 
                         Toast.makeText(getApplicationContext(),""+message, Toast.LENGTH_SHORT).show();
-                    } else if (status.contains("0")){
+                    } else if (status.equals("0")){
                         dismissDialog();
-                        Toast.makeText(getApplicationContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        Log.e("msggg",message);
+                        Toast.makeText(getApplicationContext(),  message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-             /*   try {
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-                // parse success output
 
 
             }
@@ -725,62 +730,164 @@ public class Signup extends BaseActivity {
     private void fbLogin(RelativeLayout ll_signup_fb) {
 
         LoginManager.getInstance().logInWithReadPermissions(Signup.this, Arrays.asList("email", "public_profile"));
+
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.e("LoginResult:", loginResult.getAccessToken().getToken());
+                        Log.e("LoginResult:", loginResult.getAccessToken().getToken()+"\n"+loginResult.toString());
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
                                 (object, response) -> {
                                     Log.e("Main", response.toString());
-                                    if (object.has("name") && object.has("email")) {
-                                        try {
-                                            String Fbid = object.getString("id");
-                                            String Fbname = object.getString("name");
-                                            String Fbemail = object.getString("email");
-                                            String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
-                                            Log.e("Fbid",Fbid);
+                                    if (object.has("name") /*&& object.has("email")*/) {
+                                        if ( !object.has("email")){
+//                                          String email_id=  getEmailAddress();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(Signup.this);
+                                            ViewGroup viewGroup = findViewById(android.R.id.content);
+                                            View dialogView = LayoutInflater.from(Signup.this).inflate(R.layout.custom_email, viewGroup, false);
+                                            builder.setView(dialogView);
+                                            AlertDialog alertDialog = builder.create();
+                                            alertDialog.setCancelable(true);
+                                            alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
-                                            Log.e("Fbemail",Fbemail);
-                                            Log.e("fbImageurl",Fbimage_url);
+                                            EditText et_email=dialogView.findViewById(R.id.et_email);
+                                            Button btnApply=dialogView.findViewById(R.id.btnApply);
 
-                                            Glide.with(Signup.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
+                                            et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                                                 @Override
-                                                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                                                    try {
-                                                        File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-                                                        if (!mydir.exists()) {
-                                                            mydir.mkdirs();
-                                                        }
-
-                                                        fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
-
-                                                        Log.e   ("fileUri",fileUri);
-                                                        FileOutputStream outputStream = new FileOutputStream(fileUri);
-
-                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                                                        outputStream.flush();
-                                                        outputStream.close();
-
-                                                        Log.e("bitmap123",bitmap.toString());
-
-                                                        social_sign_up(Fbname,Fbemail,Fbid,"facebook",bitmap);
-                                                    } catch(IOException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                  //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
-                                                }
-                                                @Override
-                                                public void onLoadCleared(Drawable placeholder) {
+                                                public void onFocusChange(View view, boolean b) {
+                                                    et_email.setBackground(getResources().getDrawable(R.drawable.bg_edit));
                                                 }
                                             });
 
-                                        } catch (JSONException e) {
-                                            Log.e("ERROR", "FB_LOGIN:> " + e.toString());
-                                        }
-                                    } else {
+                                            btnApply.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    emailId=et_email.getText().toString();
 
+
+                                                    if (emailId.length()==0) {
+                                                        et_email.setError(getString(R.string.enter_email_id));
+                                                        Global.showKeyBoard(getApplicationContext(), et_email);
+                                                    }else if (!Global.isValidEmail(emailId)){
+                                                        //api call
+                                                        et_email.setError("Enter Valid email id");
+                                                        Global.showKeyBoard(getApplicationContext(), et_email);
+                                                    }else{
+                                                        Log.e("emailId",emailId);
+                                                        try {
+                                                            String Fbid = object.getString("id");
+                                                            String Fbname = object.getString("name");
+                                                            String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
+                                                            Log.e("Fbid",Fbid);
+                                                            Log.e("fbImageurl",Fbimage_url);
+
+                                                            Glide.with(Signup.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
+                                                                @Override
+                                                                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                                    try {
+                                                                        File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                                                        if (!mydir.exists()) {
+                                                                            mydir.mkdirs();
+                                                                        }
+
+                                                                        fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                                                        Log.e   ("fileUri",fileUri);
+                                                                        FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                                                        outputStream.flush();
+                                                                        outputStream.close();
+
+                                                                        Log.e("bitmap123",bitmap.toString());
+
+
+                                                                        social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
+
+
+//
+                                                                    } catch(IOException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                    //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+                                                                }
+                                                                @Override
+                                                                public void onLoadCleared(Drawable placeholder) {
+                                                                }
+                                                            });
+
+                                                        } catch (JSONException e) {
+                                                            Log.e("ERROR", "FB_LOGIN:> " + e.toString());
+                                                        }
+                                                        alertDialog.dismiss();
+
+                                                    }
+
+                                                }
+                                            });
+                                            alertDialog.show();
+
+                                        }else{
+                                            try {
+                                                String Fbid = object.getString("id");
+                                                String Fbname = object.getString("name");
+                                                String Fbemail = object.getString("email");
+                                                if (Fbemail.equals("null")){
+                                                    Log.e("Fbemail",Fbemail);
+                                                }else{
+                                                    Log.e("emailId123",emailId);
+                                                }
+                                                String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
+                                                Log.e("Fbid",Fbid);
+                                                Log.e("fbImageurl",Fbimage_url);
+
+                                                Glide.with(Signup.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
+                                                    @Override
+                                                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                        try {
+                                                            File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                                            if (!mydir.exists()) {
+                                                                mydir.mkdirs();
+                                                            }
+
+                                                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                                            Log.e   ("fileUri",fileUri);
+                                                            FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                                            outputStream.flush();
+                                                            outputStream.close();
+
+                                                            Log.e("bitmap123",bitmap.toString());
+
+                                                            if (Fbemail.equals("null")){
+                                                                social_sign_up(Fbname,Fbemail,Fbid,"facebook",bitmap);
+                                                            }else{
+                                                                social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
+                                                            }
+
+//
+                                                        } catch(IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+                                                    }
+                                                    @Override
+                                                    public void onLoadCleared(Drawable placeholder) {
+                                                    }
+                                                });
+
+                                            } catch (JSONException e) {
+                                                Log.e("ERROR", "FB_LOGIN:> " + e.toString());
+                                            }
+                                        }
+
+                                    } else {
+                                        dismissDialog();
+                                        Toast.makeText(Signup.this, "data not found", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         Bundle parameters = new Bundle();
@@ -799,6 +906,51 @@ public class Signup extends BaseActivity {
                         Log.e("ERROR", "FB_LOGIN:> " + exception.toString());
                     }
                 });
+    }
+
+    private String getEmailAddress() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Signup.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(Signup.this).inflate(R.layout.custom_email, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(true);
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+        EditText et_email=dialogView.findViewById(R.id.et_email);
+        Button btnApply=dialogView.findViewById(R.id.btnApply);
+
+        et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                et_email.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+            }
+        });
+
+        btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emailId=et_email.getText().toString();
+
+
+                if (emailId.length()==0) {
+                    et_email.setError(getString(R.string.enter_email_id));
+                    Global.showKeyBoard(getApplicationContext(), et_email);
+                }else if (!Global.isValidEmail(emailId)){
+                    //api call
+                    et_email.setError("Enter Valid email id");
+                    Global.showKeyBoard(getApplicationContext(), et_email);
+                }else{
+                    Log.e("emailId",emailId);
+                    alertDialog.dismiss();
+
+                }
+
+            }
+        });
+        alertDialog.show();
+        return et_email.getText().toString();
+
     }
 
 }

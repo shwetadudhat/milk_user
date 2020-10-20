@@ -146,14 +146,11 @@
 
             </LinearLayout>
 
-
-
         </LinearLayout>
 
         <LinearLayout
             android:background="@color/white"
             android:id="@+id/llbottom"
-            android:layout_marginBottom="@dimen/_5sdp"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:orientation="vertical"
@@ -255,7 +252,70 @@
                     android:layout_below="@id/tvDelChargeTag1"
                     android:layout_alignParentRight="true"/>
 
-                <LinearLayout
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:id="@+id/tvcgst"
+                    android:text="@string/cgst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCuponTag"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:gravity="right"
+                    android:id="@+id/tvcgst1"
+                    android:text="-"
+                    android:layout_toRightOf="@+id/tvcgst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCuponTag"
+                    android:layout_alignParentRight="true"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:id="@+id/tvsgst"
+                    android:text="@string/sgst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvcgst"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_regular"
+                    android:textSize="@dimen/_12sdp"
+                    android:textColor="@color/title_clr"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:gravity="right"
+                    android:id="@+id/tvsgst1"
+                    android:text="-"
+                    android:layout_toRightOf="@+id/tvsgst"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvcgst"
+                    android:layout_alignParentRight="true"/>
+
+
+                <View
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:id="@+id/dotView"
+                    android:layout_below="@+id/tvsgst"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_2sdp"
+                    android:background="@drawable/bg_dotted"/>
+
+
+               <!-- <LinearLayout
                     android:orientation="vertical"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
@@ -263,7 +323,7 @@
                     android:layout_below="@+id/tvCuponTag"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:background="@drawable/bg_dotted"/>
+                    android:background="@drawable/bg_dotted"/>-->
 
                 <TextView
                     android:fontFamily="@font/ubuntu_bold"

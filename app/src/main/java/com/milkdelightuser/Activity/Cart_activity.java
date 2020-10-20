@@ -66,26 +66,17 @@ public class Cart_activity extends BaseActivity  {
     RecyclerView recycler_cartitem;
     Cart_Adapter adapter;
 
-
-    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1;
+    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1,tvcgst1,tvsgst1;
 
     /*bottom view 1*/
     LinearLayout llOrder,ll_ordrOnce,ll_buySubscription;
 
-
     Session_management sessionManagement;
     String u_id,user_name,user_nmbr,user_email;
 
-
     String promo_code;
-
-    int total_bagtag,total_gst,total_sgst,total_amount;
-
-    double discount_amount;
-
-    String tardetDate;
-
-    String enddate;
+    Double total_gst,total_amount;
+    Double discount_amount=0.0;
     String pay_amount;
 
     @Override
@@ -95,15 +86,9 @@ public class Cart_activity extends BaseActivity  {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_cart2);
+        setContent();
 
         db = new DatabaseHandler(Cart_activity.this);
-
-
-        ivBack=findViewById(R.id.ivBack);
-        ivNotify=findViewById(R.id.ivNotify);
-        ivNotify.setVisibility(View.VISIBLE);
-        title=findViewById(R.id.title);
-        title.setText(R.string.shoppingcart);
 
         sessionManagement=new Session_management(Cart_activity.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -111,63 +96,13 @@ public class Cart_activity extends BaseActivity  {
         user_nmbr = sessionManagement.getUserDetails().get(BaseURL.KEY_MOBILE);
         user_email = sessionManagement.getUserDetails().get(BaseURL.KEY_EMAIL);
 
-        scroll_view=findViewById(R.id.scroll_view);
-        container_null1=findViewById(R.id.container_null1);
 
-        rlCoupon=findViewById(R.id.rlCoupon);
-        recycler_cartitem=findViewById(R.id.recycler_cartitem);
         recycler_cartitem.setLayoutManager(new LinearLayoutManager(Cart_activity.this));
 
-        final Calendar cldr = Calendar.getInstance();
-        int day = cldr.get(Calendar.DAY_OF_MONTH);
-        int month = cldr.get(Calendar.MONTH);
-        int year = cldr.get(Calendar.YEAR);
-
-        //  freqDate.setText(day + " " + MONTHS[month] + " " + year);
-        tardetDate=day+"-"+month+"-"+year;
-
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            Date startdate = format.parse(tardetDate);
-            Date endddate = format.parse(tardetDate);
-
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            tardetDate = format.format(startdate);
-            enddate = format.format(endddate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.e("tardetDate",tardetDate);
-
-
-
-        tvBagTag1=findViewById(R.id.tvBagTag1);
-        tvDelChargeTag1=findViewById(R.id.tvDelChargeTag1);
-        tvCuponTa1=findViewById(R.id.tvCuponTa1);
-        tvTotalTag1=findViewById(R.id.tvTotalTag1);
-
-
-        llOrder=findViewById(R.id.llOrder);
-        ll_ordrOnce=findViewById(R.id.ll_ordrOnce);
-        ll_buySubscription=findViewById(R.id.ll_buySubscription);
-
-
-
-        total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round(Global.getTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount()))) ));
-        total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-        total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-
-        total_amount= Integer.parseInt(db.getTotalAmount())+total_gst+total_sgst;
-        Log.e("total_amount", String.valueOf(total_amount));
-        tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount()+" (GST: "+total_gst+" SGST: "+total_sgst+")");
-        tvDelChargeTag1.setText("FREE");
-        tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
-       // totalAmout=Math.round(total_amount);
+        // totalAmout=Math.round(total_amount);
 
         getCartList();
-
-
+        setPriceDetail();
 
 
         rlCoupon.setOnClickListener(new View.OnClickListener() {
@@ -241,11 +176,8 @@ public class Cart_activity extends BaseActivity  {
               intent.putExtra("discount_amount",String.valueOf(Math.round(discount_amount)));
               intent.putExtra("promo_code",promo_code);
               startActivity(intent);
-
-
             }
         });
-
 
 
         ll_buySubscription.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +206,56 @@ public class Cart_activity extends BaseActivity  {
         });
     }
 
+    private void setPriceDetail() {
+        total_amount= Double.parseDouble(db.getTotalAmountIncludeGSt());
+        Log.e("total_amount", String.valueOf(Integer.parseInt(db.getTotalAmountIncludeGSt())));
+        tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount());
+        tvDelChargeTag1.setText("FREE");
+        tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
+        Double gst=Double.parseDouble(db.getTotalAmountIncludeGSt())-Double.parseDouble(db.getTotalAmount());
+
+        if (gst!=0.0){
+            total_gst= gst/2;
+            tvcgst1.setText(""+MainActivity.currency_sign+String.valueOf(total_gst));
+            tvsgst1.setText(""+MainActivity.currency_sign+String.valueOf(total_gst));
+
+            Log.e("gstt==>123",gst.toString());
+            Log.e("total_gst==>123",total_gst.toString());
+        }else{
+            tvcgst1.setText(""+MainActivity.currency_sign+"0.0");
+            tvsgst1.setText(""+MainActivity.currency_sign+"0.0");
+        }
+
+
+
+    }
+
+    private void setContent() {
+        ivBack=findViewById(R.id.ivBack);
+        ivNotify=findViewById(R.id.ivNotify);
+        ivNotify.setVisibility(View.VISIBLE);
+        title=findViewById(R.id.title);
+        title.setText(R.string.shoppingcart);
+
+        tvBagTag1=findViewById(R.id.tvBagTag1);
+        tvDelChargeTag1=findViewById(R.id.tvDelChargeTag1);
+        tvCuponTa1=findViewById(R.id.tvCuponTa1);
+        tvTotalTag1=findViewById(R.id.tvTotalTag1);
+        tvcgst1=findViewById(R.id.tvcgst1);
+        tvsgst1=findViewById(R.id.tvsgst1);
+
+        llOrder=findViewById(R.id.llOrder);
+        ll_ordrOnce=findViewById(R.id.ll_ordrOnce);
+        ll_buySubscription=findViewById(R.id.ll_buySubscription);
+
+        scroll_view=findViewById(R.id.scroll_view);
+        container_null1=findViewById(R.id.container_null1);
+
+        rlCoupon=findViewById(R.id.rlCoupon);
+        recycler_cartitem=findViewById(R.id.recycler_cartitem);
+
+    }
+
     private void getCartList() {
         ArrayList<HashMap<String, String>> map = db.getCartAll();
         if (map.size()==0){
@@ -292,17 +274,15 @@ public class Cart_activity extends BaseActivity  {
             @Override
             public void onItemViewClicked(int i) {
 
-                total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round( Global.getTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-                total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-                total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(Cart_activity.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
+                setPriceDetail();
 
-                total_amount= Integer.parseInt(db.getTotalAmount())+total_gst+total_sgst;
-                Log.e("total_amount", String.valueOf(total_amount));
-                tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount()+" (GST: "+total_gst+" SGST: "+total_sgst+")");
+              /*  total_amount= Double.parseDouble(db.getTotalAmountIncludeGSt());
+                Log.e("total_amount==>1", String.valueOf(total_amount));
+                tvBagTag1.setText(MainActivity.currency_sign+total_amount);
                 tvDelChargeTag1.setText("FREE");
-                tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
-
-
+                tvTotalTag1.setText(MainActivity.currency_sign+db.getTotalAmount());
+                Double gst=Double.parseDouble(db.getTotalAmount())-Double.parseDouble(db.getTotalAmountIncludeGSt());
+                Log.e("gstt==>2344",gst.toString());*/
 
             }
         });
@@ -335,11 +315,11 @@ public class Cart_activity extends BaseActivity  {
 
                         JSONObject jsonObject=response.getJSONObject("data");
 
-                        total_amount= jsonObject.getInt("total_amount");
+                        total_amount= Double.parseDouble(String.valueOf(jsonObject.getInt("total_amount")));
                         discount_amount= Double.parseDouble(jsonObject.getString("discount"));
                         pay_amount=jsonObject.getString("pay_amount");
                         promo_code=jsonObject.getString("promo_code");
-                        total_amount= Integer.parseInt(String.valueOf(Math.round(Double.parseDouble(pay_amount))));
+                        total_amount= Double.parseDouble(String.valueOf(Math.round(Double.parseDouble(pay_amount))));
 
                         tvCuponTa1.setText("-"+MainActivity.currency_sign+Math.round(discount_amount));
                         tvTotalTag1.setText(MainActivity.currency_sign+total_amount);

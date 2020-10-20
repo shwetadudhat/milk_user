@@ -101,7 +101,7 @@ public class Product extends BaseActivity {
     LinearLayout ll_main;
     RelativeLayout reltive_null;
 
-    String product_id1,category_id1,product_name,description,price,subscription_price,proImgae,qty1,unit,stock;
+    String product_id1,category_id1,product_name,description,price,subscription_price,proImgae,qty1,unit,stock, mrp,sub_price,gst_subscription_price;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -205,6 +205,9 @@ public class Product extends BaseActivity {
                         map.put("product_description", description);
                         map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
                         map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                        map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                        map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+//                        map.put("cgst", String.valueOf(Math.round(Float.parseFloat(sub_price))));
                         map.put("product_image", proImgae);
                         map.put("unit", qty1+" "+unit);
                         map.put("stock", stock);
@@ -280,8 +283,6 @@ public class Product extends BaseActivity {
                         category_id1 = product_details.getString("category_id");
                         product_name = product_details.getString("product_name");
                         String category_name = product_details.getString("category_name");
-                        price = String.valueOf(Double.valueOf(product_details.getString("price"))+ Math.round( Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
-                        subscription_price = String.valueOf(Double.valueOf(product_details.getString("subscription_price"))+ Math.round(  Global.getTax(Product.this, Double.valueOf(product_details.getString("price")))));
 
 //                        String subscription_price = product_details.getString("subscription_price");
                         qty1 = product_details.getString("qty");
@@ -289,7 +290,6 @@ public class Product extends BaseActivity {
                         description = product_details.getString("description");
                         stock = product_details.getString("stock");
                         unit = product_details.getString("unit");
-                        String mrp = String.valueOf(Double.valueOf(product_details.getString("mrp"))+ Math.round( Global.getTax(Product.this, Double.valueOf(product_details.getString("mrp")))));
 
                     //    String mrp = product_details.getString("mrp");
                         String product_review_count = product_details.getString("product_review_count");
@@ -297,6 +297,7 @@ public class Product extends BaseActivity {
                         String milk_type = product_details.getString("milk_type");
                         String fat = product_details.getString("fat");
                         String gst = product_details.getString("gst");
+                        Log.e("gstttttt==>23",gst);
 
                         proImgae=product_url+product_image1;
 
@@ -341,27 +342,43 @@ public class Product extends BaseActivity {
 
                         itemName.setText(product_name+" ("+qty1+" "+unit+")");
 
+
                         if (!gst.equals("null")){
-                           /* holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
-                            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
-                            */
-                            itemPrice.setText(MainActivity.currency_sign +  String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(Product.this, Double.parseDouble(price),Double.parseDouble(gst)))));
-                            tvMrp.setText( MainActivity.currency_sign + String.valueOf(Math.round(Double.parseDouble(mrp))+ Math.round(Global.getTax1(Product.this, Double.parseDouble(mrp),Double.parseDouble(gst)))));
+
+                            price = product_details.getString("price");
+
+                            sub_price = String.valueOf(Double.valueOf(product_details.getString("price"))+ Math.round( Global.getTax1(Product.this, Double.valueOf(product_details.getString("price")),Double.parseDouble(gst))));
+                            subscription_price = String.valueOf(Double.valueOf(product_details.getString("subscription_price")));
+                            mrp = String.valueOf(Double.valueOf(product_details.getString("mrp"))+ Math.round( Global.getTax1(Product.this, Double.valueOf(product_details.getString("mrp")),Double.parseDouble(gst))));
+                            gst_subscription_price= String.valueOf(Double.valueOf(product_details.getString("subscription_price"))+ Math.round(  Global.getTax1(Product.this, Double.valueOf(product_details.getString("subscription_price")),Double.parseDouble(gst))));
+
+                            Log.e("price123==>1",price);
+                            Log.e("sub_price123==>1",sub_price+"/nsubscription_price:"+subscription_price);
+                            Log.e("price456==>1",product_details.getString("price"));
+                            Log.e("sub_price456==>1",product_details.getString("subscription_price"));
+
+
+                            itemPrice.setText(MainActivity.currency_sign + Math.round(Double.parseDouble(sub_price)));
+                            tvMrp.setText( MainActivity.currency_sign + Math.round(Double.parseDouble(mrp)));
 
                         }else{
-                           /* holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
-                            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
-                           */
-                            tvMrp.setText( MainActivity.currency_sign + Math.round(Float.parseFloat(mrp)));
-                            tvMrp.setText( MainActivity.currency_sign + Math.round(Float.parseFloat(mrp)));
+
+                            sub_price=product_details.getString("price");
+
+                            mrp= product_details.getString("mrp");
+                            price =product_details.getString("price");
+                            subscription_price = product_details.getString("subscription_price");
+                            gst_subscription_price = product_details.getString("subscription_price");
+
+                            tvMrp.setText( MainActivity.currency_sign + Math.round(Double.parseDouble(mrp)));
+                            itemPrice.setText(MainActivity.currency_sign + Math.round(Double.parseDouble(price)));
 
                         }
 
+                        Log.e("mrppp",mrp);
 
-                        itemPrice.setText(MainActivity.currency_sign + Math.round(Float.parseFloat(price)));
                         if (!mrp.equals("0")){
                             tvMrp.setVisibility(View.VISIBLE);
-                            tvMrp.setText( MainActivity.currency_sign + Math.round(Float.parseFloat(mrp)));
                             tvMrp.setPaintFlags(tvMrp.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                         }
 
@@ -385,8 +402,10 @@ public class Product extends BaseActivity {
                                     map.put("product_name", product_name);
                                     map.put("category_id", category_id1);
                                     map.put("product_description", description);
-                                    map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
-                                    map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                                    map.put("price", String.valueOf(Math.round(Double.parseDouble(price))));
+                                    map.put("subscription_price", String.valueOf(Math.round(Double.parseDouble(subscription_price))));
+                                    map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+                                    map.put("gst_price", String.valueOf(Math.round(Double.parseDouble(sub_price))));
                                     map.put("product_image", proImgae);
                                     map.put("unit", qty1+" "+unit);
                                     map.put("stock", stock);
@@ -405,6 +424,8 @@ public class Product extends BaseActivity {
                                         map.put("product_description", description);
                                         map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
                                         map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                                        map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+                                        map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
                                         map.put("product_image", proImgae);
                                         map.put("unit", qty1+" "+unit);
                                         map.put("stock", stock);
@@ -434,12 +455,12 @@ public class Product extends BaseActivity {
                                     map.put("product_description", description);
                                     map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
                                     map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                                    map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+                                    map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
                                     map.put("product_image", proImgae);
                                     map.put("unit", qty1+" "+unit);
                                     map.put("stock", stock);
                                     db.setCart(map, Float.valueOf(tvQty.getText().toString()));
-
-
 
                             }
                         });

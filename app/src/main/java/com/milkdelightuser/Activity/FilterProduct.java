@@ -54,14 +54,11 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
     LinearLayout ll_clear,ll_apply;
     Adapter_Prosize adapterProsize;
 
-   // ArrayList<String> stringArrayList;
     ArrayList<App_Product_Model> stringArrayList;
     String selestedItem;
     String itemtype1="",select_id;
     int index;
     int row_index=-1,positionn=-1;
-
-
 
     SharedPreferences settings ;
     SharedPreferences.Editor editor;
@@ -89,7 +86,6 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
         ivClose=findViewById(R.id.ivClose);
         recycler_prosize=findViewById(R.id.recycler_prosize);
 
-
         settings = getApplicationContext().getSharedPreferences(MY_FILTER_PREFS_NAME, Context.MODE_PRIVATE);
         editor = settings.edit();
         isSelectedd = settings.getBoolean("locked", false);
@@ -102,7 +98,6 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
         stringArrayList=new ArrayList<>();
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, sort_type);
-
 
 
         if(edSortType != null) {
@@ -135,18 +130,13 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
                    // Toast.makeText(getBaseContext(), sort_type[index], Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
 
 
         if (isInternetConnected()) {
             try {
                 showDialog("");
-
                 getProductSizeData();
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -183,6 +173,8 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
                     }else{
                         editor.putString("sort_data",selestedItem);
                     }
+                }else{
+                    Log.e("elsee","elsee");
                 }
                 editor.putString("select_id",String.valueOf(positionn));
                 editor.putString("select",itemtype1);

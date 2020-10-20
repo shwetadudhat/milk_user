@@ -135,6 +135,7 @@ public class MyOrder_Fragment extends BaseFragment {
                             String sub_status=jsonObject1.getString("sub_status");
 
                             JSONObject jsonObject2=jsonObject1.getJSONObject("product");
+                            String gst=jsonObject2.getString("gst");
                             JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
                             String product_image=jsonObject3.getString("product_image");
 
@@ -143,8 +144,16 @@ public class MyOrder_Fragment extends BaseFragment {
                             orderModel.setOrder_id(String.valueOf(subs_id));
                             orderModel.setOffer_product(product_name);
                             orderModel.setOffer_qty(order_qty);
+                            orderModel.setGst(gst);
 
-                            orderModel.setOffer_pricee(String.valueOf(Math.round(Double.parseDouble(price)+ Math.round( Global.getTax(getContext(), Double.parseDouble(price))))));
+//                            orderModel.setOffer_pricee(String.valueOf(Math.round(Double.parseDouble(price)+ Math.round( Global.getTax(getContext(), Double.parseDouble(price))))));
+                            if (!gst.equals("null")){
+                                Log.e("priceee123", String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(getContext(), Double.parseDouble(price),Double.parseDouble(gst)))));
+                                orderModel.setOffer_pricee(String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(getContext(), Double.parseDouble(price),Double.parseDouble(gst)))));
+                            }else{
+                                orderModel.setOffer_pricee(price);
+                            }
+//                            orderModel.setOffer_pricee(price);
                             orderModel.setOffer_deliveryText(delivery_date);
                             orderModel.setOrder_unit(qty+" "+unit);
                             orderModel.setOrder_icon(product_url+product_image);

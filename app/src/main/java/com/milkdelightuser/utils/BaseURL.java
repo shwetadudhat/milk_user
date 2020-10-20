@@ -11,9 +11,8 @@ public class BaseURL {
     public static final String KEY_IMAGE = "userimage";
   //  public static final String KEY_PINCODE = "userpincode";
 
-
     //    public static String BASE_URL = "https://gofreshdaily.com/app/api/";
-    public static String BASE_URL = "http://civilwarboots.net/milk_delight/api/v1/";
+    public static String BASE_URL = "http://milkdelight.in/api/v1/";
 
     public static String sign_up = BASE_URL+"user_registers";
    // public static String verify_phone = BASE_URL+"verify_phone";
@@ -69,7 +68,7 @@ public class BaseURL {
     public static String subscription_plan_check = BASE_URL + "subscription_plan_check";
     public static String subscription_modify = BASE_URL + "subscription_modify";
     public static String upload_profile = BASE_URL + "upload_profile";
-    public static String profile_url="http://civilwarboots.net/milk_delight/public/admin/images/user/profile/";
+    public static String profile_url="http://milkdelight.in/public/admin/images/user/profile/";
     public static String contacts_app_details= BASE_URL + "contacts_app_details";
     public static String privacy_policy= BASE_URL + "privacy_policy";
     public static String notification_list= BASE_URL + "notification_list";
@@ -78,8 +77,5 @@ public class BaseURL {
     public static String generate_cashfree_token= BASE_URL + "generate_cashfree_token";
     public static String pincode_check= BASE_URL + "pincode_check";
 
-
-    //    public static String IMG_CATEGORY_URL = "https://gofreshdaily.com/app/";
-    public static String IMG_CATEGORY_URL = "http://civilwarboots.net/milk_delight/";
 
 }

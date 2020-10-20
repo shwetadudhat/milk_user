@@ -311,12 +311,64 @@
                                     android:layout_below="@id/tvDelChargeTag1"
                                     android:layout_alignParentRight="true"/>
 
+                                <TextView
+                                    android:fontFamily="@font/ubuntu_regular"
+                                    android:textSize="@dimen/_12sdp"
+                                    android:textColor="@color/title_clr"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:id="@+id/tvcgst"
+                                    android:text="@string/cgst"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tvCuponTag"
+                                    android:layout_alignParentLeft="true"/>
+
+                                <TextView
+                                    android:fontFamily="@font/ubuntu_regular"
+                                    android:textSize="@dimen/_12sdp"
+                                    android:textColor="@color/title_clr"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:gravity="right"
+                                    android:id="@+id/tvcgst1"
+                                    android:text="-"
+                                    android:layout_toRightOf="@+id/tvcgst"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tvCuponTag"
+                                    android:layout_alignParentRight="true"/>
+
+                                <TextView
+                                    android:fontFamily="@font/ubuntu_regular"
+                                    android:textSize="@dimen/_12sdp"
+                                    android:textColor="@color/title_clr"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:id="@+id/tvsgst"
+                                    android:text="@string/sgst"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tvcgst"
+                                    android:layout_alignParentLeft="true"/>
+
+                                <TextView
+                                    android:fontFamily="@font/ubuntu_regular"
+                                    android:textSize="@dimen/_12sdp"
+                                    android:textColor="@color/title_clr"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:gravity="right"
+                                    android:id="@+id/tvsgst1"
+                                    android:text="-"
+                                    android:layout_toRightOf="@+id/tvsgst"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tvcgst"
+                                    android:layout_alignParentRight="true"/>
+
 
                                 <View
                                     android:layout_marginTop="@dimen/_5sdp"
                                     android:layout_marginBottom="@dimen/_5sdp"
                                     android:id="@+id/dotView"
-                                    android:layout_below="@+id/tvCuponTag"
+                                    android:layout_below="@+id/tvsgst"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_2sdp"
                                     android:background="@drawable/bg_dotted"/>
@@ -348,156 +400,9 @@
                                     android:layout_below="@id/dotView"
                                     android:layout_alignParentRight="true"/>
 
-
-
                             </RelativeLayout>
 
-
-
-
                         </RelativeLayout>
-
-
-
-                        <!-- <RelativeLayout
-                             android:layout_below="@+id/rlChk"
-                             android:id="@+id/rl_price"
-                             android:paddingLeft="@dimen/_14sdp"
-                             android:paddingRight="@dimen/_14sdp"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content">
-
-                             <TextView
-                                 android:layout_marginTop="@dimen/_10sdp"
-                                 android:layout_marginBottom="@dimen/_10sdp"
-                                 android:id="@+id/tvPriceTag"
-                                 android:textColor="@color/title_clr"
-                                 android:fontFamily="@font/ubuntu_bold"
-                                 android:textSize="@dimen/_15sdp"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:text="Price Details"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:textColor="@color/title_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:id="@+id/tvBagTag"
-                                 android:text="Bag Total"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvPriceTag"
-                                 android:layout_alignParentLeft="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:textColor="@color/title_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:gravity="right"
-                                 android:id="@+id/tvBagTag1"
-                                 android:text="Rs.2,448"
-                                 android:layout_toRightOf="@+id/tvBagTag"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvPriceTag"
-                                 android:layout_alignParentRight="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:textColor="@color/title_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:id="@+id/tvDelChargeTag"
-                                 android:text="Delivery Charges"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvBagTag"
-                                 android:layout_alignParentLeft="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:textColor="@color/green"
-                                 android:gravity="right"
-                                 android:id="@+id/tvDelChargeTag1"
-                                 android:text="FREE"
-                                 android:layout_toRightOf="@+id/tvDelChargeTag"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvBagTag"
-                                 android:layout_alignParentRight="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:textColor="@color/title_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:id="@+id/tvCuponTag"
-                                 android:text="Coupon Code"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvDelChargeTag"
-                                 android:layout_alignParentLeft="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_regular"
-                                 android:textSize="@dimen/_12sdp"
-                                 android:textColor="@color/title_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:gravity="right"
-                                 android:id="@+id/tvCuponTa1"
-                                 android:text=""
-                                 android:layout_toRightOf="@+id/tvCuponTag"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/tvDelChargeTag1"
-                                 android:layout_alignParentRight="true"/>
-
-                             <View
-                                 android:layout_marginTop="@dimen/_5sdp"
-                                 android:layout_marginBottom="@dimen/_5sdp"
-                                 android:id="@+id/dotView"
-                                 android:layout_below="@+id/tvCuponTag"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="@dimen/_2sdp"
-                                 android:background="@drawable/bg_dotted"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_bold"
-                                 android:textSize="@dimen/_14sdp"
-                                 android:textColor="@color/main_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:id="@+id/tvTotalTag"
-                                 android:text="Total"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/dotView"
-                                 android:layout_alignParentLeft="true"/>
-
-                             <TextView
-                                 android:fontFamily="@font/ubuntu_bold"
-                                 android:textSize="@dimen/_14sdp"
-                                 android:textColor="@color/main_clr"
-                                 android:paddingBottom="@dimen/_5sdp"
-                                 android:gravity="right"
-                                 android:id="@+id/tvTotalTag1"
-                                 android:text="Rs.1,157"
-                                 android:layout_toRightOf="@+id/tvTotalTag"
-                                 android:layout_width="wrap_content"
-                                 android:layout_height="wrap_content"
-                                 android:layout_below="@id/dotView"
-                                 android:layout_alignParentRight="true"/>
-
-
-
-                         </RelativeLayout>-->
-
-
-
-
 
                     </RelativeLayout>
 

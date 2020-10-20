@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -31,7 +32,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.milkdelightuser.utils.CustomPlayerUiController;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerUtils;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+
+/*import com.google.android.youtube.player.YouTubeInitializationResult;
+//import com.google.android.youtube.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;*/
+//import com.google.android.youtube.player.YouTubePlayerView;
 import com.milkdelightuser.Activity.ProductListing;
 import com.milkdelightuser.Adapter.Adapter_BestProduct;
 import com.milkdelightuser.Adapter.Adapter_HomeCat;
@@ -50,6 +62,8 @@ import com.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.milkdelightuser.utils.DatabaseHandler;
 import com.milkdelightuser.utils.Global;
 import com.milkdelightuser.utils.MemberItemDecoration;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerUtils;
 
 
 import org.json.JSONArray;
@@ -62,10 +76,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,8 +91,9 @@ import androidx.viewpager.widget.ViewPager;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 import static com.milkdelightuser.utils.Global.GST_DATA;
+import static com.milkdelightuser.utils.Global.IMGURL_PREFS_NAME;
 import static com.milkdelightuser.utils.Global.MY_GST_PREFS_NAME;
-
+import static com.milkdelightuser.utils.Global.hideKeyBoard;
 
 
 public class Home_Fragment1 extends BaseFragment  {
@@ -89,7 +107,6 @@ public class Home_Fragment1 extends BaseFragment  {
     RecyclerView recycler_SellingProduct, recycler_cat, recycler_BestProduct;
 
     VideoView videoview;
-    WebView webView;
     ImageView ivYouTube;
     public boolean isPlaying1=false;
 
@@ -112,11 +129,13 @@ public class Home_Fragment1 extends BaseFragment  {
 
     RelativeLayout rv_container,rv_null;
 
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor myEdit;
+    SharedPreferences sharedPreferences,sharedPreferences1;
+    SharedPreferences.Editor myEdit,myEdit1;
 
 
     YouTubePlayerView youTubePlayerView;
+    private YouTubePlayer youTubePlayer1;
+    private String currentVideoId;
 
     public Home_Fragment1() {
         // Required empty public -constructor
@@ -128,6 +147,9 @@ public class Home_Fragment1 extends BaseFragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
+
 
         return view;
     }
@@ -146,25 +168,14 @@ public class Home_Fragment1 extends BaseFragment  {
         rlCatttt=view.findViewById(R.id.rlCatttt);
         Rlbestproduct=view.findViewById(R.id.Rlbestproduct);
 
-        videoview = (VideoView)view.findViewById(R.id.videoview);
-
-//        youTubePlayerView = view.findViewById(R.id.youtube_player_view);
 
 
-
-
-       /* youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                String videoId = "S0Q4gqBUs7c";
-                youTubePlayer.loadVideo(videoId, 0);
-            }
-        });*/
+        hideKeyBoard(getContext(),editSearch);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         ivYouTube = view.findViewById(R.id.ivYouTube);
         rv_container = view.findViewById(R.id.rv_container);
         rv_null = view.findViewById(R.id.rv_null);
-
 
 
         recycler_SellingProduct=view.findViewById(R.id.recycler_SellingProduct);
@@ -176,7 +187,9 @@ public class Home_Fragment1 extends BaseFragment  {
         indicator_banner=view.findViewById(R.id.indicator_banner);
 
         sharedPreferences = getApplicationContext().getSharedPreferences(MY_GST_PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences1 = getApplicationContext().getSharedPreferences(IMGURL_PREFS_NAME, Context.MODE_PRIVATE);
         myEdit = sharedPreferences.edit();
+        myEdit1 = sharedPreferences1.edit();
 
         db = new DatabaseHandler(getActivity());
 
@@ -282,6 +295,9 @@ public class Home_Fragment1 extends BaseFragment  {
                         JSONObject video=jsonObject.getJSONObject("video_link");
                         String video_link=video.getString("video_link");
                         JSONObject url=jsonObject.getJSONObject("url");
+
+                        myEdit1.putString(GST_DATA, url.toString());
+                        myEdit1.commit();
                         String banner_url=url.getString("banner_url");
                         String product_url=url.getString("product_url");
                         category_url=url.getString("category_url");
@@ -293,7 +309,6 @@ public class Home_Fragment1 extends BaseFragment  {
                         }else{
                             RlbannerView.setVisibility(View.GONE);
                         }
-
 
                         if (selling_product.length()>0){
                             setUpSellingProduct(selling_product,product_url);
@@ -596,90 +611,92 @@ public class Home_Fragment1 extends BaseFragment  {
 
 
     private void VideoViewFun(String link) {
-     //   getLifecycle().addObserver(youTubePlayerView);
-
-
-       /* youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                String videoId = "zxQXEyMMC0E";
-                youTubePlayer.loadVideo(videoId, 0);
-            }
-        });*/
-
-
-        /*Uri uri = Uri.parse(link);
-        videoview.setMediaController(new MediaController(getContext()));
-        videoview.setVideoURI(uri);
-        videoview.requestFocus();
-        videoview.start();*/
-
-
-        videoview.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
-
-        Uri video = Uri.parse(link);
-    //    videoview.setVideoURI(video);
-        Uri uri = Uri.parse("https://www.youtube.com/watch?v=h1Xp7p1taW0&ab_channel=AmulTheTasteofIndia");
-        /*https://www.youtube.com/watch?v=OfscxuLO_GI&t=4s*/
-
 
         Log.e("linkkkkkk",link);
+
+        currentVideoId= getYoutubeVideoIdFromUrl(link);
+//        currentVideoId= "6JYIGclVQdw";
+        Log.e("videoId",currentVideoId);
+        initYouTubePlayerView(currentVideoId);
+
+
         ivYouTube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isPlaying1){
-                    videoview.pause();
+//                    videoview.pause();
+                    youTubePlayer1.pause();
                     isPlaying1=false;
+                    Log.e("ifff","ifff");
                 }else{
-                    videoview.start();
+//                    videoview.start();
+                    if (youTubePlayer1!=null){
+                        youTubePlayer1.play();
+                        Log.e("nulll","null");
+                    }
+
                     ivYouTube.setVisibility(View.GONE);
                     isPlaying1=true;
+
+                    Log.e("elsee","elsss");
                 }
 
 
             }
         });
 
-        videoview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ivYouTube.setVisibility(View.VISIBLE);
-            }
-        });
-
-        videoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                videoview.stopPlayback();
-                ivYouTube.setVisibility(View.VISIBLE);
-                isPlaying1=false;
-                Uri video = Uri.parse(link);
-               // videoview.setVideoURI(video);
-              //  videoview.setVideoPath(link);
-                videoview.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
-            }
-        });
-
-
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        youTubePlayerView.release();
+    public String getYoutubeVideoIdFromUrl(String inUrl) {
+        inUrl = inUrl.replace("&feature=youtu.be", "");
+        if (inUrl.toLowerCase().contains("youtu.be")) {
+            return inUrl.substring(inUrl.lastIndexOf("/") + 1);
+        }
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(inUrl);
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            return null;
+        }
+    }
+
+
+
+    private void initYouTubePlayerView(String videoId) {
+        // The player will automatically release itself when the fragment is destroyed.
+        // The player will automatically pause when the fragment is stopped
+        // If you don't add YouTubePlayerView as a lifecycle observer, you will have to release it manually.
+        getLifecycle().addObserver(youTubePlayerView);
+
+        cueVideo(videoId);
+
+
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+
+                youTubePlayer1 = youTubePlayer;
+                youTubePlayer1.cueVideo(videoId, 0);
+
+
+            }
+        });
+    }
+
+
+    void cueVideo(String videoId) {
+        currentVideoId = videoId;
+
+        if (youTubePlayer1 == null)
+            return;
+
+        youTubePlayer1.cueVideo(videoId, 0);
+
     }
 
 
 
 }
-
-
-
-
-
-
-
-
-
-

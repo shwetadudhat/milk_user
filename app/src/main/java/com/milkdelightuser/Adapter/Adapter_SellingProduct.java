@@ -3,6 +3,7 @@ package com.milkdelightuser.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
     List<App_Product_Model> productModelList;
     private List<App_Product_Model> arraylist;
     Double product_price;
+    Double gst,cgst,sgst;
 
 
     int count = 1;
@@ -65,10 +67,10 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
         dbcart = new DatabaseHandler(context);
 
 
-        product_price= Double.valueOf(productModelList.get(i).getPrice())+ Math.round(Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())));
+//        product_price= Double.valueOf(productModelList.get(i).getPrice())+ Math.round(Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())));
 
         holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
-        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(allProductsModel.getPrice())+ Global.getTax(context, Double.valueOf(allProductsModel.getPrice()))));
+//        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(allProductsModel.getPrice())+ Global.getTax(context, Double.valueOf(allProductsModel.getPrice()))));
       //  holder.tvProPrice.setText(MainActivity.currency_sign+productModelList.get(i).getPrice());
 
 /*        Glide.with(context)
@@ -77,10 +79,20 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
 
         Global.loadGlideImage(context,productModelList.get(i).getProduct_image(), productModelList.get(i).getProduct_image(),holder.ivProd);
 
+        if (!productModelList.get(i).getGst().equals("null")){
+            gst= Double.valueOf(productModelList.get(i).getGst());
+            holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
+
+        }else{
+            holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
+
+        }
 
         if (!productModelList.get(i).getMrp().equals("0")){
             holder.tvOldPrice.setVisibility(View.VISIBLE);
-            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getMrp())))));
+//            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getMrp())))));
 
             //  holder.tvOldPrice.setText( MainActivity.currency_sign +productModelList.get(i).getMrp());
             holder.tvOldPrice.setPaintFlags(holder.tvOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -91,7 +103,12 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
             @Override
             public void onClick(View view) {
 
-                holder.btnAdd.callOnClick();
+//                holder.btnAdd.callOnClick();
+
+                Intent intent=new Intent(context, Product.class);
+                intent.putExtra("proname",productModelList.get(i).getProduct_name());
+                intent.putExtra("proId",productModelList.get(i).getProduct_id());
+                context.startActivity(intent);
 
             }
         });
@@ -107,12 +124,19 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
                 map.put("product_description", allProductsModel.getDescription());
                 map.put("price", allProductsModel.getPrice());
                 map.put("subscription_price", allProductsModel.getSubscription_price());
-//                Log.e("Stringproduct_price",String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getPrice())+ Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())))));
-//                map.put("price", String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getPrice())+ Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())))));
-//                map.put("subscription_price", String.valueOf(Math.round(Double.valueOf(allProductsModel.getSubscription_price())+ Global.getTax(context, Double.valueOf(allProductsModel.getSubscription_price())))));
                 map.put("product_image", allProductsModel.getProduct_image());
                 map.put("unit",allProductsModel.getQty()+" "+ allProductsModel.getUnit());
                 map.put("stock", allProductsModel.getStock());
+                if (!productModelList.get(i).getGst().equals("null")){
+                    gst= Double.valueOf(productModelList.get(i).getGst());
+                    map.put("gst_price",String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+                    Log.e("priceee123", String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+                    map.put("gst_subscription_price",  String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getSubscription_price()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getSubscription_price()),gst))));
+
+                }else{
+                    map.put("gst_price", allProductsModel.getPrice());
+                    map.put("gst_subscription_price", allProductsModel.getSubscription_price());
+                }
 
                 if (dbcart.isInCart(map.get("product_id"))) {
                         dbcart.setCart(map, Float.valueOf(dbcart.getCartItemQty(map.get("product_id")))+1);

@@ -327,9 +327,9 @@ public class subscription2 extends BaseActivity  {
                                 });
                                 Toast.makeText(subscription2.this, "plase select address first", Toast.LENGTH_SHORT).show();
                             }else{
-                                showDialog("");
-                                checkPincode();
-//                                AddSubscription();
+//                                showDialog("");
+//                                checkPincode();
+                                AddSubscription();
                             }
 
                         } catch (Exception e) {
@@ -907,12 +907,24 @@ public class subscription2 extends BaseActivity  {
             for (int i = 0; i < map.size(); i++) {
                 HashMap<String, String> map1 = map.get(i);
 
+                pro_gst=Double.valueOf(map1.get("gst_subscription_price"))-Double.valueOf(map1.get("subscription_price"));
+                Log.e("pro_gst",String.valueOf(pro_gst));
+
+                if (pro_gst!=0.0){
+                    pro_sgst=pro_gst/2;
+                    Log.e("pro_sgst",String.valueOf(pro_sgst));
+                }else{
+                    pro_sgst=0.0;
+                }
+
                 SubscriptioAddProduct_model subscriptioAddProductModel=new SubscriptioAddProduct_model();
                 subscriptioAddProductModel.setProduct_id(map1.get("product_id"));
                 subscriptioAddProductModel.setProduct_name(map1.get("product_name"));
                 subscriptioAddProductModel.setProduct_qty(db.getCartItemQty(map1.get("product_id")));
                 subscriptioAddProductModel.setProduct_price(Integer.parseInt(map1.get("subscription_price")));
                 subscriptioAddProductModel.setProduct_unit(map1.get("unit"));
+                subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_sgst));
+                subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));
 
                 for (int j=0;j<stardateList1.size();j++){
                     for (int v=0;v<stardateList1.size();v++){
@@ -943,11 +955,13 @@ public class subscription2 extends BaseActivity  {
                             }
 
 
-                            pro_gst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
-                            pro_sgst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getSGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
 
-                            subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_gst));
-                            subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));
+
+                           /* pro_gst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
+                            pro_sgst=endDateModelArrayList.get(v).getProduct_totalPrice()* Global.getSGSTTax(subscription2.this, Double.valueOf(String.valueOf(endDateModelArrayList.get(v).getProduct_totalPrice())));
+*/
+                          /*  subscriptioAddProductModel.setProduct_gst((int) Math.round(pro_gst));
+                            subscriptioAddProductModel.setProduct_sgst((int) Math.round(pro_sgst));*/
                             subscriptioAddProductModel.setProduct_totalprice(endDateModelArrayList.get(v).getProduct_totalPrice());
                             subscriptioAddProductModel.setEnd_date(end_date);
                         }
@@ -1078,6 +1092,8 @@ public class subscription2 extends BaseActivity  {
                     jObjP.put("sgst_amount",subProductList.get(i).getProduct_sgst());
                     jObjP.put("start_date", subProductList.get(i).getStart_date());
                     jObjP.put("end_date", subProductList.get(i).getEnd_date());
+                    jObjP.put("product_name",subProductList.get(i).getProduct_name());
+                    jObjP.put("pack_size ",subProductList.get(i).getProduct_unit());
                     passArray.put(jObjP);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1248,7 +1264,6 @@ public class subscription2 extends BaseActivity  {
                 subProductList1= (ArrayList<SubscriptioAddProduct_model>) data.getSerializableExtra("subList");
                 // TODO: Do something with your extra data
 
-                Log.e("msggggg",txMsg);
 
                 showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,subProductList1);
 
@@ -1420,7 +1435,7 @@ public class subscription2 extends BaseActivity  {
         View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_success, viewGroup, false);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(true);
+        alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
@@ -1461,6 +1476,7 @@ public class subscription2 extends BaseActivity  {
         llDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 alertDialog.dismiss();
             }
         });

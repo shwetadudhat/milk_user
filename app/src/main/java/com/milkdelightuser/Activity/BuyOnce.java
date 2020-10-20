@@ -74,7 +74,7 @@ public class BuyOnce extends BaseActivity  {
     TextView cart_adrName,cart_adr,cart_adrNmbr;
     RecyclerView recycler_cartList;
 
-    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1;
+    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1,tvcgst1,tvsgst1;
 
 
     /*bottom view 2*/
@@ -90,14 +90,13 @@ public class BuyOnce extends BaseActivity  {
 
     String promo_code;
 
-    int total_bagtag,total_gst,total_sgst,total_amount;
-    double gst,sgst,pro_gst,pro_sgst,total_tax;
+    double total_gst,total_amount;
+    double pro_gst,pro_sgst;
 
     double razorAmount=0,/*totalAmout,*/wallet,walletAmount;
 
-    String Addrid,tardetDate,pincode;
+    String Addrid,pincode;
 
-    String enddate;
     String pay_amount,discount_amount;
 
     JSONArray passArray;
@@ -111,17 +110,9 @@ public class BuyOnce extends BaseActivity  {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_buyonce);
+        setContent();
 
         db = new DatabaseHandler(BuyOnce.this);
-
-
-        ivBack=findViewById(R.id.ivBack);
-        ivNotify=findViewById(R.id.ivNotify);
-        ivNotify.setVisibility(View.VISIBLE);
-        title=findViewById(R.id.title);
-        title.setText(getString(R.string.shoppingcart));
-
-
 
         sessionManagement=new Session_management(BuyOnce.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -134,40 +125,7 @@ public class BuyOnce extends BaseActivity  {
         myEdit = sharedPreferences.edit();
         myEdit1 = sharedPreferences.edit();
 
-
-
-        final Calendar cldr = Calendar.getInstance();
-        int day = cldr.get(Calendar.DAY_OF_MONTH);
-        int month = cldr.get(Calendar.MONTH);
-        int year = cldr.get(Calendar.YEAR);
-
-        //  freqDate.setText(day + " " + MONTHS[month] + " " + year);
-        tardetDate=day+"-"+month+"-"+year;
-
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            Date startdate = format.parse(tardetDate);
-            Date endddate = format.parse(tardetDate);
-
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            tardetDate = format.format(startdate);
-            enddate = format.format(endddate);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.e("tardetDate",tardetDate);
-
-        llEdit=findViewById(R.id.llEdit);
-        ll_addresstext=findViewById(R.id.ll_addresstext);
-        ivAdrEdit=findViewById(R.id.ivAdrEdit);
-        cart_adrName=findViewById(R.id.cart_adrName);
-        cart_adr=findViewById(R.id.cart_adr);
-        cart_adrNmbr=findViewById(R.id.cart_adrNmbr);
-        recycler_cartList=findViewById(R.id.recycler_cartList);
         recycler_cartList.setLayoutManager(new LinearLayoutManager(BuyOnce.this));
-
-     //   tvBagTag1.setText("₹"+db.getTotalAmount());
 
         if (isInternetConnected()) {
             try {
@@ -181,45 +139,15 @@ public class BuyOnce extends BaseActivity  {
         }
 
 
-        tvBagTag1=findViewById(R.id.tvBagTag1);
-        tvDelChargeTag1=findViewById(R.id.tvDelChargeTag1);
-        tvCuponTa1=findViewById(R.id.tvCuponTa1);
-        tvTotalTag1=findViewById(R.id.tvTotalTag1);
-
-
-
-        llPayNow=findViewById(R.id.llPayNow);
-        btnPaynow=findViewById(R.id.btnPaynow);
-        rlChk=findViewById(R.id.rlChk);
-        ChkWallet=findViewById(R.id.ChkWallet);
-        balance=findViewById(R.id.balance);
-
         pay_amount=getIntent().getStringExtra("total_amount");
         discount_amount=getIntent().getStringExtra("discount_amount");
         promo_code=getIntent().getStringExtra("promo_code");
 
-
-        total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round(Global.getTax(BuyOnce.this, Double.parseDouble(String.valueOf(db.getTotalAmount()))) ));
+       /* total_bagtag= (int) (Integer.parseInt(db.getTotalAmount())+ Math.round(Global.getTax(BuyOnce.this, Double.parseDouble(String.valueOf(db.getTotalAmount()))) ));
         total_gst= (int) Math.round((Integer.parseInt(db.getTotalAmount())* Global.getGSTTax(BuyOnce.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
         total_sgst=(int) Math.round( (Integer.parseInt(db.getTotalAmount())* Global.getSGSTTax(BuyOnce.this, Double.parseDouble(String.valueOf(db.getTotalAmount())))));
-
-        total_amount= Integer.parseInt(db.getTotalAmount())+total_gst+total_sgst;
-        Log.e("total_amount", String.valueOf(total_amount));
-        tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount()+" (GST: "+total_gst+" SGST: "+total_sgst+")");
-
-
-        if (pay_amount!=null){
-            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+pay_amount+")");
-            tvTotalTag1.setText(MainActivity.currency_sign+pay_amount);
-            tvCuponTa1.setText("-"+MainActivity.currency_sign+discount_amount);
-            total_amount=Integer.parseInt(pay_amount);
-        }else{
-            tvDelChargeTag1.setText("FREE");
-            tvCuponTa1.setText("-");
-            tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
-            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+total_amount+")");
-        }
-
+*/
+        setPriceDetail();
 
         llEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,11 +166,7 @@ public class BuyOnce extends BaseActivity  {
             }
         });
 
-
-
-
         getOrderOnceList();
-
 
         btnPaynow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,11 +175,12 @@ public class BuyOnce extends BaseActivity  {
                 if (Addrid==null){
                     Toast.makeText(BuyOnce.this, "Choose Delivery Address First", Toast.LENGTH_SHORT).show();
                 }else{
-                    if (isInternetConnected()){
-                        showDialog("");
-                        checkPincode();
-                    }
-//                    buyOrdrOnce();
+//                    if (isInternetConnected()){
+//                        showDialog("");
+//                        checkPincode();
+
+//                    }
+                    buyOrdrOnce();
                 }
             }
         });
@@ -276,6 +201,37 @@ public class BuyOnce extends BaseActivity  {
                 onBackPressed();
             }
         });
+    }
+
+    private void setContent() {
+        ivBack=findViewById(R.id.ivBack);
+        ivNotify=findViewById(R.id.ivNotify);
+        ivNotify.setVisibility(View.VISIBLE);
+        title=findViewById(R.id.title);
+        title.setText(getString(R.string.shoppingcart));
+
+        llEdit=findViewById(R.id.llEdit);
+        ll_addresstext=findViewById(R.id.ll_addresstext);
+        ivAdrEdit=findViewById(R.id.ivAdrEdit);
+        cart_adrName=findViewById(R.id.cart_adrName);
+        cart_adr=findViewById(R.id.cart_adr);
+        cart_adrNmbr=findViewById(R.id.cart_adrNmbr);
+        recycler_cartList=findViewById(R.id.recycler_cartList);
+
+        tvBagTag1=findViewById(R.id.tvBagTag1);
+        tvDelChargeTag1=findViewById(R.id.tvDelChargeTag1);
+        tvCuponTa1=findViewById(R.id.tvCuponTa1);
+        tvTotalTag1=findViewById(R.id.tvTotalTag1);
+        tvcgst1=findViewById(R.id.tvcgst1);
+        tvsgst1=findViewById(R.id.tvsgst1);
+
+        llPayNow=findViewById(R.id.llPayNow);
+        btnPaynow=findViewById(R.id.btnPaynow);
+        rlChk=findViewById(R.id.rlChk);
+        ChkWallet=findViewById(R.id.ChkWallet);
+        balance=findViewById(R.id.balance);
+
+
     }
 
     private void checkPincode() {
@@ -328,6 +284,43 @@ public class BuyOnce extends BaseActivity  {
         recycler_cartList.setAdapter(adapter1);
         adapter1.notifyDataSetChanged();
 
+    }
+
+    private void setPriceDetail() {
+        total_amount= Double.parseDouble(db.getTotalAmountIncludeGSt());
+        Log.e("total_amount", String.valueOf(Integer.parseInt(db.getTotalAmountIncludeGSt())));
+        tvBagTag1.setText(MainActivity.currency_sign+db.getTotalAmount());
+        tvDelChargeTag1.setText("FREE");
+        tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
+        Double gst=Double.parseDouble(db.getTotalAmountIncludeGSt())-Double.parseDouble(db.getTotalAmount());
+        Log.e("gst123",String.valueOf(gst));
+
+        if (gst!=0.0){
+            total_gst= gst/2;
+            tvcgst1.setText(""+MainActivity.currency_sign+String.valueOf(total_gst));
+            tvsgst1.setText(""+MainActivity.currency_sign+String.valueOf(total_gst));
+        }else{
+            total_gst=0.0;
+            tvcgst1.setText(""+MainActivity.currency_sign+"0.0");
+            tvsgst1.setText(""+MainActivity.currency_sign+"0.0");
+        }
+
+        Log.e("gstt==>1_123",gst.toString());
+        Log.e("total_gst==>123",String.valueOf(total_gst));
+
+
+        if (pay_amount!=null){
+            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+pay_amount+")");
+            tvTotalTag1.setText(MainActivity.currency_sign+pay_amount);
+            tvCuponTa1.setText("-"+MainActivity.currency_sign+discount_amount);
+            total_amount=Double.parseDouble(pay_amount);
+        }else{
+            tvDelChargeTag1.setText("FREE");
+            tvCuponTa1.setText("-");
+//            tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
+            tvTotalTag1.setText(MainActivity.currency_sign+db.getTotalAmount());
+            btnPaynow.setText(getString(R.string.pay_now)+" ("+MainActivity.currency_sign+db.getTotalAmount()+")");
+        }
     }
 
 
@@ -510,8 +503,16 @@ public class BuyOnce extends BaseActivity  {
             for (int i = 0; i < items.size(); i++) {
                 HashMap<String, String> map = items.get(i);
 
-                pro_gst=Double.valueOf(map.get("price"))* Global.getGSTTax(BuyOnce.this, Double.valueOf(map.get("price")));
-                pro_sgst=Double.valueOf(map.get("price"))* Global.getSGSTTax(BuyOnce.this, Double.valueOf(map.get("price")));
+                pro_gst=Double.valueOf(map.get("gst_price"))-Double.valueOf(map.get("price"));
+                Log.e("pro_gst",String.valueOf(pro_gst));
+
+                if (pro_gst!=0.0){
+                    pro_sgst=pro_gst/2;
+                    Log.e("pro_sgst",String.valueOf(pro_sgst));
+                }else{
+                    pro_sgst=0.0;
+                }
+
 
                 JSONObject jObjP = new JSONObject();
                 try {
@@ -519,8 +520,10 @@ public class BuyOnce extends BaseActivity  {
                     jObjP.put("order_qty", map.get("qty"));
                     jObjP.put("price", map.get("price"));
                     jObjP.put("amount", db.getTotalAmountById(map.get("product_id")));
-                    jObjP.put("cgst_amount", Math.round(pro_gst));
-                    jObjP.put("sgst_amount",Math.round(pro_sgst));
+                    jObjP.put("product_name", map.get("product_name"));
+                    jObjP.put("pack_size ", map.get("unit"));
+                    jObjP.put("cgst_amount", String.valueOf(pro_sgst));
+                    jObjP.put("sgst_amount",String.valueOf(pro_sgst));
                     passArray.put(jObjP);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -542,7 +545,7 @@ public class BuyOnce extends BaseActivity  {
                 intent.putExtra("promo_code",promo_code);
                 intent.putExtra("discount_amount",String.valueOf(discount_amount));
                 intent.putExtra("total_cgst",String.valueOf(total_gst));
-                intent.putExtra("total_sgst",String.valueOf(total_sgst));
+                intent.putExtra("total_sgst",String.valueOf(total_gst));
 //                startActivity(intent);
                 startActivityForResult(intent,5);
 
@@ -584,7 +587,7 @@ public class BuyOnce extends BaseActivity  {
         params.put("promo_code", promo_code);
         params.put("promocode_amount", String.valueOf(discount_amount));
         params.put("total_cgst", String.valueOf(total_gst));
-        params.put("total_sgst", String.valueOf(total_sgst));
+        params.put("total_sgst", String.valueOf(total_gst));
 
         Log.e("paramssubadad",params.toString());
 
@@ -609,7 +612,7 @@ public class BuyOnce extends BaseActivity  {
                             View dialogView = LayoutInflater.from(BuyOnce.this).inflate(R.layout.custom_success, viewGroup, false);
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
-                            alertDialog.setCancelable(true);
+                            alertDialog.setCancelable(false);
                                alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
                             LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
@@ -695,8 +698,6 @@ public class BuyOnce extends BaseActivity  {
 
                 // TODO: Do something with your extra data
 
-                Log.e("msggggg",txMsg);
-                showDialog("");
                 showSuccessDialog(txMsg,referenceId,txStatus,orderAmount);
 
                 //  but_sub_plan(passArray,orderAmount);
@@ -713,7 +714,7 @@ public class BuyOnce extends BaseActivity  {
         View dialogView = LayoutInflater.from(BuyOnce.this).inflate(R.layout.custom_success, viewGroup, false);
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
-        alertDialog.setCancelable(true);
+        alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
@@ -723,11 +724,8 @@ public class BuyOnce extends BaseActivity  {
         TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
         ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
 
-
         tvTransDesc.setText(txMsg);
         tvTransId.setText("Transaction id:"+referenceId);
-
-
 
         if (txStatus.equals("SUCCESS")){
             tvStts.setText(R.string.payment_success);
@@ -736,8 +734,6 @@ public class BuyOnce extends BaseActivity  {
             ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
 
             if (ConnectivityReceiver.isConnected()) {
-                showDialog("");
-
                 oreder_once(passArray,orderAmount,referenceId);
                 /* but_sub_plan1(passArray, orderAmount,referenceId);*/
                 Log.e("parseArray", passArray.toString());
@@ -762,6 +758,10 @@ public class BuyOnce extends BaseActivity  {
 
     private void oreder_once(JSONArray passArray, String orderAmount,String transactionId) {
 
+        if (promo_code==null){
+            promo_code="";
+        }
+
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", u_id);
@@ -775,7 +775,7 @@ public class BuyOnce extends BaseActivity  {
         params.put("transaction_id", transactionId);
         params.put("promocode_amount", String.valueOf(discount_amount));
         params.put("total_cgst", String.valueOf(total_gst));
-        params.put("total_sgst", String.valueOf(total_sgst));
+        params.put("total_sgst", String.valueOf(total_gst));
 
         Log.e("parambuyonce",params.toString());
 
@@ -822,7 +822,6 @@ public class BuyOnce extends BaseActivity  {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
-
 
 }
 

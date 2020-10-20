@@ -121,23 +121,16 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         json1 = sharedPreferences1.getString(STARTDATE_DATA, "");
 
         Log.e("productimage",map.get("product_image"));
-      /*  Glide.with(context)
-                .load(map.get("product_image"))
 
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate()
-                .into(holder.ivproImage);*/
 
         Global.loadGlideImage(context,map.get("product_image"), map.get("product_image"),holder.ivproImage);
 
 
-        Log.e("mapPrice",map.get("price"));
 
         holder.tvproName.setText(map.get("product_name")+" ("+map.get("unit")+")");
-        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(context, Double.valueOf(map.get("price"))))));
+        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(map.get("gst_subscription_price"))));
         holder.tvQty.setText(dbcart.getCartItemQty(map.get("product_id")));
 
-        Log.e("product_iddd",map.get("product_id"));
 
 
         Date c = Calendar.getInstance().getTime();
@@ -156,10 +149,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         if (!json1.isEmpty()) {
             Type type = new TypeToken<List<StartDate_Model>>() {}.getType();
             stardateList1= gson.fromJson(json1, type);
-            Log.e("stardateList==>frompref",stardateList1.toString());
             for (int k=0;k<stardateList1.size();k++){
                 if (map.get("product_id").equals(stardateList1.get(k).getProdcut_id())){
-                    Log.e("startdateeeepref",stardateList1.get(k).getStart_date());
                     try {
                         holder.freqDate.setText(Global.getDateConvert(stardateList1.get(k).getStart_date(),"dd-MM-yyyy","dd MMM yyyy"));
                         startDate_model.setStart_date(stardateList1.get(k).getStart_date());
@@ -179,9 +170,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             startDate_model.setStart_date(tardetDate);
         }
 
-
-        Log.e("stardateList1234",stardateList.toString());
-
         if (stardateList.size()>0){
             for (int j=0;j<stardateList.size();j++){
                 if (stardateList.get(j).getProdcut_id().equals(map.get("product_id"))){
@@ -193,15 +181,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             stardateList.add(startDate_model);
         }
 
-
-       // AddDateToPref(stardateList1);
-
-
-        Log.e("stardateList",stardateList.toString());
-
         if (mEventListener!=null){
             mEventListener.onDateClicked(i,map.get("product_id"),stardateList);
-            //  mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
         }
 
 
@@ -245,10 +226,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                                 }
 
 
-
-
-                                Log.e("stardateList",stardateList.toString());
-
                                 AddDateToPref(stardateList1);
 
                                 if (mEventListener!=null){
@@ -278,10 +255,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             for (int k=0;k<planSelectedModelArrayList1.size();k++){
                 if (map.get("product_name").equals(planSelectedModelArrayList1.get(k).getProduct_name())){
 
-                    Log.e("plannnnnnidddd", planSelectedModelArrayList1.get(k).getPlan_id());
-                    //  Log.e("plannnnnnidddd11111", subProductList.get(i).getPlan_id());
-                    Log.e("proname", planSelectedModelArrayList1.get(k).getProduct_name());
-                    Log.e("proname11111", map.get("product_name"));
 
                     if (planSelectedModelArrayList1.get(k).getPlan_id().equals("1")){
                         adapterFreqPlan.setSelectedItem(0);
@@ -414,6 +387,9 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     map1.put("product_description", map.get("product_description"));
                     map1.put("price", map.get("price"));
                     map1.put("subscription_price", map.get("subscription_price"));
+                    map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+
+                    map1.put("gst_price", map.get("gst_price"));
                     map1.put("product_image", map.get("product_image"));
                     map1.put("unit", map.get("unit"));
                     map1.put("stock", map.get("stock"));
@@ -448,6 +424,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     map1.put("product_description", map.get("product_description"));
                     map1.put("price", map.get("price"));
                     map1.put("subscription_price", map.get("subscription_price"));
+                    map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                    map1.put("gst_price", map.get("gst_price"));
                     map1.put("product_image", map.get("product_image"));
                     map1.put("unit", map.get("unit"));
                     map1.put("stock", map.get("stock"));
@@ -470,6 +448,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                         map1.put("product_description", map.get("product_description"));
                         map1.put("price", map.get("price"));
                         map1.put("subscription_price", map.get("subscription_price"));
+                        map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                        map1.put("gst_price", map.get("gst_price"));
                         map1.put("product_image", map.get("product_image"));
                         map1.put("unit", map.get("unit"));
                         map1.put("stock", map.get("stock"));

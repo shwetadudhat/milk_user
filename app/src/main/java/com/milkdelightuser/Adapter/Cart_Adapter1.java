@@ -57,13 +57,10 @@ public class Cart_Adapter1 extends RecyclerView.Adapter<Cart_Adapter1.holder> {
 
         Global.loadGlideImage(activity,map.get("product_image"), map.get("product_image"),holder.image_product);
 
-
         holder.text_product.setText(map.get("product_name")+" ("+map.get("unit")+")");
 //        holder.price_product.setText("₹ "+map.get("price"));
         holder.qty_product.setText(activity.getString(R.string.qty)+map.get("qty"));
-        holder.price_product.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(activity, Double.valueOf(map.get("price")))))));
-
-
+        holder.price_product.setText(MainActivity.currency_sign+map.get("gst_price"));
 
     }
 

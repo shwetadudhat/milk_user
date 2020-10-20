@@ -1,6 +1,7 @@
 package com.milkdelightuser.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -68,6 +69,7 @@ public class Schedule extends BaseActivity {
 
     LinearLayout llRenewSubscrption;
     String stts,subs_id1,start_date,end_date,sub_plan;
+    String product_name, product_id,product_image, order_qty,price, start_date1, end_date1,description, unit, qty, sub_status,product_url,skip_days,plans,plan_id;
 
 
 
@@ -103,6 +105,19 @@ public class Schedule extends BaseActivity {
         llRenewSubscrption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),RenewSubscriptionActivity.class);
+                intent.putExtra("product_id",product_id);
+                intent.putExtra("subs_id",subs_id1);
+                intent.putExtra("plan_id",plan_id);
+                intent.putExtra("product_qty",order_qty);
+                intent.putExtra("product_unit",qty+" "+unit);
+                intent.putExtra("product_price",price);
+                intent.putExtra("sub_plan",sub_plan);
+                intent.putExtra("start_date",start_date1);
+                intent.putExtra("end_date",end_date1);
+                intent.putExtra("skip_day",skip_days);
+
+                startActivity(intent);
 
             }
         });
@@ -129,23 +144,6 @@ public class Schedule extends BaseActivity {
 
      //   String dateStr = "2/3/2017";
 
-        Log.e("start_date",start_date);
-        Log.e("end_date",end_date);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        try {
-            Date date1 = simpleDateFormat.parse(start_date);
-            Date date2 = simpleDateFormat.parse(end_date);
-
-            long dayyy=  Adapter_Recharge.daysBetween(date1, date2);
-            Log.e("dayyy", String.valueOf(dayyy));
-
-            tvLeftDay.setText(dayyy+" day left");
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         Calendar endDate = Calendar.getInstance(); // End date
         endDate.add(Calendar.DAY_OF_MONTH, 7);
@@ -155,16 +153,28 @@ public class Schedule extends BaseActivity {
         Log.e("todaydatee", String.valueOf(DateFormat.format("yyyy-MM-dd",startDate)));
         startDate.add(Calendar.DAY_OF_MONTH, -7);
 
-        Calendar defaultDate = Calendar.getInstance();
-       /*
-        Calendar startDate = Calendar.getInstance();
-        todaydate= String.valueOf(DateFormat.format("yyyy-MM-dd",startDate));
-        Log.e("todaydatee",String.valueOf(DateFormat.format("yyyy-MM-dd",startDate)));
-        startDate.add(Calendar.MONTH, -1);
+        Log.e("start_date",start_date);
+        Log.e("end_date",end_date);
 
-        *//* end after 1 month from now *//*
-        Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.MONTH, 1);*/
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            Date date1 = simpleDateFormat.parse(start_date);
+            Date curdate = simpleDateFormat.parse(todaydate);
+            Date date2 = simpleDateFormat.parse(end_date);
+
+            long dayyy=  Adapter_Recharge.daysBetween(curdate, date2);
+            Log.e("dayyy", String.valueOf(dayyy));
+
+            tvLeftDay.setText(dayyy+" day left");
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar defaultDate = Calendar.getInstance();
+
 
         Schedule(todaydate);
         if (isInternetConnected()) {
@@ -254,28 +264,29 @@ public class Schedule extends BaseActivity {
                             if (status.equals("1")){
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
 
-                                String product_name=jsonObject1.getString("product_name");
-                                String product_image=jsonObject1.getString("product_image");
-                                String order_qty=jsonObject1.getString("order_qty");
-                                String price=jsonObject1.getString("price");
-                                String start_date=jsonObject1.getString("start_date");
-                                String end_date=jsonObject1.getString("end_date");
-                                String description=jsonObject1.getString("description");
-                                String unit=jsonObject1.getString("unit");
-                                String qty=jsonObject1.getString("qty");
-                                String sub_status=jsonObject1.getString("sub_status");
-                                String product_url=jsonObject1.getString("product_url");
+                                 product_name=jsonObject1.getString("product_name");
+//                                 product_id=jsonObject1.getString("product_id");
+                                 product_image=jsonObject1.getString("product_image");
+                                 order_qty=jsonObject1.getString("order_qty");
+                                 price=jsonObject1.getString("price");
+                                 start_date=jsonObject1.getString("start_date");
+                                 end_date=jsonObject1.getString("end_date");
+                                 description=jsonObject1.getString("description");
+                                 unit=jsonObject1.getString("unit");
+                                 qty=jsonObject1.getString("qty");
+                                 sub_status=jsonObject1.getString("sub_status");
+                                 product_url=jsonObject1.getString("product_url");
 
 
-                                String skip_days=jsonObject1.getString("skip_days");
-                                String plans=jsonObject1.getString("plans");
+                                 skip_days=jsonObject1.getString("skip_days");
+                                 plans=jsonObject1.getString("plans");
 
                                 substatus_show.setText(plans);
                                 text_plan.setText(product_name+"("+qty+" "+unit+")");
 //                                price_plan.setText(MainActivity.currency_sign+price);
                                 qty_plan.setText(getString(R.string.qty)+order_qty);
                                 unit_plan.setText(qty+" "+unit);
-                                price_plan.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(Schedule.this, Double.parseDouble(price)))))));
+                                price_plan.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)/*+ Math.round( Global.getTax(Schedule.this, Double.parseDouble(price)))*/))));
 
                               /*  Glide.with(Schedule.this)
                                         .load(product_url+product_image)

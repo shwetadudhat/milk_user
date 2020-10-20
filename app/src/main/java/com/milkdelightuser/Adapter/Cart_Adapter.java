@@ -3,6 +3,7 @@ package com.milkdelightuser.Adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -66,10 +67,10 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
 //                .into(holder.image_product);
 
         Global.loadGlideImage(activity,map.get("product_image"), map.get("product_image"),holder.image_product);
-
+        Log.e("productprce",map.get("price"));
 
         holder.text_product.setText(map.get("product_name")+" ("+map.get("unit")+")");
-        holder.price_product.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(map.get("price"))+ Math.round( Global.getTax(activity, Double.valueOf(map.get("price")))))));
+        holder.price_product.setText(MainActivity.currency_sign+ map.get("gst_price"));
         holder.number.setText(dbcart.getCartItemQty(map.get("product_id")));
 
 
@@ -93,6 +94,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
                                     map1.put("product_description", map.get("product_description"));
                                     map1.put("price", map.get("price"));
                                     map1.put("subscription_price", map.get("subscription_price"));
+                                    map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                                    map1.put("gst_price", map.get("gst_price"));
                                     map1.put("product_image", map.get("product_image"));
                                     map1.put("unit", map.get("unit"));
                                     map1.put("stock", map.get("stock"));
@@ -143,6 +146,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
                     map1.put("product_description", map.get("product_description"));
                     map1.put("price", map.get("price"));
                     map1.put("subscription_price", map.get("subscription_price"));
+                    map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                    map1.put("gst_price", map.get("gst_price"));
                     map1.put("product_image", map.get("product_image"));
                     map1.put("unit", map.get("unit"));
                     map1.put("stock", map.get("stock"));
@@ -174,6 +179,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
                     map1.put("product_description", map.get("product_description"));
                     map1.put("price", map.get("price"));
                     map1.put("subscription_price", map.get("subscription_price"));
+                    map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                    map1.put("gst_price", map.get("gst_price"));
                     map1.put("product_image", map.get("product_image"));
                     map1.put("unit", map.get("unit"));
                     map1.put("stock", map.get("stock"));
@@ -194,6 +201,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
                         map1.put("product_description", map.get("product_description"));
                         map1.put("price", map.get("price"));
                         map1.put("subscription_price", map.get("subscription_price"));
+                        map1.put("gst_subscription_price", map.get("gst_subscription_price") );
+                        map1.put("gst_price", map.get("gst_price"));
                         map1.put("product_image", map.get("product_image"));
                         map1.put("unit", map.get("unit"));
                         map1.put("stock", map.get("stock"));

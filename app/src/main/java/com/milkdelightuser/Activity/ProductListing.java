@@ -139,7 +139,6 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
         ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent=new Intent(getApplicationContext(), FilterProduct.class);
                 intent.putExtra("seeAll",seeAll);
                 startActivityForResult(intent,0);
@@ -187,8 +186,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
         }
 
 
-
-        Log.e("url",url);
+        Log.e("url==>2",url);
 
         CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
@@ -242,7 +240,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                     isLast=true;
                 }
 
-                Log.e("jsonArray", String.valueOf(jsonArray.length()));
+                Log.e("jsonArray--->1", String.valueOf(jsonArray.toString()));
 
                 for (int j=0;j<jsonArray.length();j++){
                     JSONObject jsonObject2=jsonArray.getJSONObject(j);
@@ -259,6 +257,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                     String unit = jsonObject2.getString("unit");
                     String total1 = jsonObject2.getString("total");
                     String mrp = jsonObject2.getString("mrp");
+                    String gst = jsonObject2.getString("gst");
 
                     String product_review_count = jsonObject2.getString("product_review_count");
 
@@ -273,8 +272,14 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                         ratting="0";
                     }
 
-
                     App_Product_Model appProductModel=new App_Product_Model();
+                    if (gst==null){
+                        appProductModel.setGst("0");
+                        Log.e("ifff","iffff");
+                    }else{
+                        appProductModel.setGst(gst);
+                        Log.e("elseee","elsss");
+                    }
                     appProductModel.setProduct_id(product_id);
                     appProductModel.setCategory_id(category_id);
                     appProductModel.setProduct_name(product_name);
@@ -350,6 +355,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                     String unit = jsonObject2.getString("unit");
                     String total1 = jsonObject2.getString("total");
                     String mrp = jsonObject2.getString("mrp");
+                    String gst = jsonObject2.getString("gst");
 
                     String product_review_count = jsonObject2.getString("product_review_count");
 
@@ -365,6 +371,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                     }
 
                     App_Product_Model appProductModel=new App_Product_Model();
+                    appProductModel.setGst(gst);
                     appProductModel.setProduct_id(product_id);
                     appProductModel.setCategory_id(category_id);
                     appProductModel.setProduct_name(product_name);
@@ -460,6 +467,8 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
 
         Log.e("getFilterData",params.toString());
 
+        Log.e("url==>1",BaseURL.product_filter);
+
 
 
         CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.product_filter, params, new Response.Listener<JSONObject>() {
@@ -478,6 +487,8 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                         JSONObject jsonObject1=response.getJSONObject("data");
                         String product_url=jsonObject1.getString("product_url");
                         JSONArray jsonArray=jsonObject1.getJSONArray("product_list");
+
+                        Log.e("jsonArray==>1",jsonArray.toString());
 
                         for(int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject=jsonArray.getJSONObject(i);

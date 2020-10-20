@@ -69,7 +69,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
 
         holder.tvRate.setText(productModelList.get(i).getReview_count()+" Ratings");
 
-        product_price= Double.valueOf(productModelList.get(i).getPrice())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())));
+//        product_price= Double.valueOf(productModelList.get(i).getPrice())+ Math.round( Global.getTax(context, Double.valueOf(productModelList.get(i).getPrice())));
 
         holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
         //holder.tvProPrice.setText(MainActivity.currency_sign+Math.round(product_price));
@@ -92,6 +92,16 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
             holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
 
         }
+       /* if (productModelList.get(i).getGst()!=null){
+            gst= Double.valueOf(productModelList.get(i).getGst());
+            holder.tvProPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ String.valueOf(Math.round(Double.valueOf(productModelList.get(i).getMrp())+ Math.round( Global.getTax1(context, Double.valueOf(productModelList.get(i).getMrp()),gst)))));
+
+        }else{
+            holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())));
+            holder.tvOldPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(productModelList.get(i).getMrp())));
+
+        }*/
 
 
         if (!productModelList.get(i).getMrp().equals("0")){
@@ -120,8 +130,6 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
             @Override
             public void onClick(View view) {
 
-
-
                 HashMap<String, String> map = new HashMap<>();
                 map.put("product_id", allProductsModel.getProduct_id());
                 map.put("product_name", allProductsModel.getProduct_name());
@@ -132,7 +140,16 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
                 map.put("product_image", allProductsModel.getProduct_image());
                 map.put("unit",allProductsModel.getQty()+" "+ allProductsModel.getUnit());
                 map.put("stock", allProductsModel.getStock());
+                if (!productModelList.get(i).getGst().equals("null")){
+                    gst= Double.valueOf(productModelList.get(i).getGst());
+                    map.put("gst_price",String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+                    Log.e("priceee123", String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getPrice()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getPrice()),gst))));
+                    map.put("gst_subscription_price",  String.valueOf(Math.round(Double.parseDouble(productModelList.get(i).getSubscription_price()))+ Math.round(Global.getTax1(context, Double.parseDouble(productModelList.get(i).getSubscription_price()),gst))));
 
+                }else{
+                    map.put("gst_price", allProductsModel.getPrice());
+                    map.put("gst_subscription_price", allProductsModel.getSubscription_price());
+                }
                 Log.e("producttttprice", allProductsModel.getPrice());
 
                 if (dbcart.isInCart(map.get("product_id"))) {

@@ -28,13 +28,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_CAT_ID = "category_id";
     public static final String COLUMN_NAME = "product_name";
     public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_SUB_PRICE1 = "gst_price";
     public static final String COLUMN_SUB_PRICE = "subscription_price";
+    public static final String COLUMN_GSTSUB_PRICE = "gst_subscription_price";
+    public static final String COLUMN_CGST = "cgst";
 
     public static final String COLUMN_UNIT = "unit";
     public static final String COLUMN_STOCK = "stock";
-    public static final String COLUMN_CGST = "cgst";
-    public static final String COLUMN_SGST = "sgst";
-    public static final String COLUMN_GST = "gst";
 
     public DatabaseHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -51,11 +51,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + COLUMN_NAME + " TEXT NOT NULL, "
                 + COLUMN_PRICE + " DOUBLE NOT NULL, "
                 + COLUMN_SUB_PRICE + " DOUBLE NOT NULL, "
+                + COLUMN_SUB_PRICE1 + " DOUBLE NOT NULL, "
+                + COLUMN_GSTSUB_PRICE + " DOUBLE NOT NULL, "
                 + COLUMN_UNIT + " TEXT NOT NULL, "
+//                + COLUMN_CGST + " DOUBLE NOT NULL, "
                 + COLUMN_STOCK + " DOUBLE NOT NULL"
-             /*   + COLUMN_CGST + " DOUBLE NOT NULL,"
-                + COLUMN_SGST + " DOUBLE NOT NULL,"
-                + COLUMN_GST + " DOUBLE NOT NULL"*/
                 + ")";
         db.execSQL(exe);
     }
@@ -75,11 +75,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(COLUMN_NAME, map.get(COLUMN_NAME));
             values.put(COLUMN_PRICE, map.get(COLUMN_PRICE));
             values.put(COLUMN_SUB_PRICE, map.get(COLUMN_SUB_PRICE));
+            values.put(COLUMN_SUB_PRICE1, map.get(COLUMN_SUB_PRICE1));
+            values.put(COLUMN_GSTSUB_PRICE, map.get(COLUMN_GSTSUB_PRICE));
             values.put(COLUMN_STOCK, map.get(COLUMN_STOCK));
             values.put(COLUMN_UNIT, map.get(COLUMN_UNIT));
-          /*  values.put(COLUMN_CGST, map.get(COLUMN_CGST));
-            values.put(COLUMN_SGST, map.get(COLUMN_SGST));
-            values.put(COLUMN_GST, map.get(COLUMN_GST));*/
+//            values.put(COLUMN_CGST, map.get(COLUMN_CGST));
             Log.e("values",values.toString());
             db.insert(CART_TABLE, null, values);
             return true;
@@ -177,6 +177,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
+    public String getTotalAmountIncludeGSt() {
+        db = getReadableDatabase();
+        String qry = "Select SUM(" + COLUMN_QTY + " * " + COLUMN_SUB_PRICE1 + ") as total_amount  from " + CART_TABLE;
+        Cursor cursor = db.rawQuery(qry, null);
+        cursor.moveToFirst();
+        String total = cursor.getString(cursor.getColumnIndex("total_amount"));
+        if (total != null) {
+            return total;
+        } else {
+            return "0";
+        }
+    }
+
     public String getTotalSubAmount() {
         db = getReadableDatabase();
         String qry = "Select SUM(" + COLUMN_QTY + " * " + COLUMN_PRICE + ") as total_amount  from " + CART_TABLE;
@@ -207,21 +220,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public String getTotalAmountByIdIncludeGSt(String id) {
-        Log.e("idddddd",id);
-        db = getReadableDatabase();
-        String qry = "Select SUM(" + COLUMN_QTY + " * " + COLUMN_PRICE +"*"+COLUMN_GST+ ") as total_amount  from " + CART_TABLE + " where " + COLUMN_ID + " = " + id;
-        Cursor cursor = db.rawQuery(qry, null);
-        cursor.moveToFirst();
-        String total = cursor.getString(cursor.getColumnIndex("total_amount"));
-        if (total != null) {
-            Log.e("tottalll",total);
-            return total;
-        } else {
-            return "0";
-        }
-
-    }
 
     public String getTotalSUbAmountById(String id) {
         db = getReadableDatabase();
@@ -252,9 +250,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             map.put(COLUMN_NAME, cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));
             map.put(COLUMN_PRICE, cursor.getString(cursor.getColumnIndex(COLUMN_PRICE)));
             map.put(COLUMN_SUB_PRICE, cursor.getString(cursor.getColumnIndex(COLUMN_SUB_PRICE)));
-
+            map.put(COLUMN_SUB_PRICE1, cursor.getString(cursor.getColumnIndex(COLUMN_SUB_PRICE1)));
+            map.put(COLUMN_GSTSUB_PRICE, cursor.getString(cursor.getColumnIndex(COLUMN_GSTSUB_PRICE)));
             map.put(COLUMN_UNIT, cursor.getString(cursor.getColumnIndex(COLUMN_UNIT)));
             map.put(COLUMN_STOCK, cursor.getString(cursor.getColumnIndex(COLUMN_STOCK)));
+//            map.put(COLUMN_CGST, cursor.getString(cursor.getColumnIndex(COLUMN_CGST)));
             list.add(map);
             cursor.moveToNext();
         }

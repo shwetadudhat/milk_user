@@ -59,22 +59,7 @@
 
             </RelativeLayout>
 
-             <androidx.appcompat.widget.SearchView
-                 android:visibility="gone"
-                 card_view:defaultQueryHint="@string/search"
-                 android:drawablePadding="@dimen/_10sdp"
-                 android:background="@drawable/bg_login"
-                 android:id="@+id/search"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:textColor="@color/grey"
-                 android:drawableTint="@color/small_title_clr"
-                 android:drawableLeft="@drawable/ic_search_black_24dp"
-                 android:gravity="center_vertical"
-                 android:queryHint="Search here"
-                 android:textSize="@dimen/_12sdp">
 
-             </androidx.appcompat.widget.SearchView>
         </LinearLayout>
 
         <LinearLayout
@@ -88,6 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <androidx.core.widget.NestedScrollView
                     android:scrollbars="none"
                     android:layout_width="match_parent"
@@ -198,27 +184,16 @@
                             android:layout_height="@dimen/_160sdp">
 
 
-                          <!--  <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                                 android:id="@+id/youtube_player_view"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_160sdp"
+                                android:layout_height="match_parent"
                                 app:autoPlay="false"
-                                android:visibility="gone"
-                                card_view:showVideoDuration="true"
-                                card_view:showSeekBar="true"
-                                app:showFullScreenButton="false"
-                                app:videoId="S0Q4gqBUs7c" />-->
-                            <VideoView
-                                android:visibility="visible"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_160sdp"
-                                android:id="@+id/videoview"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentRight="true"
-                                android:layout_alignParentTop="true"/>
+                                app:showFullScreenButton="false" />
+
 
                             <ImageView
+                                android:visibility="gone"
                                 android:scaleType="centerInside"
                                 android:id="@+id/ivYouTube"
                                 android:layout_centerHorizontal="true"

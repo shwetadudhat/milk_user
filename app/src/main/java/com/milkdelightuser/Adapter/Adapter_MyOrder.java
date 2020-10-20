@@ -59,12 +59,22 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
         }
 
 
+        /* if (!gst.equals("null")){
+                                Log.e("priceee123", String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(getContext(), Double.parseDouble(price),Double.parseDouble(gst)))));
+                                orderModel.setOffer_pricee(String.valueOf(Math.round(Double.parseDouble(price))+ Math.round(Global.getTax1(getContext(), Double.parseDouble(price),Double.parseDouble(gst)))));
+                            }else{
+                                orderModel.setOffer_pricee(price);
+                            }
+*/
+
+
         holder.rlMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(context, MyOrderDetail.class);
                 intent.putExtra("product_image",orderModelList.get(position).getOrder_icon());
                 intent.putExtra("order_id",orderModelList.get(position).getOrder_id());
+                intent.putExtra("pricee",orderModelList.get(position).getOffer_pricee());
                 context.startActivity(intent);
             }
         });

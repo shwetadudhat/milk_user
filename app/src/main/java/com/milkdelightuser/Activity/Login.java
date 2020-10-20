@@ -92,6 +92,7 @@ public class Login extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
@@ -107,6 +108,7 @@ public class Login extends BaseActivity {
         editor = sharedPreferences.edit();
 
         edemailMobileNumber = findViewById(R.id.emailMobileNumber_login);
+
         edpassword = findViewById(R.id.password_login);
         login=findViewById(R.id.login);
         txt_forgot=findViewById(R.id.txt_forgot);
@@ -135,7 +137,7 @@ public class Login extends BaseActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().logOut();
 
@@ -369,17 +371,66 @@ public class Login extends BaseActivity {
 
                 Log.e("GoogleEmail_login",GoogleEmail);
 
+                Log.e("GoogleProfileUrl",GoogleProfileUrl);
 
-                Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
+                if (GoogleProfileUrl.equals("null") || GoogleProfileUrl.equals(""))
+                {
+                    Log.e("nulll12","nulll12");
+                    dismissDialog();
+                    Toast.makeText(this, "Profile Url not found", Toast.LENGTH_SHORT).show();
+                }else {
+                    Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                            File file = Global.getOutputMediaFile();
+                            Log.e("filllleee",file.toString());
+                            Global.saveBitmap(bitmap, file);
+
+                            // Log.e("Fillllleee",file.toString());
+
+
+                            //   userSignUp("$firstName $lastName", Global.getPref(getActivity(), StaticDataUtility.sMOBILE_NUMBER, "")!!, email, thirdPartyId, file)
+                            try {
+                                File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                if (!mydir.exists()) {
+                                    mydir.mkdirs();
+                                }
+
+                                fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                Log.e   ("fileUri",fileUri);
+                                FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                outputStream.flush();
+                                outputStream.close();
+
+                                Log.e("bitmap123",bitmap.toString());
+
+                                social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",token,"",bitmap);
+                            } catch(IOException e) {
+                                e.printStackTrace();
+                            }
+                            // Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+                        }
+                        @Override
+                        public void onLoadCleared(Drawable placeholder) {
+                        }
+                    });
+                }
+
+
+
+               /* Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
 
-                        /*File file = Global.getOutputMediaFile();
+                        *//*File file = Global.getOutputMediaFile();
                         saveBitmap(bitmap, file);
                         Log.e("bitmap123",bitmap.toString());
 
                         social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",token,"",bitmap);
-*/
+*//*
                         try {
                             File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
                             if (!mydir.exists()) {
@@ -406,7 +457,7 @@ public class Login extends BaseActivity {
                     @Override
                     public void onLoadCleared(Drawable placeholder) {
                     }
-                });
+                });*/
 
             }
         } catch (ApiException e) {
@@ -485,7 +536,8 @@ public class Login extends BaseActivity {
                                             Log.e("ERROR", "FB_LOGIN:> " + e.toString());
                                         }
                                     } else {
-
+                                        dismissDialog();
+                                        Toast.makeText(Login.this, "data not found", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         Bundle parameters = new Bundle();

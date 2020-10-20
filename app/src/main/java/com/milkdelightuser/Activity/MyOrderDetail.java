@@ -40,10 +40,10 @@ public class MyOrderDetail extends BaseActivity {
 
     TextView ordr_custName,ordr_address,ordr_addNmbr;
 
-    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1;
+    TextView tvBagTag1,tvDelChargeTag1,tvCuponTa1,tvTotalTag1,tvcgst1,tvsgst1;
     RelativeLayout rv_main,container_null1;
 
-    String order_id;
+    String order_id,pricee;
     Session_management sessionManagement;
     String u_id,product_image;
 
@@ -72,6 +72,8 @@ public class MyOrderDetail extends BaseActivity {
         tvDelChargeTag1=findViewById(R.id.tvDelChargeTag1);
         tvCuponTa1=findViewById(R.id.tvCuponTa1);
         tvTotalTag1=findViewById(R.id.tvTotalTag1);
+        tvcgst1=findViewById(R.id.tvcgst1);
+        tvsgst1=findViewById(R.id.tvsgst1);
 
 
         rv_main=findViewById(R.id.rv_main);
@@ -80,6 +82,7 @@ public class MyOrderDetail extends BaseActivity {
 
         order_id=getIntent().getStringExtra("order_id");
         product_image=getIntent().getStringExtra("product_image");
+        pricee=getIntent().getStringExtra("pricee");
         sessionManagement=new Session_management(MyOrderDetail.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
 
@@ -164,8 +167,12 @@ public class MyOrderDetail extends BaseActivity {
                         String total_sgst=orders.getString("total_sgst");
                         String created_at=orders.getString("created_at");
 
+                        tvcgst1.setText(MainActivity.currency_sign+total_cgst);
+                        tvsgst1.setText(MainActivity.currency_sign+total_sgst);
 
-                        Double bagtag=Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))* Double.parseDouble(order_qty);
+
+//                        Double bagtag=Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))* Double.parseDouble(order_qty);
+                        Double bagtag=Double.parseDouble(price)* Double.parseDouble(order_qty);
                         tvBagTag1.setText(MainActivity.currency_sign+Math.round(bagtag));
                         tvDelChargeTag1.setText("FREE");
                         if (promocode_amount.equals("0")){
@@ -194,7 +201,8 @@ public class MyOrderDetail extends BaseActivity {
 
 
                         text_ordr.setText(product_name+" ("+qty+" "+unit+")");
-                        price_ordr.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))));
+//                        price_ordr.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))));
+                        price_ordr.setText(MainActivity.currency_sign+ pricee);
                         qty_ordr.setText(getString(R.string.qty)+order_qty);
 
                         try {

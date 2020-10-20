@@ -256,7 +256,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
                     String unit = jsonObject2.getString("unit");
                     String total1 = jsonObject2.getString("total");
                     String mrp = jsonObject2.getString("mrp");
-                    String gst = jsonObject.getString("gst");
+                    String gst = jsonObject2.getString("gst");
 
                     String product_review_count = jsonObject2.getString("product_review_count");
 

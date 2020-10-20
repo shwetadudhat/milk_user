@@ -318,7 +318,7 @@ public class BuyOncePayment extends BaseActivity {
         }
     }
 
-    public  void showDiaog(Context context, Bundle bundle){
+   /* public  void showDiaog(Context context, Bundle bundle){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         ViewGroup viewGroup = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
@@ -351,7 +351,7 @@ public class BuyOncePayment extends BaseActivity {
                         tvStts.setTextColor(context.getResources().getColor(R.color.green));
                         ivIcon.setImageResource(R.drawable.ic_noun_check_1);
                         ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
-                       /* tvTransDesc.setText("Payment done through your Wallet amount");*/
+                       *//* tvTransDesc.setText("Payment done through your Wallet amount");*//*
                         if (key.equals("paymentMode")){
                             paymentMode=bundle.getString(key);
                         }
@@ -375,7 +375,7 @@ public class BuyOncePayment extends BaseActivity {
                         ivIcon.setImageResource(R.drawable.ic_noun_close_1);
                         //  ivIcon.setColorFilter(ContextCompat.getColor(subscription.this, R.color.red), android.graphics.PorterDuff.Mode.MULTIPLY);
                         ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
-                        /* tvTransDesc.setText("Payment done through your Wallet amount");*/
+                        *//* tvTransDesc.setText("Payment done through your Wallet amount");*//*
 
                     }
                 }
@@ -391,11 +391,11 @@ public class BuyOncePayment extends BaseActivity {
 
                 if (activity.equals("wallet")){
 
-                   /* Wallet_Fragment wallet_fragment = new Wallet_Fragment();
+                   *//* Wallet_Fragment wallet_fragment = new Wallet_Fragment();
                     // load fragment
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();*//*getChildFragmentManager*//*
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();*//**//*getChildFragmentManager*//**//*
                     transaction.replace(R.id.container_12, wallet_fragment);
-                    transaction.commit();*/
+                    transaction.commit();*//*
 
 
                     Intent intent=new Intent(context, Home.class);
@@ -485,7 +485,7 @@ public class BuyOncePayment extends BaseActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
-    }
+    }*/
 
 
     @Override
