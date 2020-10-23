@@ -1,4 +1,4 @@
-package com.milkdelightuser;
+package com.webzino.milkdelightuser;
 
 import org.junit.Test;
 

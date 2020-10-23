@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.milkdelightuser">
+    package="com.webzino.milkdelightuser">
 
     <application
         android:name=".utils.AppController"
@@ -15,8 +15,8 @@
         tools:ignore="LockedOrientationActivity"
         tools:node="merge"
         tools:replace="android:allowBackup">
-        <activity android:name=".Activity.NotificationActivity"></activity>
-        <activity android:name=".Activity.RenewSubscriptionActivity" />
+        <activity android:name=".Activity.RenewPlanActivity"></activity>
+        <activity android:name=".Activity.NotificationActivity" />
         <activity android:name=".Activity.MyOrderDetail" />
         <activity android:name=".Activity.FilterProduct" />
         <activity android:name=".Activity.ProductListing" />
@@ -140,12 +140,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".CashFreeActivity" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -158,10 +156,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
@@ -207,12 +205,12 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

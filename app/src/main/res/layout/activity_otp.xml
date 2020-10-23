@@ -76,7 +76,7 @@
             </LinearLayout>
 
 
-            <com.milkdelightuser.utils.CustomPinview
+            <com.webzino.milkdelightuser.utils.CustomPinview
                 android:paddingRight="@dimen/_30sdp"
                 android:paddingLeft="@dimen/_30sdp"
                 android:id="@+id/otp_view"

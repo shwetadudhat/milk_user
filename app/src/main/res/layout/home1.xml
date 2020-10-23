@@ -99,7 +99,7 @@
                                 android:layout_alignParentTop="true"
                                 />
 
-                            <com.milkdelightuser.utils.CirclePageIndicator
+                            <com.webzino.milkdelightuser.utils.CirclePageIndicator
                                 android:visibility="gone"
                                 android:layout_centerHorizontal="true"
                                 android:id="@+id/indicator_banner"

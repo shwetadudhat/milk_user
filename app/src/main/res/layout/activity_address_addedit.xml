@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.milkdelightuser.Activity.Address_add">
+    tools:context="com.webzino.milkdelightuser.Activity.Address_add">
 
     <LinearLayout
         android:id="@+id/llTool"

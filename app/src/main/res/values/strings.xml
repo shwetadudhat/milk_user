@@ -78,10 +78,9 @@
     <string name="generate_a_new_password">Generate a New Password</string>
     <string name="enter_pass">Enter Password</string>
     <string name="re_enter_password">Re-enter Password</string>
-    <string name="facebook_app_id">3216950248399613</string>
-    <!-- <string name="facebook_app_id">YOUR_APP_ID_HERE</string>
-    <string name="fb_login_protocol_scheme"></string>-->
-    <string name="fb_login_protocol_scheme">fb3216950248399613</string>
+    <string name="facebook_app_id">383787682805239</string>
+    <string name="fb_login_protocol_scheme">fb383787682805239</string>
+
     <string name="cashfree_api_key">2910406ca04d8e95645bd89d840192</string>
 
     <!--cashfreee-->
@@ -173,7 +172,7 @@
     <string name="_2000">+2000</string>
     <string name="_3000">+3000</string>
     <string name="addtowallet">add to wallet From : </string>
-    <string name="deductfromwallet">deduct from wallet </string>
+    <string name="deductfromwallet">deduct From : </string>
     <string name="transacrtionid">Transaction Id : </string>
     <string name="shoppingcart">Shopping Cart</string>
     <string name="apply_coupon_code">Apply Coupon Code</string>
@@ -269,6 +268,7 @@
     <string name="every_day">Every Day</string>
     <string name="success_order">Successfully order delivered on </string>
     <string name="email_address">Email Address</string>
+    <string name="renew_plan">Renew Your Subscription</string>
     <string-array name="filter_type">
         <item>ASC</item>
         <item>DESC</item>
