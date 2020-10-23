@@ -146,6 +146,7 @@ public class Addresslist extends BaseActivity {
                                 String city_id=jsonObject.getString("city_id");
                                 String state_id=jsonObject.getString("state_id");
                                 String address=jsonObject.getString("address");
+                                String full_address=jsonObject.getString("full_address");
                                 String flagStatus=jsonObject.getString("status");
 
                                 Address_Model addressModel=new Address_Model();
@@ -156,7 +157,7 @@ public class Addresslist extends BaseActivity {
                                 addressModel.setPhone_nmbr(user_number);
                                 addressModel.setCity_id(city_id);
                                 addressModel.setState_id(state_id);
-                                addressModel.setArea_id(address);
+                                addressModel.setArea_id(full_address);
                                 addressModel.setStatus(flagStatus);
 
                                 addressModelList.add(addressModel);
@@ -213,6 +214,7 @@ public class Addresslist extends BaseActivity {
                                     intent.putExtra("action","edit");
                                     intent.putExtra("id",address_id);
                                     startActivityForResult(intent,1);
+//                                    finish();
                                   //  context.startActivity(intent);
                                 }
                             });

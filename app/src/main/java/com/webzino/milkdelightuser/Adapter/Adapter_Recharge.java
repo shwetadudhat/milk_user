@@ -107,7 +107,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
 
 
         holder.tvDate.setText(formattedDate);
-        if (rechargeModel.getTransaction_id().equals("-")){
+        if (!rechargeModel.getTransaction_id().equals("-")){
             holder.tvTransId.setText(context.getString(R.string.transacrtionid)+rechargeModel.getTransaction_id());
         }else{
             holder.tvTransId.setVisibility(View.GONE);
@@ -115,13 +115,18 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
 
 
         holder.tvTime.setText(formattedDate1);
-        if (rechargeModel.getAmount_status().equals("Credit")){
+        if (rechargeModel.getAmount_status().equals("credit") || rechargeModel.getAmount_status().equals("Credit")){
             holder.tvGetTrans.setText(context.getString(R.string.addtowallet)+""+rechargeModel.getPay_mode());
 
             holder.tvPrice.setText("+"+ MainActivity.currency_sign +rechargeModel.getAmount());
             holder.tvPrice.setTextColor(context.getResources().getColor(R.color.green));
         }else{
-            holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_type());
+            if (rechargeModel.getPay_mode().equals("-") || rechargeModel.getPay_mode().equals("null")){
+                holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_type());
+            }else{
+                holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_type()+" "+rechargeModel.getPay_mode());
+            }
+
             holder.tvPrice.setText("-"+ MainActivity.currency_sign +rechargeModel.getAmount());
             holder.tvPrice.setTextColor(context.getResources().getColor(R.color.red));
             holder.tvTransId.setVisibility(View.GONE);

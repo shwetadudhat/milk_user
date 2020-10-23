@@ -264,17 +264,24 @@ public class Wallet_Fragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             if(resultCode == Activity.RESULT_OK) {
-                String txMsg = data.getStringExtra("txMsg");
-                String referenceId = data.getStringExtra("referenceId");
-                String txStatus = data.getStringExtra("txStatus");
-                String orderAmount = data.getStringExtra("orderAmount");
-                String paymentMode = data.getStringExtra("paymentMode");
-                // TODO: Do something with your extra data
 
-                Log.e("msggggg",txMsg);
+                if (data == null){
+                    Log.e("data",String.valueOf(data));
+                }else{
+                    String txMsg = data.getStringExtra("txMsg");
+                    String referenceId = data.getStringExtra("referenceId");
+                    String txStatus = data.getStringExtra("txStatus");
+                    String orderAmount = data.getStringExtra("orderAmount");
+                    String paymentMode = data.getStringExtra("paymentMode");
+                    // TODO: Do something with your extra data
 
-                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,paymentMode);
 
+                    showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,paymentMode);
+
+                }
+
+            }else if(resultCode == Activity.RESULT_CANCELED) {
+                Log.e("resultcode",String.valueOf(resultCode));
             }
         }
     }

@@ -336,7 +336,7 @@ public class CatProductListing extends BaseActivity implements View.OnScrollChan
             if (resultCode == Activity.RESULT_CANCELED) {
 
                 category_id=data.getStringExtra("category_id");
-                Log.e("category_id",category_id);
+               Log.e("category_id",category_id);
 
                 Intent intent=new Intent(CatProductListing.this, CatProductListing.class);
                 intent.putExtra("category_id",category_id);

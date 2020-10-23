@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.model.Model;
 import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.Activity.MainActivity;
 import com.webzino.milkdelightuser.Activity.Product;
@@ -21,8 +22,11 @@ import com.webzino.milkdelightuser.utils.DatabaseHandler;
 import com.webzino.milkdelightuser.utils.Global;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +36,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
 
     Context context;
     List<App_Product_Model> productModelList;
+    private List<App_Product_Model> arraylist;
 
     int count = 1;
     private DatabaseHandler dbcart;
@@ -42,6 +47,8 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
     public Adapter_BestProductList(Context context, List<App_Product_Model> productModelList) {
         this.context = context;
         this.productModelList = productModelList;
+        this.arraylist = new ArrayList<>();
+        this.arraylist.addAll(productModelList);
     }
 
     @NonNull
@@ -170,6 +177,31 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
     public void updateData(List<App_Product_Model> viewModels) {
         productModelList = new ArrayList<>();
         productModelList.addAll(viewModels);
+        notifyDataSetChanged();
+    }
+
+    // Filter Class
+//    public void filter(String charText) {
+    public void filter(String filter_type,String items_size,String items_unit) {
+        String data=items_size+items_unit;
+        data = data.toLowerCase(Locale.getDefault());
+
+       /* Collections.sort(productModelList, new Comparator<App_Product_Model>() {
+            @Override
+            public int compare(App_Product_Model lhs, App_Product_Model rhs) {
+                return lhs.getProduct_id().compareTo(rhs.getProduct_id());
+            }
+        });*/
+        productModelList.clear();
+        if (data.length() == 0) {
+            productModelList.addAll(arraylist);
+        } else {
+            for (App_Product_Model wp : arraylist) {
+                if (wp.getProduct_name().toLowerCase(Locale.getDefault()).contains(data) || wp.getUnit().toLowerCase(Locale.getDefault()).contains(data)) {
+                    productModelList.add(wp);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 }

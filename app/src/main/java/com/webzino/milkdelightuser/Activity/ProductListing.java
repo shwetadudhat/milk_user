@@ -439,9 +439,12 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
                 if (filter_type.equals("")){
                     filter_type="ASC";
                 }
-                getData1(filter_type,items_size,items_unit);
 
-
+                if (seeAll.equals("bestProduct")){
+                    getData1(filter_type,items_size,items_unit);
+                }else{
+                    adapterBestProductList.filter(filter_type,items_size,items_unit);
+                }
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {

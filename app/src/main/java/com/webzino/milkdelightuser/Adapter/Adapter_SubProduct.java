@@ -276,8 +276,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
                 }else{
                     adapterFreqPlan.setSelectedItem(-1);
-                    planSelected_model.setPlan_id("-1");
-                    planSelected_model.setSkip_day("0");
+//                    planSelected_model.setPlan_id("-1");
+//                    planSelected_model.setSkip_day("0");
 
 
                 }
@@ -285,12 +285,11 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         }else{
             adapterFreqPlan.setSelectedItem(-1);
-            planSelected_model.setPlan_id("-1");
-            planSelected_model.setSkip_day("0");
+//            planSelected_model.setPlan_id("-1");
+//            planSelected_model.setSkip_day("0");
 
         }
 
-        //  planSelectedModelArrayList.add(planSelected_model);
         if (planSelectedModelArrayList.size()>0){
             for (int j=0;j<planSelectedModelArrayList.size();j++){
                 if (planSelectedModelArrayList.get(j).getProduct_id().equals(map.get("product_id"))){
@@ -300,7 +299,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             }
             planSelectedModelArrayList.add(planSelected_model);
         }else{
-            planSelectedModelArrayList.add(planSelected_model);
+//            planSelectedModelArrayList.add(planSelected_model);
         }
 
 
@@ -316,8 +315,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycler_frq.setLayoutManager(gridLayoutManager);
         recycler_frq.setAdapter(adapterFreqPlan);
-
-
 
 
         adapterFreqPlan.setEventListener(new Adapter_FreqPlan.EventListener() {
@@ -480,6 +477,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                        }
 
                         notifyDataSetChanged();
+//                        removeAt(i);
 
                         Log.e("startdate_remove===>1",stardateList.toString());
                         Log.e("planselectedList_remove",planSelectedModelArrayList.toString());
@@ -487,7 +485,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
                         if (mEventListener!=null){
                             mEventListener.onQtyClicked(i,map.get("product_id"));
-                            //  mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
+//                            mEventListener.onItemViewClicked(i,map.get("product_id"),plan_idd,getDate(stardateList,map),planSelectedModelArrayList,stardateList);
                         }
 
 
@@ -573,6 +571,15 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
     public  void setEventListener(EventListener eventListener) {
         mEventListener = eventListener;
+    }
+
+
+    public void removeAt(int position) {
+        list.remove(position);
+//        planModelList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, list.size());
+//        notifyItemRangeChanged(position, planModelList.size());
     }
 
 

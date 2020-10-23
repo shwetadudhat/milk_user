@@ -319,6 +319,9 @@ public class update_subscribe extends BaseActivity {
                     if (status.equals("1")){
 
                         Toast.makeText(update_subscribe.this, message, Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(update_subscribe.this,Home.class);
+                        intent.putExtra("subsription","subsription");
+                        startActivity(intent);
 
 
                     }
@@ -482,13 +485,19 @@ public class update_subscribe extends BaseActivity {
                                    // txtPlan=plan;
                                     planId=plan;
                                     planSkipDay=planModelList.get(i).getSkipDays();
+
                                     Log.e("id123", String.valueOf(planId));
+                                    Log.e("planSkipDay", String.valueOf(planSkipDay));
 
                                 }
 
                                 @Override
-                                public void onItemViewClicked1(int position, int planId, int position1) {
+                                public void onItemViewClicked1(int position, int plan, int position1) {
+                                    planId=plan;
+                                    planSkipDay=planModelList.get(position).getSkipDays();
 
+                                    Log.e("id123", String.valueOf(planId));
+                                    Log.e("planSkipDay", String.valueOf(planSkipDay));
                                 }
                             });
 

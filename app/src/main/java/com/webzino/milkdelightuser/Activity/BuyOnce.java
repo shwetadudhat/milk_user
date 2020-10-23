@@ -96,6 +96,8 @@ public class BuyOnce extends BaseActivity {
     SharedPreferences sharedPreferences,sharedPreferences1;
     SharedPreferences.Editor myEdit,myEdit1;
 
+    AlertDialog alertDialog;
+
     @Override
 
     public void onCreate(Bundle savedInstanceState) {
@@ -576,7 +578,6 @@ public class BuyOnce extends BaseActivity {
         params.put("user_id", u_id);
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
-//        params.put("wallet_amount", String.valueOf(walletAmount));
         if  (walletAmount!=0.0){
             params.put("wallet_amount", String.valueOf(walletAmount));
         }else{
@@ -589,11 +590,10 @@ public class BuyOnce extends BaseActivity {
         }
 
         params.put("pay_type", "Wallet Pay");
-//        params.put("pay_mode", "");
+        params.put("pay_mode", "");
         params.put("transaction_id", "");
         params.put("total_amount", String.valueOf(total_amount));
         params.put("promo_code", promo_code);
-//        params.put("promocode_amount", String.valueOf(discount_amount));
         if  (!discount_amount.equals("") || discount_amount.equals("null")){
             params.put("promocode_amount", String.valueOf(discount_amount));
         }else{
@@ -624,7 +624,7 @@ public class BuyOnce extends BaseActivity {
                             ViewGroup viewGroup = findViewById(android.R.id.content);
                             View dialogView = LayoutInflater.from(BuyOnce.this).inflate(R.layout.custom_success, viewGroup, false);
                             builder.setView(dialogView);
-                            AlertDialog alertDialog = builder.create();
+                            alertDialog = builder.create();
                             alertDialog.setCancelable(false);
                                alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
@@ -704,17 +704,21 @@ public class BuyOnce extends BaseActivity {
 
         }else if (requestCode == 5) {
             if(resultCode == Activity.RESULT_OK) {
-                String txMsg = data.getStringExtra("txMsg");
-                String referenceId = data.getStringExtra("referenceId");
-                String txStatus = data.getStringExtra("txStatus");
-                String orderAmount = data.getStringExtra("orderAmount");
-                String paymentMode = data.getStringExtra("paymentMode");
+                if (data == null){
+                    Log.e("data",String.valueOf(data));
+                }else {
+                    String txMsg = data.getStringExtra("txMsg");
+                    String referenceId = data.getStringExtra("referenceId");
+                    String txStatus = data.getStringExtra("txStatus");
+                    String orderAmount = data.getStringExtra("orderAmount");
+                    String paymentMode = data.getStringExtra("paymentMode");
 
-                // TODO: Do something with your extra data
+                    // TODO: Do something with your extra data
 
-                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,paymentMode);
+                    showSuccessDialog(txMsg, referenceId, txStatus, orderAmount, paymentMode);
 
-                //  but_sub_plan(passArray,orderAmount);
+                    //  but_sub_plan(passArray,orderAmount);
+                }
 
             }else{
                 Log.e("resultcode",String.valueOf(resultCode));
@@ -729,7 +733,7 @@ public class BuyOnce extends BaseActivity {
         ViewGroup viewGroup = BuyOnce.this.getWindow().getDecorView().findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(BuyOnce.this).inflate(R.layout.custom_success, viewGroup, false);
         builder.setView(dialogView);
-        AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
         alertDialog.setCancelable(false);
         alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
@@ -792,14 +796,12 @@ public class BuyOnce extends BaseActivity {
         params.put("user_id", u_id);
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
-//        params.put("wallet_amount", String.valueOf(walletAmount));
-//        params.put("razor_pay_amount", orderAmount);
+
         params.put("pay_type", "CashFree");
         params.put("pay_mode", paymentMode);
         params.put("total_amount", String.valueOf(total_amount));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);
-//        params.put("promocode_amount", String.valueOf(discount_amount));
         params.put("total_cgst", String.valueOf(total_gst));
         params.put("total_sgst", String.valueOf(total_gst));
 
@@ -813,13 +815,6 @@ public class BuyOnce extends BaseActivity {
         }else{
             params.put("razor_pay_amount", "");
         }
-
-        params.put("pay_type", "Wallet Pay");
-        params.put("pay_mode", "");
-        params.put("transaction_id", "");
-        params.put("total_amount", String.valueOf(total_amount));
-        params.put("promo_code", promo_code);
-//        params.put("promocode_amount", String.valueOf(discount_amount));
         if  (!discount_amount.equals("") || discount_amount.equals("null")){
             params.put("promocode_amount", String.valueOf(discount_amount));
         }else{
@@ -871,6 +866,15 @@ public class BuyOnce extends BaseActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        alertDialog.dismiss();
+    }
+
+
+
 
 }
 

@@ -590,9 +590,6 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(Edit_Address.this, Addresslist.class);
-        intent.putExtra("user_id",user_id);
-        startActivity(intent);
         finish();
     }
 }

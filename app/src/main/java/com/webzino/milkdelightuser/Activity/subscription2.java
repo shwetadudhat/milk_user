@@ -441,9 +441,6 @@ public class subscription2 extends BaseActivity {
                 if (endDateModelArrayList.size()>0){
                     for (int k=0;k<endDateModelArrayList.size();k++){
                         if (endDateModelArrayList.get(k).getProdcut_id().equals(stardateList1.get(i).getProdcut_id())){
-                            Log.e("stardateList1get(k)",stardateList1.get(k).getProdcut_id());
-                            Log.e("stardateLit(i)",stardateList1.get(i).getProdcut_id());
-                            Log.e("endDateModelget(k)",endDateModelArrayList.get(k).getProdcut_id());
                             endDateModelArrayList.remove(k);
                         }
                     }
@@ -549,8 +546,6 @@ public class subscription2 extends BaseActivity {
                                             plan1.callOnClick();
                                         }else if (planData.equals("plan2")){
                                             plan2.callOnClick();
-                                            //  getDateData(30);
-                                        }else if (planData.equals("customplan")){
                                             customPlan.callOnClick();
                                         }
                                     }
@@ -1016,8 +1011,13 @@ public class subscription2 extends BaseActivity {
     private void AddSubscription() {
 
         Log.e("total_price123333", String.valueOf(total_price));
+        /*if (discount_amount!=0) {
+            getTotalAmount();
+        }*/
         getTotalAmount();
-
+        if (discount_amount!=0) {
+            total_price=total_price-discount_amount;
+        }
         Log.e("total_amount33", String.valueOf(total_price));
 
         if (ChkWallet.isChecked()){
@@ -1094,11 +1094,11 @@ public class subscription2 extends BaseActivity {
 
             if (transactionId.equals("")){
                 if (isInternetConnected()) {
-                    but_sub_plan(passArray,paymentMode);
+                    but_sub_plan(passArray);
                     Log.e("parseArray",passArray.toString());
                 }
             }else{
-                but_sub_plan1(passArray,String.valueOf(razorAmount),transactionId);
+                but_sub_plan1(passArray,String.valueOf(razorAmount),transactionId,paymentMode);
             }
 
 
@@ -1108,7 +1108,7 @@ public class subscription2 extends BaseActivity {
     }
 
 
-    private void but_sub_plan(JSONArray passArray,String paymentMode) {
+    private void but_sub_plan(JSONArray passArray) {
 
         Log.e("walletAmount", String.valueOf(walletAmount));
 
@@ -1127,12 +1127,10 @@ public class subscription2 extends BaseActivity {
         }else{
             params.put("razor_pay_amount", "");
         }
-//        params.put("razor_pay_amount", String.valueOf(razorAmount));
         params.put("pay_type", pay_type);
-        params.put("pay_mode", paymentMode);
+        params.put("pay_mode", "");
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
-//        params.put("promocode_amount", String.valueOf(discount_amount));
         if  (discount_amount!=0.0){
             params.put("promocode_amount", String.valueOf(discount_amount));
         }else{
@@ -1168,7 +1166,7 @@ public class subscription2 extends BaseActivity {
                             View dialogView = LayoutInflater.from(subscription2.this).inflate(R.layout.custom_success, viewGroup, false);
                             builder.setView(dialogView);
                             AlertDialog alertDialog = builder.create();
-                            alertDialog.setCancelable(true);
+                            alertDialog.setCancelable(false);
                             alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
 
@@ -1256,16 +1254,21 @@ public class subscription2 extends BaseActivity {
             }
         }else if (requestCode == 5) {
             if(resultCode == Activity.RESULT_OK) {
-                String txMsg = data.getStringExtra("txMsg");
-                String referenceId = data.getStringExtra("referenceId");
-                String txStatus = data.getStringExtra("txStatus");
-                String orderAmount = data.getStringExtra("orderAmount");
-                String paymentMode = data.getStringExtra("paymentMode");
-                subProductList1= (ArrayList<SubscriptioAddProduct_model>) data.getSerializableExtra("subList");
-                // TODO: Do something with your extra data
+
+                if (data == null){
+                    Log.e("data",String.valueOf(data));
+                }else {
+                    String txMsg = data.getStringExtra("txMsg");
+                    String referenceId = data.getStringExtra("referenceId");
+                    String txStatus = data.getStringExtra("txStatus");
+                    String orderAmount = data.getStringExtra("orderAmount");
+                    String paymentMode = data.getStringExtra("paymentMode");
+                    subProductList1 = (ArrayList<SubscriptioAddProduct_model>) data.getSerializableExtra("subList");
+                    // TODO: Do something with your extra data
 
 
-                showSuccessDialog(txMsg,referenceId,txStatus,orderAmount,subProductList1,paymentMode);
+                    showSuccessDialog(txMsg, referenceId, txStatus, orderAmount, subProductList1, paymentMode);
+                }
 
             }
         }
@@ -1301,6 +1304,8 @@ public class subscription2 extends BaseActivity {
                         promo_code=jsonObject.getString("promo_code");
 
                         total_price= Float.parseFloat(pay_amount);
+
+                        Toast.makeText(subscription2.this, "Coupon code applied successfully!", Toast.LENGTH_SHORT).show();
 
                     }else{
                         alertDialog.dismiss();
@@ -1372,7 +1377,7 @@ public class subscription2 extends BaseActivity {
 
             for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
 
-                Log.e("planidddddddd==>1", planSelectedModelArrayList.get(i).getPlan_id());
+//                Log.e("planidddddddd==>1", planSelectedModelArrayList.get(i).getPlan_id());
 
                 if (!planSelectedModelArrayList.get(i).getPlan_id().equals("-1") ) {
                     return true;
@@ -1478,16 +1483,22 @@ public class subscription2 extends BaseActivity {
         llDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
-                Intent intent=new Intent(subscription2.this, Home.class);
-                startActivity(intent);
-                finish();
+
+                if (txStatus.equals("SUCCESS")) {
+                    alertDialog.dismiss();
+                    Intent intent = new Intent(subscription2.this, Home.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    alertDialog.dismiss();
+                }
+
             }
         });
         alertDialog.show();
     }
 
-    public  void but_sub_plan1(JSONArray passArray, String orderAmount,String transactionId) {
+    public  void but_sub_plan1(JSONArray passArray, String orderAmount,String transactionId,String paymentMode) {
 
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
@@ -1495,7 +1506,7 @@ public class subscription2 extends BaseActivity {
         params.put("product_object", passArray.toString());
         params.put("address_id",  Addrid);
         params.put("pay_type", "CashFree");
-        params.put("pay_mode", "");
+        params.put("pay_mode", paymentMode);
         params.put("total_amount", String.valueOf(total_price));
         params.put("promo_code", promo_code);
         params.put("transaction_id", transactionId);

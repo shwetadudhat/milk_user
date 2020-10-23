@@ -56,7 +56,7 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
     int index;
     int row_index=-1,positionn=-1;
 
-
+    String category_id;
 
     SharedPreferences settings ;
     SharedPreferences.Editor editor;
@@ -217,7 +217,7 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
                 editor.clear().apply();
 
                 Intent backIntent = new Intent();
-                backIntent.putExtra("seeAll",seeAll);
+                backIntent.putExtra("category_id",category_id);
                 setResult(RESULT_CANCELED, backIntent);
                 finish();
 
@@ -228,7 +228,7 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
             @Override
             public void onClick(View view) {
                 Intent backIntent = new Intent();
-                backIntent.putExtra("seeAll",seeAll);
+                backIntent.putExtra("category_id",category_id);
                 setResult(RESULT_CANCELED, backIntent);
                 finish();
             }

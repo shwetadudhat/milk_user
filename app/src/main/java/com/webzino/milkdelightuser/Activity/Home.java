@@ -79,7 +79,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
     String home=null;
     static int row_index=0;
 
-    String token,wallet;
+    String token,wallet,subsription;
 
     TextView user_name1,user_nmbr1;
     CircleImageView user_dp;
@@ -206,6 +206,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
         notification=getIntent().getStringExtra("notification");
         wallet=getIntent().getStringExtra("wallet");
+        subsription=getIntent().getStringExtra("subsription");
        //
         if( notification!= null)
         {
@@ -213,6 +214,8 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             OpenMainFragment(new Notification_Fragment());
         }else  if( wallet!= null) {
             Wallet(12);
+        }else  if( subsription!= null) {
+            Subscription(4);
         }else{
             selectedItem(0);
         }
@@ -577,6 +580,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
                             session_management.logoutSession();
                             Intent intent=new Intent(Home.this, Login.class);
                             startActivity(intent);
+                            finish();
                         }
 
                     }

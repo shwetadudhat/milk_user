@@ -323,10 +323,15 @@ public class RenewPlanActivity extends BaseActivity {
         llDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialog.dismiss();
-                Intent intent=new Intent(RenewPlanActivity.this, Home.class);
-                startActivity(intent);
-                finish();
+
+                if (txStatus.equals("SUCCESS")) {
+                    alertDialog.dismiss();
+                    Intent intent = new Intent(RenewPlanActivity.this, Home.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    alertDialog.dismiss();
+                }
             }
         });
         alertDialog.show();

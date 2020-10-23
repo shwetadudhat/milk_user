@@ -325,6 +325,8 @@ public class Cart_activity extends BaseActivity {
                         Log.e("total_amount123333", String.valueOf(total_amount));
                         tvTotalTag1.setText(MainActivity.currency_sign+total_amount);
 
+                        Toast.makeText(Cart_activity.this, "Coupon code applied successfully!", Toast.LENGTH_SHORT).show();
+
 
 
                     }else{

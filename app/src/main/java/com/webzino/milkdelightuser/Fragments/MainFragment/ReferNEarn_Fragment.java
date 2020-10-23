@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -100,6 +101,7 @@ public class ReferNEarn_Fragment extends BaseFragment {
                 ClipboardManager clipboardManager= (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData= ClipData.newPlainText("Earn Code",edCode.getText().toString());
                 clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(getContext(), "Copied", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -164,7 +166,7 @@ public class ReferNEarn_Fragment extends BaseFragment {
                         String amount=jsonObject.getString("amount");
                         String refer_code=jsonObject.getString("refer_code");
 
-                        String str = "<b>"+ MainActivity.currency_sign+amount+"</b>";
+                        String str = "<b>"+ MainActivity.currency_sign+amount+" </b>";
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 
                             tv_refer.setText(Html.fromHtml(getString(R.string.invite_txtt)+ str+getString(R.string.invite_wallet_txt), Html.FROM_HTML_MODE_LEGACY));
