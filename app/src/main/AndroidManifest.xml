@@ -6,7 +6,7 @@
     <application
         android:name=".utils.AppController"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_logo"
+        android:icon="@mipmap/ic_logo_main"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
@@ -166,9 +166,7 @@
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="false" /> <!-- Only add it if you need Auto OTP reading feature is enabled -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_realsekey" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

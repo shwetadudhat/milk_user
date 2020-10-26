@@ -54,7 +54,6 @@ public class otp extends BaseActivity {
 
         Intent intent=getIntent();
         txt_receive= intent.getStringExtra("txt_send");
-//        otp= intent.getStringExtra("otp");
         nmbr= intent.getStringExtra("nmbr");
 
         /*if (txt_receive.equals("forgot_pass_screen")){
@@ -77,8 +76,7 @@ public class otp extends BaseActivity {
         edOTP2=findViewById(R.id.edOTP2);
         edOTP3=findViewById(R.id.edOTP3);
         edOTP4=findViewById(R.id.edOTP4);
-       /* edOTP5=findViewById(R.id.edOTP5);
-        edOTP6=findViewById(R.id.edOTP6);*/
+
         tvResendOtp=findViewById(R.id.tvResendOtp);
         btn_verify=findViewById(R.id.btn_verify);
 
@@ -152,14 +150,10 @@ public class otp extends BaseActivity {
                         String user_image = jsonObject.getString("user_image");
                         String user_phone = jsonObject.getString("user_phone");
 
-                        Log.e("id",id);
 
                         Session_management session_management = new Session_management(com.webzino.milkdelightuser.Activity.otp.this);
                         session_management.createLoginSession(id, user_email, user_name, user_image, user_phone);
 
-/*
-                        Session_management session_management = new Session_management(otp.this);
-                        session_management.createLoginSession(id, user_email, user_name, user_image, nmbr);*/
                         if (txt_receive.equals("forgot_pass_screen")){
                             btn_verify.setText(R.string.verify_proceed);
                             Intent intent1=new Intent(com.webzino.milkdelightuser.Activity.otp.this, ResetPassword.class);
@@ -170,6 +164,8 @@ public class otp extends BaseActivity {
                             startActivity(intent);
                             finishAffinity();
                         }
+                    }else{
+                        Toast.makeText(otp.this, ""+message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {
@@ -207,6 +203,8 @@ public class otp extends BaseActivity {
                     if (status.equals("1")){
                         Toast.makeText(com.webzino.milkdelightuser.Activity.otp.this, message, Toast.LENGTH_SHORT).show();
 
+                    }else{
+                        Toast.makeText(com.webzino.milkdelightuser.Activity.otp.this, message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

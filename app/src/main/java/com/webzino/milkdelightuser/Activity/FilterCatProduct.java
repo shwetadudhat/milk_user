@@ -91,7 +91,8 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
         filterData=settings.getString("select","");
         sortData=settings.getString("sort_data","");
         select_id=settings.getString("select_id","");
-        seeAll=getIntent().getStringExtra("seeAll");
+        category_id=getIntent().getStringExtra("category_id");
+
 
 
         stringArrayList=new ArrayList<>();

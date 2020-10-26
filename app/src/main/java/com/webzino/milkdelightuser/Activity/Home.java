@@ -290,15 +290,10 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
     public void getNavViewData() {
 
         getPreferenceData();
-        Log.e("user_image123==>123",user_image);
-
 
         if (!user_image.equals("null")){
             String profileurl=ProfileUrl(Home.this);
             Global.loadGlideImage(Home.this,user_image,profileurl/*BaseURL.profile_url*/+user_image,user_dp);
-            Log.e("urrrllll",profileurl/*BaseURL.profile_url*/+user_image);
-
-
         }else{
             user_dp.setImageResource(R.mipmap.ic_launcher);
         }

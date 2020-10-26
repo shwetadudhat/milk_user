@@ -115,7 +115,7 @@ public class Forgot_Password extends BaseActivity {
                         String user_phone = jsonObject.getString("user_phone");
                         String otp = jsonObject.getString("otp");
 
-                        Intent intent=new Intent(Forgot_Password.this, com.webzino.milkdelightuser.Activity.otp.class);
+                        Intent intent=new Intent(Forgot_Password.this, otp.class);
                         intent.putExtra("otp",otp);
                         intent.putExtra("nmbr",user_phone);
                         intent.putExtra("txt_send","forgot_pass_screen");

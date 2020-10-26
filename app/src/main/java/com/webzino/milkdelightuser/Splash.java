@@ -15,6 +15,7 @@ import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 import com.google.android.material.snackbar.Snackbar;
+import com.webzino.milkdelightuser.Activity.ChooseLoginSignup;
 import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.Activity.Home;
 import com.webzino.milkdelightuser.Activity.referFriend;
@@ -191,9 +192,11 @@ public class Splash extends BaseActivity {
             startActivity(startmain);
         }
         else{
-            Intent startmain = new Intent(Splash.this, referFriend.class);
-            startmain.putExtra("referCode",referrerUrl);
-            startActivity(startmain);
+
+            Intent intent=new Intent(Splash.this, ChooseLoginSignup.class/*referFriend.class*/);
+            intent.putExtra("referCode",referrerUrl);
+            startActivity(intent);
+
         }
         finish();
     }

@@ -836,11 +836,6 @@ public class Signup extends BaseActivity {
                                                 String Fbid = object.getString("id");
                                                 String Fbname = object.getString("name");
                                                 String Fbemail = object.getString("email");
-                                                if (Fbemail.equals("null")){
-                                                    Log.e("Fbemail",Fbemail);
-                                                }else{
-                                                    Log.e("emailId123",emailId);
-                                                }
                                                 String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
                                                 Log.e("Fbid",Fbid);
                                                 Log.e("fbImageurl",Fbimage_url);

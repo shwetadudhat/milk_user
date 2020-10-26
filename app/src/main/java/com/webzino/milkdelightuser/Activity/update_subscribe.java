@@ -70,7 +70,7 @@ public class update_subscribe extends BaseActivity {
     String user_id,user_name,user_nmbr,user_email,plan_id,product_price,product_unit;
     String cur_date;
 
-    int planId;
+    int planId,planIdIntent;
     String enddate;
     String wallet;
 
@@ -169,7 +169,8 @@ public class update_subscribe extends BaseActivity {
         subs_id=getIntent().getStringExtra("subs_id");
         skip_day=getIntent().getStringExtra("skip_day");
         plan_id=getIntent().getStringExtra("plan_id");
-        planId= Integer.parseInt(plan_id);
+        planIdIntent= Integer.parseInt(plan_id);
+        planId=planIdIntent;
 
         Log.e("strat_dateee1",start_date);
 
@@ -246,16 +247,26 @@ public class update_subscribe extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                if (isInternetConnected()) {
-                    try {
-                        showDialog("");
+                Log.e("planIdIntent",String.valueOf(planIdIntent));
 
-                        updateSub();
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                Log.e("planId",String.valueOf(planId));
+                if (planIdIntent!=planId){
+                    if (isInternetConnected()) {
+                        try {
+                            showDialog("");
+
+                            updateSub();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
+                }else{
+                    Toast.makeText(update_subscribe.this, "Selected Plan already exists", Toast.LENGTH_SHORT).show();
                 }
+
+
 
             }
         });

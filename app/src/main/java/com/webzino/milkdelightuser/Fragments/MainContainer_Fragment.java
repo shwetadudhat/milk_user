@@ -32,6 +32,10 @@ public class MainContainer_Fragment extends BaseFragment {
     RelativeLayout rel_homefrag;
     String targetLayout;
 
+    public MainContainer_Fragment(){
+
+    }
+
     public MainContainer_Fragment(String targetLayout) {
         this.targetLayout=targetLayout;
     }
@@ -64,18 +68,21 @@ public class MainContainer_Fragment extends BaseFragment {
 
 
 
-        if (targetLayout.equals(getString(R.string.home))){
+        if (targetLayout!=null  && targetLayout.equals(getString(R.string.home))){
             ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
             openFragment(new Home_Fragment1(),btnHome,tvHome);
-        }else if (targetLayout.equals(getString(R.string.subscription))){
+        }else if (targetLayout!=null && targetLayout.equals(getString(R.string.subscription))){
             ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.mysubscription));
             openFragment(new Subscription_Fragment(),btnSubscription,tvSubscription);
-        }else if (targetLayout.equals(getString(R.string.shopByCat))){
+        }else if (targetLayout!=null && targetLayout.equals(getString(R.string.shopByCat))){
             ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.shopByCat));
             openFragment(new Cat_Fragment(),btnHome,tvHome);
-        }else if (targetLayout.equals(getString(R.string.wallet))){
+        }else if (targetLayout!=null && targetLayout.equals(getString(R.string.wallet))){
             ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.wallet));
             openFragment(new Wallet_Fragment(),btnWallet,tvWallet);
+        }else{
+            ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
+            openFragment(new Home_Fragment1(),btnHome,tvHome);
         }
 
         ll_home.setOnClickListener(new View.OnClickListener() {
