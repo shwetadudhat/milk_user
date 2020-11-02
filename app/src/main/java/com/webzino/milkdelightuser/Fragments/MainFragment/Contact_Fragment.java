@@ -105,22 +105,6 @@ public class Contact_Fragment extends BaseFragment {
 
                 callPhoneNumber();
 
-               /* Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + tvConNmbr.getText().toString()));
-                if (ActivityCompat.checkSelfPermission(getContext(), CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    getContext().startActivity(intent);
-
-                }else {
-                    requestPermissions(new String[]{CALL_PHONE}, 1);
-                }
-*/
             }
         });
 
@@ -265,7 +249,7 @@ public class Contact_Fragment extends BaseFragment {
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", u_id);
-        params.put("user_id", msg);
+        params.put("message", msg);
 
         Log.e("params",params.toString());
 

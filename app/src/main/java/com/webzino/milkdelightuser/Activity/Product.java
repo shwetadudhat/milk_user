@@ -409,10 +409,10 @@ public class Product extends BaseActivity {
                                         map.put("product_name", product_name);
                                         map.put("category_id", category_id1);
                                         map.put("product_description", description);
-                                        map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
-                                        map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
-                                        map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
-                                        map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                                        map.put("price", String.valueOf(Math.round(Double.parseDouble(price))));
+                                        map.put("subscription_price", String.valueOf(Math.round(Double.parseDouble(subscription_price))));
+                                        map.put("gst_subscription_price", String.valueOf(Math.round(Double.parseDouble(gst_subscription_price))));
+                                        map.put("gst_price", String.valueOf(Math.round(Double.parseDouble(sub_price))));
                                         map.put("product_image", proImgae);
                                         map.put("unit", qty1+" "+unit);
                                         map.put("stock", stock);

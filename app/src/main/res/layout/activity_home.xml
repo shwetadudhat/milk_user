@@ -157,16 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/header"/>
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:clickable="true"-->
-<!--                android:scrollingCache="false"-->
-<!--                android:smoothScrollbar="true"-->
-<!--                tools:listitem="@layout/listitem_customrow"-->
-<!--                android:layout_above="@id/logout"-->
-<!--                android:id="@+id/list"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@id/header"/>-->
+
         </RelativeLayout>
 
        <!-- <RelativeLayout
