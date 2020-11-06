@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -188,7 +189,7 @@ public class Recharge_history extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //    Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

@@ -60,11 +60,7 @@ public class Adapter_BestProduct extends RecyclerView.Adapter<Adapter_BestProduc
         dbcart = new DatabaseHandler(context);
 
        holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
-//        holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(productModelList.get(i).getPrice())+ Math.round(Global.getTax(context, Double.parseDouble(productModelList.get(i).getPrice())))));
 
-//        Glide.with(context)
-//                .load(/*BaseURL.IMG_CATEGORY_URL + */productModelList.get(i).getProduct_image())
-//                .into(holder.ivProd);
 
         Global.loadGlideImage(context,productModelList.get(i).getProduct_image(),productModelList.get(i).getProduct_image(),holder.ivProd);
 
@@ -83,7 +79,6 @@ public class Adapter_BestProduct extends RecyclerView.Adapter<Adapter_BestProduc
         holder.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // holder.btnAdd.callOnClick();
                 Intent intent=new Intent(context, Product.class);
                 intent.putExtra("proname",productModelList.get(i).getProduct_name());
                 intent.putExtra("proId",productModelList.get(i).getProduct_id());

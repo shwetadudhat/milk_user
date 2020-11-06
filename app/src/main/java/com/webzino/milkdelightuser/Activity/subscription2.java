@@ -596,8 +596,8 @@ public class subscription2 extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
-                //   dismissDialog();
-                Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                   dismissDialog();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -662,7 +662,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 dismissDialog();
                 Log.e("error",error.toString());
-                //  Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -717,7 +717,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -875,7 +875,15 @@ public class subscription2 extends BaseActivity {
 
                                 }
                             }, year, month, day);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.add(Calendar.DATE, 1);
+
+                    picker.getDatePicker().setMinDate(calendar.getTimeInMillis()/*System.currentTimeMillis() - 1000*/);
                     picker.show();
+
+                   /* picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                    picker.show();*/
 
                     // getTotalAmount();
                     plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
@@ -1064,7 +1072,6 @@ public class subscription2 extends BaseActivity {
     }
 
 
-
     private void addSubPlan(String transactionId,String paymentMode) {
 
         if (subProductList.size()>0){
@@ -1221,7 +1228,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -1321,7 +1328,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -1424,7 +1431,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -1455,8 +1462,6 @@ public class subscription2 extends BaseActivity {
 
         tvTransDesc.setText(txMsg);
         tvTransId.setText("Transaction id:"+referenceId);
-
-
 
         if (txStatus.equals("SUCCESS")){
             tvStts.setText(R.string.payment_success);
@@ -1567,7 +1572,7 @@ public class subscription2 extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

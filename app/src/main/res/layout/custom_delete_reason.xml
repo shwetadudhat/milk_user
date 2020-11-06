@@ -19,38 +19,16 @@
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:text="@string/write_your_review" />
-
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rate"
-            android:scaleX=".8"
-            android:scaleY=".8"
-            android:stepSize="0.1"
-            android:transformPivotX="0dp"
-            android:transformPivotY="0dp"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:theme="@style/RatingBar1"
-            android:max="5"/>
-
-        <!--<RatingBar
-            android:theme="@style/RatingBar"
-            android:id="@+id/rate"
-            android:stepSize="1"
-            android:numStars="5"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>-->
+            android:text="@string/write_your_reason" />
 
         <EditText
+            android:layout_marginTop="@dimen/_15sdp"
             android:inputType="textMultiLine"
             android:lines="2"
             android:minLines="1"
             android:maxLines="4"
-            android:textColor="@color/main_clr"
             android:textColorHint="@color/small_title_clr"
+            android:textColor="@color/main_clr"
             android:fontFamily="@font/ubuntu_medium"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_15sdp"

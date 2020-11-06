@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -101,9 +102,10 @@ public class Schedule extends BaseActivity {
         end_date=getIntent().getStringExtra("end_date");
         sub_plan=getIntent().getStringExtra("sub_plan");
         order_id=getIntent().getStringExtra("order_id");
-      //  Adapter_Recharge.daysBetween(start_date, end_date);
 
-     //   String dateStr = "2/3/2017";
+        Log.e("start_date-->1",start_date);
+        Log.e("end_date-->1",end_date);
+
 
 
         Calendar endDate = Calendar.getInstance(); // End date
@@ -283,7 +285,7 @@ public class Schedule extends BaseActivity {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("errooror",error.toString());
-                      //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 })
         {
@@ -361,7 +363,7 @@ public class Schedule extends BaseActivity {
                     public void onErrorResponse(VolleyError error)
                     {
                         Log.e("errooror",error.toString());
-                      //  Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 })
         {

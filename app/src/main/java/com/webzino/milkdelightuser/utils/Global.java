@@ -207,12 +207,12 @@ public class Global {
     public static void loadGlideImage(Context context, String imageName, String imageURL, ImageView imageView){
         if (imageName != null && !TextUtils.isEmpty(imageName)) {
             Glide.with(context).load(imageURL)
-                    .apply(getGlideRequestOptions(R.mipmap.ic_launcher))
+                    .apply(getGlideRequestOptions(R.drawable.not_found))
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
 //                            holder.featuredImage.setVisibility(View.GONE);
-                            imageView.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_launcher));
+                            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.not_found));
                             return false;
                         }
 
@@ -228,10 +228,7 @@ public class Global {
         }
     }
 
-    public static String convertDate(String date){
 
-        return date;
-    }
 
     //region FOR SAVE BITMAP
     public static void saveBitmap(Bitmap bitmap, File file) {

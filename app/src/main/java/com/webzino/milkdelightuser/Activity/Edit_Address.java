@@ -280,7 +280,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(Edit_Address.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_Address.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
@@ -347,7 +347,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-             //   Toast.makeText(Edit_Address.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_Address.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
@@ -411,7 +411,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(Edit_Address.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_Address.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);
@@ -525,7 +525,7 @@ public class Edit_Address extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-               // Toast.makeText(Edit_Address.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Edit_Address.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest,tag_json_obj);

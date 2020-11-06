@@ -345,7 +345,7 @@ public class update_subscribe extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-             //   Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -426,7 +426,7 @@ public class update_subscribe extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-               // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -524,7 +524,7 @@ public class update_subscribe extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-             //   Toast.makeText(update_subscribe.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(update_subscribe.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
@@ -573,7 +573,7 @@ public class update_subscribe extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-               // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -664,7 +664,7 @@ public class update_subscribe extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("errorrr",error.toString());
                 dismissDialog();
-              //  Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

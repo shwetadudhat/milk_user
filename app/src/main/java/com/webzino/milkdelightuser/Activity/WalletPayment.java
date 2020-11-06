@@ -145,7 +145,7 @@ public class WalletPayment extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                Toast.makeText(WalletPayment.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WalletPayment.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

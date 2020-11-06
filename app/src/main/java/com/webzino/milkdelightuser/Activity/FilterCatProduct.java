@@ -309,7 +309,7 @@ public class FilterCatProduct extends BaseActivity implements AdapterView.OnItem
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(FilterCatProduct.this, "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(FilterCatProduct.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);

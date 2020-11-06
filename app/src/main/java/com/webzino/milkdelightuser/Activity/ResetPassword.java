@@ -116,7 +116,7 @@ public class ResetPassword extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

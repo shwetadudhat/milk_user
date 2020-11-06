@@ -251,7 +251,7 @@ public class Wallet_Fragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 dismissDialog();
                 Log.e("error",error.toString());
-               // Toast.makeText(getContext(), ""+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -375,8 +375,8 @@ public class Wallet_Fragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("error",error.toString());
-
-//                Toast.makeText(pay_razor.this, ""+error, Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

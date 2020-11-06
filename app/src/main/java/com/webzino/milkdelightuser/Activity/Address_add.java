@@ -246,7 +246,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                Toast.makeText(Address_add.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Address_add.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -304,7 +304,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(Address_add_edit.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Address_add.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -420,7 +420,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(Address_add_edit.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Address_add.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

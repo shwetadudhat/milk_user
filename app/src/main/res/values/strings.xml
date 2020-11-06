@@ -257,6 +257,7 @@
     <string name="enter_new_password">Enter New Password</string>
     <string name="re_enter_password1">Re-Enter Password</string>
     <string name="write_your_review">Write Your Review</string>
+    <string name="write_your_reason">Write Your Reason</string>
     <string name="enter_meassage_here">Enter Meassage Here</string>
     <string name="write_a_message">Write a Message</string>
     <string name="enter_message_here">Enter Message Here...</string>

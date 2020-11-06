@@ -73,14 +73,6 @@ import static com.webzino.milkdelightuser.utils.Global.MY_GST_PREFS_NAME;
 import static com.webzino.milkdelightuser.utils.Global.URL_DATA;
 import static com.webzino.milkdelightuser.utils.Global.hideKeyBoard;
 
-/*import com.google.android.youtube.player.YouTubeInitializationResult;
-//import com.google.android.youtube.player.YouTubePlayer;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;*/
-//import com.google.android.youtube.player.YouTubePlayerView;
-
-
 public class Home_Fragment1 extends BaseFragment {
 
     private DatabaseHandler db;
@@ -181,7 +173,7 @@ public class Home_Fragment1 extends BaseFragment {
         if (ConnectivityReceiver.isConnected()) {
             showDialog("");
             LoadHomeData();
-            getGSTCharge();
+
         } else {
             Global.showInternetConnectionDialog(getContext());
 
@@ -212,47 +204,6 @@ public class Home_Fragment1 extends BaseFragment {
                 }
             }
         });
-
-    }
-
-    private void getGSTCharge() {
-        Map<String, String> params = new HashMap<String, String>();
-
-        Log.e("params",params.toString());
-
-        CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest( BaseURL.gst_charge, params, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Log.e("gstTag", response.toString());
-                try {
-                    String status=response.getString("status");
-
-                    if(status.equals("1")){
-                        JSONObject jsonObject=response.getJSONObject("data");
-                        myEdit.putString(GST_DATA, jsonObject.toString());
-                        myEdit.commit();
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error1234",error.toString());
-                dismissDialog();
-                showToast("" + error);
-
-            }
-        });
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest);
 
     }
 
@@ -331,9 +282,7 @@ public class Home_Fragment1 extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                showToast("" + error);
-              //  rv_null.setVisibility(View.VISIBLE);
-              //  rv_container.setVisibility(View.GONE);
+                showToast("" + error.getMessage());
 
             }
         });

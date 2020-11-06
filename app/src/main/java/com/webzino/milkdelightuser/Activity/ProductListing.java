@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -213,7 +214,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
      //
@@ -570,7 +571,7 @@ public class ProductListing extends BaseActivity implements View.OnScrollChangeL
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

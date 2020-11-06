@@ -214,7 +214,7 @@ public class CashFreeActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                Toast.makeText(CashFreeActivity.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CashFreeActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(

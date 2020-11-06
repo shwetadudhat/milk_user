@@ -140,7 +140,7 @@ public class Offer_Fragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);

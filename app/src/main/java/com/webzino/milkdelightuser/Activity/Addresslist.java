@@ -236,7 +236,7 @@ public class Addresslist extends BaseActivity {
                 dismissDialog();
                 container_null1.setVisibility(View.VISIBLE);
                 recycler_address.setVisibility(View.GONE);
-                Toast.makeText(Addresslist.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(Addresslist.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -281,7 +281,7 @@ public class Addresslist extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-                // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -321,7 +321,7 @@ public class Addresslist extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                   dismissDialog();
-               // Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);

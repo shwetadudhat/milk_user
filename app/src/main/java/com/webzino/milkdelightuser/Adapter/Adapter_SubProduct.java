@@ -130,8 +130,10 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
         holder.tvQty.setText(dbcart.getCartItemQty(map.get("product_id")));
 
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 1);
 
-        Date c = Calendar.getInstance().getTime();
+        Date c = calendar.getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         String tardetDate12 = df.format(c);
 
@@ -188,24 +190,31 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             @Override
             public void onClick(View view) {
                 final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int day = cldr.get(Calendar.DAY_OF_MONTH)+1;
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
+                Log.e("day==>1",String.valueOf(day));
                 picker = new DatePickerDialog(context,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                holder.freqDate.setText(dayOfMonth + " " + MONTHS[monthOfYear] + " " + year);
+
                                 int month=monthOfYear+1;
-                                String sMonth = "";
+                                String sMonth = "",sDate = "";
                                 if (month < 10) {
                                     sMonth = "0"+month;
                                 } else {
                                     sMonth = String.valueOf(month);
                                 }
-                                tardetDate=dayOfMonth+"-"+sMonth+"-"+year;
-                                Log.e("tardetDate",tardetDate);
+
+                                if (dayOfMonth < 10) {
+                                    sDate = "0"+dayOfMonth;
+                                } else {
+                                    sDate = String.valueOf(dayOfMonth);
+                                }
+                                tardetDate=sDate+"-"+sMonth+"-"+year;
+                                holder.freqDate.setText(sDate + " " + MONTHS[monthOfYear] + " " + year);
 
                                 StartDate_Model startDate_model=new StartDate_Model();
                                 startDate_model.setProdcut_id(map.get("product_id"));
@@ -233,6 +242,11 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
                             }
                         }, year, month, day);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DATE, 1);
+
+                picker.getDatePicker().setMinDate(calendar.getTimeInMillis()/*System.currentTimeMillis() - 1000*/);
                 picker.show();
             }
         });

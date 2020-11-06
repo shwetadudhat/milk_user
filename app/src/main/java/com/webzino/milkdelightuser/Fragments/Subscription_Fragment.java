@@ -11,12 +11,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.webzino.milkdelightuser.Activity.Product;
 import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.Activity.MainActivity;
 import com.webzino.milkdelightuser.Activity.ProductListing;
@@ -252,7 +256,7 @@ public class Subscription_Fragment extends BaseFragment {
 
                 Log.e("error",error.toString());
 
-                // Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+                 Toast.makeText(getContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -490,13 +494,10 @@ public class Subscription_Fragment extends BaseFragment {
                                     pause(subs_id,start_date,end_date,delivery_date, dialog);
                                 } else {
                                     Global.showInternetConnectionDialog(getContext());
-
                                 }
-
 
                             }
                         });
-
 
                         dialog.show();
 
@@ -509,33 +510,46 @@ public class Subscription_Fragment extends BaseFragment {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                            .setTitle(R.string.delete_title)
-                            .setMessage(R.string.delete_msg)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (ConnectivityReceiver.isConnected()) {
-                                        showDialog("");
-                                        delete(i,showsubscrip_model.getSubs_id());
-                                    } else {
-                                        Global.showInternetConnectionDialog(getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    ViewGroup viewGroup = v.findViewById(android.R.id.content);
+                    View dialogView = LayoutInflater.from(context).inflate(R.layout.custom_delete_reason, viewGroup, false);
+                    builder.setView(dialogView);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.setCancelable(true);
+                    alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
-                                    }
 
+                    EditText edMsg=dialogView.findViewById(R.id.edMsg);
+                    Button btnApply=dialogView.findViewById(R.id.btnApply);
+                    edMsg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View view, boolean b) {
+                            edMsg.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+                        }
+                    });
+
+                    btnApply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            String msg=edMsg.getText().toString();
+
+                            if (msg.equals("")){
+                                edMsg.setError("This Feild is Require!!");
+                            }else{
+                                /*api call*/
+                                if (ConnectivityReceiver.isConnected()) {
+                                    showDialog("");
+                                    delete(i,showsubscrip_model.getSubs_id(),msg,alertDialog);
+                                } else {
+                                    Global.showInternetConnectionDialog(getContext());
 
                                 }
-                            })
-                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-
+                            }
+                        }
+                    });
+                    alertDialog.show();
 
                 }
             });
@@ -653,7 +667,7 @@ public class Subscription_Fragment extends BaseFragment {
                     dialog.dismiss();
                     dismissDialog();
                     Log.e("errrorr",error.toString());
-                  //  Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -705,7 +719,7 @@ public class Subscription_Fragment extends BaseFragment {
                     dismissDialog();
                     Log.e("error",error.toString());
 
-                 //   Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context.getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -722,17 +736,19 @@ public class Subscription_Fragment extends BaseFragment {
             notifyItemRangeChanged(position, showsubscripModels.size());
         }
 
-        private void delete(int i, String id){
+        private void delete(int i, String id, String msg, AlertDialog alertDialog){
 
             String tag_json_obj = "json store req";
             Map<String, String> params = new HashMap<String, String>();
             params.put("subs_id", id);
-            params.put("reason", "i am not used");
+            params.put("reason", msg);
 
             CustomVolleyJsonRequest jsonObjectRequest= new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.subscription_order_delete, params
                     , new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
+                    dismissDialog();
+                    alertDialog.dismiss();
                     Log.e("deleteTag",response.toString());
 
                     try {
@@ -743,11 +759,6 @@ public class Subscription_Fragment extends BaseFragment {
                         if (status.contains("1")){
 
                             removeAt(i);
-
-                           /* showsubscripModels.remove(i);
-                            notifyItemRemoved(i);
-                            notifyItemRangeChanged(i, showsubscripModels.size());*/
-
 
                         }else {
 
@@ -761,7 +772,9 @@ public class Subscription_Fragment extends BaseFragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.e("error",error.toString());
-                 //   Toast.makeText(context.getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                    dismissDialog();
+                    alertDialog.dismiss();
+                    Toast.makeText(context.getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 

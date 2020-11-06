@@ -313,7 +313,7 @@ public class FilterProduct extends BaseActivity implements AdapterView.OnItemCli
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-               // Toast.makeText(FilterProduct.this, "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FilterProduct.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);

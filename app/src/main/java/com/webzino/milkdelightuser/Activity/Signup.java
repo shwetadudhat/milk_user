@@ -344,7 +344,7 @@ public class Signup extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e("error1234",error.toString());
                 dismissDialog();
-              //  Toast.makeText(getApplicationContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -420,6 +420,7 @@ public class Signup extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.e("errrrrr",error.toString());
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -691,6 +692,7 @@ public class Signup extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.e("errrrrr",error.toString());
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

@@ -281,7 +281,7 @@ public class Login extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 dismissDialog();
                 Log.e("error",error.toString());
-              //  Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
@@ -635,6 +635,7 @@ public class Login extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.e("errrrrr",error.toString());
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

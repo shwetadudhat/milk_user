@@ -443,7 +443,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             public void onErrorResponse(VolleyError error) {
                 dismissDialog();
                 Log.e("error",error.toString());
-              //  Toast.makeText(getApplicationContext(), ""+error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
