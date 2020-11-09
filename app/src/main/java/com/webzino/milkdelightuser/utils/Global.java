@@ -1,5 +1,6 @@
 package com.webzino.milkdelightuser.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,9 +17,12 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +31,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.webzino.milkdelightuser.Activity.BuyOnce;
+import com.webzino.milkdelightuser.Activity.Home;
 import com.webzino.milkdelightuser.R;
 
 import org.json.JSONException;
@@ -687,6 +693,57 @@ public class Global {
         return drawable;
     }
 
+
+  /*  public static void showSuccessDialog(Context context,String type,String txMsg, String referenceId, String txStatus,String orderAmount,String paymentMode){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ViewGroup viewGroup = context.getWindow().getDecorView().findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.custom_success, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+
+        LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
+        TextView tvStts=dialogView.findViewById(R.id.tvStts);
+        TextView tvTransId=dialogView.findViewById(R.id.tvTransId);
+        TextView tvTransDesc=dialogView.findViewById(R.id.tvTransDesc);
+        ImageView ivIcon=dialogView.findViewById(R.id.ivIcon);
+
+        tvTransDesc.setText(txMsg);
+        tvTransId.setText("Transaction id:"+referenceId);
+
+        if (txStatus.equals("SUCCESS")){
+            tvStts.setText(R.string.payment_success);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.green));
+            ivIcon.setImageResource(R.drawable.ic_noun_check_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        } else {
+            tvStts.setText(R.string.payment_fail);
+            tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.red));
+            ivIcon.setImageResource(R.drawable.ic_noun_close_1);
+            ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+
+        llDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (txStatus.equals("SUCCESS")) {
+                    alertDialog.dismiss();
+                    Intent intent = new Intent(context, Home.class);
+                    context.startActivity(intent);
+
+                }else{
+                    alertDialog.dismiss();
+                }
+            }
+        });
+        alertDialog.show();
+    }
+*/
 
 
 }

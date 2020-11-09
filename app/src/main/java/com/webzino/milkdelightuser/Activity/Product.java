@@ -96,8 +96,8 @@ public class Product extends BaseActivity {
     String u_id;
     float  txtrate;
 
-    LinearLayout ll_main;
-    RelativeLayout reltive_null;
+    LinearLayout ll_main,ll_qty;
+    RelativeLayout ll_add;
 
     String product_id1,category_id1,product_name,description,price,subscription_price,proImgae,qty1,unit,stock, mrp,sub_price,gst_subscription_price;
 
@@ -202,10 +202,41 @@ public class Product extends BaseActivity {
             }
         });
 
-        ll_schedule.setOnClickListener(new View.OnClickListener() {
+        ll_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (tvQty.getText().toString().equals("0")){
+                    Log.e("iffff","ifff");
+                    int count=1;
+                    tvQty.setText(String.valueOf(count));
+                    if (tvQty.getText().toString().contains("1")) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("product_id", product_id1);
+                        map.put("product_name", product_name);
+                        map.put("category_id", category_id1);
+                        map.put("product_description", description);
+                        map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
+                        map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                        map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                        map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+//                        map.put("cgst", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                        map.put("product_image", proImgae);
+                        map.put("unit", qty1+" "+unit);
+                        map.put("stock", stock);
+                        db.setCart(map, Float.valueOf(count));
+
+                        Log.e("settt","settt");
+                    }
+                  ll_add.setVisibility(View.GONE);
+                  ll_qty.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        ll_schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               /* if (tvQty.getText().toString().equals("0")){
                     Log.e("iffff","ifff");
                     int count=1;
                     tvQty.setText(String.valueOf(count));
@@ -232,7 +263,7 @@ public class Product extends BaseActivity {
                     intent.putExtra("product_id",proId);
                     startActivity(intent);
                     finish();
-                }
+                }*/
                 Intent intent=new Intent(Product.this, subscription2.class);
                 intent.putExtra("schedule","schedule");
                 intent.putExtra("product_id",proId);
@@ -386,8 +417,12 @@ public class Product extends BaseActivity {
                         if (db.isInCart(proId)) {
                             tvQty.setText(db.getCartItemQty(proId));
                             Log.e("addddd","dbaddd");
+                            ll_qty.setVisibility(View.VISIBLE);
+                            ll_add.setVisibility(View.GONE);
                         } else{
                             tvQty.setText("0");
+                            ll_add.setVisibility(View.VISIBLE);
+                            ll_qty.setVisibility(View.GONE);
                         }
 
                         tvQtyDec.setOnClickListener(new View.OnClickListener() {
@@ -432,6 +467,9 @@ public class Product extends BaseActivity {
                                         map.put("stock", stock);
                                         db.setCart(map, Float.valueOf(qty));
                                         db.removeItemFromCart(map.get("product_id"));
+
+                                        ll_add.setVisibility(View.VISIBLE);
+                                        ll_qty.setVisibility(View.GONE);
 
 
                                     }
@@ -705,6 +743,8 @@ public class Product extends BaseActivity {
         toolbar.setBackgroundColor(getResources().getColor(R.color.main_clr));
         toolTitle=findViewById(R.id.title);
         ll_main=findViewById(R.id.lim);
+        ll_qty=findViewById(R.id.ll_qty);
+        ll_add=findViewById(R.id.ll_add);
 
         ivBack=findViewById(R.id.ivBack);
 

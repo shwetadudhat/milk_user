@@ -52,7 +52,7 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
 
        // String formattedDate = Global.convertDate(orderModelList.get(position).getOffer_deliveryText());
         if (orderModelList.get(position).getSubStatus().contains("Pending")){
-            holder.delvr_txt.setText(context.getString(R.string.delivery_on)+orderModelList.get(position).getSubStatus());
+            holder.delvr_txt.setText(context.getString(R.string.delivery_on)+" "+orderModelList.get(position).getSubStatus());
         }else{
             holder.delvr_txt.setText(context.getString(R.string.delivery_on)+orderModelList.get(position).getOffer_deliveryText());
         }

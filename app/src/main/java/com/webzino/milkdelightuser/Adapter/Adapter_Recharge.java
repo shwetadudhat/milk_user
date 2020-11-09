@@ -124,7 +124,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
             if (rechargeModel.getPay_mode().equals("-") || rechargeModel.getPay_mode().equals("null")){
                 holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_type());
             }else{
-                holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_type()+" "+rechargeModel.getPay_mode());
+                holder.tvGetTrans.setText(context.getString(R.string.deductfromwallet)+""+rechargeModel.getPay_mode());
             }
 
             holder.tvPrice.setText("-"+ MainActivity.currency_sign +rechargeModel.getAmount());

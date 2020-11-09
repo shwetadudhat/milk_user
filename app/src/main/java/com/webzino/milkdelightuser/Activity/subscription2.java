@@ -202,7 +202,6 @@ public class subscription2 extends BaseActivity {
         if (ConnectivityReceiver.isConnected()) {
             try {
                 showDialog("");
-                //  getProductDetail(product_id);
                 getAddressData(user_id);
                 showTotalCredit(user_id);
                 getPlanadata();
@@ -300,7 +299,6 @@ public class subscription2 extends BaseActivity {
         llEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("cickkkk12333","clickkk");
                 Intent intent=new Intent(subscription2.this, Addresslist.class);
                 startActivityForResult(intent,0);
             }
@@ -416,39 +414,42 @@ public class subscription2 extends BaseActivity {
                 days1 = hours / 24;
 
                 Log.e("dayss", String.valueOf(days1)+"\nstartdate:"+startdate);
+                if (days1>0){
 
-                for (int j=0;j<planSelectedModelArrayList.size();j++){
-                    if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id())){
-                        dayyyyy=(int) days1/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
-                        Log.e("dbtotl",db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
-                        totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
-                        Log.e("totalamounttt", String.valueOf(totalProductAmout));
-                        totalProductPrice=totalProductAmout*dayyyyy;
+                    for (int j=0;j<planSelectedModelArrayList.size();j++){
+                        if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id())){
+                            dayyyyy=(int) days1/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
+                            Log.e("dbtotl",db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
+                            totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
+                            Log.e("totalamounttt", String.valueOf(totalProductAmout));
+                            totalProductPrice=totalProductAmout*dayyyyy;
 
-                        Log.e("totalPricefromendlist", String.valueOf(totalProductPrice));
+                            Log.e("totalPricefromendlist", String.valueOf(totalProductPrice));
 
-                    }
-
-
-                }
-                EndDate_Model endDate_model = new EndDate_Model();
-                endDate_model.setProdcut_id(stardateList1.get(i).getProdcut_id());
-                endDate_model.setEnd_date(enddate);
-                endDate_model.setTotal_days(String.valueOf(dayyyyy));
-                endDate_model.setProduct_totalPrice((int) totalProductPrice);
-
-
-                if (endDateModelArrayList.size()>0){
-                    for (int k=0;k<endDateModelArrayList.size();k++){
-                        if (endDateModelArrayList.get(k).getProdcut_id().equals(stardateList1.get(i).getProdcut_id())){
-                            endDateModelArrayList.remove(k);
                         }
+
+
                     }
-                    endDateModelArrayList.add(endDate_model);
-                }else{
-                    endDateModelArrayList.add(endDate_model);
+                    EndDate_Model endDate_model = new EndDate_Model();
+                    endDate_model.setProdcut_id(stardateList1.get(i).getProdcut_id());
+                    endDate_model.setEnd_date(enddate);
+                    endDate_model.setTotal_days(String.valueOf(dayyyyy));
+                    endDate_model.setProduct_totalPrice((int) totalProductPrice);
+
+
+                    if (endDateModelArrayList.size()>0){
+                        for (int k=0;k<endDateModelArrayList.size();k++){
+                            if (endDateModelArrayList.get(k).getProdcut_id().equals(stardateList1.get(i).getProdcut_id())){
+                                endDateModelArrayList.remove(k);
+                            }
+                        }
+                        endDateModelArrayList.add(endDate_model);
+                    }else{
+                        endDateModelArrayList.add(endDate_model);
+                    }
+                    Log.e("endDateModelArrayList", endDateModelArrayList.toString());
+
                 }
-                Log.e("endDateModelArrayList", endDateModelArrayList.toString());
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -524,7 +525,9 @@ public class subscription2 extends BaseActivity {
                                             plan2.callOnClick();
                                             //  getDateData(30);
                                         }else if (planData.equals("customplan")){
-                                            customPlan.callOnClick();
+                                           // customPlan.callOnClick();
+                                            Log.e("days1==>1",String.valueOf(days1));
+                                            getDateData((int) days1);
                                         }
                                     }
 
@@ -542,11 +545,12 @@ public class subscription2 extends BaseActivity {
 
                                     if (planData!=null){
                                         if (planData.equals("plan1")){
-                                            //getDateData(15);
                                             plan1.callOnClick();
                                         }else if (planData.equals("plan2")){
                                             plan2.callOnClick();
-                                            customPlan.callOnClick();
+                                        }else{
+                                            Log.e("days1==>2",String.valueOf(days1));
+                                            getDateData((int) days1);
                                         }
                                     }
                                 }
@@ -570,13 +574,12 @@ public class subscription2 extends BaseActivity {
 
                                     if (planData!=null){
                                         if (planData.equals("plan1")){
-                                            //getDateData(15);
                                             plan1.callOnClick();
                                         }else if (planData.equals("plan2")){
                                             plan2.callOnClick();
-                                            //  getDateData(30);
                                         }else if (planData.equals("customplan")){
-                                            customPlan.callOnClick();
+                                            Log.e("days1==>3",String.valueOf(days1));
+                                            getDateData((int) days1);
                                         }
                                     }else{
                                         selectPlan();
@@ -639,7 +642,9 @@ public class subscription2 extends BaseActivity {
                                 ChkWallet.setChecked(true);
                             }else{
                                 ChkWallet.setChecked(false);
+                                ChkWallet.setEnabled(false);
                             }
+
 
                             settings = getApplicationContext().getSharedPreferences("wallet", Context.MODE_PRIVATE);
                             editor = settings.edit();
@@ -764,6 +769,9 @@ public class subscription2 extends BaseActivity {
                     plan1.setTextColor(getResources().getColor(R.color.white));
 
 
+                }else{
+                    Toast.makeText(subscription2.this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -798,6 +806,9 @@ public class subscription2 extends BaseActivity {
                     plan1.setTextColor(getResources().getColor(R.color.main_clr));
                     plan2.setBackground(getResources().getDrawable(R.drawable.bg_fb));
                     plan2.setTextColor(getResources().getColor(R.color.white));
+
+                }else{
+                    Toast.makeText(subscription2.this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -864,8 +875,9 @@ public class subscription2 extends BaseActivity {
                                             days1 = hours / 24;
 
                                             Log.e("dayss==>1", days1 + "\nstartdate:" + startdate);
-                                            getDateData(Integer.parseInt(String.valueOf(days1)));
-
+                                            if (days1>0){
+                                                getDateData(Integer.parseInt(String.valueOf(days1)));
+                                            }
 
                                         } catch (ParseException e) {
                                             e.printStackTrace();
@@ -877,7 +889,7 @@ public class subscription2 extends BaseActivity {
                             }, year, month, day);
 
                     Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.DATE, 1);
+                    calendar.add(Calendar.DATE, 8);
 
                     picker.getDatePicker().setMinDate(calendar.getTimeInMillis()/*System.currentTimeMillis() - 1000*/);
                     picker.show();
@@ -892,18 +904,19 @@ public class subscription2 extends BaseActivity {
                     plan2.setTextColor(getResources().getColor(R.color.main_clr));
                     customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
                     customPlan.setTextColor(getResources().getColor(R.color.white));
+                }else{
+                    Toast.makeText(subscription2.this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
+
                 }
+
             }
         });
 
     }
 
     public  void getTotalAmount()  {
-
-
         subProductList.clear();
         dbmap = db.getCartAll();
-
 
         if (dbmap.size() > 0) {
             for (int i = 0; i < map.size(); i++) {
@@ -1058,21 +1071,20 @@ public class subscription2 extends BaseActivity {
             intent.putExtra("promo_code",promo_code);
             intent.putExtra("discount_amount",String.valueOf(Math.round(discount_amount)));
             intent.putExtra("total_price",String.valueOf(total_price));
-//            startActivity(intent);
             startActivityForResult(intent,5);
 
         }else{
             pay_type="Wallet Pay";
             String transactionId="";
             String paymentMode="";
-            addSubPlan(transactionId,paymentMode);
+            addSubPlan(transactionId,paymentMode,"","");
         }
 
 
     }
 
 
-    private void addSubPlan(String transactionId,String paymentMode) {
+    private void addSubPlan(String transactionId,String paymentMode,String txMsg1,  String txStatus1 ) {
 
         if (subProductList.size()>0){
             passArray = new JSONArray();
@@ -1097,15 +1109,13 @@ public class subscription2 extends BaseActivity {
 
             }
 
-            // Log.e("parseArray",passArray.toString());
-
             if (transactionId.equals("")){
                 if (isInternetConnected()) {
                     but_sub_plan(passArray);
                     Log.e("parseArray",passArray.toString());
                 }
             }else{
-                but_sub_plan1(passArray,String.valueOf(razorAmount),transactionId,paymentMode);
+                but_sub_plan1(passArray,String.valueOf(razorAmount),transactionId,paymentMode,txMsg1,txStatus1);
             }
 
 
@@ -1116,8 +1126,6 @@ public class subscription2 extends BaseActivity {
 
 
     private void but_sub_plan(JSONArray passArray) {
-
-        Log.e("walletAmount", String.valueOf(walletAmount));
 
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
@@ -1273,8 +1281,22 @@ public class subscription2 extends BaseActivity {
                     subProductList1 = (ArrayList<SubscriptioAddProduct_model>) data.getSerializableExtra("subList");
                     // TODO: Do something with your extra data
 
+                    Log.e("txStatus",txStatus);
 
-                    showSuccessDialog(txMsg, referenceId, txStatus, orderAmount, subProductList1, paymentMode);
+                    if (txStatus.equalsIgnoreCase("FAILED") || txStatus.equalsIgnoreCase("CANCELLED")){
+                        showSuccessDialog(txMsg,referenceId,txStatus);
+                    }else{
+                        if (ConnectivityReceiver.isConnected()) {
+                            showDialog("");
+                            addSubPlan(referenceId,paymentMode,txMsg,txStatus);
+                        } else {
+                            Global.showInternetConnectionDialog(getApplicationContext());
+                        }
+                    }
+
+
+
+
                 }
 
             }
@@ -1340,9 +1362,6 @@ public class subscription2 extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent=new Intent(subscription2.this, Home.class);
-        startActivity(intent);
         finish();
     }
 
@@ -1380,20 +1399,25 @@ public class subscription2 extends BaseActivity {
 
         if (planSelectedModelArrayList.size() > 0) {
 
-            Log.e("planSelectedModelArrayList==>1",planSelectedModelArrayList.toString());
+            Log.e("planSelected==>1",planSelectedModelArrayList.toString());
+            Log.e("" +
+                    "map==>1",String.valueOf(map.size()));
 
-            for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
+            if (planSelectedModelArrayList.size()==map.size()){
+                for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
 
-//                Log.e("planidddddddd==>1", planSelectedModelArrayList.get(i).getPlan_id());
+                    if (planSelectedModelArrayList.get(i).getPlan_id() != null && !planSelectedModelArrayList.get(i).getPlan_id().equals("-1") ) {
+                        return true;
+                    } else {
+                        Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
+                        break;
 
-                if (!planSelectedModelArrayList.get(i).getPlan_id().equals("-1") ) {
-                    return true;
-                } else {
-                    Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
-                    break;
-
+                    }
                 }
+            }else{
+                return false;
             }
+
         }
         return false;
 
@@ -1441,7 +1465,7 @@ public class subscription2 extends BaseActivity {
         AppController.getInstance().addToRequestQueue(jsonObjectRequest, tag_json_obj);
     }
 
-    private void showSuccessDialog(String txMsg, String referenceId, String txStatus, String orderAmount, ArrayList<SubscriptioAddProduct_model> subProductList1, String paymentMode) {
+    private void showSuccessDialog(String txMsg, String referenceId, String txStatus) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(subscription2.this);
@@ -1469,15 +1493,6 @@ public class subscription2 extends BaseActivity {
             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
             ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
 
-            if (ConnectivityReceiver.isConnected()) {
-                showDialog("");
-                Log.e("sublist==>0",subProductList.toString());
-                addSubPlan(referenceId,paymentMode);
-               /* but_sub_plan1(passArray, orderAmount,referenceId);*/
-                Log.e("parseArray", passArray.toString());
-            } else {
-                Global.showInternetConnectionDialog(getApplicationContext());
-            }
         } else {
             tvStts.setText(R.string.payment_fail);
             tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.red));
@@ -1503,7 +1518,7 @@ public class subscription2 extends BaseActivity {
         alertDialog.show();
     }
 
-    public  void but_sub_plan1(JSONArray passArray, String orderAmount,String transactionId,String paymentMode) {
+    public  void but_sub_plan1(JSONArray passArray, String orderAmount,String transactionId,String paymentMode,String txMsg1,String txStatus1) {
 
         String tag_json_obj = "json store req";
         Map<String, String> params = new HashMap<String, String>();
@@ -1558,10 +1573,10 @@ public class subscription2 extends BaseActivity {
                         myEdit2.clear().apply();
 
 
-                    }else if (status.equals("3")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
-                    }else if (status.equals("0")){
-                        Toast.makeText(subscription2.this, message, Toast.LENGTH_SHORT).show();
+                        showSuccessDialog(txMsg1,transactionId,txStatus1);
+
+                    }else{
+                        showSuccessDialog(txMsg1,transactionId,txStatus1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

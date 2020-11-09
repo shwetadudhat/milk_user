@@ -201,7 +201,7 @@ public class MainContainer_Fragment extends BaseFragment {
 
                 ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.mywallet));
                 openFragment(new Wallet_Fragment(),btnWallet,tvWallet);
-                ((Home) getActivity()).selectedItem(-1);
+                ((Home) getActivity()).selectedItem(5);
 
             }
         });

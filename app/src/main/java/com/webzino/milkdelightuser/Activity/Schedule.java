@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.cardview.widget.CardView;
@@ -62,7 +63,7 @@ public class Schedule extends BaseActivity {
 
     LinearLayout llRenewSubscrption;
     String stts,subs_id1,start_date,end_date,sub_plan,order_id;
-    String product_name, product_id,product_image, order_qty,price, start_date1, end_date1,description, unit, qty, sub_status,product_url,skip_days,plans,plan_id;
+    String product_name, product_id,product_image, order_qty,price, description, unit, qty, sub_status,product_url,skip_days,plans,plan_id;
 
 
 
@@ -107,6 +108,14 @@ public class Schedule extends BaseActivity {
         Log.e("end_date-->1",end_date);
 
 
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        try {
+            cal.setTime(sdf.parse(Global.getDateConvert(start_date,"yyyy-MM-dd","EEE MMM dd HH:mm:ss z yyyy")));// all done
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         Calendar endDate = Calendar.getInstance(); // End date
         endDate.add(Calendar.DAY_OF_MONTH, 7);
@@ -116,15 +125,16 @@ public class Schedule extends BaseActivity {
         Log.e("todaydatee", String.valueOf(DateFormat.format("yyyy-MM-dd",startDate)));
         startDate.add(Calendar.DAY_OF_MONTH, -7);
 
+
         Log.e("start_date",start_date);
         Log.e("end_date",end_date);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+        Date date1 = null,date2 = null;
         try {
-            Date date1 = simpleDateFormat.parse(start_date);
-            Date curdate = simpleDateFormat.parse(todaydate);
-            Date date2 = simpleDateFormat.parse(end_date);
+             date1 = simpleDateFormat.parse(start_date);
+             Date curdate = simpleDateFormat.parse(todaydate);
+             date2 = simpleDateFormat.parse(end_date);
 
             long dayyy=  Adapter_Recharge.daysBetween(curdate, date2);
             Log.e("dayyy", String.valueOf(dayyy));
@@ -152,9 +162,14 @@ public class Schedule extends BaseActivity {
 
         Log.e("defaultSelectedDate",defaultDate.toString());
 
+        Calendar cal_start = Calendar.getInstance();
+        Calendar cal_end = Calendar.getInstance();
+        cal_start.setTime(date1);
+        cal_end.setTime(date2);
+
 
         horizontalCalendar = new HorizontalCalendar.Builder(Schedule.this, R.id.calendarView)
-                .range(startDate, endDate)
+                .range(cal_start, cal_end)
                 .datesNumberOnScreen(5)
                 .configure()
                 .formatTopText("MMM")

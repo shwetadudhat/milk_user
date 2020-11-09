@@ -209,7 +209,13 @@ public class MyOrderDetail extends BaseActivity {
                             String DEldate= Global.getDateConvert(delivery_date,"yyyy-MM-dd","EEE dd, MMM yyyy");
 
                             ordr_date.setText(formattedDate);
-                            ordr_deldate.setText(getString(R.string.success_order)+" "+DEldate);
+                            Log.e("delivery_date",delivery_date);
+                            if (delivery_date.equalsIgnoreCase("0000-00-00")){
+                                ordr_deldate.setText(getString(R.string.delivery_on)+" Pending");
+                            }else{
+                                ordr_deldate.setText(getString(R.string.success_order)+" "+DEldate);
+                            }
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

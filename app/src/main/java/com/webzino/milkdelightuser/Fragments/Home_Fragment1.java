@@ -196,11 +196,6 @@ public class Home_Fragment1 extends BaseFragment {
                     adapterBestProduct.filter(editable.toString().trim());
                     adapterHomeCat.filter(editable.toString().trim());
                     adapterSellingProduct.filter(editable.toString().trim());
-                } else {
-
-                    adapterBestProduct.filter("");
-                    adapterHomeCat.filter("");
-                    adapterSellingProduct.filter("");
                 }
             }
         });
@@ -630,6 +625,12 @@ public class Home_Fragment1 extends BaseFragment {
 
         youTubePlayer1.cueVideo(videoId, 0);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        youTubePlayerView.release();
     }
 
 

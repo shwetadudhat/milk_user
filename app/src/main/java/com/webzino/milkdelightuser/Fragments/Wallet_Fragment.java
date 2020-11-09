@@ -230,11 +230,14 @@ public class Wallet_Fragment extends BaseFragment {
                             priceee=wallet_price.getText().toString();
                             Log.e("priceeee",priceee);
 
-                             settings = getContext().getSharedPreferences("wallet", Context.MODE_PRIVATE);
-                             editor = settings.edit();
-                             editor.putString("wallet", priceee);
-                             editor.apply();
+                            if (getContext()!=null){
+                                settings = getContext().getSharedPreferences("wallet", Context.MODE_PRIVATE);
+                                editor = settings.edit();
+                                editor.putString("wallet", priceee);
+                                editor.apply();
 
+                                Log.e("ifff","ifff");
+                            }
                         }
                     }
                     else {

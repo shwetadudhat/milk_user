@@ -133,6 +133,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         nav_item.add(new Menu_Model(R.drawable.ic_noun_order,getString(R.string.myorder)));
         nav_item.add(new Menu_Model(R.drawable.ic_sale,getString(R.string.Offer)));
         nav_item.add(new Menu_Model(R.drawable.ic_noun_subscribe,getString(R.string.subscription)));
+        nav_item.add(new Menu_Model(R.drawable.ic_account_balance_wallet_black_24dp,getString(R.string.wallet)));
         nav_item.add(new Menu_Model(R.drawable.ic_noun_menu,getString(R.string.shopByCat)));
         nav_item.add(new Menu_Model(R.drawable.ic_star_black_24dp,getString(R.string.rate)));
         nav_item.add(new Menu_Model(R.drawable.ic_noun_contact_us_1,getString(R.string.contact)));
@@ -248,27 +249,32 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             Subscription(4);
 
         }else if (i==5){
-            getSupportActionBar().setTitle(getString(R.string.shopByCat));
-            ShopByCat(5);
+            getSupportActionBar().setTitle(getString(R.string.wallet));
+            /*ShopByCat(5);*/
+            Wallet(5);
 
         }else if (i==6){
-            rate();
+            getSupportActionBar().setTitle(getString(R.string.shopByCat));
+            ShopByCat(6);
 
         }else if (i==7){
-            getSupportActionBar().setTitle(getString(R.string.contact));
-            contact(7);
+            rate();
 
         }else if (i==8){
-            getSupportActionBar().setTitle(getString(R.string.referFriend));
-            referFriend(8);
+            getSupportActionBar().setTitle(getString(R.string.contact));
+            contact(8);
 
         }else if (i==9){
-            getSupportActionBar().setTitle(getString(R.string.about));
-            about(9);
+            getSupportActionBar().setTitle(getString(R.string.referFriend));
+            referFriend(9);
 
         }else if (i==10){
+            getSupportActionBar().setTitle(getString(R.string.about));
+            about(10);
+
+        }else if (i==11){
             getSupportActionBar().setTitle(getString(R.string.faq1));
-            faq(10);
+            faq(11);
 
         }
 
@@ -277,6 +283,8 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         adapterMenu1.notifyDataSetChanged();
 
     }
+
+
 
     private void getPreferenceData() {
         session_management=new Session_management(getApplicationContext());
@@ -509,24 +517,27 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             getSupportActionBar().setTitle(getString(R.string.subscription));
 
         }else if (Integer.parseInt(fragmentTag)==5){
+            getSupportActionBar().setTitle(getString(R.string.wallet));
+
+        }else if (Integer.parseInt(fragmentTag)==6){
             getSupportActionBar().setTitle(getString(R.string.shopByCat));
 
-        }else if (Integer.parseInt(fragmentTag)==7){
+        }else if (Integer.parseInt(fragmentTag)==8){
             getSupportActionBar().setTitle(getString(R.string.contact));
 
-        }else if (Integer.parseInt(fragmentTag)==8){
+        }else if (Integer.parseInt(fragmentTag)==9){
             getSupportActionBar().setTitle(getString(R.string.referFriend));
 
-        }else if (Integer.parseInt(fragmentTag)==9){
+        }else if (Integer.parseInt(fragmentTag)==10){
             getSupportActionBar().setTitle(getString(R.string.about));
 
-        }else if (Integer.parseInt(fragmentTag)==10){
+        }else if (Integer.parseInt(fragmentTag)==11){
             getSupportActionBar().setTitle(getString(R.string.faq1));
 
-        }else if (Integer.parseInt(fragmentTag)==11){
+        }else if (Integer.parseInt(fragmentTag)==12){
             getSupportActionBar().setTitle(getString(R.string.notification));
 
-        }else if (Integer.parseInt(fragmentTag)==12){
+        }else if (Integer.parseInt(fragmentTag)==13){
             getSupportActionBar().setTitle(getString(R.string.wallet));
 
         }
@@ -546,16 +557,16 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             }
             else {
                 Log.e("elseeee","elsee");
-                // finish();
+                 finish();
 
-                Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.mainFrame);
+              /*  Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.mainFrame);
                 if (f instanceof MainContainer_Fragment) {
                     Log.e("truuuurrr","truuuurr");
                     finish();
                 }else{
                     Log.e("truuuurrr11","truuuurr11");
                    super.onBackPressed();
-                }
+                }*/
             }
 
         }

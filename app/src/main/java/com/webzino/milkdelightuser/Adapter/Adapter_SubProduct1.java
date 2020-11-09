@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.Activity.MainActivity;
 import com.webzino.milkdelightuser.Model.PlanSelected_model;
 import com.webzino.milkdelightuser.Model.Plan_model;
 import com.webzino.milkdelightuser.Model.StartDate_Model;
 import com.webzino.milkdelightuser.Model.SubscriptioAddProduct_model;
+import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.utils.BaseURL;
 import com.webzino.milkdelightuser.utils.DatabaseHandler;
 import com.webzino.milkdelightuser.utils.Global;
@@ -47,7 +47,7 @@ import static com.webzino.milkdelightuser.utils.Global.PLAN_DATA;
 import static com.webzino.milkdelightuser.utils.Global.STARTDATE_DATA;
 
 
-public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.holder> {
+public class Adapter_SubProduct1 extends RecyclerView.Adapter<Adapter_SubProduct1.holder> {
 
     Context context;
     ArrayList<HashMap<String, String>> list;
@@ -79,7 +79,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     public static final String[] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
 
-    public Adapter_SubProduct(Context context, ArrayList<HashMap<String, String>> list, List<Plan_model> planModelList) {
+    public Adapter_SubProduct1(Context context, ArrayList<HashMap<String, String>> list, List<Plan_model> planModelList) {
         this.context = context;
         this.list = list;
         this.planModelList=planModelList;
@@ -285,13 +285,13 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                     planSelected_model.setPlan_id(planSelectedModelArrayList1.get(k).getPlan_id());
                     planSelected_model.setSkip_day(planSelectedModelArrayList1.get(k).getSkip_day());
 
-                    break;
+//                    break;
 
 
                 }else{
                     adapterFreqPlan.setSelectedItem(-1);
-                    planSelected_model.setPlan_id("-1");
-                    planSelected_model.setSkip_day("0");
+//                    planSelected_model.setPlan_id("-1");
+//                    planSelected_model.setSkip_day("0");
 
 
                 }
@@ -299,8 +299,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         }else{
             adapterFreqPlan.setSelectedItem(-1);
-            planSelected_model.setPlan_id("-1");
-            planSelected_model.setSkip_day("0");
+//            planSelected_model.setPlan_id("-1");
+//            planSelected_model.setSkip_day("0");
 
         }
 
@@ -466,8 +466,6 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                         dbcart.removeItemFromCart(map.get("product_id"));
 
                         list.remove(i);
-                        notifyItemRemoved(i);
-                        notifyItemRangeChanged(i, list.size());
 
 
 
@@ -491,7 +489,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
                            myEdit2.clear().apply();
                        }
 
-//                        notifyDataSetChanged();
+                        notifyDataSetChanged();
 //                        removeAt(i);
 
                         Log.e("startdate_remove===>1",stardateList.toString());
@@ -594,12 +592,10 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
     public void removeAt(int position) {
         list.remove(position);
+//        planModelList.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, list.size());
 //        notifyItemRangeChanged(position, planModelList.size());
-
-        /* notifyItemRemoved(position);
-        notifyItemRangeChanged(position, addressModelList.size());*/
     }
 
 

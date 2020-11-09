@@ -86,7 +86,7 @@ public class BuyOnce extends BaseActivity {
     double total_gst,total_amount;
     double pro_gst,pro_sgst;
 
-    double razorAmount=0,/*totalAmout,*/wallet,walletAmount;
+    double razorAmount=0,wallet,walletAmount;
 
     String Addrid,pincode;
 
@@ -153,8 +153,6 @@ public class BuyOnce extends BaseActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(BuyOnce.this, Addresslist.class);
                 startActivityForResult(intent,0);
-                /*Intent intent=new Intent(BuyOnce.this,Addresslist.class);
-                startActivity(intent);*/
             }
         });
 
@@ -438,6 +436,7 @@ public class BuyOnce extends BaseActivity {
                                 rlChk.setBackground(getResources().getDrawable(R.drawable.bg_edit));
                             }else{
                                 ChkWallet.setChecked(false);
+                                ChkWallet.setEnabled(false);
                                 rlChk.setBackground(getResources().getDrawable(R.drawable.bg_grey));
                             }
 
@@ -626,7 +625,7 @@ public class BuyOnce extends BaseActivity {
                             builder.setView(dialogView);
                             alertDialog = builder.create();
                             alertDialog.setCancelable(false);
-                               alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+                            alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
 
                             LinearLayout llDialog=dialogView.findViewById(R.id.llDialog);
                             TextView tvStts=dialogView.findViewById(R.id.tvStts);
@@ -715,9 +714,19 @@ public class BuyOnce extends BaseActivity {
 
                     // TODO: Do something with your extra data
 
-                    showSuccessDialog(txMsg, referenceId, txStatus, orderAmount, paymentMode);
+                    Log.e("txStatus",txStatus);
 
-                    //  but_sub_plan(passArray,orderAmount);
+                    if (txStatus.equalsIgnoreCase("FAILED")|| txStatus.equalsIgnoreCase("CANCELLED")){
+                        showSuccessDialog(txMsg,referenceId,txStatus);
+                    }else{
+                        if (ConnectivityReceiver.isConnected()) {
+                            showDialog("");
+                            oreder_once(passArray,orderAmount,referenceId,paymentMode,txMsg,txStatus);
+                        } else {
+                            Global.showInternetConnectionDialog(getApplicationContext());
+                        }
+                    }
+
                 }
 
             }else{
@@ -726,7 +735,7 @@ public class BuyOnce extends BaseActivity {
         }
     }//
 
-    private void showSuccessDialog( String txMsg, String referenceId, String txStatus,String orderAmount,String paymentMode) {
+    private void showSuccessDialog( String txMsg, String referenceId, String txStatus) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(BuyOnce.this);
@@ -753,13 +762,6 @@ public class BuyOnce extends BaseActivity {
             ivIcon.setImageResource(R.drawable.ic_noun_check_1);
             ivIcon.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.green), android.graphics.PorterDuff.Mode.SRC_IN);
 
-            if (ConnectivityReceiver.isConnected()) {
-                oreder_once(passArray,orderAmount,referenceId,paymentMode);
-                /* but_sub_plan1(passArray, orderAmount,referenceId);*/
-                Log.e("parseArray", passArray.toString());
-            } else {
-                Global.showInternetConnectionDialog(getApplicationContext());
-            }
         } else {
             tvStts.setText(R.string.payment_fail);
             tvStts.setTextColor(getApplicationContext().getResources().getColor(R.color.red));
@@ -785,7 +787,7 @@ public class BuyOnce extends BaseActivity {
         alertDialog.show();
     }
 
-    private void oreder_once(JSONArray passArray, String orderAmount,String transactionId,String paymentMode) {
+    private void oreder_once(JSONArray passArray, String orderAmount,String transactionId,String paymentMode,String txMsg, String txStatus) {
 
         if (promo_code==null){
             promo_code="";
@@ -843,10 +845,11 @@ public class BuyOnce extends BaseActivity {
                         myEdit1.clear().apply();
                         myEdit.clear().apply();
 
-                    }else if (status.equals("3")){
+                        showSuccessDialog(txMsg, transactionId, txStatus);
+
+                    }else {
                         Toast.makeText(BuyOnce.this, message, Toast.LENGTH_SHORT).show();
-                    }else if (status.equals("0")){
-                        Toast.makeText(BuyOnce.this, message, Toast.LENGTH_SHORT).show();
+                        showSuccessDialog(txMsg, transactionId, txStatus);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
