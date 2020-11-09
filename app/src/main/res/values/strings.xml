@@ -108,7 +108,7 @@
     <string name="cart">Cart</string>
     <string name="log_out">LOG OUT</string>
     <string name="change_password12"><u>Change Password?</u></string>
-    <string name="txt_pause">Your Order is Pause on this day</string>
+    <string name="txt_pause">Your Order is cancel on this day</string>
     <string name="txt_pending">Your Order is Pending</string>
     <string name="txt_delivered">Your Order is Successfully Delivered</string>
     <string name="search">search here</string>
@@ -270,6 +270,7 @@
     <string name="success_order">Successfully order delivered on </string>
     <string name="email_address">Email Address</string>
     <string name="renew_plan">Renew Your Subscription</string>
+    <string name="cancel">cancel</string>
     <string-array name="filter_type">
         <item>ASC</item>
         <item>DESC</item>

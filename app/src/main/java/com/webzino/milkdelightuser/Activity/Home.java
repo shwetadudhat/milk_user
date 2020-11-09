@@ -557,16 +557,17 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             }
             else {
                 Log.e("elseeee","elsee");
-                 finish();
+//                 finish();
 
-              /*  Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.mainFrame);
+                Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.mainFrame);
                 if (f instanceof MainContainer_Fragment) {
                     Log.e("truuuurrr","truuuurr");
+                    selectedItem(0);
                     finish();
                 }else{
                     Log.e("truuuurrr11","truuuurr11");
                    super.onBackPressed();
-                }*/
+                }
             }
 
         }

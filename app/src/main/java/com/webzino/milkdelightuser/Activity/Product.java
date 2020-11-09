@@ -205,8 +205,8 @@ public class Product extends BaseActivity {
         ll_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tvQty.getText().toString().equals("0")){
-                    Log.e("iffff","ifff");
+               /* if (tvQty.getText().toString().equals("0")){
+                    Log.e("iffff","ifff");*/
                     int count=1;
                     tvQty.setText(String.valueOf(count));
                     if (tvQty.getText().toString().contains("1")) {
@@ -229,7 +229,7 @@ public class Product extends BaseActivity {
                     }
                   ll_add.setVisibility(View.GONE);
                   ll_qty.setVisibility(View.VISIBLE);
-                }
+                /*}*/
             }
         });
 

@@ -47,6 +47,7 @@ import static com.webzino.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_
 public class Cart_activity extends BaseActivity {
 
     private DatabaseHandler db;
+    ArrayList<HashMap<String, String>> map;
 
 
     ImageView ivBack,ivNotify;
@@ -83,6 +84,7 @@ public class Cart_activity extends BaseActivity {
         setContent();
 
         db = new DatabaseHandler(Cart_activity.this);
+        map = db.getCartAll();
 
         sessionManagement=new Session_management(Cart_activity.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -262,7 +264,7 @@ public class Cart_activity extends BaseActivity {
     }
 
     private void getCartList() {
-        ArrayList<HashMap<String, String>> map = db.getCartAll();
+
         if (map.size()==0){
             Log.e("ifff12",map.toString());
             scroll_view.setVisibility(View.GONE);
@@ -279,8 +281,13 @@ public class Cart_activity extends BaseActivity {
             @Override
             public void onItemViewClicked(int i) {
 
-                setPriceDetail();
 
+                if (map.size()>0){
+                    setPriceDetail();
+                }else{
+                    scroll_view.setVisibility(View.GONE);
+                    container_null1.setVisibility(View.VISIBLE);
+                }
 
             }
         });
@@ -356,9 +363,13 @@ public class Cart_activity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        finish();
+//        super.onBackPressed();
         Intent intent=new Intent(this, Home.class);
+        intent.putExtra("home","home");
         startActivity(intent);
+        finish();
+
     }
 
 

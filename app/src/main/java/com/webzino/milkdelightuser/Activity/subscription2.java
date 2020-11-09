@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -124,7 +126,7 @@ public class subscription2 extends BaseActivity {
 
     double razorAmount,totalProductAmout,totalProductPrice,wallet,walletAmount,total_price=0;
 
-    String Addrid,tardetDate,enddate,pincode;
+    String Addrid,tardetDate,enddate,enddate1,pincode;
 
     int planId=-1;
     int dayyyyy;
@@ -417,7 +419,7 @@ public class subscription2 extends BaseActivity {
                 if (days1>0){
 
                     for (int j=0;j<planSelectedModelArrayList.size();j++){
-                        if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id())){
+                        if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id()) &&  Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day())>0){
                             dayyyyy=(int) days1/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
                             Log.e("dbtotl",db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
                             totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
@@ -449,7 +451,88 @@ public class subscription2 extends BaseActivity {
                     }
                     Log.e("endDateModelArrayList", endDateModelArrayList.toString());
 
-                }
+                }/*else{
+                    Toast.makeText(this, "Please select maximum 1 day", Toast.LENGTH_SHORT).show();
+                }*/
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
+
+    public void getDateData1(int targetDate){
+
+        Log.e("targetDate",String.valueOf(targetDate));
+
+        for (int i = 0; i < stardateList1.size(); i++) {
+            tardetDate=stardateList1.get(i).getStart_date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            Date date = null;
+            try {
+                date = dateFormat.parse(tardetDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DATE, targetDate-1);
+            enddate1 = dateFormat.format(calendar.getTime());
+            Log.e("enddate1", enddate1);
+
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                Date startdate = format.parse(tardetDate);
+                Date endddate = format.parse(enddate);
+
+                long diff = endddate.getTime() - startdate.getTime();
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+                long hours = minutes / 60;
+                days1 = hours / 24;
+
+                Log.e("dayss1111", String.valueOf(days1)+"\nstartdate:"+startdate);
+                if (targetDate>0){
+
+                    for (int j=0;j<planSelectedModelArrayList.size();j++){
+                        if (stardateList1.get(i).getProdcut_id().equals(planSelectedModelArrayList.get(j).getProduct_id()) &&  Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day())>0){
+                            dayyyyy=targetDate/ Integer.parseInt(planSelectedModelArrayList.get(j).getSkip_day());
+                            Log.e("dbtotl11",db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
+                            totalProductAmout= Double.parseDouble(db.getTotalSUbAmountById(stardateList1.get(i).getProdcut_id()));
+                            Log.e("totalamounttt", String.valueOf(totalProductAmout));
+                            totalProductPrice=totalProductAmout*dayyyyy;
+
+                            Log.e("totalPricefromendlist111", String.valueOf(totalProductPrice));
+
+                        }
+
+
+                    }
+                    EndDate_Model endDate_model = new EndDate_Model();
+                    endDate_model.setProdcut_id(stardateList1.get(i).getProdcut_id());
+                    endDate_model.setEnd_date(enddate);
+                    endDate_model.setTotal_days(String.valueOf(dayyyyy));
+                    endDate_model.setProduct_totalPrice((int) totalProductPrice);
+
+
+                    if (endDateModelArrayList.size()>0){
+                        for (int k=0;k<endDateModelArrayList.size();k++){
+                            if (endDateModelArrayList.get(k).getProdcut_id().equals(stardateList1.get(i).getProdcut_id())){
+                                endDateModelArrayList.remove(k);
+                            }
+                        }
+                        endDateModelArrayList.add(endDate_model);
+                    }else{
+                        endDateModelArrayList.add(endDate_model);
+                    }
+                    Log.e("endDateModelArrayList", endDateModelArrayList.toString());
+
+                }/*else{
+                    Toast.makeText(this, "Please select maximum 1 day", Toast.LENGTH_SHORT).show();
+                }*/
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -519,15 +602,16 @@ public class subscription2 extends BaseActivity {
 
                                     if (planData!=null){
                                         if (planData.equals("plan1")){
-                                            //getDateData(15);
                                             plan1.callOnClick();
                                         }else if (planData.equals("plan2")){
                                             plan2.callOnClick();
-                                            //  getDateData(30);
                                         }else if (planData.equals("customplan")){
-                                           // customPlan.callOnClick();
                                             Log.e("days1==>1",String.valueOf(days1));
-                                            getDateData((int) days1);
+//
+                                            if (days1>0){
+                                                getDateData1((int) days1+1);
+
+                                            }
                                         }
                                     }
 
@@ -550,7 +634,12 @@ public class subscription2 extends BaseActivity {
                                             plan2.callOnClick();
                                         }else{
                                             Log.e("days1==>2",String.valueOf(days1));
-                                            getDateData((int) days1);
+//
+                                            if (days1>0){
+
+                                                getDateData1((int) days1+1);
+
+                                            }
                                         }
                                     }
                                 }
@@ -579,7 +668,14 @@ public class subscription2 extends BaseActivity {
                                             plan2.callOnClick();
                                         }else if (planData.equals("customplan")){
                                             Log.e("days1==>3",String.valueOf(days1));
-                                            getDateData((int) days1);
+                                            /*if (IsCustomDateSelectede(days1)) {
+                                                getDateData((int) days1);
+                                            }*/
+
+                                            if (days1>0){
+                                                getDateData1((int) days1+1);
+
+                                            }
                                         }
                                     }else{
                                         selectPlan();
@@ -811,25 +907,13 @@ public class subscription2 extends BaseActivity {
                     Toast.makeText(subscription2.this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
 
                 }
-
             }
         });
         customPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (IsPlanSelected()){
-                    plan2.setTag("unselected" + subs_id);
-                    customPlan.setTag("selected" + subs_id);
-                    plan2.setTag("unselected" + subs_id);
 
-
-                    if (customPlan.getTag().equals("selected" + subs_id)) {
-                        planprefEdit.putBoolean("locked", true).commit();
-                        planprefEdit.putString("plan", "customplan");
-                        planprefEdit.apply();
-                    } else if (customPlan.getTag().equals("unselected" + subs_id)) {
-                        planprefEdit.putBoolean("locked", false).commit();
-                    }
 
                     final Calendar cldr = Calendar.getInstance();
                     int day = cldr.get(Calendar.DAY_OF_MONTH);
@@ -874,10 +958,46 @@ public class subscription2 extends BaseActivity {
                                             long hours = minutes / 60;
                                             days1 = hours / 24;
 
-                                            Log.e("dayss==>1", days1 + "\nstartdate:" + startdate);
+                                            Log.e("dayss==>12", days1 + "\nstartdate:" + startdate);
+//                                            if (IsCustomDateSelectede(days1)){
+//
+//                                               /* plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+//                                                plan1.setTextColor(getResources().getColor(R.color.main_clr));
+//                                                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+//                                                plan2.setTextColor(getResources().getColor(R.color.main_clr));
+//                                                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+//                                                customPlan.setTextColor(getResources().getColor(R.color.white));*/
+//
+//                                                getDateData(Integer.parseInt(String.valueOf(days1)));
+//
+//                                            }
                                             if (days1>0){
-                                                getDateData(Integer.parseInt(String.valueOf(days1)));
+
+                                                plan2.setTag("unselected" + subs_id);
+                                                customPlan.setTag("selected" + subs_id);
+                                                plan2.setTag("unselected" + subs_id);
+
+
+                                                if (customPlan.getTag().equals("selected" + subs_id)) {
+                                                    planprefEdit.putBoolean("locked", true).commit();
+                                                    planprefEdit.putString("plan", "customplan");
+                                                    planprefEdit.apply();
+                                                } else if (customPlan.getTag().equals("unselected" + subs_id)) {
+                                                    planprefEdit.putBoolean("locked", false).commit();
+                                                }
+
+                                                plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                                                plan1.setTextColor(getResources().getColor(R.color.main_clr));
+                                                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                                                plan2.setTextColor(getResources().getColor(R.color.main_clr));
+                                                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+                                                customPlan.setTextColor(getResources().getColor(R.color.white));
+
+                                                getDateData1(Integer.parseInt(String.valueOf(days1))+1);
+
+
                                             }
+
 
                                         } catch (ParseException e) {
                                             e.printStackTrace();
@@ -888,22 +1008,34 @@ public class subscription2 extends BaseActivity {
                                 }
                             }, year, month, day);
 
+                    picker.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == DialogInterface.BUTTON_NEGATIVE) {
+
+                                Log.e("cancelll","cancelll");
+                                // Do Stuff
+                            }
+                        }
+                    });
+
                     Calendar calendar = Calendar.getInstance();
-                    calendar.add(Calendar.DATE, 8);
+                    calendar.add(Calendar.DATE, 1);
 
                     picker.getDatePicker().setMinDate(calendar.getTimeInMillis()/*System.currentTimeMillis() - 1000*/);
                     picker.show();
+
+
 
                    /* picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                     picker.show();*/
 
                     // getTotalAmount();
-                    plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                    plan1.setTextColor(getResources().getColor(R.color.main_clr));
-                    plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
-                    plan2.setTextColor(getResources().getColor(R.color.main_clr));
-                    customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
-                    customPlan.setTextColor(getResources().getColor(R.color.white));
+//                    plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+//                    plan1.setTextColor(getResources().getColor(R.color.main_clr));
+//                    plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+//                    plan2.setTextColor(getResources().getColor(R.color.main_clr));
+//                    customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+//                    customPlan.setTextColor(getResources().getColor(R.color.white));
                 }else{
                     Toast.makeText(subscription2.this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
 
@@ -1293,10 +1425,6 @@ public class subscription2 extends BaseActivity {
                             Global.showInternetConnectionDialog(getApplicationContext());
                         }
                     }
-
-
-
-
                 }
 
             }
@@ -1379,7 +1507,16 @@ public class subscription2 extends BaseActivity {
                 Log.e("planidddddddd", planSelectedModelArrayList.get(i).getPlan_id());
 
                 if (!planSelectedModelArrayList.get(i).getPlan_id().equals("-1") && planData != null && !planData.equals("")) {
-                    return true;
+
+                    if (planData.equals("customplan")){
+                        if (IsCustomDateSelectede(days1)){
+                            return true;
+                        }
+                    }
+                   else{
+                        return true;
+                    }
+
                 } else {
                     Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
                     break;
@@ -1400,21 +1537,71 @@ public class subscription2 extends BaseActivity {
         if (planSelectedModelArrayList.size() > 0) {
 
             Log.e("planSelected==>1",planSelectedModelArrayList.toString());
-            Log.e("" +
-                    "map==>1",String.valueOf(map.size()));
+            Log.e("" + "map==>1",String.valueOf(map.size()));
 
             if (planSelectedModelArrayList.size()==map.size()){
                 for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
 
-                    if (planSelectedModelArrayList.get(i).getPlan_id() != null && !planSelectedModelArrayList.get(i).getPlan_id().equals("-1") ) {
-                        return true;
-                    } else {
-                        Toast.makeText(this, "Please select the plan or freqency first", Toast.LENGTH_SHORT).show();
-                        break;
-
+                    if (planSelectedModelArrayList.get(i).getPlan_id() != null){
+                        if (planSelectedModelArrayList.get(i).getPlan_id().contains("-1")){
+                            return false;
+                        }
                     }
+
                 }
             }else{
+                return false;
+            }
+
+        }
+        return true;
+
+    }
+
+    public boolean IsCustomDateSelectede(long days1){
+        isLocked=  planPref.getBoolean("locked",false);
+        planData=planPref.getString("plan","");
+
+        Log.e("plandata",planData);
+        Log.e("days1==>1",String.valueOf(days1));
+
+        if (planSelectedModelArrayList.size() > 0) {
+
+            Log.e("planSelected==>1",planSelectedModelArrayList.toString());
+            Log.e("map==>1",String.valueOf(map.size()));
+
+            List<Integer> list = new ArrayList<Integer>();
+            for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
+
+                list.add(Integer.parseInt(planSelectedModelArrayList.get(i).getSkip_day()));
+
+                Log.e("skipdayss",planSelectedModelArrayList.get(i).getSkip_day());
+
+
+            }
+
+            Log.e("daylisy",String.valueOf(Collections.max(list)));
+
+            if (days1 >= Collections.max(list)){
+
+                plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                plan1.setTextColor(getResources().getColor(R.color.main_clr));
+                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                plan2.setTextColor(getResources().getColor(R.color.main_clr));
+                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_fb));
+                customPlan.setTextColor(getResources().getColor(R.color.white));
+                return true;
+            }else{
+                Toast.makeText(this, "Please select maximum "+Collections.max(list)+ "days", Toast.LENGTH_SHORT).show();
+              /*  plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                plan1.setTextColor(getResources().getColor(R.color.main_clr));
+                plan2.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                plan2.setTextColor(getResources().getColor(R.color.main_clr));
+                customPlan.setBackground(getResources().getDrawable(R.drawable.bg_button));
+                customPlan.setTextColor(getResources().getColor(R.color.main_clr));*/
+
+                planprefEdit.clear().apply();
+
                 return false;
             }
 

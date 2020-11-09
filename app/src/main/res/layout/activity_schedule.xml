@@ -42,6 +42,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/ll_product"
             android:layout_alignParentTop="true"
             android:layout_margin="@dimen/_20sdp"
             android:orientation="vertical"
@@ -230,6 +231,24 @@
             </LinearLayout>
 
 
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/container_null1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No order Available"/>
 
         </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class MainContainer_Fragment extends BaseFragment {
         }else{
             ((Home) getActivity()).getSupportActionBar().setTitle(getString(R.string.app_name));
             openFragment(new Home_Fragment1(),btnHome,tvHome);
+            Log.e("hommee","homee");
         }
 
         ll_home.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +242,7 @@ public class MainContainer_Fragment extends BaseFragment {
                 Intent intent=new Intent(getContext(), Cart_activity.class);
                 startActivity(intent);
                 getActivity().finish();
-                ((Home) getActivity()).selectedItem(-1);
+//                ((Home) getActivity()).selectedItem(-1);/*0*/
 
 
             }
@@ -259,5 +261,6 @@ public class MainContainer_Fragment extends BaseFragment {
         targettv.setTextColor(getResources().getColor(R.color.main_clr));
         setTypeFaceBold(targettv);
     }
+
 
 }

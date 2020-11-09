@@ -97,6 +97,7 @@ public class BuyOnce extends BaseActivity {
     SharedPreferences.Editor myEdit,myEdit1;
 
     AlertDialog alertDialog;
+    ArrayList<HashMap<String, String>> map;
 
     @Override
 
@@ -108,6 +109,7 @@ public class BuyOnce extends BaseActivity {
         setContent();
 
         db = new DatabaseHandler(BuyOnce.this);
+        map = db.getCartAll();
 
         sessionManagement=new Session_management(BuyOnce.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
@@ -162,16 +164,22 @@ public class BuyOnce extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                if (Addrid==null){
-                    Toast.makeText(BuyOnce.this, "Choose Delivery Address First", Toast.LENGTH_SHORT).show();
-                }else{
-                    if (isInternetConnected()){
-                        showDialog("");
-                        checkPincode();
+                if (map.size()>0){
+                    if (Addrid==null){
+                        Toast.makeText(BuyOnce.this, "Choose Delivery Address First", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if (isInternetConnected()){
+                            showDialog("");
+                            checkPincode();
 
-                    }
+                        }
 //                    buyOrdrOnce();
+                    }
+                }else{
+                    Toast.makeText(BuyOnce.this, "No data Found", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 

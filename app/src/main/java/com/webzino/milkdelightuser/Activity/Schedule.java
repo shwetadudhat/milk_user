@@ -1,6 +1,7 @@
 package com.webzino.milkdelightuser.Activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,9 @@ import androidx.cardview.widget.CardView;
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
 
+import static com.webzino.milkdelightuser.utils.Global.IMGURL_PREFS_NAME;
+import static com.webzino.milkdelightuser.utils.Global.URL_DATA;
+
 
 public class Schedule extends BaseActivity {
 
@@ -49,6 +54,7 @@ public class Schedule extends BaseActivity {
     String todaydate;
     Session_management session_management;
     String user_id;
+    RelativeLayout container_null1;
 
     String a;
 
@@ -61,7 +67,7 @@ public class Schedule extends BaseActivity {
     CardView llOrdrStts;
     TextView tvOrderStatus;
 
-    LinearLayout llRenewSubscrption;
+    LinearLayout llRenewSubscrption,ll_product;
     String stts,subs_id1,start_date,end_date,sub_plan,order_id;
     String product_name, product_id,product_image, order_qty,price, description, unit, qty, sub_status,product_url,skip_days,plans,plan_id;
 
@@ -75,13 +81,11 @@ public class Schedule extends BaseActivity {
         setContentView(R.layout.activity_schedule);
 
 
-        //orderstatus = findViewById(R.id.substatus_schedule);
-
-
         ivBack=findViewById(R.id.ivBack);
         title=findViewById(R.id.title);
         tvLeftDay=findViewById(R.id.tvLeftDay);
-
+        ll_product=findViewById(R.id.ll_product);
+        container_null1=findViewById(R.id.container_null1);
 
         substatus_show=findViewById(R.id.substatus_show);
         text_plan=findViewById(R.id.text_plan);
@@ -149,11 +153,11 @@ public class Schedule extends BaseActivity {
         Calendar defaultDate = Calendar.getInstance();
 
 
-        Schedule(todaydate);
+
         if (isInternetConnected()) {
             try {
                 showDialog("");
-                getSUbsDetail();
+                Schedule(todaydate);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -232,91 +236,7 @@ public class Schedule extends BaseActivity {
 
     }
 
-    private void getSUbsDetail() {
-        String tag_json_obj = "json store req";
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("user_id", user_id);
-        params.put("subs_id",subs_id1);
 
-        Log.e("getSUbsDetail",params.toString());
-
-
-        StringRequest strRequest = new StringRequest(Request.Method.POST, BaseURL.subscription_product_details,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        dismissDialog();
-                        Log.e("response",response.toString());
-                       // Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
-
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String msg=jsonObject.getString("message");
-                            String status=jsonObject.getString("status");
-
-                            if (status.equals("1")){
-                                JSONObject jsonObject1=jsonObject.getJSONObject("data");
-
-                                 product_name=jsonObject1.getString("product_name");
-//                                 product_id=jsonObject1.getString("product_id");
-                                 product_image=jsonObject1.getString("product_image");
-                                 order_qty=jsonObject1.getString("order_qty");
-                                 price=jsonObject1.getString("price");
-                                 start_date=jsonObject1.getString("start_date");
-                                 end_date=jsonObject1.getString("end_date");
-                                 description=jsonObject1.getString("description");
-                                 unit=jsonObject1.getString("unit");
-                                 qty=jsonObject1.getString("qty");
-                                 sub_status=jsonObject1.getString("sub_status");
-                                 product_url=jsonObject1.getString("product_url");
-
-
-                                 skip_days=jsonObject1.getString("skip_days");
-                                 plans=jsonObject1.getString("plans");
-
-                                substatus_show.setText(plans);
-                                text_plan.setText(product_name+"("+qty+" "+unit+")");
-//                                price_plan.setText(MainActivity.currency_sign+price);
-                                qty_plan.setText(getString(R.string.qty)+order_qty);
-                                unit_plan.setText(qty+" "+unit);
-                                price_plan.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)/*+ Math.round( Global.getTax(Schedule.this, Double.parseDouble(price)))*/))));
-
-
-                                Global.loadGlideImage(Schedule.this,product_image,product_url+product_image,image_plan);
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        Log.e("errooror",error.toString());
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("user_id", user_id);
-                params.put("subs_id",subs_id1);
-                return params;
-            }
-        };
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(strRequest);
-
-    }
 
     private void Schedule(String aa) {
 
@@ -337,30 +257,92 @@ public class Schedule extends BaseActivity {
                             if (status.equals("1")){
                                 JSONObject jsonObject1=jsonObject.getJSONObject("data");
 
+
                                 String status1=jsonObject1.getString("status");
+//                                String jsonObjectData=jsonObject1.getString("data");
 
-                              //  stts=getIntent().getStringExtra("stts");
-                                if (status1.equals("pause")){
-                                    llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.pause));
-                                    tvOrderStatus.setText(R.string.txt_pause);
-                                    tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause_circle_filled_black_24dp, 0, 0, 0);
-                                }else if (status1.equals("Pending")){
-                                    llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.pending));
-                                    tvOrderStatus.setText(R.string.txt_pending);
-                                    tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_noun_pending, 0, 0, 0);
-                                }else if (status1.equals("Completed")){
-                                    llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.delivered));
-                                    tvOrderStatus.setText(R.string.txt_delivered);
-                                    tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_black_24dp, 0, 0, 0);
+                                if (status1.equals("false")){
+                                    ll_product.setVisibility(View.GONE);
+                                    container_null1.setVisibility(View.VISIBLE);
+                                    llRenewSubscrption.setVisibility(View.GONE);
                                 }else{
+                                    ll_product.setVisibility(View.VISIBLE);
+                                    container_null1.setVisibility(View.GONE);
+                                    llRenewSubscrption.setVisibility(View.VISIBLE);
+                                    JSONObject jsonObjectData=jsonObject1.getJSONObject("data");
+                                    Log.e("dataResponse",String.valueOf(jsonObjectData));
 
-                                    llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.main_clr));
-                                    tvOrderStatus.setText("Not order Available");
-                                    tvOrderStatus.setTextColor(getResources().getColor(R.color.white));
-                                 //   tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_noun_close_1, 0, 0, 0);
+//                                    JSONObject jsonObjectData=new JSONObject("data");
+//                                    if (jsonObjectData.has("PROJECT_NUMBER")) {
+
+                                    Log.e("jsonObjectData",String.valueOf(jsonObjectData));
+
+                                    JSONObject product=jsonObjectData.getJSONObject("product");
+                                    JSONObject plan_details=jsonObjectData.getJSONObject("plan_details");
+                                    JSONObject productImage=product.getJSONObject("product_image");
+                                    String product_image=productImage.getString("product_image");
+
+
+                                    String status12=jsonObjectData.getString("status");
+
+
+                                    String subscription_price=product.getString("subscription_price");
+                                    String product_name=product.getString("product_name");
+                                    String qty=product.getString("qty");
+                                    String unit=product.getString("unit");
+                                    String order_qty=jsonObjectData.getString("order_qty");
+                                    String plans=plan_details.getString("plans");
+
+                                    SharedPreferences GstPref1 = getSharedPreferences(IMGURL_PREFS_NAME, MODE_PRIVATE);
+                                    String urlData = GstPref1.getString(URL_DATA, null);
+                                    String product_url = null;
+                                    if (urlData != null) {
+                                        Log.e("urlData",urlData);
+                                        try {
+                                            JSONObject jsonObject12=new JSONObject(urlData);
+                                            product_url=jsonObject12.getString("product_url");
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+
+                                    Log.e("imgurl",product_url+product_image);
+                                    Global.loadGlideImage(Schedule.this,product_image,product_url+product_image,image_plan);
+
+                                    substatus_show.setText(plans);
+                                    text_plan.setText(product_name+"("+qty+" "+unit+")");
+                                    price_plan.setText(MainActivity.currency_sign+subscription_price);
+                                    qty_plan.setText(getString(R.string.qty)+order_qty);
+                                    unit_plan.setText(qty+" "+unit);
+
+
+                                    //  stts=getIntent().getStringExtra("stts");
+                                    if (status12.equals("cancel")){
+                                        llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.pause));
+                                        tvOrderStatus.setText(R.string.txt_pause);
+                                        tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_pause_circle_filled_black_24dp, 0, 0, 0);
+                                    }else if (status12.equals("Pending")){
+                                        llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.pending));
+                                        tvOrderStatus.setText(R.string.txt_pending);
+                                        tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_noun_pending, 0, 0, 0);
+                                    }else if (status12.equals("Completed")){
+                                        llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.delivered));
+                                        tvOrderStatus.setText(R.string.txt_delivered);
+                                        tvOrderStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle_black_24dp, 0, 0, 0);
+                                    }else{
+                                        llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.main_clr));
+                                        tvOrderStatus.setText(status12);
+                                        tvOrderStatus.setTextColor(getResources().getColor(R.color.white));
+                                }
+
 
 
                                 }
+
+                                Log.e("statusss",status1);
+
 
 
 
