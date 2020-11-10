@@ -232,11 +232,7 @@ public class Schedule extends BaseActivity {
                 onBackPressed();
             }
         });
-
-
     }
-
-
 
     private void Schedule(String aa) {
 
@@ -335,17 +331,11 @@ public class Schedule extends BaseActivity {
                                         llOrdrStts.setCardBackgroundColor(getResources().getColor(R.color.main_clr));
                                         tvOrderStatus.setText(status12);
                                         tvOrderStatus.setTextColor(getResources().getColor(R.color.white));
-                                }
-
-
+                                    }
 
                                 }
 
                                 Log.e("statusss",status1);
-
-
-
-
                             }
 
                         } catch (JSONException e) {
@@ -372,6 +362,8 @@ public class Schedule extends BaseActivity {
                 params.put("subs_id", subs_id1);
                 params.put("plans_id", sub_plan);
                 params.put("date",aa);
+
+                Log.e("params",params.toString());
                 return params;
             }
         };

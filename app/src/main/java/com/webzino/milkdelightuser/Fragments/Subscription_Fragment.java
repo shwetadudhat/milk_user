@@ -143,9 +143,6 @@ public class Subscription_Fragment extends BaseFragment {
     }
 
 
-
-
-
     private void showsubscrip(String u_id) {
 
         String tag_json_obj = "json store req";
@@ -167,8 +164,6 @@ public class Subscription_Fragment extends BaseFragment {
                     if (status.contains("1")) {
 
                         Log.e("status",status);
-
-
 
                         JSONObject jsonObject=response.getJSONObject("data");
                         JSONArray jsonArray = jsonObject.getJSONArray("subscription_data");
@@ -209,35 +204,40 @@ public class Subscription_Fragment extends BaseFragment {
                             String plans = jsonObject1.getString("plans");
                             String order_id = jsonObject1.getString("order_id");
 
-                            JSONObject jsonObject2=jsonObject1.getJSONObject("product");
+                            if (!product_name.equals("null")){
+
+                                Log.e("producttt==>1","iffff");
+
+                                JSONObject jsonObject2=jsonObject1.getJSONObject("product");
+
 //                            String price = jsonObject2.getString("price");
-                            JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
-                            String product_image = jsonObject3.getString("product_image");
+                                JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
+                                String product_image = jsonObject3.getString("product_image");
 
-                            Log.e("product_image123",product_image);
+                                Log.e("product_image123",product_image);
 
+                                Showsubscrip_Model showsubscrip_model = new Showsubscrip_Model();
+                                showsubscrip_model.setProduct_name(product_name);
+                                showsubscrip_model.setProduct_image(product_url+product_image);
+                                showsubscrip_model.setUnit(unit);
+                                showsubscrip_model.setProductid(product_id);
+                                showsubscrip_model.setPlan_id(plan_id);
+                                showsubscrip_model.setSkip_days(skip_days);
+                                showsubscrip_model.setPrice(price);
+                                showsubscrip_model.setOrder_qty(quantity);
+                                showsubscrip_model.setQty(qty);
+                                showsubscrip_model.setSubprice(subprice);
+                                showsubscrip_model.setDescription(discription);
+                                showsubscrip_model.setSub_status(substatus);
+                                showsubscrip_model.setSubs_id(subsid);
+                                showsubscrip_model.setPlans(plans);
+                                showsubscrip_model.setDelivery_date(delivery_date);
+                                showsubscrip_model.setStart_date(start_date);
+                                showsubscrip_model.setEnd_date(end_date);
+                                showsubscrip_model.setOrderId(order_id);
 
-                            Showsubscrip_Model showsubscrip_model = new Showsubscrip_Model();
-                            showsubscrip_model.setProduct_name(product_name);
-                            showsubscrip_model.setProduct_image(product_url+product_image);
-                            showsubscrip_model.setUnit(unit);
-                            showsubscrip_model.setProductid(product_id);
-                            showsubscrip_model.setPlan_id(plan_id);
-                            showsubscrip_model.setSkip_days(skip_days);
-                            showsubscrip_model.setPrice(price);
-                            showsubscrip_model.setOrder_qty(quantity);
-                            showsubscrip_model.setQty(qty);
-                            showsubscrip_model.setSubprice(subprice);
-                            showsubscrip_model.setDescription(discription);
-                            showsubscrip_model.setSub_status(substatus);
-                            showsubscrip_model.setSubs_id(subsid);
-                            showsubscrip_model.setPlans(plans);
-                            showsubscrip_model.setDelivery_date(delivery_date);
-                            showsubscrip_model.setStart_date(start_date);
-                            showsubscrip_model.setEnd_date(end_date);
-                            showsubscrip_model.setOrderId(order_id);
-
-                            showsubscripModels.add(showsubscrip_model);
+                                showsubscripModels.add(showsubscrip_model);
+                            }
 
                         }
 
