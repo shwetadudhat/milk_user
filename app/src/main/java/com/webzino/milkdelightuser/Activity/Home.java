@@ -436,7 +436,9 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
                         if (session_management.isLoggedIn()){
                             session_management.logoutSession();
                             Intent intent=new Intent(Home.this, Login.class);
+                            intent.putExtra("action","logout");
                             startActivity(intent);
+                            finish();
                         }
 
                     } else {

@@ -486,7 +486,7 @@ public class subscription2 extends BaseActivity {
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 Date startdate = format.parse(tardetDate);
-                Date endddate = format.parse(enddate);
+                Date endddate = format.parse(enddate1);
 
                 long diff = endddate.getTime() - startdate.getTime();
                 long seconds = diff / 1000;
@@ -608,10 +608,10 @@ public class subscription2 extends BaseActivity {
                                         }else if (planData.equals("customplan")){
                                             Log.e("days1==>1",String.valueOf(days1));
 //
-                                            if (days1>0){
+//                                            if (days1>0){
                                                 getDateData1((int) days1+1);
 
-                                            }
+//                                            }
                                         }
                                     }
 
@@ -635,11 +635,11 @@ public class subscription2 extends BaseActivity {
                                         }else{
                                             Log.e("days1==>2",String.valueOf(days1));
 //
-                                            if (days1>0){
+//                                            if (days1>0){
 
                                                 getDateData1((int) days1+1);
 
-                                            }
+//                                            }
                                         }
                                     }
                                 }
@@ -672,10 +672,10 @@ public class subscription2 extends BaseActivity {
                                                 getDateData((int) days1);
                                             }*/
 
-                                            if (days1>0){
+//                                            if (days1>0){
                                                 getDateData1((int) days1+1);
 
-                                            }
+//                                            }
                                         }
                                     }else{
                                         selectPlan();
@@ -971,7 +971,7 @@ public class subscription2 extends BaseActivity {
 //                                                getDateData(Integer.parseInt(String.valueOf(days1)));
 //
 //                                            }
-                                            if (days1>0){
+//                                            if (days1>0){
 
                                                 plan2.setTag("unselected" + subs_id);
                                                 customPlan.setTag("selected" + subs_id);
@@ -996,7 +996,7 @@ public class subscription2 extends BaseActivity {
                                                 getDateData1(Integer.parseInt(String.valueOf(days1))+1);
 
 
-                                            }
+//                                            }
 
 
                                         } catch (ParseException e) {
@@ -1021,7 +1021,10 @@ public class subscription2 extends BaseActivity {
                     Calendar calendar = Calendar.getInstance();
                     calendar.add(Calendar.DATE, 1);
 
-                    picker.getDatePicker().setMinDate(calendar.getTimeInMillis()/*System.currentTimeMillis() - 1000*/);
+                    picker.getDatePicker().setMinDate(calendar.getTimeInMillis()+ (1000 * 60 * 60)/*System.currentTimeMillis() - 1000*/);
+                    Calendar d = Calendar.getInstance();
+
+//                    picker.updateDate(d.get(Calendar.YEAR),d.get(Calendar.MONTH),d.get(Calendar.DAY_OF_MONTH));
                     picker.show();
 
 
@@ -1445,7 +1448,7 @@ public class subscription2 extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 dismissDialog();
-                Log.e("Tag123", response.toString());
+                Log.e("coupon123", response.toString());
 
                 try {
                     String status=response.getString("status");
@@ -1573,16 +1576,27 @@ public class subscription2 extends BaseActivity {
             List<Integer> list = new ArrayList<Integer>();
             for (int i = 0; i < planSelectedModelArrayList.size(); i++) {
 
-                list.add(Integer.parseInt(planSelectedModelArrayList.get(i).getSkip_day()));
+                if (planData.equals("customplan") && planSelectedModelArrayList.get(i).getSkip_day().equals("1")){
+                    days1=days1+1;
+                    list.add(Integer.parseInt(planSelectedModelArrayList.get(i).getSkip_day()));
+                }else{
+                    list.add(Integer.parseInt(planSelectedModelArrayList.get(i).getSkip_day()));
+                }
+
+
+
 
                 Log.e("skipdayss",planSelectedModelArrayList.get(i).getSkip_day());
-
 
             }
 
             Log.e("daylisy",String.valueOf(Collections.max(list)));
 
-            if (days1 >= Collections.max(list)){
+
+
+            Log.e("days1",String.valueOf(days1));
+
+            if (days1 >=Collections.max(list)){
 
                 plan1.setBackground(getResources().getDrawable(R.drawable.bg_button));
                 plan1.setTextColor(getResources().getColor(R.color.main_clr));

@@ -126,6 +126,8 @@ public class MyOrder_Fragment extends BaseFragment {
                         for (int i=0;i<jsonArray.length();i++){
                             JSONObject jsonObject1=jsonArray.getJSONObject(i);
 
+                            Log.e("jsonobject",String.valueOf(jsonObject1));
+
                             String product_name=jsonObject1.getString("product_name");
                             int subs_id=jsonObject1.getInt("subs_id");
                             String delivery_date= Global.getDateConvert(jsonObject1.getString("delivery_date"),"yyyy-MM-dd","EEE dd, MMM yyyy");
@@ -136,9 +138,14 @@ public class MyOrder_Fragment extends BaseFragment {
                             String sub_status=jsonObject1.getString("sub_status");
 
                             JSONObject jsonObject2=jsonObject1.getJSONObject("product");
-                            String gst=jsonObject2.getString("gst");
-                            JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
-                            String product_image=jsonObject3.getString("product_image");
+                            String gst = null,product_image=null;
+//                            if (!jsonObject2.isNull("product")/*!=null*/){
+                            if (jsonObject2.length()!=0){
+                                 gst=jsonObject2.getString("gst");
+                                JSONObject jsonObject3=jsonObject2.getJSONObject("product_image");
+                                 product_image=jsonObject3.getString("product_image");
+                            }
+
 
 
                             Order_Model orderModel=new Order_Model();

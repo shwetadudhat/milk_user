@@ -158,6 +158,10 @@ public class MyOrderDetail extends BaseActivity {
                         String price=jsonObject1.getString("price");
                         String unit=jsonObject1.getString("unit");
                         String qty=jsonObject1.getString("qty");
+                        String sub_status=jsonObject1.getString("sub_status");
+
+                        Log.e("sub_status==>1",sub_status);
+
 
                         JSONObject orders=jsonObject1.getJSONObject("orders");
                         String promocode_amount=orders.getString("promocode_amount");
@@ -165,6 +169,7 @@ public class MyOrderDetail extends BaseActivity {
                         String total_cgst=orders.getString("total_cgst");
                         String total_sgst=orders.getString("total_sgst");
                         String created_at=orders.getString("created_at");
+
 
                         tvcgst1.setText(MainActivity.currency_sign+total_cgst);
                         tvsgst1.setText(MainActivity.currency_sign+total_sgst);
@@ -210,11 +215,16 @@ public class MyOrderDetail extends BaseActivity {
 
                             ordr_date.setText(formattedDate);
                             Log.e("delivery_date",delivery_date);
-                            if (delivery_date.equalsIgnoreCase("0000-00-00")){
-                                ordr_deldate.setText(getString(R.string.delivery_on)+" Pending");
+                            if (!sub_status.equals("Pending")){
+                                if (delivery_date.equalsIgnoreCase("0000-00-00")){
+                                    ordr_deldate.setText(getString(R.string.delivery_on)+" Pending");
+                                }else{
+                                    ordr_deldate.setText(getString(R.string.success_order)+" "+DEldate);
+                                }
                             }else{
-                                ordr_deldate.setText(getString(R.string.success_order)+" "+DEldate);
+                                ordr_deldate.setText(getString(R.string.delivery_on)+" Pending");
                             }
+
 
                         } catch (ParseException e) {
                             e.printStackTrace();

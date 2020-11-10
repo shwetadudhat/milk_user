@@ -833,7 +833,8 @@ public class Signup extends BaseActivity {
                                             });
                                             alertDialog.show();
 
-                                        }else{
+                                        }
+                                        else{
                                             try {
                                                 String Fbid = object.getString("id");
                                                 String Fbname = object.getString("name");

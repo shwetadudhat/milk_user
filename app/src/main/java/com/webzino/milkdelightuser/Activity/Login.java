@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -60,6 +62,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.appcompat.app.AlertDialog;
+
 public class Login extends BaseActivity {
 
     EditText edemailMobileNumber, edpassword;
@@ -67,7 +71,8 @@ public class Login extends BaseActivity {
     Button login;
     TextView txt_signup,txt_forgot;
 
-    String fileUri;
+    String fileUri,action;
+    String emailId;
 
     String txt_emailMobileNumber, txt_pass;
 
@@ -97,6 +102,7 @@ public class Login extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
+        action=getIntent().getStringExtra("action");
 
         db = new DatabaseHandler(Login.this);
         db.clearCart();
@@ -161,7 +167,6 @@ public class Login extends BaseActivity {
             public void onClick(View view) {
                 txt_emailMobileNumber=edemailMobileNumber.getText().toString();
                 txt_pass=edpassword.getText().toString();
-
                 if (validateLoginDetails(txt_emailMobileNumber,txt_pass)){
                     if (isInternetConnected()) {
                         //perform in api calling in if success result get
@@ -480,7 +485,7 @@ public class Login extends BaseActivity {
                                 loginResult.getAccessToken(),
                                 (object, response) -> {
                                     Log.e("Main", response.toString());
-                                    if (object.has("name") && object.has("email")) {
+                                    /*if (object.has("name") && object.has("email")) {
                                         try {
                                             String Fbid = object.getString("id");
                                             String Fbname = object.getString("name");
@@ -489,22 +494,22 @@ public class Login extends BaseActivity {
 
                                             Log.e("Fbemail_Login",Fbemail);
 
-                                            /*SocialMediaAccountDetailModel socialMediaAccountDetailModel = new SocialMediaAccountDetailModel(Fbid, Fbname, Fbemail, (Fbimage_url));
+                                            *//*SocialMediaAccountDetailModel socialMediaAccountDetailModel = new SocialMediaAccountDetailModel(Fbid, Fbname, Fbemail, (Fbimage_url));
                                             String GoogleAccountDetail = new Gson().toJson(socialMediaAccountDetailModel);
 
-                                            FBLoginAPI(Fbid, GoogleAccountDetail);*/
+                                            FBLoginAPI(Fbid, GoogleAccountDetail);*//*
 
 
                                             Glide.with(Login.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
                                                 @Override
                                                 public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
 
-                                                  /*  File file = Global.getOutputMediaFile();
+                                                  *//*  File file = Global.getOutputMediaFile();
                                                     saveBitmap(bitmap, file);
                                                     Log.e("bitmap123",bitmap.toString());
 
                                                     social_sign_up(Fbname,Fbemail,Fbid,"facebook",token,"",bitmap);
-*/
+*//*
                                                     try {
                                                         File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
                                                         if (!mydir.exists()) {
@@ -535,6 +540,153 @@ public class Login extends BaseActivity {
                                         } catch (JSONException e) {
                                             Log.e("ERROR", "FB_LOGIN:> " + e.toString());
                                         }
+                                    } else {
+                                        dismissDialog();
+                                        Toast.makeText(Login.this, "data not found", Toast.LENGTH_SHORT).show();
+                                    }*/
+                                    if (object.has("name") /*&& object.has("email")*/) {
+                                        if ( !object.has("email")){
+//                                          String email_id=  getEmailAddress();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                                            ViewGroup viewGroup = findViewById(android.R.id.content);
+                                            View dialogView = LayoutInflater.from(Login.this).inflate(R.layout.custom_email, viewGroup, false);
+                                            builder.setView(dialogView);
+                                            AlertDialog alertDialog = builder.create();
+                                            alertDialog.setCancelable(true);
+                                            alertDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+
+                                            EditText et_email=dialogView.findViewById(R.id.et_email);
+                                            Button btnApply=dialogView.findViewById(R.id.btnApply);
+
+                                            et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                                @Override
+                                                public void onFocusChange(View view, boolean b) {
+                                                    et_email.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+                                                }
+                                            });
+
+                                            btnApply.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    emailId=et_email.getText().toString();
+
+
+                                                    if (emailId.length()==0) {
+                                                        et_email.setError(getString(R.string.enter_email_id));
+                                                        Global.showKeyBoard(getApplicationContext(), et_email);
+                                                    }else if (!Global.isValidEmail(emailId)){
+                                                        //api call
+                                                        et_email.setError("Enter Valid email id");
+                                                        Global.showKeyBoard(getApplicationContext(), et_email);
+                                                    }else{
+                                                        Log.e("emailId",emailId);
+                                                        try {
+                                                            String Fbid = object.getString("id");
+                                                            String Fbname = object.getString("name");
+                                                            String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
+                                                            Log.e("Fbid",Fbid);
+                                                            Log.e("fbImageurl",Fbimage_url);
+
+                                                            Glide.with(Login.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
+                                                                @Override
+                                                                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                                    try {
+                                                                        File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                                                        if (!mydir.exists()) {
+                                                                            mydir.mkdirs();
+                                                                        }
+
+                                                                        fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                                                        Log.e   ("fileUri",fileUri);
+                                                                        FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                                                        outputStream.flush();
+                                                                        outputStream.close();
+
+                                                                        Log.e("bitmap123",bitmap.toString());
+
+                                                                        social_sign_up(Fbname,emailId,Fbid,"facebook",token,"",bitmap);
+
+//                                                                        social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
+
+
+//
+                                                                    } catch(IOException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                    //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+                                                                }
+                                                                @Override
+                                                                public void onLoadCleared(Drawable placeholder) {
+                                                                }
+                                                            });
+
+                                                        } catch (JSONException e) {
+                                                            Log.e("ERROR", "FB_LOGIN:> " + e.toString());
+                                                        }
+                                                        alertDialog.dismiss();
+
+                                                    }
+
+                                                }
+                                            });
+                                            alertDialog.show();
+
+                                        }
+                                        else{
+                                            try {
+                                                String Fbid = object.getString("id");
+                                                String Fbname = object.getString("name");
+                                                String Fbemail = object.getString("email");
+                                                String Fbimage_url = "https://graph.facebook.com/" + Fbid + "/picture?type=normal";
+                                                Log.e("Fbid",Fbid);
+                                                Log.e("fbImageurl",Fbimage_url);
+
+                                                Glide.with(Login.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
+                                                    @Override
+                                                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                        try {
+                                                            File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
+                                                            if (!mydir.exists()) {
+                                                                mydir.mkdirs();
+                                                            }
+
+                                                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+
+                                                            Log.e   ("fileUri",fileUri);
+                                                            FileOutputStream outputStream = new FileOutputStream(fileUri);
+
+                                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                                            outputStream.flush();
+                                                            outputStream.close();
+
+                                                            Log.e("bitmap123",bitmap.toString());
+
+                                                            if (Fbemail.equals("null")){
+                                                                social_sign_up(Fbname,Fbemail,Fbid,"facebook",token,"",bitmap);
+
+                                                            }else{
+                                                                social_sign_up(Fbname,emailId,Fbid,"facebook",token,"",bitmap);
+                                                            }
+
+//
+                                                        } catch(IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+                                                    }
+                                                    @Override
+                                                    public void onLoadCleared(Drawable placeholder) {
+                                                    }
+                                                });
+
+                                            } catch (JSONException e) {
+                                                Log.e("ERROR", "FB_LOGIN:> " + e.toString());
+                                            }
+                                        }
+
                                     } else {
                                         dismissDialog();
                                         Toast.makeText(Login.this, "data not found", Toast.LENGTH_SHORT).show();
@@ -609,7 +761,8 @@ public class Login extends BaseActivity {
 
                         Intent intent = new Intent(Login.this, Home.class);
                         startActivity(intent);
-                        finishAffinity();
+//                        finishAffinity();
+                        finish();
 
 
                         Toast.makeText(getApplicationContext(),""+message, Toast.LENGTH_SHORT).show();
@@ -669,4 +822,17 @@ public class Login extends BaseActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+//
+        finishAffinity();
+
+       /* if (action!=null){
+            Log.e("action",action);
+            finishAffinity();
+        }else {
+            super.onBackPressed();
+        }
+*/
+    }
 }
