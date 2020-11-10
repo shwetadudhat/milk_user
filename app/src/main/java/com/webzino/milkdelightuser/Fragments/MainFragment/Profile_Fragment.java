@@ -61,7 +61,8 @@ import static com.webzino.milkdelightuser.utils.Global.ProfileUrl;
 public class Profile_Fragment extends BaseFragment {
 
     Context context;
-    CircleImageView image_profile,iv_edit;
+    CircleImageView image_profile;
+
     Bitmap photo;
     TextView userName,userNmbr;
 
@@ -70,7 +71,7 @@ public class Profile_Fragment extends BaseFragment {
 
     String profName,profNmbr,profEmail;
 
-    RelativeLayout rlProAddress;
+    RelativeLayout rlProAddress,iv_edit;
     ImageView ivAddressList;
 
     TextView tvChangePass;
@@ -137,6 +138,7 @@ public class Profile_Fragment extends BaseFragment {
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);*/
+                Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 try {

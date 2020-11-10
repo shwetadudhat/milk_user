@@ -55,7 +55,7 @@ public class Wallet_Fragment extends BaseFragment {
     int count = 0;
     EditText amount_edit;
 
-    Button price100,price1000,price2000,price3000;
+    Button price500,price1000,price2000,price3000;
     Session_management session_management;
     public static String priceee;
 
@@ -144,7 +144,7 @@ public class Wallet_Fragment extends BaseFragment {
             }
         });
 
-        price100 = view.findViewById(R.id.price100);
+        price500 = view.findViewById(R.id.price500);
         price1000 = view.findViewById(R.id.price1000);
         price2000 = view.findViewById(R.id.price2000);
         price3000 = view.findViewById(R.id.price3000);
@@ -182,12 +182,12 @@ public class Wallet_Fragment extends BaseFragment {
 
             }
         });
-        price100.setOnClickListener(new View.OnClickListener() {
+        price500.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 count= Integer.valueOf(amount_edit.getText().toString());
-                count = count + 100;
+                count = count + 500;
                 amount_edit.setText(String.valueOf(count));
 
             }

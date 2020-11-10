@@ -212,6 +212,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         if( notification!= null)
         {
 //            notificationCntent();
+            getSupportActionBar().setTitle(getString(R.string.notification));
             OpenMainFragment(new Notification_Fragment());
         }else  if( wallet!= null) {
             Wallet(12);
@@ -333,7 +334,7 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
             case R.id.action_notification:
                 getSupportActionBar().setTitle(getString(R.string.notification));
 //                notificationCntent();
-                OpenMainFragment(new Notification_Fragment(),11);
+                OpenMainFragment(new Notification_Fragment(),12);
                 break;
         }
         return true;

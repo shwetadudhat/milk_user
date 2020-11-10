@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash_image"
-    tools:context=".Activity.Splash">
+    tools:context=".Splash">
 
 
     <ImageView
-        android:layout_centerInParent="true"
-        android:scaleType="centerInside"
-        android:src="@drawable/splash_logo"
-        android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_logo1"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_300sdp"
         android:id="@+id/image"
         />
 

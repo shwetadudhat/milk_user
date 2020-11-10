@@ -131,10 +131,10 @@
                         android:textAllCaps="false"
                         android:textColor="@color/main_clr"
                         android:textSize="@dimen/_10sdp"
-                        android:id="@+id/price100"
+                        android:id="@+id/price500"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_30sdp"
-                        android:text="@string/_100"
+                        android:text="@string/_500"
                         android:layout_margin="@dimen/_5sdp"
                         android:layout_weight="1" />
 
