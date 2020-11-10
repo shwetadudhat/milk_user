@@ -138,7 +138,7 @@ public class Profile_Fragment extends BaseFragment {
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);*/
-                Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "click", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 try {
