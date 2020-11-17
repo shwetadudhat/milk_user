@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +62,9 @@ public class Contact_Fragment extends BaseFragment {
     Session_management session_management;
     String u_id;
 
+    RelativeLayout rl_close,rl_bottom;
+    TextView tv_msg;
+
     public Contact_Fragment() {
         // Required empty public constructor
     }
@@ -85,6 +89,9 @@ public class Contact_Fragment extends BaseFragment {
         btnConSend = view.findViewById(R.id.btnConSend);
         cardNmbr = view.findViewById(R.id.cardNmbr);
         cardEmail = view.findViewById(R.id.cardEmail);
+        rl_close = view.findViewById(R.id.rl_close);
+        rl_bottom = view.findViewById(R.id.rl_bottom);
+        tv_msg = view.findViewById(R.id.tv_msg);
 
         session_management=new Session_management(getContext());
         u_id = session_management.getUserDetails().get(BaseURL.KEY_ID);
@@ -95,6 +102,13 @@ public class Contact_Fragment extends BaseFragment {
         } else {
             Global.showInternetConnectionDialog(getContext());
         }
+
+        rl_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rl_bottom.setVisibility(View.GONE);
+            }
+        });
 
 
 
@@ -265,10 +279,12 @@ public class Contact_Fragment extends BaseFragment {
                     String message=response.getString("message");
 
                     if (status.equals("1")){
-
-                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                         edConMsg.setText("");
+                        rl_bottom.setVisibility(View.VISIBLE);
+                        tv_msg.setText(message);
 
+                    }else{
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
