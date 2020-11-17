@@ -53,9 +53,7 @@
 
         </RelativeLayout>
 
-
-    </RelativeLayout
->
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_above="@+id/rl_bottom"
