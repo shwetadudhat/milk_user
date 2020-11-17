@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,7 +130,10 @@ public class BuyOncePayment extends BaseActivity {
 
         }
 
+        Calendar rightNow = Calendar.getInstance();
+
         randomDigit = random(0, 1000);
+        orderId = "order_"+rightNow.getTimeInMillis()+randomDigit;
         appId = getString(R.string.cashfree_api_key);
         orderId = "order_"+randomDigit;
         orderAmount = amount/*"10"*/;

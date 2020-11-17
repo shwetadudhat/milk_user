@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,10 +164,12 @@ public class CashFreeActivity extends BaseActivity {
            /* }*/
         }
 
+        Calendar rightNow = Calendar.getInstance();
+
 
         randomDigit = random(0, 1000);
         appId = getString(R.string.cashfree_api_key);
-        orderId = "order_"+randomDigit;
+        orderId = "order_"+rightNow.getTimeInMillis()+randomDigit;
         orderAmount = amount/*"10"*/;
         orderNote = "Test Order";
         customerName =user_name;

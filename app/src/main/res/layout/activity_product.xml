@@ -70,24 +70,24 @@
                         android:fontFamily="@font/ubuntu_medium"
                         android:textColor="@color/title_clr"
                         android:textSize="@dimen/_14sdp"
-                        android:text="Amul Desi milk(500 ml)"
+                        android:text="Amul Desi milk"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/itemName"/>
 
-                   <!-- <TextView
-                        android:layout_marginTop="@dimen/_5sdp"
+                    <TextView
                         android:layout_below="@id/itemName"
-                        android:textColor="@color/main_clr"
-                        android:textSize="@dimen/_18sdp"
-                        android:text="Rs.38"
+                        android:fontFamily="@font/ubuntu_medium"
+                        android:textColor="@color/title_clr"
+                        android:textSize="@dimen/_12sdp"
+                        android:text="(500 ml)"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/itemPrice"/>-->
+                        android:id="@+id/itemUnit"/>
+
 
                     <RelativeLayout
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_below="@id/itemName"
+                        android:layout_below="@id/itemUnit"
                         android:id="@+id/rlPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

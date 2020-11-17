@@ -60,7 +60,8 @@ public class Adapter_RenewPlan extends RecyclerView.Adapter<Adapter_RenewPlan.ho
         Global.loadGlideImage(activity,productModelArrayList.get(i).getProduct_name(), productModelArrayList.get(i).getImage(),holder.image_cart);
 
 
-        holder.product_name.setText(productModelArrayList.get(i).getProduct_name()+" ("+productModelArrayList.get(i).getProduct_unit()+")");
+        holder.product_name.setText(productModelArrayList.get(i).getProduct_name());
+        holder.product_unit.setText("("+productModelArrayList.get(i).getProduct_unit()+")");
         holder.product_price.setText(MainActivity.currency_sign+productModelArrayList.get(i).getProduct_price());
         holder.product_qty.setText(activity.getString(R.string.qty)+" "+productModelArrayList.get(i).getProduct_qty());
 
@@ -100,7 +101,7 @@ public class Adapter_RenewPlan extends RecyclerView.Adapter<Adapter_RenewPlan.ho
 
     public class holder extends RecyclerView.ViewHolder {
 
-        TextView product_name,product_price, product_qty;
+        TextView product_name,product_price, product_qty,product_unit;
         ImageView image_cart;
         CheckBox chk;
         LinearLayout   llborder;
@@ -112,6 +113,7 @@ public class Adapter_RenewPlan extends RecyclerView.Adapter<Adapter_RenewPlan.ho
             product_name = itemView.findViewById(R.id.product_name);
             product_price = itemView.findViewById(R.id.product_price);
             product_qty = itemView.findViewById(R.id.product_qty);
+            product_unit = itemView.findViewById(R.id.product_unit);
             image_cart = itemView.findViewById(R.id.image_cart);
             chk= itemView.findViewById(R.id.chk);
 

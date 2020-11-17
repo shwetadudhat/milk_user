@@ -61,7 +61,7 @@ public class Schedule extends BaseActivity {
     ImageView ivBack;
     TextView title,tvLeftDay;
 
-    TextView substatus_show,text_plan,price_plan,qty_plan,unit_plan;
+    TextView substatus_show,text_plan,price_plan,qty_plan,unit_plan,text_unit;
     ImageView image_plan;
 
     CardView llOrdrStts;
@@ -93,6 +93,7 @@ public class Schedule extends BaseActivity {
         qty_plan=findViewById(R.id.qty_plan);
         unit_plan=findViewById(R.id.unit_plan);
         image_plan=findViewById(R.id.image_plan);
+        text_unit=findViewById(R.id.text_unit);
 
         llOrdrStts=findViewById(R.id.llOrdrStts);
         tvOrderStatus=findViewById(R.id.tvOrderStatus);
@@ -168,8 +169,8 @@ public class Schedule extends BaseActivity {
 
         Calendar cal_start = Calendar.getInstance();
         Calendar cal_end = Calendar.getInstance();
-        cal_start.setTime(date1);
-        cal_end.setTime(date2);
+        cal_start.setTime(curdate);
+        cal_end.setTime(curdate);
 
 
         horizontalCalendar = new HorizontalCalendar.Builder(Schedule.this, R.id.calendarView)
@@ -308,7 +309,8 @@ public class Schedule extends BaseActivity {
                                     Global.loadGlideImage(Schedule.this,product_image,product_url+product_image,image_plan);
 
                                     substatus_show.setText(plans);
-                                    text_plan.setText(product_name+"("+qty+" "+unit+")");
+                                    text_plan.setText(product_name);
+                                    text_unit.setText("("+qty+" "+unit+")");
                                     price_plan.setText(MainActivity.currency_sign+subscription_price);
                                     qty_plan.setText(getString(R.string.qty)+order_qty);
                                     unit_plan.setText(qty+" "+unit);

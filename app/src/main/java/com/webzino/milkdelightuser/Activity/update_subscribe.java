@@ -61,7 +61,7 @@ public class update_subscribe extends BaseActivity {
     int qty=0;
     RelativeLayout rlSubscription,rlTargetDate;
     ImageView ivproImage;
-    TextView tvproName,tvProPrice,tvQtyDec,tvQty,tvQtyInc,tvqtyUnit;
+    TextView tvproName,tvProPrice,tvQtyDec,tvQty,tvQtyInc,tvqtyUnit,tvproUnit;
 
 
     String product_id,sub_plan,start_date,end_date,product_qty,subs_id;
@@ -154,6 +154,7 @@ public class update_subscribe extends BaseActivity {
         tvQty=findViewById(R.id.tvQty);
         tvQtyInc=findViewById(R.id.tvQtyInc);
         tvqtyUnit=findViewById(R.id.tvqtyUnit);
+        tvproUnit=findViewById(R.id.tvproUnit);
 
         tvSub=findViewById(R.id.tvSub);
         tvSub.setText(R.string.update_sub);
@@ -209,12 +210,12 @@ public class update_subscribe extends BaseActivity {
                 e.printStackTrace();
             }
         }
-        
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date date =null;
         try {
-             date = format.parse(start_date);
-             Log.e("date123", String.valueOf(date));
+            date = format.parse(start_date);
+            Log.e("date123", String.valueOf(date));
             format.applyPattern("dd MMM yyyy");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -224,7 +225,7 @@ public class update_subscribe extends BaseActivity {
         System.out.println("Current time => " + c);
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-         cur_date = df.format(c);
+        cur_date = df.format(c);
 
         Log.e("formatteddate",cur_date);
 
@@ -404,7 +405,8 @@ public class update_subscribe extends BaseActivity {
 
 
                         tvQty.setText(product_qty);
-                        tvproName.setText(product_name+"("+product_unit+")");
+                        tvproName.setText(product_name);
+                        tvproUnit.setText("("+product_unit+")");
                         tvProPrice.setText(MainActivity.currency_sign+product_price);
 
 
@@ -493,7 +495,7 @@ public class update_subscribe extends BaseActivity {
                             adapterFreqPlan.setEventListener(new Adapter_FreqPlan.EventListener() {
                                 @Override
                                 public void onItemViewClicked(int i,int plan) {
-                                   // txtPlan=plan;
+                                    // txtPlan=plan;
                                     planId=plan;
                                     planSkipDay=planModelList.get(i).getSkipDays();
 

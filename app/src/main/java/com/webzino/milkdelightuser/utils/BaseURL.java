@@ -13,6 +13,7 @@ public class BaseURL {
 
     //    public static String BASE_URL = "https://gofreshdaily.com/app/api/";
     public static String BASE_URL = "http://milkdelight.in/api/v1/";
+// public static String BASE_URL = "http://demo7.zino.in/api/v1/";
 
     public static String sign_up = BASE_URL+"user_registers";
    // public static String verify_phone = BASE_URL+"verify_phone";

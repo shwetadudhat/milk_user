@@ -46,7 +46,8 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
         Global.loadGlideImage(context,orderModelList.get(position).getOrder_icon(),orderModelList.get(position).getOrder_icon(),holder.image_ordr);
 
 
-        holder.text_ordr.setText(orderModelList.get(position).getOffer_product()+" ("+orderModelList.get(position).getOrder_unit()+")");
+        holder.text_ordr.setText(orderModelList.get(position).getOffer_product());
+        holder.text_orderunit.setText("("+orderModelList.get(position).getOrder_unit()+")");
         holder.price_ordr.setText(MainActivity.currency_sign +orderModelList.get(position).getOffer_pricee());
         holder.qty_ordr.setText(context.getString(R.string.qty)+orderModelList.get(position).getOffer_qty());
 
@@ -87,7 +88,7 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         RelativeLayout rlMain;
         ImageView image_ordr;
-        TextView text_ordr,price_ordr,qty_ordr,delvr_txt;
+        TextView text_ordr,price_ordr,qty_ordr,delvr_txt,text_orderunit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -97,6 +98,7 @@ public class Adapter_MyOrder extends RecyclerView.Adapter<Adapter_MyOrder.MyView
             price_ordr=itemView.findViewById(R.id.price_ordr);
             qty_ordr=itemView.findViewById(R.id.qty_ordr);
             delvr_txt=itemView.findViewById(R.id.delvr_txt);
+            text_orderunit=itemView.findViewById(R.id.text_orderunit);
         }
     }
 }

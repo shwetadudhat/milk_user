@@ -101,8 +101,18 @@
                                 android:textSize="@dimen/_12sdp"
                                 android:paddingRight="@dimen/_10sdp"
                                 android:textColor="@color/black"
-                                android:text="Amul Malai Paneer (1 kg)"
+                                android:text="Amul Malai Paneer"
                                 android:id="@+id/tvproName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+
+                            <TextView
+                                android:textSize="@dimen/_12sdp"
+                                android:paddingRight="@dimen/_10sdp"
+                                android:textColor="@color/black"
+                                android:text=" (1 kg)"
+                                android:id="@+id/tvproUnit"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 

@@ -35,7 +35,7 @@ public class MyOrderDetail extends BaseActivity {
     TextView title;
 
     ImageView image_ordr;
-    TextView text_ordr,price_ordr,qty_ordr,ordr_date,ordr_deldate;
+    TextView text_ordr,price_ordr,qty_ordr,ordr_date,ordr_deldate,text_ordrunit;
 
     TextView ordr_custName,ordr_address,ordr_addNmbr;
 
@@ -58,6 +58,7 @@ public class MyOrderDetail extends BaseActivity {
 
         image_ordr=findViewById(R.id.image_ordr);
         text_ordr=findViewById(R.id.text_ordr);
+        text_ordrunit=findViewById(R.id.text_ordrunit);
         price_ordr=findViewById(R.id.price_ordr);
         qty_ordr=findViewById(R.id.qty_ordr);
         ordr_date=findViewById(R.id.ordr_date);
@@ -204,7 +205,8 @@ public class MyOrderDetail extends BaseActivity {
 
 
 
-                        text_ordr.setText(product_name+" ("+qty+" "+unit+")");
+                        text_ordr.setText(product_name);
+                        text_ordrunit.setText("("+qty+" "+unit+")");
 //                        price_ordr.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(price)+ Math.round( Global.getTax(MyOrderDetail.this, Double.parseDouble(price)))))));
                         price_ordr.setText(MainActivity.currency_sign+ pricee);
                         qty_ordr.setText(getString(R.string.qty)+order_qty);

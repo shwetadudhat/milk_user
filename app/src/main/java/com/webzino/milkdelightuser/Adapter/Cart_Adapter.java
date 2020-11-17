@@ -67,7 +67,8 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
         Global.loadGlideImage(activity,map.get("product_image"), map.get("product_image"),holder.image_product);
         Log.e("productprce",map.get("price"));
 
-        holder.text_product.setText(map.get("product_name")+" ("+map.get("unit")+")");
+        holder.text_product.setText(map.get("product_name"));
+        holder.text_cart_unit.setText("("+map.get("unit")+")");
         holder.price_product.setText(MainActivity.currency_sign+ map.get("price"));
         holder.number.setText(dbcart.getCartItemQty(map.get("product_id")));
 
@@ -229,13 +230,14 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.holder> {
 
     public class holder extends RecyclerView.ViewHolder {
 
-        TextView text_product,litre_product, price_product, number,plus,minus;
+        TextView text_product,litre_product,text_cart_unit, price_product, number,plus,minus;
         ImageView image_product,ivDeleteCart;
 
 
         public holder(@NonNull View itemView) {
             super(itemView);
             text_product = itemView.findViewById(R.id.text_cart);
+            text_cart_unit = itemView.findViewById(R.id.text_cart_unit);
             price_product = itemView.findViewById(R.id.price_cart);
             image_product = itemView.findViewById(R.id.image_cart);
             plus = itemView.findViewById(R.id.plus1);

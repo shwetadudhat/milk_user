@@ -28,6 +28,7 @@ import com.webzino.milkdelightuser.utils.Session_management;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,9 +97,12 @@ public class WalletPayment extends BaseActivity {
         amount=getIntent().getStringExtra("cashfree_amount");
         textView3.setText(getString(R.string.pay_txt)+" "+ MainActivity.currency_sign+amount+" "+getString(R.string.pay_txt1));
 
+        Calendar rightNow = Calendar.getInstance();
+
+
         randomDigit = random(0, 1000);
         appId = getString(R.string.cashfree_api_key);
-        orderId = "order_"+randomDigit;
+        orderId = "order_"+rightNow.getTimeInMillis()+randomDigit;
         orderAmount = amount/*"10"*/;
         orderNote = "Test Order";
         customerName =user_name;

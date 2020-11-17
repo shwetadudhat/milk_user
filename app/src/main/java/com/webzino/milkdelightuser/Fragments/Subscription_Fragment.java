@@ -310,7 +310,8 @@ public class Subscription_Fragment extends BaseFragment {
 
 
 
-            holder.text_plan.setText(showsubscrip_model.getProduct_name()+" ("+showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit()+")");
+            holder.text_plan.setText(showsubscrip_model.getProduct_name());
+            holder.product_unit.setText("("+showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit()+")");
             holder.unit1.setText(showsubscrip_model.getQty()+" "+showsubscrip_model.getUnit());
 
             holder.price1.setText(MainActivity.currency_sign+ Math.round(Double.parseDouble(String.valueOf(Double.parseDouble(showsubscrip_model.getPrice())/*+ Math.round( Global.getTax(context, Double.parseDouble(showsubscrip_model.getPrice())))*/))));
@@ -599,7 +600,7 @@ public class Subscription_Fragment extends BaseFragment {
 
         public class holder extends RecyclerView.ViewHolder {
 
-            TextView unit1 , price1  , quantity , text_plan , substatus , qty;
+            TextView unit1 , price1  , quantity , text_plan , substatus , qty,product_unit;
             ImageView image_plan;
             TextView pause  , modify;
             ImageView delete;
@@ -615,6 +616,7 @@ public class Subscription_Fragment extends BaseFragment {
                 unit1 = itemView.findViewById(R.id.unit_plan);
                 pause = itemView.findViewById(R.id.pause);
                 qty = itemView.findViewById(R.id.qty_plan);
+                product_unit = itemView.findViewById(R.id.product_unit);
                 delete = itemView.findViewById(R.id.delete);
                 modify = itemView.findViewById(R.id.modify);
                 substatus = itemView.findViewById(R.id.substatus_show);

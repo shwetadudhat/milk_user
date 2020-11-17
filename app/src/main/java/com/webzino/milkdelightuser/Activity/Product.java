@@ -83,7 +83,7 @@ public class Product extends BaseActivity {
     TextView itemName,itemPrice,tvRate;
     RatingBar rating;
     int qty=0;
-    TextView tvQtyDec,tvQty,tvQtyInc,tvProDesc,tvItemType,tvItemFat,tvItemWeight,tvItemMilkType,allReview,tvMrp;
+    TextView tvQtyDec,tvQty,tvQtyInc,tvProDesc,tvItemType,tvItemFat,tvItemWeight,tvItemMilkType,allReview,tvMrp,itemUnit;
     LinearLayout addReview;
 
     LinearLayout ll_schedule,ll_cart;
@@ -383,11 +383,11 @@ public class Product extends BaseActivity {
                         JSONArray product_images=jsonObject.getJSONArray("product_images");
                         setUpProductSlider1(pager,indicator,product_images,product_url);
 
-                        itemName.setText(product_name+" ("+qty1+" "+unit+")");
+                        itemName.setText(product_name);
+                        itemUnit.setText("("+qty1+" "+unit+")");
 
 
                         if (!gst.equals("null")){
-
 
                             sub_price = String.valueOf(Double.valueOf(product_details.getString("price"))- Math.round( Global.getTax1(Product.this, Double.valueOf(product_details.getString("price")),Double.parseDouble(gst))));
                             gst_subscription_price= String.valueOf(Double.valueOf(product_details.getString("subscription_price"))- Math.round(  Global.getTax1(Product.this, Double.valueOf(product_details.getString("subscription_price")),Double.parseDouble(gst))));
@@ -755,6 +755,7 @@ public class Product extends BaseActivity {
         pager = (ViewPager)findViewById(R.id.view_pager_product);
         indicator = findViewById(R.id.indicator_product);
         itemName = findViewById(R.id.itemName);
+        itemUnit = findViewById(R.id.itemUnit);
         itemPrice = findViewById(R.id.itemPrice);
         tvMrp = findViewById(R.id.tvMrp);
 

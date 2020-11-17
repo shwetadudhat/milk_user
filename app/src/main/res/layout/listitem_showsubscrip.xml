@@ -120,6 +120,15 @@
 
                 </RelativeLayout>
 
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textSize="@dimen/_10sdp"
+                    android:textColor="@color/title_clr"
+                    android:text="Rs450"
+                    android:id="@+id/product_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
 
 
                 <TextView

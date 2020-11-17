@@ -125,7 +125,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
 
 
-        holder.tvproName.setText(map.get("product_name")+" ("+map.get("unit")+")");
+        holder.tvproName.setText(map.get("product_name"));
+        holder.tvproUnit.setText("("+map.get("unit")+")");
         holder.tvProPrice.setText(MainActivity.currency_sign+ Math.round(Double.valueOf(map.get("subscription_price"))));
         holder.tvQty.setText(dbcart.getCartItemQty(map.get("product_id")));
 
@@ -558,7 +559,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
 
         ImageView ivproImage;
 
-        TextView tvproName,tvProPrice,tvQtyDec,tvQty,tvQtyInc ,freqDate;
+        TextView tvproName,tvProPrice,tvQtyDec,tvQty,tvQtyInc ,freqDate,tvproUnit;
 
 
         public holder(@NonNull View itemView) {
@@ -571,6 +572,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             tvQty =itemView.findViewById(R.id.tvQty);
             tvQtyInc =itemView.findViewById(R.id.tvQtyInc);
             freqDate =itemView.findViewById(R.id.freqDate);
+            tvproUnit =itemView.findViewById(R.id.tvproUnit);
             recycler_frq =itemView.findViewById(R.id.recycler_frq);
 
         }
@@ -592,15 +594,7 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
     }
 
 
-    public void removeAt(int position) {
-        list.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, list.size());
-//        notifyItemRangeChanged(position, planModelList.size());
 
-        /* notifyItemRemoved(position);
-        notifyItemRangeChanged(position, addressModelList.size());*/
-    }
 
 
 }

@@ -34,7 +34,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/_10sdp"
-                android:text="Amul Malai Paneer (1 kg)"
+                android:text="Amul Malai Paneer"
+                android:textColor="@color/title_clr"
+                android:textSize="@dimen/_13sdp" />
+
+            <TextView
+                android:fontFamily="@font/ubuntu_medium"
+                android:id="@+id/tvproUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="(1 kg)"
                 android:textColor="@color/title_clr"
                 android:textSize="@dimen/_13sdp" />
 

@@ -64,7 +64,8 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
         App_Product_Model allProductsModel=productModelList.get(i);
         dbcart = new DatabaseHandler(context);
 
-        holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
+        holder.tvProName.setText(productModelList.get(i).getProduct_name());
+        holder.tvUnit.setText("("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
 
         Global.loadGlideImage(context,productModelList.get(i).getProduct_image(), productModelList.get(i).getProduct_image(),holder.ivProd);
 
@@ -145,7 +146,7 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
 
     public class holder extends RecyclerView.ViewHolder {
 
-        TextView tvProName , tvProPrice,tvOldPrice;
+        TextView tvProName , tvProPrice,tvOldPrice,tvUnit;
         ImageView ivProd;
         Button btnAdd;
         LinearLayout llMain;
@@ -159,6 +160,7 @@ public class Adapter_SellingProduct extends RecyclerView.Adapter<Adapter_Selling
             ivProd =itemView.findViewById(R.id.ivProd);
             btnAdd = itemView.findViewById(R.id.btnAdd);
             llMain = itemView.findViewById(R.id.llMain);
+            tvUnit = itemView.findViewById(R.id.tvUnit);
 
 
         }

@@ -75,7 +75,8 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
 
         holder.tvRate.setText(productModelList.get(i).getReview_count()+" Ratings");
 
-        holder.tvProName.setText(productModelList.get(i).getProduct_name()+" ("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
+        holder.tvProName.setText(productModelList.get(i).getProduct_name());
+        holder.tvUnit.setText("("+productModelList.get(i).getQty()+" "+productModelList.get(i).getUnit()+")");
 
         Global.loadGlideImage(context,productModelList.get(i).getProduct_image(),productModelList.get(i).getProduct_image(),holder.ivProd);
 
@@ -154,7 +155,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
 
     public class holder extends RecyclerView.ViewHolder {
 
-        TextView tvProName , tvProPrice,tvRate,tvOldPrice;
+        TextView tvProName , tvProPrice,tvRate,tvOldPrice,tvUnit;
         ImageView ivProd;
         Button btnAdd;
         RatingBar ratingBar;
@@ -170,6 +171,7 @@ public class Adapter_BestProductList extends RecyclerView.Adapter<Adapter_BestPr
             btnAdd = itemView.findViewById(R.id.btnAdd);
             llitem = itemView.findViewById(R.id.llitem);
             tvOldPrice = itemView.findViewById(R.id.tvOldPrice);
+            tvUnit = itemView.findViewById(R.id.tvUnit);
 
         }
     }
