@@ -135,7 +135,6 @@ public class BuyOncePayment extends BaseActivity {
         randomDigit = random(0, 1000);
         orderId = "order_"+rightNow.getTimeInMillis()+randomDigit;
         appId = getString(R.string.cashfree_api_key);
-        orderId = "order_"+randomDigit;
         orderAmount = amount/*"10"*/;
         orderNote = "Test Order";
         customerName =user_name;

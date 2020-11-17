@@ -101,7 +101,8 @@
                         android:textSize="@dimen/_12sdp"
                         android:paddingRight="@dimen/_10sdp"
                         android:textColor="@color/title_clr"
-                        android:text="Amul Malai Paneer (1 kg)"
+                        android:text="Amul Malai Paneer"
+                        android:maxLines="1"
                         android:id="@+id/text_plan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -121,6 +122,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:fontFamily="@font/ubuntu_medium"
                     android:textSize="@dimen/_10sdp"
                     android:textColor="@color/title_clr"

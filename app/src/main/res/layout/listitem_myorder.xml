@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:visibility="gone"
                 android:fontFamily="@font/ubuntu_medium"
                 android:textSize="@dimen/_11sdp"
                 android:paddingRight="@dimen/_10sdp"
@@ -75,7 +76,6 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:layout_marginTop="@dimen/_2sdp"
                 android:fontFamily="@font/ubuntu_medium"
                 android:textSize="@dimen/_12sdp"
                 android:paddingRight="@dimen/_10sdp"

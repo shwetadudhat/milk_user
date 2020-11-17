@@ -24,9 +24,10 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_42sdp">
+            android:layout_height="wrap_content">
 
             <TextView
+                android:singleLine="true"
                 android:paddingRight="@dimen/_10sdp"
                 android:paddingLeft="@dimen/_10sdp"
                 android:fontFamily="@font/ubuntu_medium"
@@ -91,7 +92,7 @@
 
             <!--style="?android:attr/ratingBarStyleSmall"-->
             <RatingBar
-                android:paddingLeft="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_centerVertical="true"
                 android:theme="@style/RatingBar"
                 android:id="@+id/rating"
