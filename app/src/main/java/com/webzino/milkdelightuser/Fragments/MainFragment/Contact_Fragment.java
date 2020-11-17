@@ -266,7 +266,7 @@ public class Contact_Fragment extends BaseFragment {
 
                     if (status.equals("1")){
 
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
                         edConMsg.setText("");
 
                     }

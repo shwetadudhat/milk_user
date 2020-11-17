@@ -134,10 +134,10 @@ public class Schedule extends BaseActivity {
         Log.e("end_date",end_date);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = null,date2 = null;
+        Date date1 = null,date2 = null,curdate=null;
         try {
              date1 = simpleDateFormat.parse(start_date);
-             Date curdate = simpleDateFormat.parse(todaydate);
+             curdate = simpleDateFormat.parse(todaydate);
              date2 = simpleDateFormat.parse(end_date);
 
             long dayyy=  Adapter_Recharge.daysBetween(curdate, date2);
