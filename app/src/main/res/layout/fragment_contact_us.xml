@@ -15,7 +15,7 @@
 
         <LinearLayout
             android:layout_alignParentBottom="true"
-            android:background="@color/main_clr"
+            android:background="@color/green"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp">
 
