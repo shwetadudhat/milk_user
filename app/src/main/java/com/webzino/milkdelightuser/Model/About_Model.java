@@ -10,6 +10,11 @@ public class About_Model {
         this.answer = answer;
     }
 
+    public About_Model( String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+
 
 
     public String getAboutid() {

@@ -289,6 +289,7 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
 
                                 Log.e("cityItems",cityItems.toString());
 
+
                             }
 
                             Log.e("cityItems",cityItems.toString());

@@ -12,6 +12,11 @@ public class Notification_Model {
         this.notification_icon = notification_icon;
     }
 
+    public Notification_Model(String notification_id, String notification_desc) {
+        this.notification_id = notification_id;
+        this.notification_desc = notification_desc;
+    }
+
     public Notification_Model() {
 
     }
@@ -62,5 +67,18 @@ public class Notification_Model {
 
     public void setNotification_icon(int notification_icon) {
         this.notification_icon = notification_icon;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Notification_Model{" +
+                "notification_id='" + notification_id + '\'' +
+                ", time='" + time + '\'' +
+                ", notification_desc='" + notification_desc + '\'' +
+                ", order_type='" + order_type + '\'' +
+                ", end_date='" + end_date + '\'' +
+                ", notification_icon=" + notification_icon +
+                '}';
     }
 }

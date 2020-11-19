@@ -29,6 +29,10 @@ public class ChooseLoginSignup extends AppCompatActivity {
 
         referCode=getIntent().getStringExtra("referCode");
 
+        if (referCode.equals("utm_source=google-play&utm_medium=organic")){
+            referCode="";
+        }
+
 
 
         btn_login.setOnClickListener(new View.OnClickListener() {

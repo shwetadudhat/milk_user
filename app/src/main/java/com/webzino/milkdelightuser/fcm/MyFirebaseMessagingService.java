@@ -14,16 +14,34 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.webzino.milkdelightuser.Activity.Home;
+import com.webzino.milkdelightuser.Model.About_Model;
+import com.webzino.milkdelightuser.Model.Notification_Model;
 import com.webzino.milkdelightuser.R;
 
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.DummyPagerTitleView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import static com.webzino.milkdelightuser.utils.Global.MY_NOTIFICATION_PREFS_NAME;
+import static com.webzino.milkdelightuser.utils.Global.NOTIFICATION_DATA;
+
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+
+    ArrayList<Notification_Model>  notificationList=new ArrayList<>();
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myEdit;
+    Notification_Model notification_model;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -52,10 +70,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String title, String messageBody) {
 
-//
-        /*SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE).edit();
-        editor.putBoolean(SharePreferenceManager.NOTIFICATION_BADGE, true);
-        editor.apply();*/
+        notification_model=new Notification_Model(title,messageBody);
+        Log.e("notificationList",String.valueOf(notification_model));
+
+        setDataFromSharedPreferences(notification_model);
 
 //        String notificationType = responseObject.optString("notification_type");
         Intent intent = new Intent(this, Home.class);
@@ -87,5 +105,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void setDataFromSharedPreferences(Notification_Model curProduct){
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(MY_NOTIFICATION_PREFS_NAME, Context.MODE_PRIVATE);
+
+        String jsonSaved = sharedPref.getString(NOTIFICATION_DATA, "");
+        String jsonNewproductToAdd = gson.toJson(curProduct);
+
+        JSONArray jsonArrayProduct= new JSONArray();
+
+        try {
+            if(jsonSaved.length()!=0){
+                jsonArrayProduct = new JSONArray(jsonSaved);
+            }
+            jsonArrayProduct.put(new JSONObject(jsonNewproductToAdd));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.e("jsonArrayProduct",String.valueOf(jsonArrayProduct));
+
+        //SAVE NEW ARRAY
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(NOTIFICATION_DATA, String.valueOf(jsonArrayProduct));
+        editor.commit();
     }
 }

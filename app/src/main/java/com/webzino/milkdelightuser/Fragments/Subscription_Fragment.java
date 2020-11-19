@@ -167,8 +167,8 @@ public class Subscription_Fragment extends BaseFragment {
 
                         JSONObject jsonObject=response.getJSONObject("data");
                         JSONArray jsonArray = jsonObject.getJSONArray("subscription_data");
-                        myEdit.putString(NOTIFICATION_DATA, jsonArray.toString());
-                        myEdit.commit();
+//                        myEdit.putString(NOTIFICATION_DATA, jsonArray.toString());
+//                        myEdit.commit();
 
                         if (jsonArray.length()>0){
                             container_null1.setVisibility(View.GONE);

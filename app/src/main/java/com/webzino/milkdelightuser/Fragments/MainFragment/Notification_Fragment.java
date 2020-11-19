@@ -1,6 +1,7 @@
 package com.webzino.milkdelightuser.Fragments.MainFragment;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.webzino.milkdelightuser.R;
 import com.webzino.milkdelightuser.Adapter.Adapter_Notification;
 import com.webzino.milkdelightuser.Model.Notification_Model;
@@ -26,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.webzino.milkdelightuser.utils.Global.MY_NOTIFICATION_PREFS_NAME;
 import static com.webzino.milkdelightuser.utils.Global.NOTIFICATION_DATA;
 
@@ -52,6 +57,8 @@ public class Notification_Fragment extends BaseFragment {
     LinearLayout ll_no_notification;
     Adapter_Notification notificationAdapter;
     List<Notification_Model> notificationModelList;
+
+    ArrayList<Notification_Model>  notificationList=new ArrayList<>();
 
     Session_management sessionManagement;
     String u_id;
@@ -75,8 +82,88 @@ public class Notification_Fragment extends BaseFragment {
        /* sessionManagement=new Session_management(getContext());
         u_id = sessionManagement.getUserDetails().get(BaseURL.KEY_ID);*/
 
-        pref = this.getActivity().getSharedPreferences(MY_NOTIFICATION_PREFS_NAME, MODE_PRIVATE);
-        json_array = pref.getString(NOTIFICATION_DATA, null);
+        List<Notification_Model> notification_models=getDataFromSharedPreferences();
+        Log.e("notification_models",String.valueOf(notification_models));
+
+
+        if(notification_models!=null){
+
+            if (notification_models.size()==0) {
+                // the key does not exist
+                Log.e("iffff","ifff");
+                ll_no_notification.setVisibility(View.VISIBLE);
+                recycle_notification.setVisibility(View.GONE);
+            } else {
+                // handle the value
+//
+                ll_no_notification.setVisibility(View.GONE);
+                recycle_notification.setVisibility(View.VISIBLE);
+
+
+                for (int i=0;i<notification_models.size();i++){
+
+                    Notification_Model notificationModel=new Notification_Model();
+                    notificationModel.setNotification_id(notification_models.get(i).getNotification_id());
+                    notificationModel.setNotification_desc(notification_models.get(i).getNotification_desc());
+
+                    notificationModelList.add(notificationModel);
+
+                }
+
+                notificationAdapter=new Adapter_Notification(getContext(),notificationModelList);
+                recycle_notification.setLayoutManager(new LinearLayoutManager(getContext()));
+                recycle_notification.setAdapter(notificationAdapter);
+
+            }
+
+
+        }
+
+
+
+
+//        pref = this.getActivity().getSharedPreferences(MY_NOTIFICATION_PREFS_NAME, MODE_PRIVATE);
+//
+//        json_array = pref.getString(NOTIFICATION_DATA, null);
+//        if (json_array == null) {
+//            // the key does not exist
+//            Log.e("iffff","ifff");
+//            ll_no_notification.setVisibility(View.VISIBLE);
+//            recycle_notification.setVisibility(View.GONE);
+//        } else {
+//            // handle the value
+////            try {
+////                JSONArray jsoArray=new JSONArray(json_array);
+//                Log.e("jsoArray",json_array.toString());
+//                ll_no_notification.setVisibility(View.GONE);
+//                recycle_notification.setVisibility(View.VISIBLE);
+
+
+//                for (int i=0;i<jsoArray.length();i++){
+//                    JSONObject jsonObject=jsoArray.getJSONObject(i);
+//                    String start_date=jsonObject.getString("start_date");
+//                    String end_date=jsonObject.getString("end_date");
+//                    String subs_id=jsonObject.getString("subs_id");
+//
+//                    Notification_Model notificationModel=new Notification_Model();
+//                    notificationModel.setNotification_id(subs_id);
+//                    notificationModel.setOrder_type("Subscribe");
+//                    notificationModel.setTime(start_date);
+//                    notificationModel.setEnd_date(end_date);
+//
+//
+//                    notificationModelList.add(notificationModel);
+//                }
+//
+//                notificationAdapter=new Adapter_Notification(getContext(),notificationModelList);
+//                recycle_notification.setLayoutManager(new LinearLayoutManager(getContext()));
+//                recycle_notification.setAdapter(notificationAdapter);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+       /* json_array = pref.getString(NOTIFICATION_DATA, null);
         if (json_array == null) {
             // the key does not exist
             Log.e("iffff","ifff");
@@ -113,7 +200,7 @@ public class Notification_Fragment extends BaseFragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 
 
@@ -232,6 +319,21 @@ public class Notification_Fragment extends BaseFragment {
         recycle_notification.setAdapter(notificationAdapter);*/
 
 
+    }
+
+    private List<Notification_Model> getDataFromSharedPreferences(){
+        Gson gson = new Gson();
+        List<Notification_Model> productFromShared = new ArrayList<>();
+        SharedPreferences sharedPref = getContext().getSharedPreferences(MY_NOTIFICATION_PREFS_NAME, Context.MODE_PRIVATE);
+        String jsonPreferences = sharedPref.getString(NOTIFICATION_DATA, "");
+
+        Type type = new TypeToken<List<Notification_Model>>() {}.getType();
+        productFromShared = gson.fromJson(jsonPreferences, type);
+
+        Log.e("productFromShared",String.valueOf(productFromShared));
+
+
+        return productFromShared;
     }
 
 

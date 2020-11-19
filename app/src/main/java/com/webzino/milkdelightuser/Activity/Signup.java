@@ -84,10 +84,10 @@ public class Signup extends BaseActivity {
     String txtreferCode;
 
     TextView txt_login;
-    EditText et_name,et_phn,et_email,et_pass,et_confpass;
+    EditText et_name,et_phn,et_email,et_pass,et_confpass,et_refercode;
     RelativeLayout ll_signup_fb,ll_signup_google;
     Button btn_signup;
-    String txt_name,txt_nmbr,txt_email,txt_pass,txt_confpass;
+    String txt_name,txt_nmbr,txt_email,txt_pass,txt_confpass,txt_refercode;
     ImageView ivBack;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -133,17 +133,27 @@ public class Signup extends BaseActivity {
         et_email=findViewById(R.id.et_email);
         et_pass=findViewById(R.id.et_pass);
         et_confpass=findViewById(R.id.et_confpass);
+        et_refercode=findViewById(R.id.et_refercode);
         ll_signup_fb=findViewById(R.id.ll_signup_fb);
         ll_signup_google=findViewById(R.id.ll_signup_google);
         btn_signup=findViewById(R.id.btn_signup);
 
         txtreferCode=getIntent().getStringExtra("referCode");
         if (txtreferCode!=null){
-            referCode=txtreferCode;
+            if (txtreferCode.equals("utm_source=google-play&utm_medium=organic")){
+                referCode="";
+                et_refercode.setFocusable(false);
+            }else{
+                referCode=txtreferCode;
+                et_refercode.setFocusable(true);
+            }
+
         }else{
             referCode="";
+            et_refercode.setFocusable(false);
         }
         Log.e("referCodeSignup",referCode+"123");
+        et_refercode.setText(referCode);
 
         FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -216,6 +226,13 @@ public class Signup extends BaseActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 et_confpass.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+            }
+        });
+
+        et_refercode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                et_refercode.setBackground(getResources().getDrawable(R.drawable.bg_edit));
             }
         });
 

@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/offer_name"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_12sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:text="offer 20% discount"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -50,7 +50,7 @@
                 android:id="@+id/offer_time"
                 android:layout_below="@+id/offer_name"
                 android:paddingTop="@dimen/_2sdp"
-                android:textSize="@dimen/_8sdp"
+                android:textSize="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:text="@string/nav_header_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
