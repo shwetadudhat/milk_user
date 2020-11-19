@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/ll_question1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_height="wrap_content"
             android:weightSum="1"
             android:orientation="horizontal">
 
