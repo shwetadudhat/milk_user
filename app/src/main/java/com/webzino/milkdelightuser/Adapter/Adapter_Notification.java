@@ -1,6 +1,7 @@
 package com.webzino.milkdelightuser.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +36,58 @@ public class Adapter_Notification extends RecyclerView.Adapter<Adapter_Notificat
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        if (notificationModelList.get(position).getOrder_type().contains("Subscribe")){
+            holder.ivNotify.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_noun_subscribe));
+        }else{
             holder.ivNotify.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_coupon));
+        }
 
-        holder.offer_name.setText(notificationModelList.get(position).getNotification_id());
-        holder.offer_time.setText(notificationModelList.get(position).getNotification_desc());
+//        holder.offer_name.setText(notificationModelList.get(position).getNotification_id());
+//        holder.offer_time.setText(notificationModelList.get(position).getNotification_desc());
+
+//        if (notificationModelList.get(position).getOrder_type()==null){
+        if (notificationModelList.get(position).getOrder_type().equals("null")){
+            Log.e("ordertype",notificationModelList.get(position).getOrder_type());
+            holder.offer_name.setText(notificationModelList.get(position).getNotification_title());
+            holder.offer_time.setText(notificationModelList.get(position).getNotification_desc());
+        }else{
+            Log.e("ordertype==>1",notificationModelList.get(position).getOrder_type());
+            String enddateeee=notificationModelList.get(position).getEnd_date();
+            if (!enddateeee.equals("null")) {
+                try {
+                    String enddate = Global.getDateConvert(enddateeee, "yyyy-MM-dd", " d MMM yyyy");
+                    Log.e("enddate123", enddate);
+                    holder.offer_name.setText("Your Subscription is end on "+enddate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                holder.offer_name.setText("Your Subscription is end soon ");
+            }
+
+            try {
+                holder.offer_time.setText(Global.getDateConvert(notificationModelList.get(position).getTime(),"yyyy-MM-dd HH:mm:ss","hh:mm a"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+//                String enddateeee=notificationModelList.get(position).getEnd_date();
+//        try {
+//            String enddate = Global.getDateConvert(enddateeee, "yyyy-MM-dd", " d MMM yyyy");
+//            holder.offer_name.setText("Your Subscription plan no. "+ notificationModelList.get(position).getNotification_id()+" is end on "+enddate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            holder.offer_time.setText(Global.getDateConvert(notificationModelList.get(position).getTime(),"yyyy-MM-dd","hh:mm a"));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
 
     }
 

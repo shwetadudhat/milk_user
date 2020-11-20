@@ -1,7 +1,9 @@
 package com.webzino.milkdelightuser.Fragments.MainFragment;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import com.webzino.milkdelightuser.Model.Notification_Model;
 import com.webzino.milkdelightuser.utils.AppController;
 import com.webzino.milkdelightuser.utils.BaseFragment;
 import com.webzino.milkdelightuser.utils.BaseURL;
+import com.webzino.milkdelightuser.utils.ConnectivityReceiver;
 import com.webzino.milkdelightuser.utils.CustomVolleyJsonRequest;
 import com.webzino.milkdelightuser.utils.Session_management;
 
@@ -79,14 +82,14 @@ public class Notification_Fragment extends BaseFragment {
         recycle_notification.setLayoutManager(new GridLayoutManager(getContext(),1));
         notificationModelList=new ArrayList<>();
 
-       /* sessionManagement=new Session_management(getContext());
-        u_id = sessionManagement.getUserDetails().get(BaseURL.KEY_ID);*/
+        sessionManagement=new Session_management(getContext());
+        u_id = sessionManagement.getUserDetails().get(BaseURL.KEY_ID);
 
         List<Notification_Model> notification_models=getDataFromSharedPreferences();
         Log.e("notification_models",String.valueOf(notification_models));
 
 
-        if(notification_models!=null){
+        /*if(notification_models!=null){
 
             if (notification_models.size()==0) {
                 // the key does not exist
@@ -118,96 +121,12 @@ public class Notification_Fragment extends BaseFragment {
 
 
         }
-
-
-
-
-//        pref = this.getActivity().getSharedPreferences(MY_NOTIFICATION_PREFS_NAME, MODE_PRIVATE);
-//
-//        json_array = pref.getString(NOTIFICATION_DATA, null);
-//        if (json_array == null) {
-//            // the key does not exist
-//            Log.e("iffff","ifff");
-//            ll_no_notification.setVisibility(View.VISIBLE);
-//            recycle_notification.setVisibility(View.GONE);
-//        } else {
-//            // handle the value
-////            try {
-////                JSONArray jsoArray=new JSONArray(json_array);
-//                Log.e("jsoArray",json_array.toString());
-//                ll_no_notification.setVisibility(View.GONE);
-//                recycle_notification.setVisibility(View.VISIBLE);
-
-
-//                for (int i=0;i<jsoArray.length();i++){
-//                    JSONObject jsonObject=jsoArray.getJSONObject(i);
-//                    String start_date=jsonObject.getString("start_date");
-//                    String end_date=jsonObject.getString("end_date");
-//                    String subs_id=jsonObject.getString("subs_id");
-//
-//                    Notification_Model notificationModel=new Notification_Model();
-//                    notificationModel.setNotification_id(subs_id);
-//                    notificationModel.setOrder_type("Subscribe");
-//                    notificationModel.setTime(start_date);
-//                    notificationModel.setEnd_date(end_date);
-//
-//
-//                    notificationModelList.add(notificationModel);
-//                }
-//
-//                notificationAdapter=new Adapter_Notification(getContext(),notificationModelList);
-//                recycle_notification.setLayoutManager(new LinearLayoutManager(getContext()));
-//                recycle_notification.setAdapter(notificationAdapter);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-       /* json_array = pref.getString(NOTIFICATION_DATA, null);
-        if (json_array == null) {
-            // the key does not exist
-            Log.e("iffff","ifff");
-            ll_no_notification.setVisibility(View.VISIBLE);
-            recycle_notification.setVisibility(View.GONE);
-        } else {
-            // handle the value
-            try {
-                JSONArray jsoArray=new JSONArray(json_array);
-                Log.e("jsoArray",jsoArray.toString());
-                ll_no_notification.setVisibility(View.GONE);
-                recycle_notification.setVisibility(View.VISIBLE);
-
-
-                for (int i=0;i<jsoArray.length();i++){
-                    JSONObject jsonObject=jsoArray.getJSONObject(i);
-                    String start_date=jsonObject.getString("start_date");
-                    String end_date=jsonObject.getString("end_date");
-                    String subs_id=jsonObject.getString("subs_id");
-
-                    Notification_Model notificationModel=new Notification_Model();
-                    notificationModel.setNotification_id(subs_id);
-                    notificationModel.setOrder_type("Subscribe");
-                    notificationModel.setTime(start_date);
-                    notificationModel.setEnd_date(end_date);
-
-
-                    notificationModelList.add(notificationModel);
-                }
-
-                notificationAdapter=new Adapter_Notification(getContext(),notificationModelList);
-                recycle_notification.setLayoutManager(new LinearLayoutManager(getContext()));
-                recycle_notification.setAdapter(notificationAdapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }*/
+*/
 
 
 
 
 
-
-/*
         if (ConnectivityReceiver.isConnected()) {
             showDialog("");
             notification(u_id);
@@ -224,7 +143,7 @@ public class Notification_Fragment extends BaseFragment {
             AlertDialog alert = builder.create();
             alert.show();
 
-        }*/
+        }
 
     }
 
@@ -271,6 +190,8 @@ public class Notification_Fragment extends BaseFragment {
                             String order_create_time=jsonObject1.getString("order_create_time");
                             String created_at=jsonObject1.getString("created_at");
                             String end_date=jsonObject1.getString("end_date");
+                            String messagee=jsonObject1.getString("massage");
+                            String title=jsonObject1.getString("title");
 
 
                             Notification_Model notificationModel=new Notification_Model();
@@ -278,6 +199,8 @@ public class Notification_Fragment extends BaseFragment {
                             notificationModel.setOrder_type(order_type);
                             notificationModel.setTime(created_at);
                             notificationModel.setEnd_date(end_date);
+                            notificationModel.setNotification_desc(messagee);
+                            notificationModel.setNotification_title(title);
 
 
                             notificationModelList.add(notificationModel);

@@ -2,7 +2,7 @@ package com.webzino.milkdelightuser.Model;
 
 public class Notification_Model {
 
-    String notification_id,time,notification_desc,order_type,end_date;
+    String notification_id,time,notification_desc,order_type,end_date,notification_title;
     int notification_icon;
 
     public Notification_Model(String notification_id, String time, String notification_desc, int notification_icon) {
@@ -19,6 +19,15 @@ public class Notification_Model {
 
     public Notification_Model() {
 
+    }
+
+
+    public String getNotification_title() {
+        return notification_title;
+    }
+
+    public void setNotification_title(String notification_title) {
+        this.notification_title = notification_title;
     }
 
     public String getEnd_date() {

@@ -3,6 +3,7 @@ package com.webzino.milkdelightuser.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -203,6 +205,7 @@ public class Login extends BaseActivity {
                 if (isInternetConnected()) {
                     showDialog("");
                     fbLogin();
+                    ll_fb_login.setEnabled(false);
                 }
             }
         });
@@ -213,6 +216,8 @@ public class Login extends BaseActivity {
                 if (isInternetConnected()) {
                     showDialog("");
                     GooglesignIn();
+
+                    ll_google_login.setEnabled(false);
 
                 }
             }
@@ -382,7 +387,19 @@ public class Login extends BaseActivity {
                 {
                     Log.e("nulll12","nulll12");
                     dismissDialog();
-                    Toast.makeText(this, "Profile Url not found", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Profile Url not found", Toast.LENGTH_SHORT).show();
+                    View v = new ImageView(getBaseContext());
+                    ImageView image;
+                    image = new ImageView(v.getContext());
+                    image.setImageDrawable(v.getResources().getDrawable(R.drawable.logo));
+
+                    BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+
+                    Log.e("bitmap", "handleSignInResult: " + bitmap);
+
+                    social_sign_up(GoogleName, GoogleEmail, GoogleId, "google", token, "", bitmap);
+                    finish();
                 }else {
                     Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
                         @Override

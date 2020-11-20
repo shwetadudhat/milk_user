@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -290,6 +291,7 @@ public class Signup extends BaseActivity {
                 if (isInternetConnected()) {
                     showDialog("");
                     fbLogin(ll_signup_fb);
+                    ll_signup_fb.setEnabled(false);
                 }
 
             }
@@ -302,6 +304,7 @@ public class Signup extends BaseActivity {
                 if (isInternetConnected()) {
                     showDialog("");
                     GooglesignIn();
+                    ll_signup_google.setEnabled(false);
                 }
 
             }
@@ -600,7 +603,20 @@ public class Signup extends BaseActivity {
                 if (GoogleProfileUrl.equals("null") || GoogleProfileUrl.equals(""))
                 {
                     Log.e("nulll12","nulll12");
-                    social_sign_up1(GoogleName,GoogleEmail,GoogleId,"google");
+                    View v = new ImageView(getBaseContext());
+                    ImageView image;
+                    image = new ImageView(v.getContext());
+                    image.setImageDrawable(v.getResources().getDrawable(R.drawable.logo));
+
+                    BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+                    Bitmap bitmap = drawable.getBitmap();
+
+                    Log.e("bitmap", "handleSignInResult: " + bitmap);
+
+                    social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",bitmap);
+
+//                    social_sign_up1(GoogleName,GoogleEmail,GoogleId,"google");
+                    finish();
                 }else {
                     Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
                         @Override

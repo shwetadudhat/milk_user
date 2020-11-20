@@ -1,11 +1,13 @@
 package com.webzino.milkdelightuser.fcm;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +21,7 @@ import com.webzino.milkdelightuser.Activity.Home;
 import com.webzino.milkdelightuser.Model.About_Model;
 import com.webzino.milkdelightuser.Model.Notification_Model;
 import com.webzino.milkdelightuser.R;
+import com.webzino.milkdelightuser.Splash;
 
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.DummyPagerTitleView;
 
@@ -42,6 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myEdit;
     Notification_Model notification_model;
+    private NotificationManager notifManager;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -55,6 +59,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage != null) {
 
+            Log.e("remoteMessage", new Gson().toJson(remoteMessage));
+
+
+
             Log.e("remoteMestitle",remoteMessage.getNotification().getTitle());
 
             if (remoteMessage.getNotification() != null) {
@@ -64,9 +72,64 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.e("NOTIFICATION", "Message DATA PayLoad: " + remoteMessage.getData());
                 sendNotification(getString(R.string.app_name),remoteMessage.getData().get("message"));
             }
-
+        }else
+        {
+            Log.e("msgelse","msgelse");
         }
     }
+
+
+//    public void createNotificationJAVA(String aMessage, Context context) {
+//        final int NOTIFY_ID = 0; // ID of notification
+//        String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
+//        String title = context.getString(R.string.app_name); // Default Channel
+//        Intent intent;
+//        PendingIntent pendingIntent;
+//        NotificationCompat.Builder builder;
+//        if (notifManager == null) {
+//            notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            int importance = NotificationManager.IMPORTANCE_HIGH;
+//            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+//            if (mChannel == null) {
+//                mChannel = new NotificationChannel(id, title, importance);
+//                mChannel.enableVibration(true);
+//                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//                notifManager.createNotificationChannel(mChannel);
+//            }
+//            builder = new NotificationCompat.Builder(context, id);
+//            intent = new Intent(context, Splash.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+//            builder.setContentTitle(aMessage)                            // required
+//                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+//                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+//                    .setContentText(context.getString(R.string.app_name)) // required
+//                    .setDefaults(Notification.DEFAULT_ALL)
+//                    .setAutoCancel(true)
+//                    .setContentIntent(pendingIntent)
+//                    .setTicker(aMessage)
+//                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//        } else {
+//            builder = new NotificationCompat.Builder(context, id);
+//            intent = new Intent(context, Splash.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+//            builder.setContentTitle(aMessage)                             //REQUIRED
+//                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   //REQUIRED
+//                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
+//                    .setContentText(context.getString(R.string.app_name)) // required
+//                    .setDefaults(Notification.DEFAULT_ALL)
+//                    .setAutoCancel(true)
+//                    .setContentIntent(pendingIntent)
+//                    .setTicker(aMessage)
+//                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+//                    .setPriority(Notification.PRIORITY_HIGH);
+//        }
+//        Notification notification = builder.build();
+//        notifManager.notify(NOTIFY_ID, notification);
+//    }
 
     private void sendNotification(String title, String messageBody) {
 
