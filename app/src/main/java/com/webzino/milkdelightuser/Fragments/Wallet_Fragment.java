@@ -156,7 +156,13 @@ public class Wallet_Fragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                count= Integer.valueOf(amount_edit.getText().toString());
+                if (amount_edit.getText().toString().equals("")){
+                    count=0;
+                }else{
+                    count= Integer.valueOf(amount_edit.getText().toString());
+                }
+
+                Log.e("counnttt==>1",String.valueOf(count));
                 count = count + 3000;
                 amount_edit.setText(String.valueOf(count));
 
@@ -166,7 +172,14 @@ public class Wallet_Fragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                count= Integer.valueOf(amount_edit.getText().toString());
+                if (amount_edit.getText().toString().equals("")){
+                    count=0;
+                }else{
+                    count= Integer.valueOf(amount_edit.getText().toString());
+                }
+
+                Log.e("counnttt==>2",String.valueOf(count));
+
                 count = count + 1000;
                 amount_edit.setText(String.valueOf(count));
 
@@ -176,7 +189,13 @@ public class Wallet_Fragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                count= Integer.valueOf(amount_edit.getText().toString());
+                if (amount_edit.getText().toString().equals("")){
+                    count=0;
+                }else{
+                    count= Integer.valueOf(amount_edit.getText().toString());
+                }
+
+                Log.e("counnttt==>3",String.valueOf(count));
                 count = count + 2000;
                 amount_edit.setText(String.valueOf(count));
 
@@ -186,7 +205,14 @@ public class Wallet_Fragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                count= Integer.valueOf(amount_edit.getText().toString());
+                if (amount_edit.getText().toString().equals("")){
+                    count=0;
+                }else{
+                    count= Integer.valueOf(amount_edit.getText().toString());
+                }
+
+                Log.e("counnttt==>4",String.valueOf(count));
+
                 count = count + 500;
                 amount_edit.setText(String.valueOf(count));
 

@@ -142,16 +142,27 @@ public class Signup extends BaseActivity {
         txtreferCode=getIntent().getStringExtra("referCode");
         if (txtreferCode!=null){
             if (txtreferCode.equals("utm_source=google-play&utm_medium=organic")){
-                referCode="";
-                et_refercode.setFocusable(false);
+//                referCode="";
+//                et_refercode.setFocusable(false);
+                if (et_refercode.getText().toString().equals("")){
+                    referCode="";
+                    et_refercode.setFocusable(false);
+                }else{
+                    referCode=et_refercode.getText().toString();
+                    et_refercode.setFocusable(true);
+                }
             }else{
                 referCode=txtreferCode;
                 et_refercode.setFocusable(true);
-            }
 
-        }else{
-            referCode="";
-            et_refercode.setFocusable(false);
+              /*  if (et_refercode.getText().toString().equals("")){
+                    referCode=txtreferCode;
+                }else{
+                    referCode=et_refercode.getText().toString();
+                }
+                et_refercode.setFocusable(true);*/
+
+            }
         }
         Log.e("referCodeSignup",referCode+"123");
         et_refercode.setText(referCode);
@@ -323,9 +334,14 @@ public class Signup extends BaseActivity {
         params.put("user_password", txt_pass);
         params.put("confirm_password", txt_confpass);
         params.put("device_id", token);
-        params.put("refer_code", referCode);
+        if (!et_refercode.getText().toString().equals("")){
+            params.put("refer_code", et_refercode.getText().toString());
+        }else{
+            params.put("refer_code", referCode);
+        }
 
-        Log.e("params",params.toString());
+
+        Log.e("paramsSignup",params.toString());
 
         CustomVolleyJsonRequest jsonObjectRequest = new CustomVolleyJsonRequest(Request.Method.POST, BaseURL.sign_up, params, new Response.Listener<JSONObject>() {
             @Override

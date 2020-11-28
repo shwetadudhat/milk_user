@@ -2,7 +2,7 @@ package com.webzino.milkdelightuser.Model;
 
 public class Recharge_Model {
 
-    String wallet_recharge_history_id,user_id,amount,transaction_id,amount_status,pay_type,pay_mode,recharge_status,date_of_recharge,created_at,updated_at;
+    String wallet_recharge_history_id,user_id,amount,original_amount,transaction_id,amount_status,pay_type,pay_mode,recharge_status,date_of_recharge,created_at,updated_at;
     boolean isshow;
     public boolean isIsshow() {
         return isshow;
@@ -13,6 +13,13 @@ public class Recharge_Model {
     }
 
 
+    public String getOriginal_amount() {
+        return original_amount;
+    }
+
+    public void setOriginal_amount(String original_amount) {
+        this.original_amount = original_amount;
+    }
 
     public String getTransaction_id() {
         return transaction_id;

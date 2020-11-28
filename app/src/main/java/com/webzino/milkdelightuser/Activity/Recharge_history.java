@@ -150,6 +150,7 @@ public class Recharge_history extends BaseActivity {
                             String id = jsonObject.getString("id");
                             String user_id = jsonObject.getString("user_id");
                             String amount = jsonObject.getString("amount");
+                            String original_amount = jsonObject.getString("original_amount");
                             String transaction_id = jsonObject.getString("transaction_id");
                             String amount_status = jsonObject.getString("amount_status");
                             String pay_type = jsonObject.getString("pay_type");
@@ -173,6 +174,7 @@ public class Recharge_history extends BaseActivity {
                             recharge_model.setDate_of_recharge(date_of_recharge);
                             recharge_model.setCreated_at(created_at);
                             recharge_model.setPay_mode(pay_mode);
+                            recharge_model.setOriginal_amount(original_amount);
 
                             recharge_models.add(recharge_model);
 

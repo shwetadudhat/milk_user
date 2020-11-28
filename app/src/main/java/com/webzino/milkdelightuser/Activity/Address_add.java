@@ -473,6 +473,8 @@ public class Address_add extends BaseActivity implements View.OnClickListener {
                             SpiCity.setText(list.get(0).title);
                             SpiCity.setBackground(getResources().getDrawable(R.drawable.bg_edit));
 
+//                            SpiCity.setEnabled(false);
+
                         }
                     });
 

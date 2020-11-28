@@ -43,14 +43,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:fontFamily="@font/ubuntu_medium"
-                android:textColor="@color/grey"
-                android:text="10:30 AM"
-                android:id="@+id/tvTime"
+
+            <LinearLayout
                 android:layout_below="@+id/tvTransId"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:fontFamily="@font/ubuntu_medium"
+                    android:textColor="@color/grey"
+                    android:text="10:30 AM"
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                 <TextView
+                     android:visibility="gone"
+                     android:layout_marginLeft="@dimen/_5sdp"
+                     android:fontFamily="@font/ubuntu_medium"
+                     android:id="@+id/tvOriginalAmount"
+                     android:textSize="@dimen/_12sdp"
+                     android:text="(First Recharge:500)"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
 
             <TextView
                 android:fontFamily="@font/ubuntu_medium"

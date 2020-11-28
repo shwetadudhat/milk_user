@@ -132,8 +132,19 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
             holder.tvTransId.setVisibility(View.GONE);
         }
 
-        holder.setIsRecyclable(false);
 
+        if (!rechargeModel.getOriginal_amount().equals("")){
+            if (String.valueOf(Double.valueOf(rechargeModel.getOriginal_amount())).equals(String.valueOf(Double.valueOf(rechargeModel.getAmount())))){
+                holder.tvOriginalAmount.setText("(First Recharge : "+rechargeModel.getOriginal_amount()+")");
+                holder.tvOriginalAmount.setVisibility(View.GONE);
+            }else{
+                holder.tvOriginalAmount.setText("(First Recharge : "+Math.round(Double.valueOf(rechargeModel.getOriginal_amount()))+")");
+                holder.tvOriginalAmount.setVisibility(View.VISIBLE);
+            }
+
+            holder.setIsRecyclable(false);
+
+        }
 
     }
 
@@ -145,7 +156,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
     public class holder extends RecyclerView.ViewHolder {
 
         TextView tvDate;
-        TextView tvGetTrans,tvTransId,tvTime,tvPrice;
+        TextView tvGetTrans,tvTransId,tvTime,tvPrice,tvOriginalAmount;
 
 
         public holder(@NonNull View itemView) {
@@ -155,6 +166,7 @@ public class Adapter_Recharge extends RecyclerView.Adapter<Adapter_Recharge.hold
             tvTransId=itemView.findViewById(R.id.tvTransId);
             tvTime=itemView.findViewById(R.id.tvTime);
             tvPrice=itemView.findViewById(R.id.tvPrice);
+            tvOriginalAmount=itemView.findViewById(R.id.tvOriginalAmount);
 
         }
     }
