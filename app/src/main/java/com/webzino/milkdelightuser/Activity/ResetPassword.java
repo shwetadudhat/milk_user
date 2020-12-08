@@ -51,6 +51,20 @@ public class ResetPassword extends BaseActivity {
         ed_rePass=findViewById(R.id.edRePass);
         btn_passSubmit=findViewById(R.id.btn_passSubmit);
 
+        ed_pass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                ed_pass.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+            }
+        });
+
+        ed_rePass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                ed_rePass.setBackground(getResources().getDrawable(R.drawable.bg_edit));
+            }
+        });
+
       /*  sessionManagement=new Session_management(ResetPassword.this);
         u_id=sessionManagement.getUserDetails().get(BaseURL.KEY_ID);*/
         u_id=getIntent().getStringExtra("id");

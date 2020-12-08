@@ -1,5 +1,6 @@
 package com.webzino.milkdelightuser.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
@@ -75,8 +77,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 
 import static com.webzino.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
 
@@ -142,25 +146,11 @@ public class Signup extends BaseActivity {
         txtreferCode=getIntent().getStringExtra("referCode");
         if (txtreferCode!=null){
             if (txtreferCode.equals("utm_source=google-play&utm_medium=organic")){
-//                referCode="";
-//                et_refercode.setFocusable(false);
-                if (et_refercode.getText().toString().equals("")){
-                    referCode="";
-                    et_refercode.setFocusable(false);
-                }else{
-                    referCode=et_refercode.getText().toString();
-                    et_refercode.setFocusable(true);
-                }
+                referCode="";
+                et_refercode.setFocusable(false);
             }else{
                 referCode=txtreferCode;
                 et_refercode.setFocusable(true);
-
-              /*  if (et_refercode.getText().toString().equals("")){
-                    referCode=txtreferCode;
-                }else{
-                    referCode=et_refercode.getText().toString();
-                }
-                et_refercode.setFocusable(true);*/
 
             }
         }
@@ -637,7 +627,31 @@ public class Signup extends BaseActivity {
                     Glide.with(this).asBitmap().load(GoogleProfileUrl).into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                            File file = Global.getOutputMediaFile();
+
+                            String root = Environment.getExternalStorageDirectory().toString();
+                            File myDir = new File(root + "/saved_images");
+                            myDir.mkdirs();
+                            Random generator = new Random();
+                            int n = 10000;
+                            n = generator.nextInt(n);
+                            String fname = "Image-"+ n +".jpg";
+                            File file = new File (myDir, fname);
+                            if (file.exists ()) file.delete ();
+                            try {
+                                FileOutputStream out = new FileOutputStream(file);
+                                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                out.flush();
+                                out.close();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("bitmap123",bitmap.toString());
+
+                            social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",bitmap);
+
+                            /*File file = Global.getOutputMediaFile();
                             Log.e("filllleee",file.toString());
                             Global.saveBitmap(bitmap, file);
 
@@ -665,7 +679,7 @@ public class Signup extends BaseActivity {
                                 social_sign_up(GoogleName,GoogleEmail,GoogleId,"google",bitmap);
                             } catch(IOException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
                             // Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
                         }
                         @Override
@@ -783,16 +797,16 @@ public class Signup extends BaseActivity {
     private void fbLogin(RelativeLayout ll_signup_fb) {
 
         LoginManager.getInstance().logInWithReadPermissions(Signup.this, Arrays.asList("email", "public_profile"));
-
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.e("LoginResult:", loginResult.getAccessToken().getToken()+"\n"+loginResult.toString());
+                        Log.e("LoginResult:", loginResult.getAccessToken().getToken());
                         GraphRequest request = GraphRequest.newMeRequest(
                                 loginResult.getAccessToken(),
                                 (object, response) -> {
                                     Log.e("Main", response.toString());
+
                                     if (object.has("name") /*&& object.has("email")*/) {
                                         if ( !object.has("email")){
 //                                          String email_id=  getEmailAddress();
@@ -839,32 +853,29 @@ public class Signup extends BaseActivity {
                                                             Glide.with(Signup.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
                                                                 @Override
                                                                 public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                                                                    String root = Environment.getExternalStorageDirectory().toString();
+                                                                    File myDir = new File(root + "/saved_images");
+                                                                    myDir.mkdirs();
+                                                                    Random generator = new Random();
+                                                                    int n = 10000;
+                                                                    n = generator.nextInt(n);
+                                                                    String fname = "Image-"+ n +".jpg";
+                                                                    File file = new File (myDir, fname);
+                                                                    if (file.exists ()) file.delete ();
                                                                     try {
-                                                                        File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-                                                                        if (!mydir.exists()) {
-                                                                            mydir.mkdirs();
-                                                                        }
+                                                                        FileOutputStream out = new FileOutputStream(file);
+                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                                                        out.flush();
+                                                                        out.close();
 
-                                                                        fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
-
-                                                                        Log.e   ("fileUri",fileUri);
-                                                                        FileOutputStream outputStream = new FileOutputStream(fileUri);
-
-                                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                                                                        outputStream.flush();
-                                                                        outputStream.close();
-
-                                                                        Log.e("bitmap123",bitmap.toString());
-
-
-                                                                        social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
-
-
-//
-                                                                    } catch(IOException e) {
+                                                                    } catch (Exception e) {
                                                                         e.printStackTrace();
                                                                     }
-                                                                    //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
+
+                                                                    Log.e("bitmap123",bitmap.toString());
+
+                                                                    social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
+
                                                                 }
                                                                 @Override
                                                                 public void onLoadCleared(Drawable placeholder) {
@@ -895,32 +906,36 @@ public class Signup extends BaseActivity {
                                                 Glide.with(Signup.this).asBitmap().load(Fbimage_url).into(new CustomTarget<Bitmap>() {
                                                     @Override
                                                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                                                        try {
-                                                            File mydir = new File(Environment.getExternalStorageDirectory() + "/11zon");
-                                                            if (!mydir.exists()) {
-                                                                mydir.mkdirs();
-                                                            }
 
-                                                            fileUri = mydir.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".jpg";
+                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                            if (isStoragePermissionGranted()){
+                                                                String root = Environment.getExternalStorageDirectory().toString();
+                                                                File myDir = new File(root + "/saved_images");
+                                                                myDir.mkdirs();
+                                                                Random generator = new Random();
+                                                                int n = 10000;
+                                                                n = generator.nextInt(n);
+                                                                String fname = "Image-"+ n +".jpg";
+                                                                File file = new File (myDir, fname);
+                                                                if (file.exists ()) file.delete ();
+                                                                try {
+                                                                    FileOutputStream out = new FileOutputStream(file);
+                                                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                                                    out.flush();
+                                                                    out.close();
 
-                                                            Log.e   ("fileUri",fileUri);
-                                                            FileOutputStream outputStream = new FileOutputStream(fileUri);
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
 
-                                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                                                            outputStream.flush();
-                                                            outputStream.close();
+                                                                Log.e("bitmap123", bitmap.toString());
 
-                                                            Log.e("bitmap123",bitmap.toString());
-
-                                                            if (Fbemail.equals("null")){
                                                                 social_sign_up(Fbname,Fbemail,Fbid,"facebook",bitmap);
-                                                            }else{
-                                                                social_sign_up(Fbname,emailId,Fbid,"facebook",bitmap);
-                                                            }
+
 
 //
-                                                        } catch(IOException e) {
-                                                            e.printStackTrace();
+                                                            }
+
                                                         }
                                                         //  Toast.makeText(getApplicationContext(), "Image Saved", Toast.LENGTH_LONG).show();
                                                     }
@@ -951,11 +966,43 @@ public class Signup extends BaseActivity {
 
                     @Override
                     public void onError(FacebookException exception) {
-                        dismissDialog();
                         Log.e("ERROR", "FB_LOGIN:> " + exception.toString());
                     }
                 });
+
     }
+
+
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.e("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.e("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.e("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.e("TAG","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
+    }
+
 
 
 

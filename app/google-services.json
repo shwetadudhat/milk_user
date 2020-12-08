@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "1095680569116",
-    "firebase_url": "https://milk-delight-user-f72c1.firebaseio.com",
-    "project_id": "milk-delight-user-f72c1",
-    "storage_bucket": "milk-delight-user-f72c1.appspot.com"
+    "project_number": "313472629174",
+    "firebase_url": "https://milk-delight-user-37622.firebaseio.com",
+    "project_id": "milk-delight-user-37622",
+    "storage_bucket": "milk-delight-user-37622.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1095680569116:android:f66cc0e313fbd6a50314d9",
+        "mobilesdk_app_id": "1:313472629174:android:9d13abd547d67350a8a917",
         "android_client_info": {
           "package_name": "com.webzino.milkdelightuser"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1095680569116-ie604g8lbfg58irrp4ee4ovf84tp49ig.apps.googleusercontent.com",
+          "client_id": "313472629174-vin1826mgl707393a9laj8dp9p0igh45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.webzino.milkdelightuser",
+            "certificate_hash": "5860b9e5584517144ab7aa24802d90add59d35a5"
+          }
+        },
+        {
+          "client_id": "313472629174-h37plr36sn1ndlr533pg4vc1266h4jte.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCh3gCi9eRNtHjeCp813E0mm3Uw8x644Hw"
+          "current_key": "AIzaSyCNvS1c9J8N8q36ouGOXFvBAc4JyKzj3A8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1095680569116-ie604g8lbfg58irrp4ee4ovf84tp49ig.apps.googleusercontent.com",
+              "client_id": "313472629174-h37plr36sn1ndlr533pg4vc1266h4jte.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

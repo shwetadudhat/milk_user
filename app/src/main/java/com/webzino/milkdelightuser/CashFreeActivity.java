@@ -73,7 +73,8 @@ public class CashFreeActivity extends BaseActivity {
     int randomDigit ;
     String appId,orderId ,orderAmount,orderNote,customerName,customerPhone,customerEmail;
     String token;
-    String stage = "TEST";
+//    String stage = "TEST";
+    String stage =/* "TEST"*/"PROD";
 
     SharedPreferences sharedPreferences,sharedPreferences1;
     SharedPreferences.Editor myEdit,myEdit1;

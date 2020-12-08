@@ -127,9 +127,11 @@ public class Splash extends BaseActivity {
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) + ContextCompat
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
                 .checkSelfPermission(getActivity(),
-                        Manifest.permission.CAMERA)
+                        Manifest.permission.CAMERA)/*+ ContextCompat
+                .checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)*/
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale
@@ -254,6 +256,8 @@ public class Splash extends BaseActivity {
                 break;
         }
     }
+
+
 
 
 }
