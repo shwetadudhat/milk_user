@@ -99,6 +99,8 @@ public class Product extends BaseActivity {
     LinearLayout ll_main,ll_qty;
     RelativeLayout ll_add;
 
+    LinearLayout ll_content;
+
     String product_id1,category_id1,product_name,description,price,subscription_price,proImgae,qty1,unit,stock, mrp,sub_price,gst_subscription_price;
 
     @Override
@@ -236,6 +238,41 @@ public class Product extends BaseActivity {
         ll_schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (ll_add.getVisibility() == View.VISIBLE){
+                    Log.e("iffff","ifff");
+                    int count=1;
+                    tvQty.setText(String.valueOf(count));
+                    if (tvQty.getText().toString().contains("1")) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("product_id", product_id1);
+                        map.put("product_name", product_name);
+                        map.put("category_id", category_id1);
+                        map.put("product_description", description);
+                        map.put("price", String.valueOf(Math.round(Float.parseFloat(price))));
+                        map.put("subscription_price", String.valueOf(Math.round(Float.parseFloat(subscription_price))));
+                        map.put("gst_price", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                        map.put("gst_subscription_price", String.valueOf(Math.round(Float.parseFloat(gst_subscription_price))));
+//                        map.put("cgst", String.valueOf(Math.round(Float.parseFloat(sub_price))));
+                        map.put("product_image", proImgae);
+                        map.put("unit", qty1+" "+unit);
+                        map.put("stock", stock);
+                        db.setCart(map, Float.valueOf(count));
+
+                        Log.e("settt","settt");
+                    }
+                    Intent intent=new Intent(Product.this, subscription2.class);
+                    intent.putExtra("schedule","schedule");
+                    intent.putExtra("product_id",proId);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent=new Intent(Product.this, subscription2.class);
+                    intent.putExtra("schedule","schedule");
+                    intent.putExtra("product_id",proId);
+                    startActivity(intent);
+                    finish();
+                }
+
                /* if (tvQty.getText().toString().equals("0")){
                     Log.e("iffff","ifff");
                     int count=1;
@@ -264,11 +301,7 @@ public class Product extends BaseActivity {
                     startActivity(intent);
                     finish();
                 }*/
-                Intent intent=new Intent(Product.this, subscription2.class);
-                intent.putExtra("schedule","schedule");
-                intent.putExtra("product_id",proId);
-                startActivity(intent);
-                finish();
+
 
             }
         });
@@ -312,6 +345,7 @@ public class Product extends BaseActivity {
             public void onResponse(JSONObject response) {
                 dismissDialog();
                 Log.e("productDetail123", response.toString());
+                ll_content.setVisibility(View.VISIBLE);
 
                 try {
                     String status=response.getString("status");
@@ -745,6 +779,7 @@ public class Product extends BaseActivity {
         ll_main=findViewById(R.id.lim);
         ll_qty=findViewById(R.id.ll_qty);
         ll_add=findViewById(R.id.ll_add);
+        ll_content=findViewById(R.id.ll_content);
 
         ivBack=findViewById(R.id.ivBack);
 

@@ -85,9 +85,12 @@
 
 
 
-    <!--cashfreee-->
-    <string name="cashfree_api_key">2910406ca04d8e95645bd89d840192</string>
-    <string name="cashfree_key_secret">5a090e406e21089df07ee733065a7ef426edbaf6</string>
+    <!--cashfreee test-->
+  <!--  <string name="cashfree_api_key">2910406ca04d8e95645bd89d840192</string>
+    <string name="cashfree_key_secret">5a090e406e21089df07ee733065a7ef426edbaf6</string>-->
+    <!--cashfreee production-->
+    <string name="cashfree_api_key">734871d9e8794ccdd648c950c78437</string>
+    <string name="cashfree_key_secret">09b9a7fc1a8abf9dcead92d88ae10c810ed57c6c</string>
     <string name="myprofile">My Profile</string>
 
     <!--drawer menu-->

@@ -60,7 +60,7 @@ public class WalletPayment extends BaseActivity {
     String appId,orderId ,orderAmount,orderNote,customerName,customerPhone,customerEmail;
     String token;
 //    String stage = "TEST";
-String stage =/* "TEST"*/"PROD";
+    String stage =/* "TEST"*/"PROD";
 
     SharedPreferences sharedPreferences,sharedPreferences1;
     SharedPreferences.Editor myEdit,myEdit1;
@@ -198,7 +198,7 @@ String stage =/* "TEST"*/"PROD";
 
 
         for(Map.Entry entry : params.entrySet()) {
-            Log.d("CFSKDSample", entry.getKey() + " " + entry.getValue());
+            Log.e("CFSKDSample==>133", entry.getKey() + " " + entry.getValue());
         }
 
         CFPaymentService cfPaymentService = CFPaymentService.getCFPaymentServiceInstance();
@@ -206,7 +206,7 @@ String stage =/* "TEST"*/"PROD";
         switch (view.getId()) {
 
             case R.id.web: {
-                cfPaymentService.doPayment(WalletPayment.this, params, token, stage, "#784BD2", "#FFFFFF", false);
+                cfPaymentService.doPayment(WalletPayment.this, params, token, stage, "#0092FF", "#FFFFFF", false);
 //                 cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage);
                 break;
             }

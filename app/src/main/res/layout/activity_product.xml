@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+
         android:layout_alignParentTop="true"
         android:id="@+id/lim"
         android:layout_width="match_parent"
@@ -24,6 +25,8 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/ll_content"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">

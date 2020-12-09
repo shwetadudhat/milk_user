@@ -224,10 +224,6 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
 
     }
 
-    private void notificationCntent() {
-        Intent intent=new Intent(Home.this, NotificationActivity.class);
-        startActivity(intent);
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void selectedItem(int i) {

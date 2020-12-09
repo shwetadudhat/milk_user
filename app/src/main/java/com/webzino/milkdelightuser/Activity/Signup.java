@@ -144,18 +144,23 @@ public class Signup extends BaseActivity {
         btn_signup=findViewById(R.id.btn_signup);
 
         txtreferCode=getIntent().getStringExtra("referCode");
+//        txtreferCode="utm_source=(not%20set)&utm_medium=(not%20set)";
+        Log.e("referCodeSignup--",txtreferCode);
         if (txtreferCode!=null){
-            if (txtreferCode.equals("utm_source=google-play&utm_medium=organic")){
+            if (txtreferCode.equals("utm_source=google-play&utm_medium=organic") || txtreferCode.equals("utm_source=(not%20set)&utm_medium=(not%20set)")){
                 referCode="";
                 et_refercode.setFocusable(false);
             }else{
                 referCode=txtreferCode;
                 et_refercode.setFocusable(true);
 
+                et_refercode.setText(referCode);
+
             }
         }
+
         Log.e("referCodeSignup",referCode+"123");
-        et_refercode.setText(referCode);
+
 
         FirebaseApp.initializeApp(this);
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -324,11 +329,14 @@ public class Signup extends BaseActivity {
         params.put("user_password", txt_pass);
         params.put("confirm_password", txt_confpass);
         params.put("device_id", token);
-        if (!et_refercode.getText().toString().equals("")){
+        if (!et_refercode.getText().toString().equals("") || !et_refercode.getText().toString().equals("null")){
+            params.put("refer_code", et_refercode.getText().toString());
+        }
+       /* if (!et_refercode.getText().toString().equals("")){
             params.put("refer_code", et_refercode.getText().toString());
         }else{
             params.put("refer_code", referCode);
-        }
+        }*/
 
 
         Log.e("paramsSignup",params.toString());
@@ -1002,8 +1010,5 @@ public class Signup extends BaseActivity {
             //resume tasks needing this permission
         }
     }
-
-
-
 
 }

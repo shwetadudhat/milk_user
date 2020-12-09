@@ -239,7 +239,7 @@ public class BuyOncePayment extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.web: {
-                cfPaymentService.doPayment(BuyOncePayment.this, params, token, stage, "#784BD2", "#FFFFFF", false);
+                cfPaymentService.doPayment(BuyOncePayment.this, params, token, stage, "#0092FF", "#FFFFFF", false);
 //                 cfPaymentService.doPayment(CashFreeActivity.this, params, token, stage);
                 break;
             }
