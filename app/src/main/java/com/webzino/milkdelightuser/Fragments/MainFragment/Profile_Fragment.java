@@ -334,7 +334,7 @@ public class Profile_Fragment extends BaseFragment {
             @Override
             public void onResponse(JSONObject response) {
                 dismissDialog();
-                Log.e("TagOtp", response.toString());
+                Log.e("profile_res", response.toString());
                 try {
                     String status=response.getString("status");
                     String message=response.getString("message");

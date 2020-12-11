@@ -28,7 +28,7 @@
                 android:paddingBottom="@dimen/_5sdp"
                 android:gravity="center"
                 android:textColor="@color/skip_clr"
-                android:background="@drawable/bg_skip"
+                android:background="@drawable/bg_cat"
                 android:paddingLeft="@dimen/_20sdp"
                 android:paddingRight="@dimen/_20sdp"
                 android:layout_margin="@dimen/_15sdp"

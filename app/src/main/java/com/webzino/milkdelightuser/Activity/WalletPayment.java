@@ -40,6 +40,7 @@ import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_AMOUNT;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_CURRENCY;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_ID;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_NOTE;
+import static com.cashfree.pg.CFPaymentService.PARAM_PAYMENT_MODES;
 import static com.cashfree.pg.CFPaymentService.PARAM_PAYMENT_OPTION;
 import static com.cashfree.pg.CFPaymentService.PARAM_UPI_VPA;
 import static com.webzino.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
@@ -60,8 +61,8 @@ public class WalletPayment extends BaseActivity {
     String appId,orderId ,orderAmount,orderNote,customerName,customerPhone,customerEmail;
     String token;
 //    String stage = "TEST";
-    String stage =/* "TEST"*/"PROD";
-
+//    String stage =/* "TEST"*/"PROD";
+String stage = "PROD";
     SharedPreferences sharedPreferences,sharedPreferences1;
     SharedPreferences.Editor myEdit,myEdit1;
 
@@ -195,6 +196,7 @@ public class WalletPayment extends BaseActivity {
         params.put(PARAM_CUSTOMER_PHONE, customerPhone);
         params.put(PARAM_CUSTOMER_EMAIL, customerEmail);
         params.put(PARAM_ORDER_CURRENCY, "INR");
+        params.put(PARAM_PAYMENT_MODES, "");
 
 
         for(Map.Entry entry : params.entrySet()) {
@@ -237,8 +239,8 @@ public class WalletPayment extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Same request code for all payment APIs.
-        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
-        Log.d(TAG, "API Response : "+resultCode);
+        Log.d(TAG, "ReqCode--1 : " + CFPaymentService.REQ_CODE);
+        Log.d(TAG, "API Response--1 : "+resultCode);
         //Prints all extras. Replace with app logic.
         if (data != null) {
             Bundle bundle = data.getExtras();

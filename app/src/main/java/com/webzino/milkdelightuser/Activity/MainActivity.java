@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialogBuilder.setTitle(R.string.app_name);
 
-        alertDialogBuilder.setIcon(R.drawable.gohybrid);
+        alertDialogBuilder.setIcon(R.drawable.logo);
 
         // set dialog message
         alertDialogBuilder

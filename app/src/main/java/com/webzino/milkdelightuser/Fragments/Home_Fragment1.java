@@ -260,7 +260,7 @@ public class Home_Fragment1 extends BaseFragment {
                             Rlbestproduct.setVisibility(View.GONE);
                         }
 
-                        if (video_link.equals("") || video_link.equals("null") ){
+                        if (video_link.equals("") || video_link.equals("null") || video_link==null ){
                             RlVideo.setVisibility(View.GONE);
                         }else{
                             VideoViewFun(video_link);
@@ -542,35 +542,23 @@ public class Home_Fragment1 extends BaseFragment {
 
     private void VideoViewFun(String link) {
 
-        Log.e("linkkkkkk",link);
-
         currentVideoId= getYoutubeVideoIdFromUrl(link);
-//        currentVideoId= "6JYIGclVQdw";
-        Log.e("videoId",currentVideoId);
-        initYouTubePlayerView(currentVideoId);
 
+        initYouTubePlayerView(currentVideoId);
 
         ivYouTube.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isPlaying1){
-//                    videoview.pause();
                     youTubePlayer1.pause();
                     isPlaying1=false;
-                    Log.e("ifff","ifff");
                 }else{
-//                    videoview.start();
                     if (youTubePlayer1!=null){
                         youTubePlayer1.play();
-                        Log.e("nulll","null");
                     }
-
                     ivYouTube.setVisibility(View.GONE);
                     isPlaying1=true;
-
-                    Log.e("elsee","elsss");
                 }
-
 
             }
         });

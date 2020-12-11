@@ -54,6 +54,7 @@ import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_AMOUNT;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_CURRENCY;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_ID;
 import static com.cashfree.pg.CFPaymentService.PARAM_ORDER_NOTE;
+import static com.cashfree.pg.CFPaymentService.PARAM_PAYMENT_MODES;
 import static com.cashfree.pg.CFPaymentService.PARAM_PAYMENT_OPTION;
 import static com.cashfree.pg.CFPaymentService.PARAM_UPI_VPA;
 import static com.webzino.milkdelightuser.utils.AppController.MY_SOCKET_TIMEOUT_MS;
@@ -263,6 +264,7 @@ public class CashFreeActivity extends BaseActivity {
         params.put(PARAM_CUSTOMER_PHONE, customerPhone);
         params.put(PARAM_CUSTOMER_EMAIL, customerEmail);
         params.put(PARAM_ORDER_CURRENCY, "INR");
+        params.put(PARAM_PAYMENT_MODES, "");
 
 
         for(Map.Entry entry : params.entrySet()) {

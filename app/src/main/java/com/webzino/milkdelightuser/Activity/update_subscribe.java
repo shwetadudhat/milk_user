@@ -471,9 +471,14 @@ public class update_subscribe extends BaseActivity {
                                 plan_model.setPlans(plans);
                                 plan_model.setDays(days);
                                 plan_model.setDescription(description);
-                                plan_model.setSkipDays(skip_days);
 
-                                planModelList.add(plan_model);
+                                if (skip_days.equals("") || skip_days.equals("null") || skip_days.equals("0")){
+
+                                }else{
+                                    plan_model.setSkipDays(skip_days);
+                                    planModelList.add(plan_model);
+
+                                }
 
                             }
 

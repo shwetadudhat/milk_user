@@ -35,8 +35,8 @@
         android:layout_marginTop="@dimen/_14sdp" />
 
     <LinearLayout
+       android:layout_marginTop="@dimen/_60sdp"
         android:id="@+id/button"
-        android:layout_marginTop="@dimen/_112sdp"
         android:orientation="vertical"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -60,6 +60,7 @@
 
 
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/amazon"
@@ -84,6 +85,7 @@
             android:background="@drawable/bg_bluebtn"
             android:text="@string/billpay_web"/>
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/gpay"
@@ -96,6 +98,7 @@
             android:background="@drawable/bg_bluebtn"
             android:text="@string/gpay"/>
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/phonePe"
@@ -108,6 +111,7 @@
             android:background="@drawable/bg_bluebtn"
             android:text="@string/phonepe"/>
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/phonePe_exists"
@@ -120,6 +124,7 @@
             android:background="@drawable/bg_bluebtn"
             android:text="@string/check_phonepe"/>
         <Button
+            android:visibility="gone"
             style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/gpay_ready"

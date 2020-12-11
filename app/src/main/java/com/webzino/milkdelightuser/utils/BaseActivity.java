@@ -226,13 +226,15 @@ public class BaseActivity extends AppCompatActivity {
 
                 if (selList.size() > 0) {
                     tv.setTag(adapter.getSelectedIdArray());
+                    callback.onDone(selList);
+                    a.dismiss();
 
                 } else {
                     tv.setTag(null);
+                    a.dismiss();
                 }
 
-                callback.onDone(selList);
-                a.dismiss();
+
             }
         });
 

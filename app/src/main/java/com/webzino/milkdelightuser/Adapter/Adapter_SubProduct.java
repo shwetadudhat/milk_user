@@ -182,6 +182,8 @@ public class Adapter_SubProduct extends RecyclerView.Adapter<Adapter_SubProduct.
             stardateList.add(startDate_model);
         }
 
+        Log.e("stardateList==>123333",String.valueOf(stardateList));
+
         if (mEventListener!=null){
             mEventListener.onDateClicked(i,map.get("product_id"),stardateList);
         }

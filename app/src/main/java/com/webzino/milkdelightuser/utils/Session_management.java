@@ -13,10 +13,8 @@ import java.util.HashMap;
 public class Session_management {
 
     SharedPreferences prefs;
-    SharedPreferences prefs2;
 
     SharedPreferences.Editor editor;
-    SharedPreferences.Editor editor2;
 
     Context context;
 
@@ -28,8 +26,6 @@ public class Session_management {
         prefs = context.getSharedPreferences("Daily", PRIVATE_MODE);
         editor = prefs.edit();
 
-        prefs2 = context.getSharedPreferences("Daily", PRIVATE_MODE);
-        editor2 = prefs2.edit();
 
     }
 
@@ -46,14 +42,6 @@ public class Session_management {
         editor.apply();
     }
 
-   /* public void createLoginSession(String email, String pass){
-        editor.putBoolean(BaseURL.IS_LOGIN, true);
-        editor.putString(BaseURL.KEY_ID, pass);
-        editor.putString(BaseURL.KEY_EMAIL, email);
-
-        editor.commit();
-        editor.apply();
-    }*/
 
 //
     public boolean  checkLogin() {
@@ -91,27 +79,11 @@ public class Session_management {
         // return user
         return user;
     }
-//
-//    public void updateData(String name, String mobile, String pincode
-//            , String socity_id, String image, String wallet, String rewards, String house) {
-//
-//        editor.putString(KEY_NAME, name);
-//        editor.putString(KEY_MOBILE, mobile);
-//        editor.putString(KEY_IMAGE, image);
-//        editor.apply();
-//    }
-//
-//    public void updateSocity(String socity_name, String socity_id) {
-//        editor.putString(KEY_SOCITY_NAME, socity_name);
-//        editor.putString(KEY_SOCITY_ID, socity_id);
-//
-//        editor.apply();
-//    }
+
 
     public void logoutSession() {
         editor.clear();
         editor.commit();
-        cleardatetime();
 
         Intent logout = new Intent(context, Login.class);
         // Closing all the Activities
@@ -123,43 +95,6 @@ public class Session_management {
         context.startActivity(logout);
     }
 
-    public void logoutSessionwithchangepassword() {
-        editor.clear();
-        editor.commit();
-
-        cleardatetime();
-
-        Intent logout = new Intent(context, MainActivity.class);
-        // Closing all the Activities
-        logout.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        // Add new Flag to start new Activity
-        logout.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        context.startActivity(logout);
-    }
-
-//    public void creatdatetime(String date, String time) {
-//        editor2.putString(KEY_DATE, date);
-//        editor2.putString(KEY_TIME, time);
-//
-//        editor2.commit();
-//    }
-
-    public void cleardatetime() {
-        editor2.clear();
-        editor2.commit();
-    }
-
-//
-//    public HashMap<String, String> getdatetime() {
-//        HashMap<String, String> user = new HashMap<String, String>();
-//
-//        user.put(KEY_DATE, prefs2.getString(KEY_DATE, null));
-//        user.put(KEY_TIME, prefs2.getString(KEY_TIME, null));
-//
-//        return user;
-//    }
 
 //     Get Login State
     public boolean isLoggedIn() {
