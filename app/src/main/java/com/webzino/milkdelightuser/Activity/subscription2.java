@@ -509,7 +509,6 @@ public class subscription2 extends BaseActivity {
 
                         }
 
-
                     }
                     EndDate_Model endDate_model = new EndDate_Model();
                     endDate_model.setProdcut_id(stardateList1.get(i).getProdcut_id());
@@ -578,14 +577,12 @@ public class subscription2 extends BaseActivity {
 
                                 if (skip_days.equals("") || skip_days.equals("null") || skip_days.equals("0")){
                                     Log.e("skippdayyy","skipdayyy__if");
+                                    plan_model.setSkipDays("1");
                                 }else{
                                     plan_model.setSkipDays(skip_days);
-                                    planModelList.add(plan_model);
                                 }
 
-
-
-
+                                planModelList.add(plan_model);
                             }
 
                             Log.e("planModelList123", String.valueOf(planModelList));

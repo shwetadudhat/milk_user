@@ -120,7 +120,7 @@ public class Profile_Fragment extends BaseFragment {
         tvChangePass=view.findViewById(R.id.tvChangePass);
 
 
-        if(user_profilee.equals("") || user_profilee.equals("null")){
+        if(user_profilee.equals("") || user_profilee.equals("null") || user_profilee==null){
             image_profile.setImageResource(R.mipmap.ic_launcher);
         }else{
 
@@ -153,16 +153,21 @@ public class Profile_Fragment extends BaseFragment {
 
         userName.setText(name);
         if (mobile.equals("null")){
-            userNmbr.setText(email);
-            edProNmbr.setText("");
+
+            if (!email.equals("null")){
+                userNmbr.setText(email);
+                edProNmbr.setText("");
+            }
+
         }else{
             userNmbr.setText(mobile);
             edProNmbr.setText(mobile);
         }
 
-
+        if (!email.equals("null")) {
+            edProEmail.setText(email);
+        }
         edProName.setText(name);
-        edProEmail.setText(email);
 
         ibProSave.setVisibility(View.GONE);
         ibProEdit.setVisibility(View.VISIBLE);

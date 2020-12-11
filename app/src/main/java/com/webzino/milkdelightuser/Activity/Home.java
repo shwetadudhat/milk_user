@@ -219,7 +219,8 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
         }else  if( subsription!= null) {
             Subscription(4);
         }else{
-            selectedItem(0);
+//            selectedItem(0);
+            Home(0);
         }
 
     }
@@ -562,7 +563,41 @@ public class Home extends BaseActivity implements  FragmentManager.OnBackStackCh
                 if (f instanceof MainContainer_Fragment) {
                     Log.e("truuuurrr","truuuurr");
                     selectedItem(0);
-                    finish();
+                    android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(Home.this);
+
+                    // set title
+
+                    alertDialogBuilder.setTitle(R.string.app_name);
+
+                    alertDialogBuilder.setIcon(R.drawable.logo);
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Are you sure you want to exit")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, close
+                                    // current activity
+                                    Intent a = new Intent(Intent.ACTION_MAIN);
+                                    a.addCategory(Intent.CATEGORY_HOME);
+                                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(a);                    }
+                            })
+                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // create alert dialog
+                    android.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                    // show it
+                    alertDialog.show();
+
+//                    finish();
                 }else{
                     Log.e("truuuurrr11","truuuurr11");
                    super.onBackPressed();

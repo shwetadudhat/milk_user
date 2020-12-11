@@ -91,9 +91,12 @@ public class Recharge_history extends BaseActivity {
         SharedPreferences settings = getSharedPreferences("wallet", Context.MODE_PRIVATE);
         txtwallet_price=settings.getString("wallet",null);
 
-        Log.e("txtwallet_price",txtwallet_price);
-        wallet_price.setText(txtwallet_price);
+//        Log.e("txtwallet_price",txtwallet_price);
+//        wallet_price.setText(txtwallet_price);
 
+         if (txtwallet_price!=null){
+            wallet_price.setText(txtwallet_price);
+        }
         relative_recharge = findViewById(R.id.relative_recharge);
         container_null1 = findViewById(R.id.container_null1);
         recharge_list = (RecyclerView) findViewById(R.id.Recycler_recharge);

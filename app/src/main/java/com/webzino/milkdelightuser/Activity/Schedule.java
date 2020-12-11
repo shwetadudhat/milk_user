@@ -69,7 +69,6 @@ public class Schedule extends BaseActivity {
 
     LinearLayout llRenewSubscrption,ll_product;
     String stts,subs_id1,start_date,end_date,sub_plan,order_id;
-    String product_name, product_id,product_image, order_qty,price, description, unit, qty, sub_status,product_url,skip_days,plans,plan_id;
 
 
 
@@ -109,8 +108,6 @@ public class Schedule extends BaseActivity {
         sub_plan=getIntent().getStringExtra("sub_plan");
         order_id=getIntent().getStringExtra("order_id");
 
-        Log.e("start_date-->1",start_date);
-        Log.e("end_date-->1",end_date);
 
 
         Calendar cal = Calendar.getInstance();
@@ -127,12 +124,8 @@ public class Schedule extends BaseActivity {
 
         Calendar startDate = Calendar.getInstance(); // Start date
         todaydate= String.valueOf(DateFormat.format("yyyy-MM-dd",startDate));
-        Log.e("todaydatee", String.valueOf(DateFormat.format("yyyy-MM-dd",startDate)));
         startDate.add(Calendar.DAY_OF_MONTH, -7);
 
-
-        Log.e("start_date",start_date);
-        Log.e("end_date",end_date);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = null,date2 = null,curdate=null;
@@ -142,7 +135,6 @@ public class Schedule extends BaseActivity {
              date2 = simpleDateFormat.parse(end_date);
 
             long dayyy=  Adapter_Recharge.daysBetween(curdate, date2);
-            Log.e("dayyy", String.valueOf(dayyy));
 
             tvLeftDay.setText(dayyy+" day left");
 
@@ -164,8 +156,6 @@ public class Schedule extends BaseActivity {
                 e.printStackTrace();
             }
         }
-
-        Log.e("defaultSelectedDate",defaultDate.toString());
 
         Calendar cal_start = Calendar.getInstance();
         Calendar cal_end = Calendar.getInstance();
@@ -194,8 +184,6 @@ public class Schedule extends BaseActivity {
             public void onDateSelected(Calendar date, int position) {
 
                 a = String.valueOf(DateFormat.format("yyyy-MM-dd", date));
-
-                Log.e("scheduleResponsedate",a);
 
                 Schedule(a);
 
@@ -269,11 +257,6 @@ public class Schedule extends BaseActivity {
                                     JSONObject jsonObjectData=jsonObject1.getJSONObject("data");
                                     Log.e("dataResponse",String.valueOf(jsonObjectData));
 
-//                                    JSONObject jsonObjectData=new JSONObject("data");
-//                                    if (jsonObjectData.has("PROJECT_NUMBER")) {
-
-                                    Log.e("jsonObjectData",String.valueOf(jsonObjectData));
-
                                     JSONObject product=jsonObjectData.getJSONObject("product");
                                     JSONObject plan_details=jsonObjectData.getJSONObject("plan_details");
                                     JSONObject productImage=product.getJSONObject("product_image");
@@ -294,7 +277,6 @@ public class Schedule extends BaseActivity {
                                     String urlData = GstPref1.getString(URL_DATA, null);
                                     String product_url = null;
                                     if (urlData != null) {
-                                        Log.e("urlData",urlData);
                                         try {
                                             JSONObject jsonObject12=new JSONObject(urlData);
                                             product_url=jsonObject12.getString("product_url");
@@ -305,7 +287,6 @@ public class Schedule extends BaseActivity {
 
                                     }
 
-                                    Log.e("imgurl",product_url+product_image);
                                     Global.loadGlideImage(Schedule.this,product_image,product_url+product_image,image_plan);
 
                                     substatus_show.setText(plans);
@@ -337,7 +318,6 @@ public class Schedule extends BaseActivity {
 
                                 }
 
-                                Log.e("statusss",status1);
                             }
 
                         } catch (JSONException e) {
