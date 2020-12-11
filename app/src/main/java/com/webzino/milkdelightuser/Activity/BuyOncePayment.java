@@ -246,7 +246,7 @@ public class BuyOncePayment extends BaseActivity {
 
             case R.id.upi: {
                 params.put(PARAM_PAYMENT_OPTION, "upi");
-                params.put(PARAM_UPI_VPA, "testsuccess@gocash");
+//                params.put(PARAM_UPI_VPA, "testsuccess@gocash");
 //                cfPaymentService.selectUpiClient("com.google.android.apps.nbu.paisa.user");
                 cfPaymentService.upiPayment(BuyOncePayment.this, params, token, stage);
                 break;
